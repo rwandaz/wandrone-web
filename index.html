@@ -19,7 +19,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-    <link rel="icon" type="image/png" href="logo.png"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link rel="apple-touch-icon" href="favicon.png"/>
 
     <style>
         :root {
@@ -1434,6 +1436,181 @@
             color: var(--ink);
         }
 
+    
+        /* =========================================================================
+           FITUR UNGGULAN: 16 HIGH-TECH ANIMATED SVG WIDGETS
+           ========================================================================= */
+        .feat-anim-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #06090E;
+        }
+
+        /* Anim 1: Dynamic Speed Clamping */
+        @keyframes droneTrack1 {
+            0% { transform: translateX(20px); }
+            50% { transform: translateX(235px); }
+            100% { transform: translateX(20px); }
+        }
+        @keyframes shutterPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.6); opacity: 0.95; }
+        }
+
+        /* Anim 2: Boustrophedon Grid */
+        @keyframes boustPathDraw {
+            0% { stroke-dashoffset: 400; }
+            100% { stroke-dashoffset: 0; }
+        }
+        @keyframes boustDroneMove {
+            0% { transform: translate(45px, 55px); }
+            24% { transform: translate(275px, 55px); }
+            28% { transform: translate(275px, 85px); }
+            52% { transform: translate(45px, 85px); }
+            56% { transform: translate(45px, 115px); }
+            80% { transform: translate(265px, 115px); }
+            84% { transform: translate(265px, 142px); }
+            96% { transform: translate(55px, 142px); }
+            100% { transform: translate(45px, 55px); }
+        }
+
+        /* Anim 3: Follow Terrain DEM */
+        @keyframes terrainDroneFly {
+            0% { transform: translate(20px, 120px); }
+            30% { transform: translate(100px, 60px); }
+            60% { transform: translate(190px, 95px); }
+            85% { transform: translate(270px, 50px); }
+            100% { transform: translate(20px, 120px); }
+        }
+        @keyframes laserBeamPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.95; }
+        }
+
+        /* Anim 4: Flash Inject Instan */
+        @keyframes injectFlashRay {
+            0% { stroke-dashoffset: 120; opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { stroke-dashoffset: -120; opacity: 0.2; }
+        }
+        @keyframes badgeInject {
+            0%, 40% { stroke: #334155; }
+            50%, 90% { stroke: #2DD4BF; }
+            100% { stroke: #334155; }
+        }
+
+        /* Anim 5: Local Link & Fleet Sync */
+        @keyframes radioWaveAnim {
+            0% { r: 8px; opacity: 0.9; stroke-width: 2; }
+            100% { r: 50px; opacity: 0; stroke-width: 0.5; }
+        }
+
+        /* Anim 6: Split Misi Multi-Baterai */
+        @keyframes batDrain1 {
+            0% { width: 75px; fill: #10B981; }
+            50% { width: 18px; fill: #EF4444; }
+            100% { width: 75px; fill: #10B981; }
+        }
+        @keyframes splitCutPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Anim 7: Drone Tools FCC & 500m */
+        @keyframes fccSignalPulse {
+            0% { r: 10px; opacity: 1; stroke-width: 2; }
+            100% { r: 65px; opacity: 0; stroke-width: 0.5; }
+        }
+        @keyframes altMeterRise {
+            0% { height: 15px; }
+            50% { height: 85px; }
+            100% { height: 15px; }
+        }
+
+        /* Anim 8: Elevation Profile 2D DEM */
+        @keyframes scrubLineMove {
+            0% { transform: translateX(35px); }
+            50% { transform: translateX(270px); }
+            100% { transform: translateX(35px); }
+        }
+
+        /* Anim 9: Orbit Helix 3D */
+        @keyframes helixOrbitMove {
+            0% { transform: translate(160px, 45px) scale(0.9); }
+            25% { transform: translate(225px, 80px) scale(1.1); }
+            50% { transform: translate(160px, 115px) scale(0.9); }
+            75% { transform: translate(95px, 150px) scale(1.1); }
+            100% { transform: translate(160px, 185px) scale(0.9); }
+        }
+
+        /* Anim 10: Breakpoint Resume */
+        @keyframes pinBlink {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes resumeFlight {
+            0% { transform: translate(35px, 140px); opacity: 0.2; }
+            35% { transform: translate(35px, 65px); opacity: 1; }
+            70% { transform: translate(175px, 65px); opacity: 1; }
+            100% { transform: translate(175px, 65px); opacity: 1; }
+        }
+
+        /* Anim 11: Multi-Area Project Mapping */
+        @keyframes areaToggle {
+            0%, 45% { stroke: #2DD4BF; fill: rgba(45, 212, 191, 0.15); }
+            50%, 95% { stroke: rgba(45, 212, 191, 0.3); fill: rgba(45, 212, 191, 0.03); }
+            100% { stroke: #2DD4BF; fill: rgba(45, 212, 191, 0.15); }
+        }
+        @keyframes areaToggle2 {
+            0%, 45% { stroke: rgba(56, 189, 248, 0.3); fill: rgba(56, 189, 248, 0.03); }
+            50%, 95% { stroke: #38BDF8; fill: rgba(56, 189, 248, 0.15); }
+            100% { stroke: rgba(56, 189, 248, 0.3); fill: rgba(56, 189, 248, 0.03); }
+        }
+
+        /* Anim 12: Double Grid Cross */
+        @keyframes crossLineDraw1 {
+            0% { stroke-dashoffset: 220; }
+            50%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes crossLineDraw2 {
+            0%, 45% { stroke-dashoffset: 110; }
+            90%, 100% { stroke-dashoffset: 0; }
+        }
+
+        /* Anim 13: Asymmetrical Corridor */
+        @keyframes asymCorridorPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Anim 14: Unduh Peta Offline */
+        @keyframes radarSweepCircle {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes tileCacheGlow {
+            0%, 25% { fill: rgba(45, 212, 191, 0.04); }
+            50%, 100% { fill: rgba(45, 212, 191, 0.28); }
+        }
+
+        /* Anim 15: Local DEM Server */
+        @keyframes demDataFlow {
+            0% { stroke-dashoffset: 60; opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { stroke-dashoffset: -60; opacity: 0.2; }
+        }
+
+        /* Anim 16: Floating Navigator & POI */
+        @keyframes floatPillGlow {
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 4px rgba(45, 212, 191, 0.3)); }
+            50% { transform: translateY(-3px); filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.7)); }
+        }
+        @keyframes poiReticleSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(90deg); }
+        }
+
     </style>
 </head>
 <body id="wrapwrap">
@@ -2195,11 +2372,51 @@
                             <!-- Fitur 1: Dynamic Speed Clamping -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/speed_clamping.webp" type="image/webp">
-                                        <img src="images/features/speed_clamping.png" alt="Visualisasi Dynamic Speed Clamping" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Grid BG -->
+        <defs>
+            <pattern id="g1" width="16" height="16" patternUnits="userSpaceOnUse">
+                <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            </pattern>
+        </defs>
+        <rect width="320" height="200" fill="url(#g1)"/>
+        
+        <!-- Track Line -->
+        <line x1="30" y1="100" x2="290" y2="100" stroke="#1E293B" stroke-width="3"/>
+        
+        <!-- Photo Trigger Points & Shutter Pulses -->
+        <g stroke="#2DD4BF" fill="none">
+            <circle cx="70" cy="100" r="10" class="anim-shutter" style="animation: shutterPulse 2s infinite;"/>
+            <circle cx="70" cy="100" r="3" fill="#2DD4BF"/>
+            <circle cx="125" cy="100" r="10" class="anim-shutter" style="animation: shutterPulse 2s infinite 0.4s;"/>
+            <circle cx="125" cy="100" r="3" fill="#2DD4BF"/>
+            <circle cx="180" cy="100" r="10" class="anim-shutter" style="animation: shutterPulse 2s infinite 0.8s;"/>
+            <circle cx="180" cy="100" r="3" fill="#2DD4BF"/>
+            <circle cx="235" cy="100" r="10" class="anim-shutter" style="animation: shutterPulse 2s infinite 1.2s;"/>
+            <circle cx="235" cy="100" r="3" fill="#2DD4BF"/>
+        </g>
+        
+        <!-- Animated Drone Moving Across Track -->
+        <g style="animation: droneTrack1 4s ease-in-out infinite;">
+            <circle cx="30" cy="100" r="12" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.8"/>
+            <circle cx="30" cy="100" r="4" fill="#38BDF8"/>
+            <!-- Rotor Arms -->
+            <line x1="20" y1="92" x2="40" y2="108" stroke="#E2E8F0" stroke-width="1.2"/>
+            <line x1="20" y1="108" x2="40" y2="92" stroke="#E2E8F0" stroke-width="1.2"/>
+        </g>
+        
+        <!-- HUD Telemetry Header & Dynamic Speed Clamping -->
+        <rect x="20" y="16" width="280" height="28" rx="4" fill="#0A0E16" stroke="#1E293B" stroke-width="1"/>
+        <text x="32" y="34" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2DD4BF" font-weight="700">SPD CLAMP: 12.0 → 6.8 m/s</text>
+        <rect x="220" y="22" width="70" height="16" rx="3" fill="rgba(16, 185, 129, 0.2)" stroke="#10B981" stroke-width="0.8"/>
+        <text x="255" y="33.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10B981" text-anchor="middle" font-weight="700">BUFFER OK</text>
+        
+        <!-- HUD Footer Status -->
+        <rect x="20" y="152" width="280" height="32" rx="4" fill="#0A0E16" stroke="#1E293B" stroke-width="1"/>
+        <circle cx="34" cy="168" r="4" fill="#10B981" style="animation: shutterPulse 1.5s infinite;"/>
+        <text x="46" y="171" font-family="'IBM Plex Sans', sans-serif" font-size="9.5" fill="#E2E8F0" font-weight="600">FRONTLAP 85% &bull; RAW DNG BUFFER PROTECTED (0 MISSED FRAMES)</text>
+    </svg>
+</div>
                                 <div class="feature-badge">INOVASI FOTOGRAMETRI 01</div>
                                 <h3>Dynamic Speed Clamping (Pencegah Foto Bolong)</h3>
                                 <p>Algoritma cerdas yang menghitung batas kecepatan maksimum aman secara real-time berdasarkan jeda buffer shutter kamera DJI. Otomatis menurunkan kecepatan terbang saat menggunakan overlap tinggi (frontlap 80–85%) atau format RAW DNG resolusi tinggi agar kamera tidak pernah melewatkan foto (*missed frames*).</p>
@@ -2208,11 +2425,27 @@
                             <!-- Fitur 2: Boustrophedon Grid -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/boustrophedon_grid.webp" type="image/webp">
-                                        <img src="images/features/boustrophedon_grid.png" alt="Visualisasi Boustrophedon Grid & Longest Edge Alignment" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Polygon Area Boundary -->
+        <polygon points="30,35 290,35 260,165 50,150" fill="rgba(45, 212, 191, 0.05)" stroke="#334155" stroke-width="1.5"/>
+        <!-- Longest Edge Highlighted -->
+        <line x1="30" y1="35" x2="290" y2="35" stroke="#2DD4BF" stroke-width="2.5"/>
+        <text x="160" y="26" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF" font-weight="700" text-anchor="middle">LONGEST EDGE ALIGNED (340m)</text>
+        
+        <!-- Serpentine Flight Lines (Animated Draw) -->
+        <path d="M 45 55 L 275 55 L 275 85 L 45 85 L 45 115 L 265 115 L 265 142 L 55 142" fill="none" stroke="#2DD4BF" stroke-width="1.8" stroke-dasharray="8 4" style="animation: boustPathDraw 6s linear infinite;"/>
+        
+        <!-- Moving Drone -->
+        <g style="animation: boustDroneMove 6s ease-in-out infinite;">
+            <circle cx="0" cy="0" r="10" fill="#0F172A" stroke="#2DD4BF" stroke-width="2"/>
+            <circle cx="0" cy="0" r="3.5" fill="#38BDF8"/>
+        </g>
+        
+        <!-- HUD Badge -->
+        <rect x="20" y="165" width="280" height="24" rx="3" fill="#0A0E16" stroke="#1E293B" stroke-width="1"/>
+        <text x="160" y="180.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">BOUSTROPHEDON ZIG-ZAG &bull; ZERO DEADHEAD TURNS</text>
+    </svg>
+</div>
                                 <div class="feature-badge">EFISIENSI JALUR TERBANG 02</div>
                                 <h3>Boustrophedon Grid & Longest-Edge Alignment</h3>
                                 <p>Pola jalur zig-zag optimal yang secara otomatis menyelaraskan orientasi rute sejajar dengan sisi poligon area terpanjang (*Longest-Edge Alignment*). Meminimalkan jumlah manuver belokan drone di udara, mengoptimalkan efisiensi baterai, dan mempercepat durasi penyelesaian misi survei.</p>
@@ -2221,11 +2454,36 @@
                             <!-- Fitur 3: Follow Terrain DEM -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/follow_terrain.webp" type="image/webp">
-                                        <img src="images/features/follow_terrain.png" alt="Visualisasi Follow Terrain DEM Otonom" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <defs>
+            <linearGradient id="hillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#1E293B"/>
+                <stop offset="100%" stop-color="#0A0E16"/>
+            </linearGradient>
+        </defs>
+        <!-- Mountain Contour Profile -->
+        <path d="M 0 170 Q 70 95 130 115 T 220 70 T 320 135 L 320 200 L 0 200 Z" fill="url(#hillGrad)" stroke="#334155" stroke-width="1.5"/>
+        <path d="M 0 170 Q 70 95 130 115 T 220 70 T 320 135" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="4 3"/>
+        
+        <!-- Dynamic Flight Path above Hills (Constant 50px AGL) -->
+        <path d="M 0 120 Q 70 45 130 65 T 220 20 T 320 85" fill="none" stroke="rgba(45, 212, 191, 0.4)" stroke-width="1.5" stroke-dasharray="6 3"/>
+        
+        <!-- Flying Drone -->
+        <g style="animation: terrainDroneFly 6s ease-in-out infinite;">
+            <!-- Laser Clearance Beam -->
+            <line x1="0" y1="0" x2="0" y2="48" stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="3 2" style="animation: laserBeamPulse 1.5s infinite;"/>
+            <circle cx="0" cy="48" r="2.5" fill="#2DD4BF"/>
+            <!-- Drone Body -->
+            <circle cx="0" cy="0" r="11" fill="#0F172A" stroke="#2DD4BF" stroke-width="2"/>
+            <circle cx="0" cy="0" r="4" fill="#38BDF8"/>
+        </g>
+        
+        <!-- HUD Floating Clearance Tag -->
+        <rect x="20" y="160" width="280" height="28" rx="4" fill="#0A0E16" stroke="#1E293B" stroke-width="1"/>
+        <text x="32" y="177" font-family="'JetBrains Mono', monospace" font-size="9" fill="#2DD4BF" font-weight="700">CONSTANT AGL: 60.0m</text>
+        <text x="290" y="177" font-family="'JetBrains Mono', monospace" font-size="9" fill="#10B981" font-weight="700" text-anchor="end">TERRAIN CLEARANCE: SAFE</text>
+    </svg>
+</div>
                                 <div class="feature-badge">FITUR UNGGULAN PRO 03</div>
                                 <h3>Follow Terrain DEM Otonom</h3>
                                 <p>Drone otomatis terbang naik dan turun mengikuti lekuk permukaan bumi dengan ketinggian relatif di atas tanah (AGL) konstan berbasis data kontur elevasi DEM. Menjamin ukuran piksel Ground Sampling Distance (GSD) foto udara tetap seragam di lereng bukit curam tanpa risiko tabrakan tanah.</p>
@@ -2234,11 +2492,34 @@
                             <!-- Fitur 4: Flash Inject Instan -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/flash_inject.webp" type="image/webp">
-                                        <img src="images/features/flash_inject.png" alt="Visualisasi Flash Inject Instan ke DJI Fly" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Node 1: TW-MAPPER -->
+        <g transform="translate(25, 55)">
+            <rect width="105" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+            <text x="52" y="26" font-family="'Barlow Semi Condensed', sans-serif" font-weight="700" font-size="12" fill="#E2E8F0" text-anchor="middle">TW-MAPPER</text>
+            <rect x="15" y="38" width="75" height="22" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+            <text x="52" y="52" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#2DD4BF" text-anchor="middle">WPML ROUTE</text>
+            <text x="52" y="75" font-family="'JetBrains Mono', monospace" font-size="8" fill="#64748B" text-anchor="middle">GENERATE OK</text>
+        </g>
+        
+        <!-- Flow Arrow / Laser Beam -->
+        <line x1="135" y1="97" x2="185" y2="97" stroke="#334155" stroke-width="3"/>
+        <line x1="135" y1="97" x2="185" y2="97" stroke="#2DD4BF" stroke-width="3" stroke-dasharray="10 5" style="animation: injectFlashRay 1.2s linear infinite;"/>
+        
+        <!-- Node 2: DJI FLY ENVIRONMENT -->
+        <g transform="translate(190, 55)">
+            <rect width="105" height="85" rx="6" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.5" style="animation: badgeInject 2.5s infinite;"/>
+            <text x="52" y="26" font-family="'Barlow Semi Condensed', sans-serif" font-weight="700" font-size="12" fill="#E2E8F0" text-anchor="middle">DJI FLY APP</text>
+            <rect x="15" y="38" width="75" height="22" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+            <text x="52" y="52" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10B981" text-anchor="middle" font-weight="700">&lt; 1s INJECTED</text>
+            <text x="52" y="75" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF" text-anchor="middle">READY TO FLY</text>
+        </g>
+        
+        <!-- Status Bottom -->
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">FLASH INJECT INSTAN &bull; NO USB CABLE &bull; NO DUMMY</text>
+    </svg>
+</div>
                                 <div class="feature-badge">TEKNOLOGI TRANSFER 04</div>
                                 <h3>Flash Inject Instan (&lt; 1 Detik)</h3>
                                 <p>Kirim rute misi pemetaan langsung ke DJI Fly dalam waktu kurang dari 1 detik (membutuhkan TW Tweaks). Tanpa perlu mencolokkan kabel data USB ke komputer, tanpa cabut-pasang kartu microSD, dan tanpa perlu me-restart aplikasi DJI Fly di remote controller Anda.</p>
@@ -2247,11 +2528,41 @@
                             <!-- Fitur 5: Local Link & Fleet Sync -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/fleet_sync.webp" type="image/webp">
-                                        <img src="images/features/fleet_sync.png" alt="Visualisasi Local Link & Fleet Sync Nirkabel" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Controller 1 Left -->
+        <g transform="translate(45, 60)">
+            <rect width="70" height="65" rx="6" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.5"/>
+            <text x="35" y="25" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF" text-anchor="middle" font-weight="700">REMOTE A</text>
+            <circle cx="20" cy="45" r="7" fill="#1E293B"/>
+            <circle cx="50" cy="45" r="7" fill="#1E293B"/>
+        </g>
+        
+        <!-- Expanding Radio Waves from Left -->
+        <g transform="translate(115, 92)">
+            <circle cx="0" cy="0" r="10" fill="none" stroke="#2DD4BF" style="animation: radioWaveAnim 2s infinite;"/>
+            <circle cx="0" cy="0" r="10" fill="none" stroke="#38BDF8" style="animation: radioWaveAnim 2s infinite 0.7s;"/>
+        </g>
+        
+        <!-- Data Sync Stream Center -->
+        <g transform="translate(160, 92)">
+            <text x="0" y="-12" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10B981" font-weight="700" text-anchor="middle">DIRECT SYNC</text>
+            <path d="M -25 0 L 25 0" stroke="#2DD4BF" stroke-width="2" stroke-dasharray="6 3"/>
+            <polygon points="25,0 18,-4 18,4" fill="#2DD4BF"/>
+            <polygon points="-25,0 -18,-4 -18,4" fill="#2DD4BF"/>
+        </g>
+        
+        <!-- Controller 2 Right -->
+        <g transform="translate(205, 60)">
+            <rect width="70" height="65" rx="6" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.5"/>
+            <text x="35" y="25" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38BDF8" text-anchor="middle" font-weight="700">REMOTE B</text>
+            <circle cx="20" cy="45" r="7" fill="#1E293B"/>
+            <circle cx="50" cy="45" r="7" fill="#1E293B"/>
+        </g>
+        
+        <rect x="25" y="155" width="270" height="26" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="171.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">FLEET SYNC &bull; NIRKABEL ANTAR-REMOTE &bull; TANPA KUOTA</text>
+    </svg>
+</div>
                                 <div class="feature-badge">SINKRONISASI NIRKABEL 05</div>
                                 <h3>Local Link & Fleet Sync (Direct Sync)</h3>
                                 <p>Sinkronisasi rute terbang otonom secara nirkabel langsung di lapangan: <strong>Local Link</strong> mentransfer misi dari laptop atau smartphone ke remote tanpa kuota internet, sementara <strong>Fleet Sync</strong> (Paket Pro) mentransfer rute terbang langsung antar-remote smart controller tanpa laptop atau internet.</p>
@@ -2260,11 +2571,40 @@
                             <!-- Fitur 6: Split Misi Multi-Baterai -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/split_mission.webp" type="image/webp">
-                                        <img src="images/features/split_mission.png" alt="Visualisasi Split Misi Multi-Baterai" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Route Segments with 3 Battery Colors -->
+        <g stroke-width="2.5">
+            <!-- Segment 1: Battery 1 (Teal) -->
+            <path d="M 30 75 L 115 75 L 115 110 L 30 110" fill="none" stroke="#2DD4BF"/>
+            <!-- Segment 2: Battery 2 (Amber) -->
+            <path d="M 125 110 L 205 110 L 205 75 L 125 75" fill="none" stroke="#F59E0B"/>
+            <!-- Segment 3: Battery 3 (Sky) -->
+            <path d="M 215 75 L 290 75 L 290 110 L 215 110" fill="none" stroke="#38BDF8"/>
+        </g>
+        
+        <!-- Cut Boundary Split Lines -->
+        <line x1="120" y1="60" x2="120" y2="125" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2" style="animation: splitCutPulse 1.5s infinite;"/>
+        <line x1="210" y1="60" x2="210" y2="125" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3 2" style="animation: splitCutPulse 1.5s infinite;"/>
+        
+        <!-- Split Badges -->
+        <rect x="30" y="38" width="75" height="18" rx="3" fill="#0A0E16" stroke="#2DD4BF"/>
+        <text x="67.5" y="50" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#2DD4BF" text-anchor="middle">BATERAI 1 (WP 1-45)</text>
+        
+        <rect x="122" y="38" width="75" height="18" rx="3" fill="#0A0E16" stroke="#F59E0B"/>
+        <text x="159.5" y="50" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#F59E0B" text-anchor="middle">BATERAI 2 (WP 46-90)</text>
+        
+        <rect x="215" y="38" width="75" height="18" rx="3" fill="#0A0E16" stroke="#38BDF8"/>
+        <text x="252.5" y="50" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#38BDF8" text-anchor="middle">BATERAI 3 (WP 91-135)</text>
+        
+        <!-- Battery Meter HUD -->
+        <g transform="translate(30, 145)">
+            <rect width="260" height="32" rx="4" fill="#0A0E16" stroke="#1E293B"/>
+            <text x="12" y="20" font-family="'JetBrains Mono', monospace" font-size="9" fill="#E2E8F0">AUTO SPLIT MISSION</text>
+            <rect x="150" y="9" width="95" height="14" rx="2" fill="#1E293B"/>
+            <rect x="150" y="9" width="75" height="14" rx="2" fill="#10B981" style="animation: batDrain1 4s ease-in-out infinite;"/>
+        </g>
+    </svg>
+</div>
                                 <div class="feature-badge">MANAJEMEN BATERAI 06</div>
                                 <h3>Split Misi Multi-Baterai</h3>
                                 <p>Solusi survei area luas puluhan hingga ribuan hektar. Sistem cerdas otomatis membagi 1 poligon area besar menjadi beberapa bagian eksekusi rute terbang teratur per kapasitas baterai drone (hingga 5 bagian eksekusi di Paket Hobby, dan Unlimited tanpa batas di Paket Pro).</p>
@@ -2273,11 +2613,34 @@
                             <!-- Fitur 7: Drone Tools -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/drone_tools.webp" type="image/webp">
-                                        <img src="images/features/drone_tools.png" alt="Visualisasi Drone Tools FCC Boost, 500m & ATTI" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Radio Transmission Wave Pulses -->
+        <g transform="translate(110, 100)">
+            <circle cx="0" cy="0" r="15" fill="none" stroke="#2DD4BF" stroke-width="2" style="animation: fccSignalPulse 2s infinite;"/>
+            <circle cx="0" cy="0" r="15" fill="none" stroke="#38BDF8" stroke-width="1.5" style="animation: fccSignalPulse 2s infinite 0.7s;"/>
+            <circle cx="0" cy="0" r="15" fill="none" stroke="#10B981" stroke-width="1" style="animation: fccSignalPulse 2s infinite 1.4s;"/>
+            <!-- Drone Center -->
+            <circle cx="0" cy="0" r="14" fill="#0F172A" stroke="#2DD4BF" stroke-width="2"/>
+            <circle cx="0" cy="0" r="5" fill="#2DD4BF"/>
+        </g>
+        
+        <!-- Altitude Meter Vertical Bar Right -->
+        <g transform="translate(245, 30)">
+            <rect width="45" height="120" rx="4" fill="#0F172A" stroke="#334155"/>
+            <!-- Fill rising to 500m -->
+            <rect x="4" y="20" width="37" height="96" rx="2" fill="rgba(45, 212, 191, 0.2)" stroke="#2DD4BF" style="animation: altMeterRise 3s ease-in-out infinite;"/>
+            <text x="22" y="16" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF" text-anchor="middle" font-weight="700">500m</text>
+            <text x="22" y="128" font-family="'JetBrains Mono', monospace" font-size="7" fill="#64748B" text-anchor="middle">120m</text>
+        </g>
+        
+        <!-- HUD Badges -->
+        <rect x="25" y="25" width="165" height="22" rx="3" fill="#0A0E16" stroke="#2DD4BF"/>
+        <text x="35" y="39" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#2DD4BF" font-weight="700">FCC BOOST RADIO: ON (MAX dBm)</text>
+        
+        <rect x="25" y="155" width="270" height="26" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="171.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">ALTITUDE UNLOCK 500m &bull; ATTI MODE (MANUAL NO GPS)</text>
+    </svg>
+</div>
                                 <div class="feature-badge">DRONE TOOLS PRO 07</div>
                                 <h3>Drone Tools: FCC Boost, 500m & ATTI</h3>
                                 <p>Perangkat utilitas kelas profesional: <strong>FCC Boost</strong> memaksimalkan daya pancar sinyal radio transmisi remote untuk menembus kanopi sawit & jangkauan terjauh; <strong>Altitude Unlock</strong> membuka batas limit ketinggian hingga 500 meter; serta <strong>ATTI Mode</strong> kontrol manual tanpa GPS untuk terbang aman di area interferensi tinggi.</p>
@@ -2286,11 +2649,31 @@
                             <!-- Fitur 8: Elevation Profile 2D DEM -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/elevation_profile.webp" type="image/webp">
-                                        <img src="images/features/elevation_profile.png" alt="Visualisasi Elevation Profile 2D DEM & Real-time Clearance" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- 2D Profile Grid Lines -->
+        <line x1="30" y1="40" x2="290" y2="40" stroke="#1E293B" stroke-width="1"/>
+        <line x1="30" y1="85" x2="290" y2="85" stroke="#1E293B" stroke-width="1"/>
+        <line x1="30" y1="130" x2="290" y2="130" stroke="#1E293B" stroke-width="1"/>
+        
+        <!-- Terrain Contour Curve -->
+        <path d="M 30 145 Q 90 90 150 115 T 230 75 T 290 130" fill="none" stroke="#64748B" stroke-width="2.5"/>
+        <!-- Safe Flight Path Line -->
+        <path d="M 30 75 Q 90 40 150 60 T 230 30 T 290 70" fill="none" stroke="#2DD4BF" stroke-width="2"/>
+        
+        <!-- Animated Vertical Scrub Cursor Line -->
+        <g style="animation: scrubLineMove 5s ease-in-out infinite;">
+            <line x1="0" y1="25" x2="0" y2="155" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3 2"/>
+            <circle cx="0" cy="65" r="4" fill="#38BDF8"/>
+            <circle cx="0" cy="115" r="4" fill="#10B981"/>
+            <!-- Clearance Tag -->
+            <rect x="-24" y="80" width="48" height="16" rx="2" fill="#0A0E16" stroke="#10B981"/>
+            <text x="0" y="91.5" font-family="'JetBrains Mono', monospace" font-size="8" fill="#10B981" text-anchor="middle" font-weight="700">+48m OK</text>
+        </g>
+        
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">REAL-TIME CLEARANCE &bull; HIJAU (&gt;30m) &bull; KUNING (15-30m)</text>
+    </svg>
+</div>
                                 <div class="feature-badge">MONITOR KETINGGIAN 08</div>
                                 <h3>Elevation Profile 2D DEM & Real-time Clearance</h3>
                                 <p>Diagram penampang ketinggian tanah melintang di bawah rute terbang secara real-time. Menampilkan siluet kontur elevasi DEM, jalur drone, dan indikator clearance 3 warna (Aman >30m, Waspada 15-30m, Bahaya &lt;15m) dengan kursor scrub dua arah untuk memantau keamanan kontur sebelum terbang.</p>
@@ -2299,11 +2682,37 @@
                             <!-- Fitur 9: Orbit Helix 3D -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/orbit_helix.webp" type="image/webp">
-                                        <img src="images/features/orbit_helix.png" alt="Visualisasi Orbit Helix 3D Continuous Spiral" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Central BTS Lattice Tower Silhouette -->
+        <g stroke="#475569" stroke-width="1.2" fill="none">
+            <line x1="150" y1="35" x2="170" y2="35"/>
+            <line x1="150" y1="35" x2="135" y2="175"/>
+            <line x1="170" y1="35" x2="185" y2="175"/>
+            <!-- Cross bracings -->
+            <line x1="148" y1="65" x2="172" y2="65"/><line x1="148" y1="65" x2="175" y2="95"/>
+            <line x1="145" y1="95" x2="175" y2="95"/><line x1="172" y1="65" x2="145" y2="95"/>
+            <line x1="143" y1="125" x2="177" y2="125"/><line x1="145" y1="95" x2="177" y2="125"/>
+            <line x1="140" y1="155" x2="180" y2="155"/><line x1="175" y1="95" x2="140" y2="155"/>
+        </g>
+        
+        <!-- Descending Continuous 3D Helix Ellipse Loops -->
+        <ellipse cx="160" cy="50" rx="80" ry="18" fill="none" stroke="rgba(45, 212, 191, 0.25)" stroke-width="1.5"/>
+        <ellipse cx="160" cy="85" rx="75" ry="18" fill="none" stroke="rgba(45, 212, 191, 0.4)" stroke-width="1.5"/>
+        <ellipse cx="160" cy="120" rx="70" ry="18" fill="none" stroke="rgba(45, 212, 191, 0.6)" stroke-width="1.5"/>
+        <ellipse cx="160" cy="155" rx="65" ry="18" fill="none" stroke="#2DD4BF" stroke-width="2"/>
+        
+        <!-- Drone Orbiting Downwards along Helix -->
+        <g style="animation: helixOrbitMove 4s linear infinite;">
+            <circle cx="0" cy="0" r="8" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.8"/>
+            <circle cx="0" cy="0" r="3" fill="#38BDF8"/>
+            <!-- Gimbal Laser Ray pointing toward Tower Center -->
+            <line x1="0" y1="0" x2="-25" y2="10" stroke="#10B981" stroke-width="1.5" stroke-dasharray="2 2"/>
+        </g>
+        
+        <rect x="20" y="165" width="280" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="180.5" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF" text-anchor="middle">DESCENDING SPIRAL 3D &bull; PITCH -45&deg; INWARD &bull; NO SKY NOISE</text>
+    </svg>
+</div>
                                 <div class="feature-badge">INSPEKSI 3D STRUKTUR 09</div>
                                 <h3>Orbit Helix 3D (Continuous Spiral)</h3>
                                 <p>Misi spiral kontinu ("pola per") tanpa jeda step naik-turun dengan pergerakan 3D konstan. Mengikuti SOP inspeksi profesional: Descending Spiral dari puncak menara BTS/pilar dengan pitch kamera menunduk -30° s/d -45° untuk eliminasi noise awan/langit dan rekonstruksi model 3D interlocking optimal.</p>
@@ -2312,11 +2721,30 @@
                             <!-- Fitur 10: Breakpoint Resume & RTH Advisor -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/breakpoint_resume.webp" type="image/webp">
-                                        <img src="images/features/breakpoint_resume.png" alt="Visualisasi Breakpoint Resume & RTH Advisor" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Flight Path with Interrupted Point -->
+        <path d="M 30 110 L 100 110 L 100 65 L 175 65" fill="none" stroke="#2DD4BF" stroke-width="2"/>
+        <path d="M 175 65 L 245 65 L 245 110 L 290 110" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="4 3"/>
+        
+        <!-- Blinking Breakpoint Pin -->
+        <g transform="translate(175, 65)">
+            <circle cx="0" cy="0" r="14" fill="none" stroke="#EF4444" stroke-width="1.5" style="animation: pinBlink 1.2s infinite;"/>
+            <circle cx="0" cy="0" r="4.5" fill="#EF4444"/>
+            <!-- Tag -->
+            <rect x="-40" y="-30" width="80" height="18" rx="3" fill="#0A0E16" stroke="#EF4444"/>
+            <text x="0" y="-18" font-family="'JetBrains Mono', monospace" font-size="8" fill="#EF4444" text-anchor="middle" font-weight="700">BREAKPOINT #34</text>
+        </g>
+        
+        <!-- Animated Drone Returning Home then Resuming -->
+        <g style="animation: resumeFlight 5s ease-in-out infinite;">
+            <circle cx="0" cy="0" r="9" fill="#0F172A" stroke="#10B981" stroke-width="1.8"/>
+            <circle cx="0" cy="0" r="3" fill="#10B981"/>
+        </g>
+        
+        <rect x="25" y="155" width="270" height="26" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="171.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">BREAKPOINT RESUME &bull; LANJUT DARI TITIK PUTUS &bull; RTH ADVISOR</text>
+    </svg>
+</div>
                                 <div class="feature-badge">SAFETY & FAIL-SAFE 10</div>
                                 <h3>Breakpoint Resume & RTH Advisor</h3>
                                 <p>Ketika drone harus mendarat mendadak akibat baterai menipis, TW-Mapper otomatis mencatat waypoint terputus dan menghasilkan misi lanjutan instan tanpa mengulang dari nol. Disertai <strong>RTH Altitude Advisor</strong> otomatis berbasis data elevasi DEM untuk kepulangan drone yang aman melompati puncak bukit tertinggi.</p>
@@ -2325,11 +2753,31 @@
                             <!-- Fitur 11: Multi-Area Project Mapping -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/multi_area.webp" type="image/webp">
-                                        <img src="images/features/multi_area.png" alt="Visualisasi Multi-Area Project Mapping" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Polygon Area 1 (Blok A) -->
+        <g style="animation: areaToggle 4s infinite;">
+            <polygon points="35,45 140,35 155,140 45,130" stroke-width="2"/>
+            <!-- Sweep lines -->
+            <line x1="45" y1="60" x2="135" y2="55" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <line x1="50" y1="85" x2="142" y2="80" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <line x1="52" y1="110" x2="148" y2="105" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <text x="90" y="26" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF" text-anchor="middle" font-weight="700">BLOK A (H: 80m)</text>
+        </g>
+        
+        <!-- Polygon Area 2 (Blok B) -->
+        <g style="animation: areaToggle2 4s infinite;">
+            <polygon points="175,55 285,45 270,145 185,135" stroke-width="2"/>
+            <!-- Sweep lines -->
+            <line x1="180" y1="75" x2="275" y2="65" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <line x1="183" y1="100" x2="270" y2="90" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <line x1="185" y1="120" x2="265" y2="115" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <text x="230" y="36" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38BDF8" text-anchor="middle" font-weight="700">BLOK B (H: 120m)</text>
+        </g>
+        
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">MULTI-AREA PROJECT &bull; MULTI-POLIGON INDEPENDEN</text>
+    </svg>
+</div>
                                 <div class="feature-badge">MANAJEMEN PROYEK 11</div>
                                 <h3>Multi-Area Project Mapping (Multi-Poligon)</h3>
                                 <p>Kemampuan merancang dan mengelola beberapa poligon area pemetaan sekaligus dalam satu proyek survei. Setiap poligon area dapat memiliki parameter ketinggian, GSD, dan arah sapuan independen dengan HUD panel navigasi cepat tanpa perlu membuat proyek terpisah.</p>
@@ -2338,11 +2786,32 @@
                             <!-- Fitur 12: Double Grid 3D Facade -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/double_grid.webp" type="image/webp">
-                                        <img src="images/features/double_grid.png" alt="Visualisasi Double Grid 3D Facade & Topografi" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- 3D Orthogonal Cross Grid Mesh -->
+        <rect x="50" y="35" width="220" height="110" rx="4" fill="rgba(45, 212, 191, 0.04)" stroke="#334155"/>
+        
+        <!-- Pass 1: Horizontal Grid 0 deg -->
+        <g stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="220" style="animation: crossLineDraw1 3s ease-in-out infinite;">
+            <line x1="50" y1="55" x2="270" y2="55"/>
+            <line x1="50" y1="75" x2="270" y2="75"/>
+            <line x1="50" y1="95" x2="270" y2="95"/>
+            <line x1="50" y1="115" x2="270" y2="115"/>
+            <line x1="50" y1="135" x2="270" y2="135"/>
+        </g>
+        
+        <!-- Pass 2: Vertical Grid 90 deg -->
+        <g stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="110" style="animation: crossLineDraw2 3s ease-in-out infinite;">
+            <line x1="85" y1="35" x2="85" y2="145"/>
+            <line x1="125" y1="35" x2="125" y2="145"/>
+            <line x1="160" y1="35" x2="160" y2="145"/>
+            <line x1="195" y1="35" x2="195" y2="145"/>
+            <line x1="235" y1="35" x2="235" y2="145"/>
+        </g>
+        
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">DOUBLE GRID 3D FACADE &bull; SILANG 90&deg; &bull; REKONSTRUKSI 3D MESH</text>
+    </svg>
+</div>
                                 <div class="feature-badge">REKONSTRUKSI 3D 12</div>
                                 <h3>Double Grid (Mode 3D Facade & Topografi)</h3>
                                 <p>Pola jalur terbang silang ortogonal 90° (*cross-grid*) otomatis untuk pemodelan 3D mesh bangunan, struktur fasad vertikal, dan area perbukitan kompleks. Menghasilkan kerapatan sudut foto dari dua sumbu tegak lurus untuk rekonstruksi fotogrametri yang presisi.</p>
@@ -2351,11 +2820,22 @@
                             <!-- Fitur 13: Asymmetrical Corridor Buffer -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/corridor_buffer.webp" type="image/webp">
-                                        <img src="images/features/corridor_buffer.png" alt="Visualisasi Asymmetrical Corridor Buffer" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Center Road / River Axis -->
+        <path d="M 30 135 Q 110 50 190 120 T 290 65" fill="none" stroke="#E2E8F0" stroke-width="3"/>
+        
+        <!-- Left Buffer (Narrow 15m) -->
+        <path d="M 30 115 Q 110 30 190 100 T 290 45" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 2" style="animation: asymCorridorPulse 2s infinite;"/>
+        <text x="75" y="60" font-family="'JetBrains Mono', monospace" font-size="8" fill="#F59E0B">LEFT: 15m</text>
+        
+        <!-- Right Buffer (Wide 50m) -->
+        <path d="M 30 175 Q 110 90 190 160 T 290 105" fill="none" stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="4 2" style="animation: asymCorridorPulse 2s infinite 0.5s;"/>
+        <text x="210" y="145" font-family="'JetBrains Mono', monospace" font-size="8" fill="#2DD4BF">RIGHT: 45m</text>
+        
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">ASYMMETRICAL CORRIDOR &bull; LEBAR SAYAP KIRI/KANAN INDEPENDEN</text>
+    </svg>
+</div>
                                 <div class="feature-badge">SURVEI LINEAR 13</div>
                                 <h3>Asymmetrical Corridor Buffer & Injeksi Standar</h3>
                                 <p>Pengaturan lebar sayap koridor yang independen antara sisi kiri (*left width*) dan sisi kanan (*right width*) untuk efisiensi survei jalan di tepi tebing curam, bibir pantai, atau batas konsesi. Mendukung metode injeksi berkas standar dengan menimpa berkas dummy di direktori smart remote.</p>
@@ -2364,11 +2844,37 @@
                             <!-- Fitur 14: Unduh Peta Per Kabupaten/Kota -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/offline_maps.webp" type="image/webp">
-                                        <img src="images/features/offline_maps.png" alt="Visualisasi Unduh Peta Offline Per Kabupaten/Kota" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Tile Grid -->
+        <g stroke="#1E293B" stroke-width="1" fill="#0A0E16">
+            <rect x="65" y="35" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.2s;"/>
+            <rect x="115" y="35" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.5s;"/>
+            <rect x="165" y="35" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.8s;"/>
+            <rect x="215" y="35" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 1.1s;"/>
+            
+            <rect x="65" y="75" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.4s;"/>
+            <rect x="115" y="75" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.7s;"/>
+            <rect x="165" y="75" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 1.0s;"/>
+            <rect x="215" y="75" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 1.3s;"/>
+            
+            <rect x="65" y="115" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.6s;"/>
+            <rect x="115" y="115" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 0.9s;"/>
+            <rect x="165" y="115" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 1.2s;"/>
+            <rect x="215" y="115" width="45" height="35" rx="2" style="animation: tileCacheGlow 3s infinite 1.5s;"/>
+        </g>
+        
+        <!-- Rotating Radar Sweep Beam -->
+        <g transform="translate(160, 92)">
+            <g style="animation: radarSweepCircle 4s linear infinite;">
+                <line x1="0" y1="0" x2="110" y2="0" stroke="#2DD4BF" stroke-width="2"/>
+                <polygon points="0,0 110,-35 110,0" fill="rgba(45, 212, 191, 0.2)"/>
+            </g>
+        </g>
+        
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">PETA OFFLINE KABUPATEN/KOTA &bull; MBTILES CACHED 100%</text>
+    </svg>
+</div>
                                 <div class="feature-badge">PETA LAPANGAN 14</div>
                                 <h3>Unduh Peta Offline Per Kabupaten/Kota & MBTiles</h3>
                                 <p>Fitur praktis pengunduhan peta satelit resolusi tinggi langsung berbasis daftar kabupaten/kota di seluruh Indonesia (Sabang sampai Merauke). Mendukung format raster peta offline MBTiles untuk memastikan survei tetap lancar di area pedalaman pelosok tanpa sinyal internet.</p>
@@ -2377,11 +2883,34 @@
                             <!-- Fitur 15: Local DEM Upload Server -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/dem_server.webp" type="image/webp">
-                                        <img src="images/features/dem_server.png" alt="Visualisasi Local DEM Upload Server" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Laptop Client Left -->
+        <g transform="translate(35, 55)">
+            <rect width="65" height="45" rx="3" fill="#0F172A" stroke="#334155"/>
+            <polygon points="20,100 80,100 70,110 30,110" fill="#1E293B"/>
+            <text x="32.5" y="80" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38BDF8" text-anchor="middle">BROWSER</text>
+        </g>
+        
+        <!-- Data Packet Stream Center -->
+        <g transform="translate(115, 75)">
+            <line x1="0" y1="0" x2="90" y2="0" stroke="#334155" stroke-width="2"/>
+            <line x1="0" y1="0" x2="90" y2="0" stroke="#2DD4BF" stroke-width="2" stroke-dasharray="10 5" style="animation: demDataFlow 1.2s linear infinite;"/>
+            <rect x="15" y="-18" width="60" height="15" rx="2" fill="#0A0E16" stroke="#2DD4BF"/>
+            <text x="45" y="-7.5" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#2DD4BF" text-anchor="middle">DEM GeoTIFF</text>
+        </g>
+        
+        <!-- Smart Remote Server Right -->
+        <g transform="translate(220, 45)">
+            <rect width="65" height="75" rx="5" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.5"/>
+            <rect x="8" y="15" width="49" height="35" rx="2" fill="#0A0E16" stroke="#1E293B"/>
+            <circle cx="32.5" cy="62" r="5" fill="#10B981" style="animation: pinBlink 1.5s infinite;"/>
+            <text x="32.5" y="36" font-family="'JetBrains Mono', monospace" font-size="7" fill="#10B981" text-anchor="middle">HTTP :8080</text>
+        </g>
+        
+        <rect x="25" y="155" width="270" height="26" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="171.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">LOCAL DEM SERVER &bull; UNGGAH DEM KUSTOM LEWAT WI-FI</text>
+    </svg>
+</div>
                                 <div class="feature-badge">DATA ELEVASI KUSTOM 15</div>
                                 <h3>Local DEM Upload Server (Server Elevasi Mandiri)</h3>
                                 <p>Web server lokal mandiri yang terpasang di remote controller. Memungkinkan pilot mengunggah berkas data elevasi DEM kustom beresolusi tinggi langsung dari laptop atau smartphone secara nirkabel melalui jaringan Wi-Fi lokal tanpa koneksi internet luar.</p>
@@ -2390,11 +2919,35 @@
                             <!-- Fitur 16: Quick Floating Navigator Helper & Photo POI -->
                             <div class="feature-box">
                                 <div class="feature-img-wrap">
-                                    <picture>
-                                        <source srcset="images/features/floating_nav.webp" type="image/webp">
-                                        <img src="images/features/floating_nav.png" alt="Visualisasi Quick Floating Navigator & Photo POI" loading="lazy" width="800" height="500">
-                                    </picture>
-                                </div>
+    <svg class="feat-anim-svg" viewBox="0 0 320 200">
+        <!-- Smart Remote Screen Frame -->
+        <rect x="40" y="25" width="240" height="120" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+        
+        <!-- Status Bar -->
+        <rect x="40" y="25" width="240" height="20" rx="8" fill="#06090E"/>
+        <text x="55" y="38" font-family="'JetBrains Mono', monospace" font-size="7" fill="#64748B">BAT: 94% &bull; GPS: 24 &bull; O4 HD</text>
+        
+        <!-- Animated Floating Navigator Button Pill -->
+        <g transform="translate(225, 65)" style="animation: floatPillGlow 2.5s ease-in-out infinite;">
+            <circle cx="0" cy="0" r="16" fill="#0A0E16" stroke="#2DD4BF" stroke-width="2"/>
+            <text x="0" y="3" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#2DD4BF" text-anchor="middle" font-weight="700">TW</text>
+        </g>
+        
+        <!-- POI Crosshair Target Reticle Center -->
+        <g transform="translate(130, 85)">
+            <g style="animation: poiReticleSpin 4s linear infinite;">
+                <circle cx="0" cy="0" r="18" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <line x1="-24" y1="0" x2="24" y2="0" stroke="#F59E0B" stroke-width="1.5"/>
+                <line x1="0" y1="-24" x2="0" y2="24" stroke="#F59E0B" stroke-width="1.5"/>
+            </g>
+            <circle cx="0" cy="0" r="3" fill="#F59E0B"/>
+            <text x="0" y="30" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#F59E0B" text-anchor="middle">PHOTO POI PINNED</text>
+        </g>
+        
+        <rect x="25" y="160" width="270" height="24" rx="3" fill="#0A0E16" stroke="#1E293B"/>
+        <text x="160" y="175.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#E2E8F0" text-anchor="middle">QUICK FLOATING NAVIGATOR &bull; 1-TOUCH SWITCH &bull; PHOTO POI</text>
+    </svg>
+</div>
                                 <div class="feature-badge">UTILITAS REMOTE 16</div>
                                 <h3>Quick Floating Navigator & Photo POI</h3>
                                 <p>Menu tombol mengambang terintegrasi pada status bar remote controller untuk berpindah instan satu sentuhan antara TW-Mapper, DJI Fly, dan File Manager tanpa kendala tombol navigasi. Dilengkapi fitur <strong>Photo POI</strong> untuk menyematkan titik bidik foto inspeksi khusus di sepanjang jalur terbang.</p>

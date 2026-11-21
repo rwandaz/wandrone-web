@@ -655,6 +655,169 @@
             }
         }
 
+        /* License Cards Grid (.tw-license-grid) */
+        .tw-license-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .tw-license-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .tw-license-card {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .tw-license-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .tw-license-card-pro {
+            border: 2px solid var(--teal-deep);
+        }
+
+        .tw-license-badge {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            background: var(--mist);
+            color: var(--slate);
+            border: 1px solid var(--line);
+        }
+
+        .tw-license-card-pro .tw-license-badge {
+            background: rgba(45, 212, 191, 0.15);
+            color: var(--teal-deep);
+            border-color: rgba(45, 212, 191, 0.4);
+        }
+
+        @media (max-width: 576px) {
+            .tw-license-badge {
+                position: static;
+                align-self: flex-start;
+                margin-bottom: 0.75rem;
+                display: inline-block;
+            }
+            .tw-license-card {
+                padding: 1.25rem 1rem;
+            }
+            .tw-license-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        .tw-license-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .tw-license-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .tw-license-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .tw-license-title {
+            font-family: var(--display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.15;
+            margin: 0;
+        }
+
+        .tw-license-subtitle {
+            font-size: 0.8125rem;
+            color: var(--slate);
+            margin: 0.15rem 0 0;
+        }
+
+        .tw-license-desc {
+            font-size: 0.875rem;
+            color: var(--slate);
+            line-height: 1.45;
+            margin-bottom: 1rem;
+            min-height: 2.6em;
+        }
+
+        .tw-license-card-pro .tw-license-desc {
+            color: var(--teal-deep);
+            font-weight: 500;
+        }
+
+        .tw-license-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .tw-license-list li {
+            font-size: 0.8125rem;
+            color: var(--ink);
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.45rem;
+        }
+
+        .tw-license-list li::before {
+            content: "•";
+            color: var(--teal-deep);
+            font-weight: bold;
+            font-size: 1rem;
+            line-height: 1.1;
+        }
+
+        .tw-license-btn-wrap {
+            margin-top: auto;
+        }
+
+        .tw-license-btn-wrap a {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+
         /* Contact Card Style */
         .tw-contact-card {
             background: #FFFFFF;
@@ -838,50 +1001,54 @@
                     </div>
 
                     <div class="col-lg-8 tw-side-body">
-                        <div class="tw-rows">
-                            <!-- Hobby Edition -->
-                            <div class="tw-row">
-                                <div class="tw-tile">
-                                    <img src="images/icon_hobby.png" alt="Paket Hobby Icon" width="1024" height="1024"/>
+                        <!-- License Cards (Side-by-Side Grid) -->
+                        <div class="tw-license-grid">
+                            <!-- Paket Hobby -->
+                            <div class="tw-license-card">
+                                <span class="tw-license-badge">Personal &amp; Hobi</span>
+                                <div class="tw-license-header">
+                                    <div class="tw-license-icon">
+                                        <img src="images/icon_hobby.png" alt="Paket Hobby Icon" width="1024" height="1024"/>
+                                    </div>
+                                    <div>
+                                        <h3 class="tw-license-title">Paket Hobby</h3>
+                                        <div class="tw-license-subtitle">Pilot Perorangan</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="tw-name">Paket Hobby</span>
-                                    <p class="tw-one" style="margin-bottom: 0.65rem;">Pemetaan mandiri untuk pilot perorangan dan hobi survei.</p>
-                                    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.4rem 1rem; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: var(--ink); line-height: 1.45;">
-                                        <li><strong>Semua Fitur Pemetaan</strong> (Grid, KML, Orbit 3D)</li>
-                                        <li><strong>Laporan Misi</strong> lengkap</li>
-                                        <li><strong>Injeksi Standar:</strong> timpa berkas dummy</li>
-                                        <li><strong>Flash Inject:</strong> &lt; 1 detik (butuh TW Tweaks)</li>
-                                        <li><strong>Local Link:</strong> direct sync nirkabel tanpa kuota</li>
-                                        <li><strong>Split Misi:</strong> hingga 5 bagian eksekusi</li>
-                                    </ul>
-                                </div>
-                                <div class="tw-buy">
-                                    <span class="tw-price">Paket Hobby</span>
+                                <p class="tw-license-desc">Pemetaan mandiri praktis untuk kebutuhan hobi dan survei perorangan.</p>
+                                <ul class="tw-license-list">
+                                    <li><span><strong>Semua Fitur Pemetaan</strong> (Grid, KML, Orbit 3D)</span></li>
+                                    <li><span><strong>Laporan Misi</strong> penerbangan lengkap</span></li>
+                                    <li><span><strong>Injeksi Standar &amp; Flash Inject</strong> (&lt; 1 detik)</span></li>
+                                    <li><span><strong>Local Link:</strong> direct sync nirkabel tanpa kuota</span></li>
+                                    <li><span><strong>Split Misi:</strong> hingga 5 bagian eksekusi</span></li>
+                                </ul>
+                                <div class="tw-license-btn-wrap">
                                     <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20konsultasi%20mengenai%20Paket%20Hobby%20TW-Mapper" class="tw-btn-2" target="_blank" rel="noopener">Konsultasi Paket Hobby</a>
                                 </div>
                             </div>
 
-                            <!-- Pro Edition -->
-                            <div class="tw-row">
-                                <div class="tw-tile">
-                                    <img src="images/icon_pro.png" alt="Paket Pro Icon" width="1024" height="1024"/>
+                            <!-- Paket Pro -->
+                            <div class="tw-license-card tw-license-card-pro">
+                                <span class="tw-license-badge">Profesional &amp; Bisnis</span>
+                                <div class="tw-license-header">
+                                    <div class="tw-license-icon">
+                                        <img src="images/icon_pro.png" alt="Paket Pro Icon" width="1024" height="1024"/>
+                                    </div>
+                                    <div>
+                                        <h3 class="tw-license-title">Paket Pro</h3>
+                                        <div class="tw-license-subtitle">Survei &amp; Perusahaan</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="tw-name">Paket Pro</span>
-                                    <p class="tw-one" style="font-weight: 600; color: var(--teal-deep); margin-bottom: 0.65rem;">Mencakup seluruh fitur Paket Hobby, ditambah fitur unggulan:</p>
-                                    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.4rem 1rem; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: var(--ink); line-height: 1.45;">
-                                        <li><strong>Follow Terrain:</strong> otomatis kontur bukit &amp; lembah</li>
-                                        <li><strong>Split Misi Unlimited:</strong> tanpa batas</li>
-                                        <li><strong>TW Tweaks / DJI Fly Mod:</strong> fitur ekstra</li>
-                                        <li><strong>Fleet Sync:</strong> transfer rute antar-remote</li>
-                                        <li style="grid-column: 1 / -1; background: var(--mist); border-radius: 6px; padding: 0.35rem 0.6rem; border: 1px solid var(--line);">
-                                            <strong>Drone Tools:</strong> FCC Boost • Altitude Unlock 500m • ATTI Mode
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tw-buy">
-                                    <span class="tw-price">Paket Pro</span>
+                                <p class="tw-license-desc">Seluruh fitur Paket Hobby dengan elevasi penuh dan split tanpa batas.</p>
+                                <ul class="tw-license-list">
+                                    <li><span><strong>Follow Terrain:</strong> otomatis kontur bukit &amp; lembah</span></li>
+                                    <li><span><strong>Split Misi Unlimited:</strong> tanpa batasan area</span></li>
+                                    <li><span><strong>TW Tweaks / DJI Fly Mod:</strong> fitur performa ekstra</span></li>
+                                    <li><span><strong>Fleet Sync:</strong> transfer rute antar-remote</span></li>
+                                    <li><span><strong>Drone Tools:</strong> FCC Boost • Alt 500m • ATTI Mode</span></li>
+                                </ul>
+                                <div class="tw-license-btn-wrap">
                                     <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20konsultasi%20mengenai%20Paket%20Pro%20TW-Mapper" class="tw-btn" target="_blank" rel="noopener">Konsultasi Paket Pro</a>
                                 </div>
                             </div>

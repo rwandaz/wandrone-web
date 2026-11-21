@@ -740,39 +740,52 @@
             margin-bottom: 1.5rem;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 767px) {
             .tw-tabs-nav {
-                display: flex;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                gap: 0.5rem;
-                padding-bottom: 0.5rem;
-                scrollbar-width: none;
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                gap: 0.5rem !important;
+                padding-bottom: 0.4rem !important;
+                margin-top: 0.75rem !important;
+                scrollbar-width: none !important;
             }
             .tw-tabs-nav::-webkit-scrollbar {
                 display: none;
             }
             .tw-tab-btn {
-                flex-shrink: 0;
-                white-space: nowrap;
-                padding: 0.5rem 0.85rem;
-                font-size: 0.8125rem;
-                border-radius: 999px;
+                flex-shrink: 0 !important;
+                white-space: nowrap !important;
+                padding: 0.45rem 0.85rem !important;
+                font-size: 0.8125rem !important;
+                border-radius: 999px !important;
             }
+        }
+
+        .tw-tabs-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-top: 1rem;
         }
 
         .tw-tab-btn {
             font-family: var(--body);
             font-size: 0.875rem;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            padding: 0.55rem 0.85rem;
+            border-radius: 8px;
             border: 1px solid var(--line);
             background: #FFFFFF;
             color: var(--slate);
             cursor: pointer;
-            transition: all 120ms;
+            transition: all 120ms ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
         }
 
         .tw-tab-btn:hover {
@@ -783,64 +796,58 @@
         .tw-tab-btn.active {
             background: var(--ink);
             border-color: var(--ink);
-            color: var(--mist);
+            color: #FFFFFF;
+            font-weight: 600;
         }
 
         .tw-feature-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.25rem;
+            gap: 0.75rem;
         }
 
         @media (min-width: 640px) {
             .tw-feature-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 0.85rem;
             }
         }
 
         .tw-feature-card {
             background: #FFFFFF;
             border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 1.25rem;
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 0.85rem;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
         .tw-feature-card:hover {
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+            border-color: var(--teal-deep);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
 
         .tw-side-alt .tw-feature-card {
             background: #FFFFFF;
         }
 
-        .tw-feature-card h3 {
-            font-size: 1.15rem;
-            margin: 0.35rem 0 0.35rem;
-            color: var(--ink);
-        }
-
-        .tw-feature-card p {
-            font-size: 0.875rem;
-            color: var(--slate);
-            line-height: 1.45;
-            margin-bottom: 0;
-        }
-
         .tw-feature-art {
-            width: 80px;
-            height: 80px;
-            background: transparent;
-            border-radius: 18px;
-            overflow: hidden;
+            width: 48px;
+            height: 48px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
-            margin-bottom: 1rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
         }
 
         .tw-feature-art img {
@@ -848,6 +855,190 @@
             height: 100%;
             object-fit: contain;
             display: block;
+        }
+
+        .tw-feature-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tw-feature-card h3 {
+            font-family: var(--display);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0 0 0.2rem;
+            line-height: 1.25;
+        }
+
+        .tw-feature-card p {
+            font-size: 0.8125rem;
+            color: var(--slate);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* License Cards Grid (.tw-license-grid) */
+        .tw-license-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .tw-license-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .tw-license-card {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .tw-license-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .tw-license-card-pro {
+            border: 2px solid var(--teal-deep);
+        }
+
+        .tw-license-badge {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            background: var(--mist);
+            color: var(--slate);
+            border: 1px solid var(--line);
+        }
+
+        .tw-license-card-pro .tw-license-badge {
+            background: rgba(45, 212, 191, 0.15);
+            color: var(--teal-deep);
+            border-color: rgba(45, 212, 191, 0.4);
+        }
+
+        @media (max-width: 576px) {
+            .tw-license-badge {
+                position: static;
+                align-self: flex-start;
+                margin-bottom: 0.75rem;
+                display: inline-block;
+            }
+            .tw-license-card {
+                padding: 1.25rem 1rem;
+            }
+            .tw-license-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        .tw-license-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .tw-license-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .tw-license-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .tw-license-title {
+            font-family: var(--display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.15;
+            margin: 0;
+        }
+
+        .tw-license-subtitle {
+            font-size: 0.8125rem;
+            color: var(--slate);
+            margin: 0.15rem 0 0;
+        }
+
+        .tw-license-desc {
+            font-size: 0.875rem;
+            color: var(--slate);
+            line-height: 1.45;
+            margin-bottom: 1rem;
+            min-height: 2.6em;
+        }
+
+        .tw-license-card-pro .tw-license-desc {
+            color: var(--teal-deep);
+            font-weight: 500;
+        }
+
+        .tw-license-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .tw-license-list li {
+            font-size: 0.8125rem;
+            color: var(--ink);
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.45rem;
+        }
+
+        .tw-license-list li::before {
+            content: "•";
+            color: var(--teal-deep);
+            font-weight: bold;
+            font-size: 1rem;
+            line-height: 1.1;
+        }
+
+        .tw-license-btn-wrap {
+            margin-top: auto;
+        }
+
+        .tw-license-btn-wrap a {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            text-align: center;
         }
 
         /* End Band */
@@ -1242,14 +1433,14 @@
                     <div class="col-lg-4 tw-side-head">
                         <h2 class="tw-h2">Fitur Unggulan</h2>
                         <p class="tw-standfirst">
-                            Pilih kategori untuk melihat kemampuan pemetaan cerdas yang membuat pekerjaan survei Anda lebih cepat, presisi, dan hemat baterai.
+                            Fitur pemetaan cerdas untuk hasil survei presisi, cepat, dan hemat baterai.
                         </p>
 
                         <!-- Tab Selection Buttons -->
                         <div class="tw-tabs-nav">
-                            <button id="tab-btn-1" class="tw-tab-btn active" onclick="switchTab(1)">📐 Lahan & Proyek</button>
-                            <button id="tab-btn-2" class="tw-tab-btn" onclick="switchTab(2)">⚡ Transfer & Kecepatan</button>
-                            <button id="tab-btn-3" class="tw-tab-btn" onclick="switchTab(3)">⛰️ Bukit & Struktur 3D</button>
+                            <button id="tab-btn-1" class="tw-tab-btn active" onclick="switchTab(1)">📐 Lahan &amp; Proyek</button>
+                            <button id="tab-btn-2" class="tw-tab-btn" onclick="switchTab(2)">⚡ Transfer &amp; Kecepatan</button>
+                            <button id="tab-btn-3" class="tw-tab-btn" onclick="switchTab(3)">⛰️ Bukit &amp; Struktur 3D</button>
                         </div>
                     </div>
 
@@ -1260,32 +1451,40 @@
                                 <div class="tw-feature-art">
                                     <img src="images/features/feat_kml_multi_boundaries.png" alt="KML Multi-Boundaries" loading="lazy"/>
                                 </div>
-                                <h3>KML Multi-Boundaries</h3>
-                                <p>Muat file KML yang berisi banyak batas kepemilikan lahan atau sertifikat tanah sekaligus dalam satu proyek survei.</p>
+                                <div class="tw-feature-body">
+                                    <h3>KML Multi-Boundaries</h3>
+                                    <p>Muat file KML banyak batas lahan atau sertifikat tanah sekaligus dalam satu proyek.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/boustrophedon_grid.png" alt="Grid &amp; Zig-zag Otomatis" loading="lazy"/>
                                 </div>
-                                <h3>Grid &amp; Zig-zag Otomatis</h3>
-                                <p>Kalkulasi otomatis sudut jalur optimal, overlap depan, overlap samping, dan resolusi tanah (GSD) untuk ortofoto tajam.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Grid &amp; Zig-zag Otomatis</h3>
+                                    <p>Kalkulasi otomatis sudut jalur optimal, overlap, dan resolusi tanah (GSD) untuk ortofoto tajam.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/speed_clamping.png" alt="Speed Clamping Aman" loading="lazy"/>
                                 </div>
-                                <h3>Speed Clamping Aman</h3>
-                                <p>Mencegah drone terbang terlalu cepat saat memotret sehingga foto bebas blur dan ketinggian aman terjamin.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Speed Clamping Aman</h3>
+                                    <p>Mencegah drone terbang terlalu cepat saat memotret sehingga foto bebas blur.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/corridor_buffer.png" alt="Asymmetrical Corridor" loading="lazy"/>
                                 </div>
-                                <h3>Asymmetrical Corridor</h3>
-                                <p>Ideal untuk pemetaan jalur jalan raya, transmisi listrik, atau sungai dengan lebar batas kiri dan kanan yang berbeda.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Asymmetrical Corridor</h3>
+                                    <p>Ideal untuk pemetaan koridor jalan raya, jalur transmisi, atau sungai dengan batas asimetris.</p>
+                                </div>
                             </div>
                         </div>
 
@@ -1295,32 +1494,40 @@
                                 <div class="tw-feature-art">
                                     <img src="images/features/flash_inject.png" alt="Flash Inject Instan" loading="lazy"/>
                                 </div>
-                                <h3>Flash Inject Instan</h3>
-                                <p>Injeksi jalur misi ke aplikasi resmi penerbangan remote dalam hitungan milidetik tanpa perlu restart remote controller.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Flash Inject Instan</h3>
+                                    <p>Injeksi jalur misi ke aplikasi remote dalam hitungan milidetik tanpa perlu restart remote.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/fleet_sync.png" alt="Direct &amp; Fleet Sync" loading="lazy"/>
                                 </div>
-                                <h3>Direct &amp; Fleet Sync</h3>
-                                <p>Sinkronisasi data proyek dan jalur misi antar sesama remote rekan tim di lapangan via koneksi lokal tanpa internet.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Direct &amp; Fleet Sync</h3>
+                                    <p>Sinkronisasi proyek dan jalur misi antar sesama remote rekan tim via jaringan lokal tanpa kuota.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/offline_maps.png" alt="100% Peta Offline" loading="lazy"/>
                                 </div>
-                                <h3>100% Peta Offline</h3>
-                                <p>Unduh peta satelit sebelum ke lokasi terpencil. Citra resolusi tinggi tetap tampil jernih tanpa sinyal seluler.</p>
+                                <div class="tw-feature-body">
+                                    <h3>100% Peta Offline</h3>
+                                    <p>Unduh peta satelit sebelum ke lapangan. Citra resolusi tinggi tetap jernih tanpa sinyal seluler.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/dem_server.png" alt="Local Elevation Server" loading="lazy"/>
                                 </div>
-                                <h3>Local Elevation Server</h3>
-                                <p>Menyimpan data elevasi kontur permukaan tanah di dalam remote controller agar fungsi elevasi bekerja offline.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Local Elevation Server</h3>
+                                    <p>Menyimpan data elevasi kontur permukaan tanah di remote agar fungsi elevasi bekerja offline.</p>
+                                </div>
                             </div>
                         </div>
 
@@ -1330,32 +1537,40 @@
                                 <div class="tw-feature-art">
                                     <img src="images/features/follow_terrain.png" alt="Follow Terrain (Elevasi Bukit)" loading="lazy"/>
                                 </div>
-                                <h3>Follow Terrain (Elevasi Bukit)</h3>
-                                <p>Drone otomatis terbang naik-turun mengikuti kontur tanah perbukitan sehingga resolusi foto (GSD) selalu konstan.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Follow Terrain (Elevasi Bukit)</h3>
+                                    <p>Drone otomatis terbang naik-turun mengikuti kontur tanah perbukitan sehingga GSD konstan.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/split_mission.png" alt="Split Misi Multi-Baterai" loading="lazy"/>
                                 </div>
-                                <h3>Split Misi Multi-Baterai</h3>
-                                <p>Membagi area pemetaan luas menjadi beberapa sub-misi sesuai kapasitas baterai drone tanpa ada area terlewat.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Split Misi Multi-Baterai</h3>
+                                    <p>Membagi area luas menjadi beberapa sub-misi sesuai kapasitas baterai tanpa area terlewat.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/orbit_helix.png" alt="Orbit Helix Spiral 3D" loading="lazy"/>
                                 </div>
-                                <h3>Orbit Helix Spiral 3D</h3>
-                                <p>Pola terbang spiral kontinu mengitari objek vertikal (gedung, tower, kubah) yang hemat baterai untuk model 3D.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Orbit Helix Spiral 3D</h3>
+                                    <p>Pola terbang spiral mengitari objek vertikal (gedung, tower) yang hemat baterai untuk model 3D.</p>
+                                </div>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
                                     <img src="images/features/breakpoint_resume.png" alt="Breakpoint Resume Otomatis" loading="lazy"/>
                                 </div>
-                                <h3>Breakpoint Resume Otomatis</h3>
-                                <p>Ganti baterai di tengah jalan, drone otomatis melanjutkan misi langsung dari titik foto terakhir.</p>
+                                <div class="tw-feature-body">
+                                    <h3>Breakpoint Resume Otomatis</h3>
+                                    <p>Ganti baterai di tengah jalan, drone otomatis melanjutkan misi langsung dari titik foto terakhir.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1375,50 +1590,54 @@
                     </div>
 
                     <div class="col-lg-8 tw-side-body">
-                        <div class="tw-rows">
-                            <!-- Hobby License -->
-                            <div class="tw-row">
-                                <div class="tw-tile">
-                                    <img src="images/icon_hobby.png" alt="Paket Hobby Icon" width="1024" height="1024"/>
+                        <!-- License Cards (Side-by-Side Grid) -->
+                        <div class="tw-license-grid">
+                            <!-- Paket Hobby -->
+                            <div class="tw-license-card">
+                                <span class="tw-license-badge">Personal &amp; Hobi</span>
+                                <div class="tw-license-header">
+                                    <div class="tw-license-icon">
+                                        <img src="images/icon_hobby.png" alt="Paket Hobby Icon" width="1024" height="1024"/>
+                                    </div>
+                                    <div>
+                                        <h3 class="tw-license-title">Paket Hobby</h3>
+                                        <div class="tw-license-subtitle">Pilot Perorangan</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="tw-name">Paket Hobby</span>
-                                    <p class="tw-one" style="margin-bottom: 0.65rem;">Pemetaan mandiri untuk pilot perorangan dan hobi survei.</p>
-                                    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.4rem 1rem; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: var(--ink); line-height: 1.45;">
-                                        <li><strong>Semua Fitur Pemetaan</strong> (Grid, KML, Orbit 3D)</li>
-                                        <li><strong>Laporan Misi</strong> lengkap</li>
-                                        <li><strong>Injeksi Standar:</strong> timpa berkas dummy</li>
-                                        <li><strong>Flash Inject:</strong> &lt; 1 detik (butuh TW Tweaks)</li>
-                                        <li><strong>Local Link:</strong> direct sync nirkabel tanpa kuota</li>
-                                        <li><strong>Split Misi:</strong> hingga 5 bagian eksekusi</li>
-                                    </ul>
-                                </div>
-                                <div class="tw-buy">
-                                    <span class="tw-price">Paket Hobby</span>
+                                <p class="tw-license-desc">Pemetaan mandiri praktis untuk kebutuhan hobi dan survei perorangan.</p>
+                                <ul class="tw-license-list">
+                                    <li><span><strong>Semua Fitur Pemetaan</strong> (Grid, KML, Orbit 3D)</span></li>
+                                    <li><span><strong>Laporan Misi</strong> penerbangan lengkap</span></li>
+                                    <li><span><strong>Injeksi Standar &amp; Flash Inject</strong> (&lt; 1 detik)</span></li>
+                                    <li><span><strong>Local Link:</strong> direct sync nirkabel tanpa kuota</span></li>
+                                    <li><span><strong>Split Misi:</strong> hingga 5 bagian eksekusi</span></li>
+                                </ul>
+                                <div class="tw-license-btn-wrap">
                                     <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20konsultasi%20mengenai%20Paket%20Hobby%20TW-Mapper" class="tw-btn-2" target="_blank" rel="noopener">Konsultasi Paket Hobby</a>
                                 </div>
                             </div>
 
-                            <!-- Pro License -->
-                            <div class="tw-row">
-                                <div class="tw-tile">
-                                    <img src="images/icon_pro.png" alt="Paket Pro Icon" width="1024" height="1024"/>
+                            <!-- Paket Pro -->
+                            <div class="tw-license-card tw-license-card-pro">
+                                <span class="tw-license-badge">Profesional &amp; Bisnis</span>
+                                <div class="tw-license-header">
+                                    <div class="tw-license-icon">
+                                        <img src="images/icon_pro.png" alt="Paket Pro Icon" width="1024" height="1024"/>
+                                    </div>
+                                    <div>
+                                        <h3 class="tw-license-title">Paket Pro</h3>
+                                        <div class="tw-license-subtitle">Survei &amp; Perusahaan</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="tw-name">Paket Pro</span>
-                                    <p class="tw-one" style="font-weight: 600; color: var(--teal-deep); margin-bottom: 0.65rem;">Mencakup seluruh fitur Paket Hobby, ditambah fitur unggulan:</p>
-                                    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.4rem 1rem; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: var(--ink); line-height: 1.45;">
-                                        <li><strong>Follow Terrain:</strong> otomatis kontur bukit &amp; lembah</li>
-                                        <li><strong>Split Misi Unlimited:</strong> tanpa batas</li>
-                                        <li><strong>TW Tweaks / DJI Fly Mod:</strong> fitur ekstra</li>
-                                        <li><strong>Fleet Sync:</strong> transfer rute antar-remote</li>
-                                        <li style="grid-column: 1 / -1; background: var(--mist); border-radius: 6px; padding: 0.35rem 0.6rem; border: 1px solid var(--line);">
-                                            <strong>Drone Tools:</strong> FCC Boost • Altitude Unlock 500m • ATTI Mode
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tw-buy">
-                                    <span class="tw-price">Paket Pro</span>
+                                <p class="tw-license-desc">Seluruh fitur Paket Hobby dengan elevasi penuh dan split tanpa batas.</p>
+                                <ul class="tw-license-list">
+                                    <li><span><strong>Follow Terrain:</strong> otomatis kontur bukit &amp; lembah</span></li>
+                                    <li><span><strong>Split Misi Unlimited:</strong> tanpa batasan area</span></li>
+                                    <li><span><strong>TW Tweaks / DJI Fly Mod:</strong> fitur performa ekstra</span></li>
+                                    <li><span><strong>Fleet Sync:</strong> transfer rute antar-remote</span></li>
+                                    <li><span><strong>Drone Tools:</strong> FCC Boost • Alt 500m • ATTI Mode</span></li>
+                                </ul>
+                                <div class="tw-license-btn-wrap">
                                     <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20konsultasi%20mengenai%20Paket%20Pro%20TW-Mapper" class="tw-btn" target="_blank" rel="noopener">Konsultasi Paket Pro</a>
                                 </div>
                             </div>
@@ -1501,12 +1720,11 @@
                         </div>
 
                         <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
-                            <div>
-                                <strong style="color: var(--ink); font-family: var(--display); font-size: 1.05rem;">📞 INFORMASI LISENSI:</strong>
-                                <span style="color: var(--slate); font-size: 0.875rem; margin-left: 0.5rem;">Jejen (<strong>0851-9939-1551</strong>)</span>
+                            <div style="font-family: var(--display); font-size: 1rem; font-weight: 600; color: var(--ink);">
+                                Butuh informasi rincian atau alur aktivasi lisensi resmi?
                             </div>
-                            <a href="lisensi.html" class="tw-btn-2" style="font-size: 0.875rem; padding: 0.4rem 0.85rem; min-height: 38px;">
-                                Buka Halaman Lisensi &rarr;
+                            <a href="lisensi.html" class="tw-btn-2" style="font-size: 0.875rem; padding: 0.45rem 1rem; min-height: 38px;">
+                                Lihat Informasi Lisensi &rarr;
                             </a>
                         </div>
                     </div>
@@ -1574,11 +1792,11 @@
 
                         <!-- Kontak Resmi: Informasi Lisensi & Product Knowledge -->
                         <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem;">
-                            <!-- Bagian 1: Informasi Lisensi (Jejen) -->
+                            <!-- Bagian 1: Informasi Lisensi & Aktivasi (Jejen & Ian) -->
                             <div style="padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); margin-bottom: 1.25rem;">
                                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
                                     <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink);">
-                                        📞 INFORMASI LISENSI
+                                        📞 INFORMASI LISENSI &amp; AKTIVASI
                                     </div>
                                     <a href="lisensi.html" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; min-height: 32px;">
                                         Lihat Informasi Lisensi &rarr;
@@ -1587,7 +1805,7 @@
                                 <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                                     <div>
                                         <span style="font-size: 0.85rem; color: var(--slate);">Narahubung:</span>
-                                        <strong style="font-family: var(--display); font-size: 1.1rem; color: var(--ink); margin-left: 0.25rem;">Jejen</strong>
+                                        <strong style="font-family: var(--display); font-size: 1.1rem; color: var(--ink); margin-left: 0.25rem;">Jejen &amp; Ian</strong>
                                     </div>
                                     <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20informasi%20lisensi%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-wa" style="padding: 0.35rem 0.85rem; min-height: 34px; font-size: 0.85rem; font-family: var(--mono);">
                                         0851-9939-1551
@@ -1595,24 +1813,16 @@
                                 </div>
                             </div>
 
-                            <!-- Bagian 2: Product Knowledge (Ian, Upay, Wan) -->
+                            <!-- Bagian 2: Product Knowledge (Upay & Wan) -->
                             <div>
                                 <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;">
-                                    🛠️ PRODUCT KNOWLEDGE
+                                    🛠️ PRODUCT KNOWLEDGE &amp; KONSULTASI TEKNIS
                                 </div>
                                 <p style="font-size: 0.875rem; color: var(--slate); margin-bottom: 1rem;">
-                                    Untuk informasi produk, fitur aplikasi, panduan penggunaan, dan konsultasi teknis:
+                                    Untuk informasi produk, fitur aplikasi, panduan penggunaan, dan konsultasi teknis di lapangan:
                                 </p>
                                 <div class="row">
-                                    <div class="col-md-4" style="margin-bottom: 0.75rem;">
-                                        <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.75rem;">
-                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink);">Ian</div>
-                                            <a href="https://wa.me/6285199391551?text=Halo%20Ian,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" style="font-family: var(--mono); font-size: 0.9rem; font-weight: 600; color: var(--teal-deep); text-decoration: none; display: block; margin-top: 0.25rem;">
-                                                0851-9939-1551 &rarr;
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4" style="margin-bottom: 0.75rem;">
+                                    <div class="col-md-6" style="margin-bottom: 0.75rem;">
                                         <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.75rem;">
                                             <div style="font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink);">Upay</div>
                                             <a href="https://wa.me/628111969111?text=Halo%20Upay,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" style="font-family: var(--mono); font-size: 0.9rem; font-weight: 600; color: var(--teal-deep); text-decoration: none; display: block; margin-top: 0.25rem;">
@@ -1620,7 +1830,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-4" style="margin-bottom: 0.75rem;">
+                                    <div class="col-md-6" style="margin-bottom: 0.75rem;">
                                         <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.75rem;">
                                             <div style="font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink);">Wan</div>
                                             <a href="https://wa.me/6285175009498?text=Halo%20Wan,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" style="font-family: var(--mono); font-size: 0.9rem; font-weight: 600; color: var(--teal-deep); text-decoration: none; display: block; margin-top: 0.25rem;">
@@ -1683,10 +1893,9 @@
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
                     <h3 class="tw-h2">Narahubung Resmi</h3>
                     <ul class="tw-list">
-                        <li><span>Informasi Lisensi: <strong>Jejen</strong> (0851-9939-1551)</span></li>
-                        <li><span>Product Knowledge: <strong>Ian</strong> (0851-9939-1551)</span></li>
-                        <li><span>Product Knowledge: <strong>Upay</strong> (0811-1969-111)</span></li>
-                        <li><span>Product Knowledge: <strong>Wan</strong> (0851-7500-9498)</span></li>
+                        <li><span>Informasi Lisensi: <strong>Jejen &amp; Ian</strong></span></li>
+                        <li><span>Product Knowledge: <strong>Upay &amp; Wan</strong></span></li>
+                        <li style="margin-top: 0.5rem;"><a href="#kontak" class="tw-foot-link" style="color: var(--teal);">Lihat Kontak Resmi &rarr;</a></li>
                     </ul>
                 </div>
             </div>

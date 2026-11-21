@@ -462,6 +462,12 @@
                 width: 100% !important;
                 justify-content: center !important;
             }
+            .tw-btns-inline {
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1188,6 +1194,7 @@
                     <li role="none"><a role="menuitem" href="#kompatibilitas" class="nav-link">Perangkat</a></li>
                     <li role="none"><a role="menuitem" href="#fitur" class="nav-link">Fitur</a></li>
                     <li role="none"><a role="menuitem" href="lisensi.html" class="nav-link">Lisensi</a></li>
+                    <li role="none"><a role="menuitem" href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="nav-link" style="color: var(--teal-deep); font-weight: 600;">Akun Lisensi &nearr;</a></li>
                     <li role="none"><a role="menuitem" href="#kontak" class="nav-link">Sosial Media</a></li>
                 </ul>
 
@@ -1778,12 +1785,22 @@
                         </div>
 
                         <div class="tw-info-callout" style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
-                            <div style="font-family: var(--display); font-size: 1rem; font-weight: 600; color: var(--ink);">
-                                Butuh informasi rincian atau alur aktivasi lisensi resmi?
+                            <div>
+                                <div style="font-family: var(--display); font-size: 1rem; font-weight: 600; color: var(--ink);">
+                                    Butuh informasi rincian atau akses akun lisensi?
+                                </div>
+                                <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.2rem;">
+                                    Pelajari rincian paket aktivasi atau kunjungi portal akun lisensi perangkat Anda.
+                                </div>
                             </div>
-                            <a href="lisensi.html" class="tw-btn-2" style="font-size: 0.875rem; padding: 0.45rem 1rem; min-height: 38px;">
-                                Lihat Informasi Lisensi &rarr;
-                            </a>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" class="tw-btns-inline">
+                                <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn" style="font-size: 0.875rem; padding: 0.45rem 1rem; min-height: 38px;">
+                                    🔐 Akun Lisensi &nearr;
+                                </a>
+                                <a href="lisensi.html" class="tw-btn-2" style="font-size: 0.875rem; padding: 0.45rem 1rem; min-height: 38px;">
+                                    Informasi Lisensi &rarr;
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1944,6 +1961,7 @@
                         <li><a href="#kemudahan">3 Kemudahan Utama</a></li>
                         <li><a href="#fitur">Fitur Unggulan</a></li>
                         <li><a href="lisensi.html">Informasi Lisensi (Hobby &amp; Pro)</a></li>
+                        <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi (fly.arkana.co.id) &rarr;</a></li>
                         <li><a href="#kompatibilitas">Kompatibilitas Perangkat</a></li>
                     </ul>
                 </div>

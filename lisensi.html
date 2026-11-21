@@ -343,6 +343,7 @@
         .tw-mobile-nav-link {
             display: flex;
             align-items: center;
+            gap: 0.65rem;
             padding: 0.65rem 0.25rem;
             color: var(--ink);
             text-decoration: none;
@@ -1186,7 +1187,11 @@
                         Akun Lisensi &nearr;
                     </a>
                     <button id="tw-nav-toggle" class="tw-nav-toggle" aria-label="Buka Menu" onclick="toggleMobileNav()">
-                        <span id="tw-nav-icon">☰</span>
+                        <svg id="tw-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
                     </button>
                 </div>
             </nav>
@@ -1207,11 +1212,11 @@
         <div id="tw-mobile-dropdown" class="tw-mobile-dropdown">
             <div class="container">
                 <ul class="tw-mobile-nav-list">
-                    <li><a href="index.html" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">🏠 &larr; Halaman Utama</a></li>
-                    <li><a href="#paket-lisensi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📦 Pilihan Paket Lisensi</a></li>
-                    <li><a href="#alur-aktivasi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">⚡ Alur Aktivasi Perangkat</a></li>
-                    <li><a href="#kontak-resmi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📞 Kontak Lisensi &amp; Teknis</a></li>
-                    <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 600;">🔐 Akun Lisensi &nearr;</a></li>
+                    <li><a href="index.html" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>&larr; Halaman Utama</span></a></li>
+                    <li><a href="#paket-lisensi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg><span>Pilihan Paket Lisensi</span></a></li>
+                    <li><a href="#alur-aktivasi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span>Alur Aktivasi Perangkat</span></a></li>
+                    <li><a href="#kontak-resmi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg><span>Kontak Lisensi &amp; Teknis</span></a></li>
+                    <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 600;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Akun Lisensi &nearr;</span></a></li>
                 </ul>
             </div>
         </div>
@@ -1239,8 +1244,9 @@
                         </p>
 
                         <div class="tw-btns" style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-                            <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn tw-btn-lg">
-                                🔐 Halaman Akun Lisensi &nearr;
+                            <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn tw-btn-lg" style="display: inline-flex; align-items: center; gap: 0.45rem;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <span>Halaman Akun Lisensi &nearr;</span>
                             </a>
                             <a href="#paket-lisensi" class="tw-btn-2 tw-btn-lg">Pilihan Paket &darr;</a>
                             <a href="#kontak-resmi" class="tw-btn-2 tw-btn-lg">Kontak Tim &darr;</a>
@@ -1461,8 +1467,9 @@
                                     Akses portal resmi untuk memeriksa akun lisensi, status aktivasi, dan pengelolaan perangkat remote Anda.
                                 </div>
                             </div>
-                            <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.6rem 1.25rem; font-size: 0.875rem; min-height: 40px;">
-                                🔐 Buka Halaman Akun Lisensi &rarr;
+                            <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.6rem 1.25rem; font-size: 0.875rem; min-height: 40px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <span>Buka Halaman Akun Lisensi &rarr;</span>
                             </a>
                         </div>
                     </div>
@@ -1485,22 +1492,29 @@
                         <!-- Card 1: Informasi Lisensi (Jejen) -->
                         <div class="tw-contact-card" style="border-left: 4px solid var(--teal-deep);">
                             <div class="tw-contact-header">
-                                <span class="tw-contact-role">📋 INFORMASI LISENSI &amp; AKTIVASI</span>
+                                <span class="tw-contact-role" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-deep); flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    <span>INFORMASI LISENSI &amp; AKTIVASI</span>
+                                </span>
                                 <span class="tw-chip-solid">Narahubung Lisensi</span>
                             </div>
                             <div class="tw-contact-name">Jejen</div>
                             <p class="tw-one" style="margin-bottom: 0.85rem;">
                                 Layanan resmi pemesanan lisensi, aktivasi perangkat remote controller, dan administrasi akun melalui portal resmi.
                             </p>
-                            <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn">
-                                🔐 Buka Portal Akun Lisensi &nearr;
+                            <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <span>Buka Portal Akun Lisensi &nearr;</span>
                             </a>
                         </div>
 
                         <!-- Card 2: Product Knowledge (Ian, Upay, Wan) -->
                         <div class="tw-contact-card" style="border-left: 4px solid var(--teal); margin-top: 1.5rem;">
                             <div class="tw-contact-header">
-                                <span class="tw-contact-role">🛠️ PRODUCT KNOWLEDGE &amp; KONSULTASI TEKNIS</span>
+                                <span class="tw-contact-role" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-deep); flex-shrink: 0;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                                    <span>PRODUCT KNOWLEDGE &amp; KONSULTASI TEKNIS</span>
+                                </span>
                                 <span class="tw-chip">Tim Teknis Lapangan</span>
                             </div>
                             <p class="tw-one" style="margin-bottom: 1rem;">
@@ -1600,7 +1614,7 @@
                 </a>
                 <span style="color: var(--line-dark); font-size: 1.25rem; user-select: none;">•</span>
                 <a href="https://www.twstreamer.app/" target="_blank" rel="noopener" aria-label="Throttle Warriors" style="display: inline-flex; align-items: center; text-decoration: none; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
-                    <img src="images/throttle-warrior-logo.png" alt="Throttle Warriors" style="height: 34px; width: auto; max-width: 160px; object-fit: contain; display: block;"/>
+                    <img src="images/throttle-warrior-logo.png" alt="Throttle Warriors" style="height: 38px; width: auto; max-width: 160px; object-fit: contain; display: block;"/>
                 </a>
             </div>
 
@@ -1620,10 +1634,14 @@
             const shouldOpen = (forceState !== undefined) ? forceState : !dd.classList.contains('is-open');
             if (shouldOpen) {
                 dd.classList.add('is-open');
-                if (icon) icon.textContent = '✕';
+                if (icon) {
+                    icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
+                }
             } else {
                 dd.classList.remove('is-open');
-                if (icon) icon.textContent = '☰';
+                if (icon) {
+                    icon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+                }
             }
         }
     </script>

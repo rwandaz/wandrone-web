@@ -592,13 +592,7 @@
             align-items: start;
         }
 
-        .tw-row.featured {
-            background: rgba(45, 212, 191, 0.04);
-            border-left: 3px solid var(--teal-deep);
-            padding-left: 1.25rem;
-            padding-right: 1.25rem;
-            border-radius: 4px;
-        }
+        /* .tw-row.featured removed for visual parity */
 
         .tw-tile {
             width: 88px;
@@ -1341,6 +1335,105 @@
                 color: #000000 !important;
             }
         }
+    
+        /* Resource Cards & Icons Styling */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .resource-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .resource-card {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 200ms ease;
+        }
+
+        .resource-card:hover {
+            border-color: var(--teal);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .resource-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .resource-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            background: rgba(10, 14, 22, 0.05);
+            color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .resource-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .resource-tag {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--muted);
+            background: rgba(10, 14, 22, 0.04);
+            padding: 0.25rem 0.55rem;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+        }
+
+        .resource-title {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-desc {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        /* Equal Styling for Hobby & Pro in Table */
+        .tw-vs-col {
+            background: #FFFFFF;
+            color: var(--ink);
+            width: 32%;
+            border: 1px solid var(--line);
+            padding: 1rem;
+        }
+
+        .tw-table-badge {
+            display: inline-block;
+            font-family: var(--display);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+        }
+
     </style>
 </head>
 <body id="wrapwrap">
@@ -1392,8 +1485,7 @@
             <li><a href="#fitur" class="mobile-link">Fitur Unggulan</a></li>
             <li><a href="#alur-kerja" class="mobile-link">Alur Kerja Lapangan</a></li>
             <li><a href="#dukungan" class="mobile-link">Garansi & Pengembang</a></li>
-            <li><a href="https://ayopraktekin.blogspot.com/" target="_blank" rel="noopener noreferrer" class="mobile-link">Media Ajar AyoPraktekin ↗</a></li>
-        </ul>
+                    </ul>
     </div>
 
     <main id="wrap">
@@ -1435,14 +1527,7 @@
                             Tinggalkan laptop di rumah atau kantor. Rancang misi fotogrametri grid, koridor jalan, atau orbit helix 3D langsung di layar DJI RC 2, RC Pro, RC Pro 2, dan remote seri RC-N (Smartphone &amp; Tablet). Injeksi instan ke DJI Fly tanpa kabel data, tanpa microSD, dan tanpa jeda.
                         </p>
                         
-                        <div class="tw-chips">
-                            <span class="tw-chip">Pemetaan Otonom</span>
-                            <span class="tw-chip">Flash Inject Instan (&lt;1s)</span>
-                            <span class="tw-chip">Follow Terrain DEM</span>
-                            <span class="tw-chip">Orbit Helix 3D</span>
-                            <span class="tw-chip">Peta Offline</span>
-                            <span class="tw-chip">Local Link &amp; Fleet Sync</span>
-                        </div>
+
 
                         <div class="tw-btns">
                             <a href="#unduh" class="tw-btn" style="background: var(--teal); color: #0A0E16; font-weight: 700; border-color: var(--teal);">
@@ -1464,41 +1549,23 @@
                             </a>
                         </div>
 
-                        <div class="tw-hero-stats">
-                            <div>
-                                <div class="tw-stat-val">0</div>
-                                <div class="tw-stat-label">Laptop Dibawa ke Lapangan</div>
-                            </div>
-                            <div>
-                                <div class="tw-stat-val">1 Klik</div>
-                                <div class="tw-stat-label">Injeksi Misi ke DJI Fly</div>
-                            </div>
-                            <div>
-                                <div class="tw-stat-val">100%</div>
-                                <div class="tw-stat-label">Autopilot Firmware Asli</div>
-                            </div>
-                            <div>
-                                <div class="tw-stat-val">Multi-Baterai</div>
-                                <div class="tw-stat-label">Split Misi Terintegrasi</div>
-                            </div>
-                        </div>
+
                     </div>
 
-                    <!-- Visualisasi DJI RC 2 dengan Layar Aplikasi TW Mapper -->
-                    <div class="tw-hero-art-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1.25rem; background: radial-gradient(circle at center, rgba(45, 212, 191, 0.08) 0%, rgba(10, 14, 22, 0.6) 80%); border: 1px solid var(--line-dark); border-radius: 8px; text-align: center;">
-                        <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line-dark); padding-bottom: 0.75rem; margin-bottom: 1.25rem;">
-                            <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--teal); font-weight: 600; letter-spacing: 0.05em;">DJI RC 2 // TW-MAPPER</span>
-                            <span style="font-family: var(--mono); font-size: 0.7rem; color: var(--muted-dark);">ANTARMUKA LAPANGAN</span>
+                    <!-- Antarmuka Aplikasi TW-Mapper Mobile -->
+                    <div class="tw-hero-art-box" style="padding: 0; background: #0A0E16; border: 1px solid var(--line-dark); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(45, 212, 191, 0.12);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid var(--line-dark); background: #06090E;">
+                            <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: #EF4444; display: inline-block;"></span>
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: #F59E0B; display: inline-block;"></span>
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+                            </div>
+                            <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--teal); font-weight: 600; letter-spacing: 0.05em;">TW-MAPPER MOBILE // FLIGHT PLANNER</span>
                         </div>
-
-                        <div style="position: relative; width: 100%; max-width: 440px; margin: 0 auto;">
-                            <img src="images/dji_rc2_twmapper.png" alt="Visualisasi DJI RC 2 dengan Layar Aplikasi TW Mapper" width="1000" height="1000" style="width: 100%; height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 30px rgba(45, 212, 191, 0.2)); border-radius: 6px;" loading="eager"/>
-                        </div>
-
-                        <div style="margin-top: 1.25rem; display: flex; align-items: center; justify-content: space-between; width: 100%; font-size: 0.8rem; color: var(--muted-dark); border-top: 1px solid var(--line-dark); padding-top: 0.75rem;">
-                            <span>&bull; Layar 5.5&quot; FHD Terintegrasi</span>
-                            <span style="color: var(--teal); font-weight: 500;">Antarmuka TW-Mapper Aktif</span>
-                        </div>
+                        <picture>
+                            <source srcset="images/features/boustrophedon_grid.webp" type="image/webp">
+                            <img src="images/features/boustrophedon_grid.png" alt="Antarmuka Aplikasi TW-Mapper Mobile" width="800" height="500" style="width: 100%; height: auto; display: block;" loading="eager"/>
+                        </picture>
                     </div>
                 </div>
             </div>
@@ -1557,27 +1624,21 @@
                             <!-- ROW 1: PAKET HOBBY -->
                             <div class="tw-row" id="paket-hobby">
                                 <div class="tw-tile">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                                        <line x1="3" y1="15" x2="21" y2="15"></line>
-                                        <line x1="9" y1="3" x2="9" y2="21"></line>
-                                        <line x1="15" y1="3" x2="15" y2="21"></line>
-                                    </svg>
+                                    <img src="images/icon_hobby.svg" alt="TW-Mapper Paket Hobby" width="100" height="100" loading="lazy"/>
                                 </div>
                                 <div>
                                     <div class="tw-name">
                                         🚁 TW-Mapper HOBBY
-                                        <span class="tw-chip">PEMETAAN ESSENTIAL</span>
+                                        <span class="tw-chip">PAKET LISENSI RESMI</span>
                                     </div>
                                     <p class="tw-one">
                                         Solusi mandiri lengkap untuk pemetaan foto udara grid, koridor jalan, dan orbit inspeksi di smart remote tanpa membawa laptop ke lapangan.
                                     </p>
                                     <div class="tw-chips">
-                                        <span class="tw-chip-solid">Semua Fitur Pemetaan</span>
+                                        <span class="tw-chip">Semua Fitur Pemetaan</span>
                                         <span class="tw-chip">Laporan Misi</span>
                                         <span class="tw-chip">Injeksi Berkas Standar</span>
-                                        <span class="tw-chip-teal">Flash Inject Instan (&lt;1s)</span>
+                                        <span class="tw-chip">Flash Inject Instan (&lt;1s)</span>
                                         <span class="tw-chip">Local Link (Direct Sync)</span>
                                         <span class="tw-chip">Split Misi (Hingga 5 Bagian)</span>
                                         <span class="tw-chip">Peta Offline</span>
@@ -1625,38 +1686,34 @@
                                 <div class="tw-buy">
                                     <div class="tw-price">Pilihan Paket</div>
                                     <div class="tw-price-sub">Opsi Beli &bull; Opsi Langganan</div>
-                                    <a href="https://wa.me/6285199391551?text=Halo%20Tim%20TW-Mapper,%20saya%20ingin%20memesan%20TW-Mapper%20Paket%20HOBBY" target="_blank" rel="noopener noreferrer" class="tw-btn-2" style="width: 100%;">
+                                    <a href="https://wa.me/6285199391551?text=Halo%20Tim%20TW-Mapper,%20saya%20ingin%20memesan%20TW-Mapper%20Paket%20HOBBY" target="_blank" rel="noopener noreferrer" class="tw-btn" style="width: 100%; justify-content: center;">
                                         Pilih Paket Hobby
                                     </a>
                                 </div>
                             </div>
 
-                            <!-- ROW 2: PAKET PRO (Featured) -->
-                            <div class="tw-row featured" id="paket-pro">
-                                <div class="tw-tile" style="border-color: var(--teal);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal-deep)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                                        <polyline points="2 17 12 22 22 17"></polyline>
-                                        <polyline points="2 12 12 17 22 12"></polyline>
-                                    </svg>
+                            <!-- ROW 2: PAKET PRO -->
+                            <div class="tw-row" id="paket-pro">
+                                <div class="tw-tile">
+                                    <img src="images/icon_pro.svg" alt="TW-Mapper Paket Pro" width="100" height="100" loading="lazy"/>
                                 </div>
                                 <div>
                                     <div class="tw-name">
                                         ⚡ TW-Mapper PRO
-                                        <span class="tw-chip-teal">FITUR LENGKAP &bull; PALING POPULER &bull; REKOMENDASI SURVEYOR</span>
+                                        <span class="tw-chip">PAKET LISENSI RESMI</span>
                                     </div>
                                     <p class="tw-one">
                                         Mencakup seluruh fitur Paket Hobby, ditambah Follow Terrain DEM otonom, Split Misi unlimited, Fleet Sync, TW Tweaks / DJI Fly Mod, dan Drone Tools lengkap.
                                     </p>
                                     <div class="tw-chips">
-                                        <span class="tw-chip-solid">Seluruh Fitur Hobby</span>
-                                        <span class="tw-chip-teal">Follow Terrain DEM Otonom</span>
-                                        <span class="tw-chip-teal">Split Misi Unlimited</span>
-                                        <span class="tw-chip-teal">TW Tweaks / DJI Fly Mod</span>
-                                        <span class="tw-chip-teal">Fleet Sync Antar-Remote</span>
-                                        <span class="tw-chip-teal">FCC Boost Radio</span>
-                                        <span class="tw-chip-teal">Altitude Unlock 500m</span>
-                                        <span class="tw-chip-teal">ATTI Mode Manual</span>
+                                        <span class="tw-chip">Seluruh Fitur Hobby</span>
+                                        <span class="tw-chip">Follow Terrain DEM Otonom</span>
+                                        <span class="tw-chip">Split Misi Unlimited</span>
+                                        <span class="tw-chip">TW Tweaks / DJI Fly Mod</span>
+                                        <span class="tw-chip">Fleet Sync Antar-Remote</span>
+                                        <span class="tw-chip">FCC Boost Radio</span>
+                                        <span class="tw-chip">Altitude Unlock 500m</span>
+                                        <span class="tw-chip">ATTI Mode Manual</span>
                                     </div>
                                     <ul class="tw-list">
                                         <li>
@@ -1702,9 +1759,9 @@
                                     </ul>
                                 </div>
                                 <div class="tw-buy">
-                                    <div class="tw-price">Fitur Lengkap</div>
-                                    <div class="tw-price-sub">Fitur Lengkap &bull; Opsi Beli & Langganan</div>
-                                    <a href="https://wa.me/6285199391551?text=Halo%20Tim%20TW-Mapper,%20saya%20ingin%20memesan%20TW-Mapper%20Paket%20PRO" target="_blank" rel="noopener noreferrer" class="tw-btn" style="width: 100%;">
+                                    <div class="tw-price">Pilihan Paket</div>
+                                    <div class="tw-price-sub">Opsi Beli &bull; Opsi Langganan</div>
+                                    <a href="https://wa.me/6285199391551?text=Halo%20Tim%20TW-Mapper,%20saya%20ingin%20memesan%20TW-Mapper%20Paket%20PRO" target="_blank" rel="noopener noreferrer" class="tw-btn" style="width: 100%; justify-content: center;">
                                         Pilih Paket Pro
                                     </a>
                                 </div>
@@ -1729,167 +1786,167 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" style="width: 36%;">Fitur & Kapabilitas</th>
-                                            <th scope="col" class="tw-vs-old" style="width: 32%; text-align: left;">
-                                                <span class="tw-table-badge-hobby">🚁 PAKET HOBBY</span>
+                                            <th scope="col" class="tw-vs-col" style="width: 32%; text-align: left;">
+                                                <span class="tw-table-badge">🚁 PAKET HOBBY</span>
                                             </th>
-                                            <th scope="col" class="tw-vs-us" style="width: 32%; text-align: left;">
-                                                <span class="tw-table-badge-pro">⚡ PAKET PRO (Rekomendasi)</span>
+                                            <th scope="col" class="tw-vs-col" style="width: 32%; text-align: left;">
+                                                <span class="tw-table-badge">⚡ PAKET PRO</span>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <th scope="row">Fitur Pemetaan Dasar & Lanjutan<br/><small style="font-weight: 400; color: var(--slate);">Grid, Koridor Jalan, Orbit Helix 3D continuous spiral, Elevation Profile 2D DEM, Breakpoint Resume, RTH Advisor, Asymmetrical Corridor</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Semua Fitur Pemetaan</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Semua Fitur Pemetaan</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Laporan Misi Fotogrametri<br/><small style="font-weight: 400; color: var(--slate);">Ringkasan statistik misi, estimasi foto, GSD, cakupan area survei</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Laporan Misi</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Laporan Misi</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Injeksi Berkas Standar<br/><small style="font-weight: 400; color: var(--slate);">Timpa berkas dummy di storage smart remote secara langsung</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Injeksi Berkas Standar</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Injeksi Berkas Standar</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Flash Inject Instan<br/><small style="font-weight: 400; color: var(--slate);">Kirim misi langsung ke DJI Fly dalam waktu &lt; 1 detik (membutuhkan TW Tweaks)</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Flash Inject Instan (&lt;1s)</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Flash Inject Instan (&lt;1s)</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Local Link (Direct Sync)<br/><small style="font-weight: 400; color: var(--slate);">Transfer misi nirkabel langsung dari laptop atau HP tanpa kuota internet</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Local Link (Direct Sync)</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Local Link (Direct Sync)</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Split Misi (Multi-Battery Division)<br/><small style="font-weight: 400; color: var(--slate);">Pembagian 1 rute terbang besar menjadi beberapa bagian eksekusi</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <strong style="color: var(--ink);">Hingga 5 Bagian Eksekusi</strong>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check"><strong>⚡ Unlimited (Tanpa Batas)</strong></span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Follow Terrain DEM Otonom<br/><small style="font-weight: 400; color: var(--slate);">Ketinggian drone otomatis mengikuti kontur bukit dan lembah (Data Elevasi DEM)</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-cross">❌ Tidak Tersedia</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Follow Terrain Otonom (GSD Konstan)</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">TW Tweaks / DJI Fly Mod<br/><small style="font-weight: 400; color: var(--slate);">Mendukung fitur modifikasi dan fitur tambahan pada aplikasi DJI Fly</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-cross">❌ Tidak Tersedia</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Didukung Penuh</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Fleet Sync Antar-Remote<br/><small style="font-weight: 400; color: var(--slate);">Transfer rute terbang langsung antar-remote tanpa internet atau laptop</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-cross">❌ Tidak Tersedia</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Fleet Sync Antar-Remote</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Drone Tools &mdash; FCC Boost<br/><small style="font-weight: 400; color: var(--slate);">Penguat sinyal transmisi radio untuk jangkauan sinyal maksimal & tembus rintangan</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-cross">❌ Tidak Tersedia</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ FCC Boost (Penguat Sinyal)</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Drone Tools &mdash; Altitude Unlock<br/><small style="font-weight: 400; color: var(--slate);">Membuka batas ketinggian penerbangan hingga 500 meter untuk survei tebing curam</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-cross">❌ Tidak Tersedia</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Altitude Unlock (Hingga 500 Meter)</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Drone Tools &mdash; ATTI Mode<br/><small style="font-weight: 400; color: var(--slate);">Kontrol penerbangan manual tanpa bantuan GPS untuk terbang di bawah kanopi lebat</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-cross">❌ Tidak Tersedia</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ ATTI Mode (Manual Anti-Jamming)</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Peta Offline (MBTiles)<br/><small style="font-weight: 400; color: var(--slate);">Bekerja di blank spot tanpa sinyal internet seluler</small></th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Peta Offline</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Peta Offline</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Masa Aktif Lisensi</th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Opsi Beli & Langganan</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Opsi Beli & Langganan</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Hak Migrasi Mandiri Antar-Remote</th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Mandiri via Google Account</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Mandiri via Google Account</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Dukungan & Pembaruan Fitur</th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <span class="tw-check">✅ Disediakan</span>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <span class="tw-check">✅ Disediakan</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Aksi Pemesanan</th>
-                                            <td class="tw-vs-old" data-label="Paket Hobby">
+                                            <td class="tw-vs-col" data-label="Paket Hobby">
                                                 <a href="https://wa.me/6285199391551?text=Halo%20Tim%20TW-Mapper,%20saya%20ingin%20memesan%20TW-Mapper%20Paket%20HOBBY" target="_blank" rel="noopener noreferrer" class="tw-btn-2" style="display: block; text-align: center; padding: 0.55rem 0.75rem; font-size: 0.85rem;">
                                                     Pesan Paket Hobby
                                                 </a>
                                             </td>
-                                            <td class="tw-vs-us" data-label="Paket Pro">
+                                            <td class="tw-vs-col" data-label="Paket Pro">
                                                 <a href="https://wa.me/6285199391551?text=Halo%20Tim%20TW-Mapper,%20saya%20ingin%20memesan%20TW-Mapper%20Paket%20PRO" target="_blank" rel="noopener noreferrer" class="tw-btn" style="display: block; text-align: center; padding: 0.55rem 0.75rem; font-size: 0.85rem;">
                                                     Pesan Paket Pro
                                                 </a>
@@ -2068,50 +2125,50 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Parameter Alur Kerja</th>
-                                        <th scope="col" class="tw-vs-old">Alur Lama (Laptop & Web)</th>
-                                        <th scope="col" class="tw-vs-us">Dengan TW-Mapper Mobile</th>
+                                        <th scope="col" class="tw-vs-col">Alur Lama (Laptop & Web)</th>
+                                        <th scope="col" class="tw-vs-col">Dengan TW-Mapper Mobile</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <th scope="row">Perangkat di Lapangan</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Harus membawa laptop, mouse, charger, dan tas besar ke kebun atau lokasi terpencil.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>Cukup remote di tangan:</strong> Tidak perlu bawa laptop, hemat tenaga dan mobilitas lincah.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Harus membawa laptop, mouse, charger, dan tas besar ke kebun atau lokasi terpencil.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>Cukup remote di tangan:</strong> Tidak perlu bawa laptop, hemat tenaga dan mobilitas lincah.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Perancangan Misi</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Wajib dirancang di web browser PC sebelum berangkat ke lokasi survei.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>Langsung di remote:</strong> Ketuk layar remote untuk gambar poligon area dalam hitungan detik.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Wajib dirancang di web browser PC sebelum berangkat ke lokasi survei.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>Langsung di remote:</strong> Ketuk layar remote untuk gambar poligon area dalam hitungan detik.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Pergeseran Batas Lahan</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Kaku: Jika batas lahan bergeser beberapa meter di lokasi, rute tidak bisa diedit tanpa laptop.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>Edit instan di lokasi:</strong> Geser titik poligon dan generate ulang jalur seketika.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Kaku: Jika batas lahan bergeser beberapa meter di lokasi, rute tidak bisa diedit tanpa laptop.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>Edit instan di lokasi:</strong> Geser titik poligon dan generate ulang jalur seketika.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Transfer Berkas Misi</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Ribet: Ekspor KMZ, colok kabel data USB atau bongkar pasang kartu microSD.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>1-Klik Injeksi:</strong> Otomatis tersalin ke folder Waypoint DJI Fly tanpa kabel.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Ribet: Ekspor KMZ, colok kabel data USB atau bongkar pasang kartu microSD.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>1-Klik Injeksi:</strong> Otomatis tersalin ke folder Waypoint DJI Fly tanpa kabel.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Survei Ratusan Hektar</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Harus membagi rute secara manual di software PC per perkiraan daya tahan baterai.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>Multi-Battery Split Otomatis:</strong> Aplikasi memecah area luas menjadi misi rapi per baterai.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Harus membagi rute secara manual di software PC per perkiraan daya tahan baterai.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>Multi-Battery Split Otomatis:</strong> Aplikasi memecah area luas menjadi misi rapi per baterai.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Ketahanan Sinyal Terhalang</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Aplikasi pihak ketiga via SDK virtual-stick rentan gagal/hover jika sinyal terputus.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>100% Autopilot Native:</strong> Koordinat diunggah ke drone; sinyal putus misi tetap tuntas & RTH aman.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Aplikasi pihak ketiga via SDK virtual-stick rentan gagal/hover jika sinyal terputus.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>100% Autopilot Native:</strong> Koordinat diunggah ke drone; sinyal putus misi tetap tuntas & RTH aman.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Kontur Lereng & Berbukit</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Terbang ketinggian flat berisiko menabrak lereng bukit atau ukuran GSD tidak seragam.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>Follow Terrain DEM Otonom:</strong> Drone naik-turun mengikuti kontur tanah otomatis.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Terbang ketinggian flat berisiko menabrak lereng bukit atau ukuran GSD tidak seragam.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>Follow Terrain DEM Otonom:</strong> Drone naik-turun mengikuti kontur tanah otomatis.</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Inspeksi Vertikal Menara</th>
-                                        <td class="tw-vs-old" data-label="Alur Lama (Laptop & Web)">Pola orbit manual atau cincin bertingkat yang boros baterai dan menangkap noise langit.</td>
-                                        <td class="tw-vs-us" data-label="Dengan TW-Mapper Mobile"><strong>Continuous Helix 3D:</strong> Pola spiral turun profesional, kamera menunduk anti-noise langit.</td>
+                                        <td class="tw-vs-col" data-label="Alur Lama (Laptop & Web)">Pola orbit manual atau cincin bertingkat yang boros baterai dan menangkap noise langit.</td>
+                                        <td class="tw-vs-col" data-label="Dengan TW-Mapper Mobile"><strong>Continuous Helix 3D:</strong> Pola spiral turun profesional, kamera menunduk anti-noise langit.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -2471,7 +2528,7 @@
                                 <svg class="tw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
-                                <span><strong>Berkas Resmi Google Drive:</strong> Unduh APK versi terbaru secara aman dan terverifikasi.</span>
+                                <span><strong>Berkas Unduhan Resmi:</strong> Unduh APK versi terbaru secara aman dan terverifikasi langsung.</span>
                             </li>
                             <li>
                                 <svg class="tw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -2514,7 +2571,7 @@
                                         <polyline points="7 10 12 15 17 10"></polyline>
                                         <line x1="12" y1="15" x2="12" y2="3"></line>
                                     </svg>
-                                    Unduh TW-Mapper (Drive)
+                                    Unduh TW-Mapper APK
                                 </a>
                             </div>
 
@@ -2538,7 +2595,7 @@
                                         <polyline points="7 10 12 15 17 10"></polyline>
                                         <line x1="12" y1="15" x2="12" y2="3"></line>
                                     </svg>
-                                    Unduh TW Tweaks (Drive)
+                                    Unduh TW Tweaks (Modul)
                                 </a>
                             </div>
 
@@ -2771,10 +2828,7 @@
                         <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener noreferrer" class="tw-btn-2" style="font-size: 0.875rem;">
                             ▶️ Video Tutorial Instalasi ↗
                         </a>
-                        <a href="https://ayopraktekin.blogspot.com/" target="_blank" rel="noopener noreferrer" class="tw-btn-2" style="font-size: 0.875rem;">
-                            🌐 Media Ajar AyoPraktekin ↗
-                        </a>
-                    </div>
+                                            </div>
                 </div>
             </div>
         </section>
@@ -2830,8 +2884,7 @@
                 <div>
                     <div class="footer-title">EDUKASI & KOMUNITAS</div>
                     <ul class="footer-links">
-                        <li><a href="https://ayopraktekin.blogspot.com/" target="_blank" rel="noopener noreferrer">AyoPraktekin (Media Ajar) ↗</a></li>
-                        <li><a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener noreferrer">Instagram @wan.drone.plg ↗</a></li>
+                                                <li><a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener noreferrer">Instagram @wan.drone.plg ↗</a></li>
                         <li><a href="https://tiktok.com/@wan.drone" target="_blank" rel="noopener noreferrer">TikTok @wan.drone ↗</a></li>
                         <li><a href="https://www.twstreamer.app/id" target="_blank" rel="noopener noreferrer">Throttle Warriors Official ↗</a></li>
                         <li><a href="https://wa.me/6281273934305" target="_blank" rel="noopener noreferrer">WhatsApp Pengembang ↗</a></li>

@@ -349,6 +349,72 @@
             max-width: 62ch;
         }
 
+        @media (max-width: 767px) {
+            .tw-side {
+                padding: 2.75rem 0 !important;
+            }
+            .tw-side-head {
+                margin-bottom: 1.5rem !important;
+                padding-right: 0 !important;
+            }
+            .tw-h2 {
+                font-size: 1.55rem !important;
+            }
+            .tw-hero {
+                padding-top: 2.5rem !important;
+                padding-bottom: 3rem !important;
+            }
+            .tw-hero h1 {
+                font-size: 1.85rem !important;
+                line-height: 1.18 !important;
+            }
+            .tw-hero .tw-standfirst {
+                font-size: 0.95rem !important;
+                line-height: 1.45 !important;
+            }
+            .tw-hero .tw-btns {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.65rem !important;
+                width: 100% !important;
+            }
+            .tw-hero .tw-btns a,
+            .tw-hero .tw-btns button {
+                width: 100% !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .tw-nav-consult {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-brand {
+                gap: 0.5rem;
+            }
+            .nav-brand img {
+                width: 32px;
+                height: 32px;
+            }
+            .nav-brand-title {
+                font-size: 1.125rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.625rem;
+                line-height: 1.15;
+            }
+            .nav-wrapper .tw-btn-2,
+            .nav-wrapper .tw-btn {
+                padding: 0.4rem 0.65rem !important;
+                font-size: 0.75rem !important;
+                min-height: 32px !important;
+            }
+        }
+
         .tw-side {
             padding: 4rem 0;
             background: #FFFFFF;
@@ -376,9 +442,9 @@
 
         .tw-row {
             display: grid;
-            grid-template-columns: 88px 1fr;
-            gap: 1rem 1.25rem;
-            padding: 1.5rem 0;
+            grid-template-columns: 76px 1fr;
+            gap: 1rem;
+            padding: 1.35rem 0;
             border-bottom: 1px solid var(--line);
             align-items: start;
         }
@@ -387,6 +453,25 @@
             .tw-row {
                 grid-template-columns: 110px 1fr 220px;
                 gap: 1.5rem;
+                padding: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .tw-row .tw-buy {
+                grid-column: 1 / -1;
+                width: 100%;
+                margin-top: 0.25rem;
+            }
+            .tw-row .tw-buy .tw-price {
+                display: none;
+            }
+            .tw-row .tw-buy a,
+            .tw-row .tw-buy button {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                text-align: center;
             }
         }
 
@@ -394,14 +479,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 88px;
-            height: 88px;
+            width: 76px;
+            height: 76px;
             background: #FFFFFF;
             border: 1px solid var(--line);
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             overflow: hidden;
             padding: 0;
+            flex-shrink: 0;
         }
 
         @media (min-width: 768px) {
@@ -499,10 +585,24 @@
             line-height: 1.45;
         }
 
+        /* Comparison Table (.tw-vs) */
+        .tw-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1rem 0 0.5rem;
+            background: #FFFFFF;
+        }
+
+        .tw-table-hint {
+            display: none;
+        }
+
         .tw-vs {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0 0.5rem;
             font-variant-numeric: tabular-nums;
         }
 
@@ -535,6 +635,24 @@
 
         .tw-vs thead .tw-vs-us {
             border-top: 2px solid var(--teal-deep);
+        }
+
+        @media (max-width: 640px) {
+            .tw-table-hint {
+                display: block;
+                font-size: 0.75rem;
+                color: var(--slate);
+                margin: 0.85rem 0 0.35rem;
+                text-align: right;
+            }
+            .tw-table-wrap .tw-vs {
+                min-width: 480px;
+                margin: 0;
+            }
+            .tw-vs th, .tw-vs td {
+                padding: 0.6rem 0.75rem;
+                font-size: 0.8125rem;
+            }
         }
 
         /* Contact Card Style */
@@ -649,7 +767,7 @@
                     <a href="index.html" class="tw-btn-2" style="padding: 0.45rem 0.85rem; min-height: 36px; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;">
                         &larr; Halaman Utama
                     </a>
-                    <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20informasi%20dan%20aktivasi%20lisensi%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn" style="padding: 0.45rem 0.85rem; min-height: 36px; font-size: 0.8125rem;">
+                    <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20informasi%20dan%20aktivasi%20lisensi%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn tw-nav-consult" style="padding: 0.45rem 0.85rem; min-height: 36px; font-size: 0.8125rem;">
                         Konsultasi Lisensi
                     </a>
                 </div>
@@ -770,77 +888,80 @@
                         </div>
 
                         <!-- Comparison Table -->
-                        <table class="tw-vs">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Fitur &amp; Kemampuan</th>
-                                    <th scope="col">Paket Hobby</th>
-                                    <th scope="col" class="tw-vs-us">Paket Pro</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Semua Fitur Pemetaan (Grid, KML, Koridor, Orbit 3D)</th>
-                                    <td>Ya</td>
-                                    <td class="tw-vs-us">Ya</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Laporan Misi Penerbangan</th>
-                                    <td>Ya</td>
-                                    <td class="tw-vs-us">Ya</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Injeksi Berkas Standar (Timpa Dummy)</th>
-                                    <td>Ya</td>
-                                    <td class="tw-vs-us">Ya</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Flash Inject Instan (&lt; 1 Detik via TW Tweaks)</th>
-                                    <td>Ya</td>
-                                    <td class="tw-vs-us">Ya</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Local Link / Direct Sync (Nirkabel Tanpa Kuota)</th>
-                                    <td>Ya</td>
-                                    <td class="tw-vs-us">Ya</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Split Misi Multi-Baterai</th>
-                                    <td>Hingga 5 Bagian</td>
-                                    <td class="tw-vs-us"><strong>Unlimited (Tanpa Batas)</strong></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Follow Terrain (Ketinggian Ikuti Bukit &amp; Lembah)</th>
-                                    <td>Tidak</td>
-                                    <td class="tw-vs-us"><strong>Ya (Otomatis DEM)</strong></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">TW Tweaks / DJI Fly Mod (Dukungan Fitur Tambahan)</th>
-                                    <td>Tidak</td>
-                                    <td class="tw-vs-us"><strong>Ya</strong></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Fleet Sync (Transfer Rute Langsung Antar-Remote)</th>
-                                    <td>Tidak</td>
-                                    <td class="tw-vs-us"><strong>Ya</strong></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Drone Tools: FCC Boost (Penguat Sinyal Transmisi)</th>
-                                    <td>Tidak</td>
-                                    <td class="tw-vs-us"><strong>Ya</strong></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Drone Tools: Altitude Unlock (Buka Batas hingga 500m)</th>
-                                    <td>Tidak</td>
-                                    <td class="tw-vs-us"><strong>Ya</strong></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Drone Tools: ATTI Mode (Manual Tanpa GPS)</th>
-                                    <td>Tidak</td>
-                                    <td class="tw-vs-us"><strong>Ya</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="tw-table-hint">&larr; Geser tabel untuk melihat perbandingan &rarr;</div>
+                        <div class="tw-table-wrap">
+                            <table class="tw-vs">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Fitur &amp; Kemampuan</th>
+                                        <th scope="col">Paket Hobby</th>
+                                        <th scope="col" class="tw-vs-us">Paket Pro</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Semua Fitur Pemetaan (Grid, KML, Koridor, Orbit 3D)</th>
+                                        <td>Ya</td>
+                                        <td class="tw-vs-us">Ya</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Laporan Misi Penerbangan</th>
+                                        <td>Ya</td>
+                                        <td class="tw-vs-us">Ya</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Injeksi Berkas Standar (Timpa Dummy)</th>
+                                        <td>Ya</td>
+                                        <td class="tw-vs-us">Ya</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Flash Inject Instan (&lt; 1 Detik via TW Tweaks)</th>
+                                        <td>Ya</td>
+                                        <td class="tw-vs-us">Ya</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Local Link / Direct Sync (Nirkabel Tanpa Kuota)</th>
+                                        <td>Ya</td>
+                                        <td class="tw-vs-us">Ya</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Split Misi Multi-Baterai</th>
+                                        <td>Hingga 5 Bagian</td>
+                                        <td class="tw-vs-us"><strong>Unlimited (Tanpa Batas)</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Follow Terrain (Ketinggian Ikuti Bukit &amp; Lembah)</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya (Otomatis DEM)</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">TW Tweaks / DJI Fly Mod (Dukungan Fitur Tambahan)</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Fleet Sync (Transfer Rute Langsung Antar-Remote)</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Drone Tools: FCC Boost (Penguat Sinyal Transmisi)</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Drone Tools: Altitude Unlock (Buka Batas hingga 500m)</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Drone Tools: ATTI Mode (Manual Tanpa GPS)</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

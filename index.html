@@ -1,90 +1,696 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id-ID" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    
     <title>WanDrone APP</title>
-    <meta name="description" content="Aplikasi pemetaan drone otonom mandiri langsung di remote controller DJI RC 2, RC Pro, RC Pro 2, dan HP/Tablet. Rencanakan jalur terbang, ikuti kontur bukit, dan kirim misi tanpa laptop.">
+    <meta name="description" content="Aplikasi pemetaan drone otonom langsung di remote controller DJI RC 2, RC Pro, RC Pro 2, dan HP/Tablet. Rencanakan jalur terbang, ikuti kontur bukit, dan kirim misi tanpa laptop. Dilengkapi Free Trial 7 Hari."/>
+    
+    <!-- OpenGraph / Social Meta -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="WanDrone APP | Pemetaan Drone Otonom di Remote Controller"/>
+    <meta property="og:site_name" content="WanDrone"/>
+    <meta property="og:description" content="Pemetaan otonom mandiri langsung di remote controller tanpa laptop. Dilengkapi Free Trial 7 Hari, Follow Terrain, dan Flash Inject instan."/>
+    <meta property="og:image" content="favicon.png"/>
     
     <!-- Favicon WanDrone -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+    <link rel="apple-touch-icon" href="favicon.png"/>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            950: '#070a12',
-                            900: '#0b1120',
-                            850: '#0f172a',
-                            800: '#15203b',
-                            700: '#1e293b',
-                            600: '#334155'
-                        },
-                        accent: {
-                            cyan: '#06b6d4',
-                            emerald: '#10b981',
-                            blue: '#3b82f6',
-                            purple: '#8b5cf6',
-                            amber: '#f59e0b'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Google Fonts: Barlow Semi Condensed (Headings/Display) + IBM Plex Sans (Body) + JetBrains Mono (Tech/Specs) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 
     <style>
+        :root {
+            --ink: #0A0E16;
+            --slate: #3A4657;
+            --line: #D6DCE5;
+            --mist: #F3F5F8;
+            --teal: #2DD4BF;
+            --teal-deep: #0F766E;
+            --teal-hover: #22B8A6;
+            --teal-down: #1FA896;
+            --ink-dark: #E8EEF4;
+            --muted-dark: #9FB0C4;
+            --line-dark: rgba(232, 238, 244, 0.14);
+            --fill-dark: rgba(232, 238, 244, 0.10);
+            --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+            --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+            --nav-height: 64px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
         body {
-            background-color: #070a12;
-            color: #e2e8f0;
-            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: var(--slate);
+            font-family: var(--body);
+            font-size: 1rem;
+            line-height: 1.55;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
         }
 
-        .bg-grid-pattern {
-            background-image: radial-gradient(rgba(14, 165, 233, 0.12) 1px, transparent 1px);
-            background-size: 28px 28px;
+        /* Responsive Grid & Containers matching twstreamer */
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
         }
 
-        .glow-cyan {
-            box-shadow: 0 0 40px -10px rgba(6, 182, 212, 0.35);
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -0.75rem;
+            margin-right: -0.75rem;
         }
 
-        .glow-emerald {
-            box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.35);
+        [class*="col-"] {
+            position: relative;
+            width: 100%;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
         }
 
-        .glass-card {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .col-12 { flex: 0 0 100%; max-width: 100%; }
+        .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+        .col-md-6 { flex: 0 0 100%; max-width: 100%; }
+        .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+        .col-lg-6 { flex: 0 0 100%; max-width: 100%; }
+        .col-lg-8 { flex: 0 0 100%; max-width: 100%; }
+
+        @media (min-width: 768px) {
+            .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+            .col-md-6 { flex: 0 0 50%; max-width: 50%; }
         }
 
-        .glass-card:hover {
-            border-color: rgba(6, 182, 212, 0.3);
+        @media (min-width: 992px) {
+            .col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+            .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
+            .col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
         }
 
-        /* SVG Vector Animation Styles */
-        @keyframes dash {
-            to {
-                stroke-dashoffset: -120;
+        .align-items-center { align-items: center; }
+        .justify-content-between { justify-content: space-between; }
+        .d-flex { display: flex; }
+
+        /* Typography */
+        h1, h2, h3, h4, .tw-h2, .tw-name, .tw-price {
+            font-family: var(--display);
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            color: var(--ink-dark);
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 3.25rem; }
+        }
+
+        .tw-h2 {
+            font-size: 1.953rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tw-standfirst {
+            font-size: 1.125rem;
+            line-height: 1.5;
+            color: var(--slate);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Top Announcement Bar */
+        .tw-announcement {
+            background: #06090e;
+            border-bottom: 1px solid var(--line-dark);
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
+            text-align: center;
+        }
+        .tw-announcement strong {
+            color: var(--teal);
+            font-weight: 600;
+        }
+        .tw-announcement a {
+            color: var(--ink-dark);
+            text-decoration: underline;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+        .tw-announcement a:hover {
+            color: var(--teal);
+        }
+
+        /* Navigation Header */
+        header#top {
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: var(--nav-height);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .nav-brand img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .nav-brand-text {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-trial-badge {
+            font-family: var(--body);
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(15, 118, 110, 0.12);
+            color: var(--teal-deep);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .nav-menu {
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        @media (min-width: 860px) {
+            .nav-menu { display: flex; }
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--slate);
+            text-decoration: none;
+            transition: color 120ms;
+        }
+
+        .nav-link:hover {
+            color: var(--teal-deep);
+        }
+
+        /* Buttons matching twstreamer.app */
+        .tw-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            align-items: center;
+        }
+
+        .tw-btn, .tw-btn-2, .tw-btn-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--body);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            line-height: 1.2;
+            padding: 0.75rem 1.25rem;
+            min-height: 44px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            text-decoration: none;
+            transition: background-color 120ms, border-color 120ms, color 120ms;
+            cursor: pointer;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .tw-btn-lg {
+            font-size: 1rem;
+            padding: 0.875rem 1.75rem;
+            min-height: 50px;
+        }
+
+        .tw-btn {
+            background: var(--teal) !important;
+            border-color: var(--teal) !important;
+            color: var(--ink) !important;
+        }
+
+        .tw-btn:hover {
+            background: var(--teal-hover) !important;
+            border-color: var(--teal-hover) !important;
+            color: var(--ink) !important;
+        }
+
+        .tw-btn:active {
+            background: var(--teal-down) !important;
+            border-color: var(--teal-down) !important;
+        }
+
+        .tw-btn-2 {
+            background: transparent !important;
+            border-color: var(--ink) !important;
+            color: var(--ink) !important;
+        }
+
+        .tw-btn-2:hover {
+            background: var(--line) !important;
+            color: var(--ink) !important;
+        }
+
+        .tw-band .tw-btn-2 {
+            border-color: var(--ink-dark) !important;
+            color: var(--ink-dark) !important;
+        }
+
+        .tw-band .tw-btn-2:hover {
+            background: var(--fill-dark) !important;
+            color: var(--ink-dark) !important;
+        }
+
+        .tw-btn-wa {
+            background: #25D366 !important;
+            border-color: #25D366 !important;
+            color: #FFFFFF !important;
+        }
+
+        .tw-btn-wa:hover {
+            background: #20BA5A !important;
+            border-color: #20BA5A !important;
+        }
+
+        /* Chips / Badges */
+        .tw-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.5rem 0 0.75rem;
+        }
+
+        .tw-chip, .tw-chip-solid {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.4;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            color: var(--slate);
+        }
+
+        .tw-chip-solid {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--mist);
+        }
+
+        .tw-band .tw-chip {
+            border-color: var(--line-dark);
+            color: var(--muted-dark);
+        }
+
+        .tw-band .tw-chip-solid {
+            background: rgba(45, 212, 191, 0.15);
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        /* Dark Hero Band */
+        .tw-band {
+            background: var(--ink);
+            color: var(--muted-dark);
+            padding: 4rem 0;
+        }
+
+        .tw-hero {
+            padding-top: 3.5rem;
+            padding-bottom: 4.5rem;
+        }
+
+        .tw-hero .tw-standfirst {
+            color: var(--muted-dark);
+            font-size: 1.25rem;
+            line-height: 1.45;
+            max-width: 62ch;
+        }
+
+        /* Side-by-Side Section Layout (.tw-side) */
+        .tw-side {
+            padding: 4.5rem 0;
+            background: #FFFFFF;
+            border-top: 1px solid var(--line);
+        }
+
+        .tw-side.tw-side-alt {
+            background: var(--mist);
+        }
+
+        .tw-side-head {
+            margin-bottom: 2rem;
+            padding-right: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .tw-side-head {
+                margin-bottom: 0;
             }
+        }
+
+        .tw-side-head .tw-standfirst {
+            font-size: 1.0625rem;
+        }
+
+        /* Product & Feature Rows (.tw-rows & .tw-row) */
+        .tw-rows {
+            border-top: 1px solid var(--line);
+        }
+
+        .tw-row {
+            display: grid;
+            grid-template-columns: 88px 1fr;
+            gap: 1rem 1.25rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--line);
+            align-items: start;
+        }
+
+        @media (min-width: 768px) {
+            .tw-row {
+                grid-template-columns: 110px 1fr 220px;
+                gap: 1.5rem;
+            }
+        }
+
+        .tw-row-plain {
+            grid-template-columns: 1fr auto;
+        }
+
+        .tw-tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 88px;
+            height: 88px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .tw-tile {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        .tw-tile img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .tw-name {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--ink);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .tw-one {
+            color: var(--slate);
+            font-size: 0.9375rem;
+            margin: 0.25rem 0 0.5rem;
+            line-height: 1.45;
+        }
+
+        .tw-buy {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            grid-column: 2;
+        }
+
+        @media (min-width: 768px) {
+            .tw-buy {
+                grid-column: auto;
+                align-items: flex-end;
+            }
+        }
+
+        .tw-price {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        /* Ordered Steps (.tw-steps) */
+        .tw-steps {
+            list-style: none;
+            counter-reset: tw;
+            margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .tw-steps li {
+            counter-increment: tw;
+            display: grid;
+            grid-template-columns: 2.5rem 1fr;
+            gap: 1.25rem;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--line);
+            color: var(--ink);
+            align-items: baseline;
+        }
+
+        .tw-steps li::before {
+            content: counter(tw);
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1.75rem;
+            color: var(--teal-deep);
+            line-height: 1;
+        }
+
+        .tw-step-title {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.25rem;
+        }
+
+        .tw-step-desc {
+            font-size: 0.9375rem;
+            color: var(--slate);
+            line-height: 1.45;
+        }
+
+        /* Comparison Table (.tw-vs) */
+        .tw-vs {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tw-vs th, .tw-vs td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle;
+            font-size: 0.9375rem;
+        }
+
+        .tw-vs thead th {
+            font-family: var(--display);
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 1.05rem;
+            background: #FFFFFF;
+        }
+
+        .tw-vs tbody th {
+            font-weight: 500;
+            color: var(--slate);
+        }
+
+        .tw-vs .tw-vs-us {
+            background: rgba(45, 212, 191, 0.08);
+            color: var(--teal-deep);
+            font-weight: 600;
+        }
+
+        .tw-vs thead .tw-vs-us {
+            border-top: 2px solid var(--teal-deep);
+        }
+
+        /* Lists */
+        .tw-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tw-list li {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--line);
+            color: var(--slate);
+            font-size: 0.9375rem;
+        }
+
+        .tw-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .tw-icon-check {
+            flex: 0 0 18px;
+            color: var(--teal-deep);
+            font-weight: bold;
+        }
+
+        /* Interactive Tabs for Features */
+        .tw-tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tw-tab-btn {
+            font-family: var(--body);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            background: #FFFFFF;
+            color: var(--slate);
+            cursor: pointer;
+            transition: all 120ms;
+        }
+
+        .tw-tab-btn:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+
+        .tw-tab-btn.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--mist);
+        }
+
+        .tw-feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .tw-feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .tw-feature-card {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tw-side-alt .tw-feature-card {
+            background: #FFFFFF;
+        }
+
+        .tw-feature-card h3 {
+            font-size: 1.15rem;
+            margin: 0.75rem 0 0.35rem;
+            color: var(--ink);
+        }
+
+        .tw-feature-card p {
+            font-size: 0.875rem;
+            color: var(--slate);
+            line-height: 1.45;
+        }
+
+        .tw-feature-art {
+            width: 100%;
+            height: 120px;
+            background: var(--ink);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SVG Animations */
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
         }
         @keyframes pulse-ring {
             0% { transform: scale(0.9); opacity: 0.8; }
@@ -92,1075 +698,843 @@
             100% { transform: scale(0.9); opacity: 0.8; }
         }
         @keyframes drone-float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-6px) rotate(2deg); }
-        }
-        @keyframes radar-sweep {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes signal-flow {
-            0% { stroke-dashoffset: 60; }
-            100% { stroke-dashoffset: 0; }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
         }
 
         .anim-dash {
-            stroke-dasharray: 8 6;
-            animation: dash 5s linear infinite;
-        }
-        .anim-drone {
-            animation: drone-float 3s ease-in-out infinite;
+            stroke-dasharray: 6 4;
+            animation: dash 4s linear infinite;
         }
         .anim-pulse {
             transform-origin: center;
             animation: pulse-ring 2.5s ease-in-out infinite;
         }
-        .anim-radar {
-            transform-origin: 100px 100px;
-            animation: radar-sweep 4s linear infinite;
+        .anim-drone {
+            animation: drone-float 3s ease-in-out infinite;
         }
-        .anim-signal {
-            stroke-dasharray: 12 12;
-            animation: signal-flow 2s linear infinite;
+
+        /* End Band */
+        .tw-band-end {
+            padding: 4.5rem 0;
+            text-align: center;
+        }
+
+        .tw-close .tw-h2 {
+            font-size: 2.25rem;
+            color: var(--ink-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .tw-close p {
+            max-width: 60ch;
+            margin: 0 auto 1.5rem;
+            color: var(--muted-dark);
+            font-size: 1.125rem;
+        }
+
+        .tw-close .tw-btns {
+            justify-content: center;
+        }
+
+        /* Footer */
+        footer.tw-band {
+            padding: 3.5rem 0 2rem;
+            border-top: 1px solid var(--line-dark);
+        }
+
+        footer .tw-h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        footer .tw-list li {
+            border-bottom: 0;
+            padding: 0.25rem 0;
+            color: var(--muted-dark);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--muted-dark);
+            text-decoration: none;
+            transition: color 120ms;
+        }
+
+        footer a:hover {
+            color: var(--teal);
+            text-decoration: underline;
+        }
+
+        .tw-foot-legal {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line-dark);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
         }
     </style>
 </head>
-<body class="bg-dark-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
+<body id="wrapwrap">
 
     <!-- Top Announcement Bar (Trial 7 Hari) -->
-    <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-emerald-950 border-b border-cyan-500/20 px-4 py-2.5 text-center text-xs sm:text-sm">
-        <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 flex-wrap">
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-semibold border border-cyan-500/30 text-xs">
-                Uji Coba Gratis
-            </span>
-            <span class="text-slate-300">Rasakan kemudahan pemetaan otonom langsung di remote controller Anda — <strong>Free Trial 7 Hari Penuh</strong></span>
-            <a href="#trial-hub" class="inline-flex items-center text-cyan-400 font-semibold hover:text-cyan-300 ml-1 underline underline-offset-4 transition">
-                Coba Sekarang &rarr;
-            </a>
-        </div>
+    <div class="tw-announcement">
+        <span>🎉 <strong>FREE TRIAL 7 HARI TERSEDIA</strong> — Coba pemetaan otonom langsung di remote controller Anda tanpa biaya awal.</span>
+        <a href="#trial-hub">Unduh Trial Sekarang &rarr;</a>
     </div>
 
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-dark-950/80 backdrop-blur-xl border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- Logo & Brand -->
-                <div class="flex items-center gap-3">
-                    <a href="#" class="flex items-center gap-3 group">
-                        <img src="favicon.png" alt="WanDrone Logo" class="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(6,182,212,0.4)] group-hover:scale-105 transition">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg sm:text-xl font-bold tracking-tight text-white font-mono">WanDrone</span>
-                                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider">TW-Mapper</span>
-                            </div>
-                            <p class="text-[10px] text-slate-400 hidden sm:block">Autonomous Drone Survey System</p>
-                        </div>
-                    </a>
-                </div>
+    <!-- Main Navigation Bar -->
+    <header id="top" role="banner">
+        <div class="container">
+            <nav class="nav-wrapper" aria-label="Navigasi Utama">
+                <a href="#" class="nav-brand">
+                    <img src="favicon.png" alt="WanDrone Logo"/>
+                    <span class="nav-brand-text">
+                        WanDrone APP
+                        <span class="nav-trial-badge">TW-Mapper</span>
+                    </span>
+                </a>
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-                    <a href="#trial-hub" class="hover:text-cyan-400 transition flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        Trial 7 Hari
-                    </a>
-                    <a href="#kemudahan" class="hover:text-cyan-400 transition">Kemudahan</a>
-                    <a href="#fitur" class="hover:text-cyan-400 transition">Fitur Unggulan</a>
-                    <a href="#produk" class="hover:text-cyan-400 transition">Pilihan Lisensi</a>
-                    <a href="#kompatibilitas" class="hover:text-cyan-400 transition">Perangkat</a>
-                    <a href="#kontak" class="hover:text-cyan-400 transition">Sosial Media</a>
-                </div>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a role="menuitem" href="#trial-hub" class="nav-link">Trial 7 Hari</a></li>
+                    <li role="none"><a role="menuitem" href="#kemudahan" class="nav-link">Kemudahan</a></li>
+                    <li role="none"><a role="menuitem" href="#fitur" class="nav-link">Fitur</a></li>
+                    <li role="none"><a role="menuitem" href="#produk" class="nav-link">Lisensi</a></li>
+                    <li role="none"><a role="menuitem" href="#kompatibilitas" class="nav-link">Perangkat</a></li>
+                    <li role="none"><a role="menuitem" href="#kontak" class="nav-link">Sosial Media</a></li>
+                </ul>
 
-                <!-- CTA Button -->
-                <div class="flex items-center gap-3">
-                    <a href="https://wa.me/6285199391551?text=Halo%20WanDrone,%20saya%20tertarik%20dengan%20aplikasi%20pemetaan%20TW-Mapper" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-semibold text-xs tracking-wide shadow-lg shadow-cyan-500/20 hover:brightness-110 active:scale-95 transition">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+                <div>
+                    <a href="https://wa.me/6285199391551?text=Halo%20WanDrone,%20saya%20tertarik%20dengan%20aplikasi%20pemetaan%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn" style="padding: 0.5rem 1rem; min-height: 38px; font-size: 0.875rem;">
                         Layanan Lisensi
                     </a>
-
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-btn" type="button" class="md:hidden p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:text-white" aria-label="Buka Menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-                    </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-6 bg-dark-900/95 border-b border-slate-800 space-y-3">
-            <a href="#trial-hub" class="block px-3 py-2 rounded-md text-base font-medium text-cyan-400 hover:bg-slate-800">Trial 7 Hari & Tutorial</a>
-            <a href="#kemudahan" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Kemudahan Utama</a>
-            <a href="#fitur" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Fitur Unggulan</a>
-            <a href="#produk" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Pilihan Lisensi</a>
-            <a href="#kompatibilitas" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Kompatibilitas Perangkat</a>
-            <a href="#kontak" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Sosial Media & Kontak</a>
-            <a href="https://wa.me/6285199391551" target="_blank" rel="noopener noreferrer" class="block w-full text-center py-2.5 rounded-lg bg-cyan-500 text-white font-semibold text-sm">Chat WhatsApp Lisensi</a>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION: Simple, Human-Friendly, High-Impact -->
-    <header class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 bg-grid-pattern overflow-hidden">
-        <!-- Glow Orbs -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none"></div>
-        <div class="absolute top-1/3 right-10 w-[400px] h-[300px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto">
-                <!-- Eyebrow Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/30 text-cyan-400 text-xs sm:text-sm font-medium mb-6 backdrop-blur shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                    Pemetaan Otonom Mandiri di Remote Controller
-                </div>
-
-                <!-- Main Headline -->
-                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight sm:leading-tight mb-6">
-                    Pemetaan Drone Otonom <br class="hidden sm:inline">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
-                        Langsung di Remote Controller
-                    </span>
-                </h1>
-
-                <!-- Clear Subtitle (Ramah Orang Awam) -->
-                <p class="text-base sm:text-xl text-slate-300 font-normal leading-relaxed mb-8">
-                    Rencanakan jalur terbang, ikuti kontur bukit perbukitan secara presisi, dan kirim misi ke drone secara instan tanpa perlu repot membawa laptop ke tengah lapangan.
-                </p>
-
-                <!-- Value Chips -->
-                <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-10 text-xs sm:text-sm text-slate-300">
-                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-slate-800">
-                        <span class="text-emerald-400">✓</span> 100% Tanpa Perlu Laptop
-                    </div>
-                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-slate-800">
-                        <span class="text-cyan-400">⚡</span> Kirim Misi Instan (&lt; 1 Detik)
-                    </div>
-                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-slate-800">
-                        <span class="text-emerald-400">🛡️</span> Sinyal Putus Misi Tetap Berjalan
-                    </div>
-                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-slate-800">
-                        <span class="text-cyan-400">🎁</span> Free Trial 7 Hari Penuh
-                    </div>
-                </div>
-
-                <!-- CTA Actions -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="#trial-hub" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-semibold text-sm sm:text-base shadow-xl shadow-cyan-500/25 hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Coba Gratis 7 Hari
-                    </a>
-                    <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-dark-900 border border-slate-700 text-slate-200 font-semibold text-sm sm:text-base hover:bg-dark-800 hover:border-cyan-500/40 transition flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                        Tonton Video Tutorial
-                    </a>
-                </div>
-            </div>
-
-            <!-- Hero Mockup & System Architecture Display -->
-            <div class="mt-14 max-w-5xl mx-auto">
-                <div class="rounded-2xl p-2 bg-gradient-to-b from-slate-700/40 via-slate-800/20 to-transparent border border-slate-700/60 shadow-2xl backdrop-blur-xl">
-                    <div class="rounded-xl bg-dark-900 border border-slate-800 p-4 sm:p-6">
-                        <!-- Top Bar of Planner Window -->
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
-                            <div class="flex items-center gap-2">
-                                <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-                                <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                                <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                                <span class="ml-2 text-xs font-mono text-slate-400">TW-Mapper // Flight Planner Monitor</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-xs font-mono text-cyan-400">
-                                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                                Standalone Autonomous Engine
-                            </div>
-                        </div>
-
-                        <!-- Grid Info Mockup -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Column 1: Hardware Support -->
-                            <div class="p-4 rounded-xl bg-dark-850 border border-slate-800/80">
-                                <div class="text-xs font-mono uppercase text-cyan-400 tracking-wider mb-2">Perangkat Remote</div>
-                                <h3 class="text-sm font-bold text-white mb-1">RC 2 • RC Pro • RC Pro 2 • HP/Tablet</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    Berjalan langsung di sistem Android remote controller (layar 5.5" FHD) maupun smartphone/tablet via kabel remote seri RC-N.
-                                </p>
-                            </div>
-
-                            <!-- Column 2: Flash Inject -->
-                            <div class="p-4 rounded-xl bg-dark-850 border border-slate-800/80">
-                                <div class="text-xs font-mono uppercase text-emerald-400 tracking-wider mb-2">Proses Injeksi Misi</div>
-                                <h3 class="text-sm font-bold text-white mb-1">Flash Inject Instan (&lt; 1 Detik)</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    Misi tersimpan otomatis ke direktori resmi remote tanpa jeda SDK virtual stick. Drone siap langsung lepas landas.
-                                </p>
-                            </div>
-
-                            <!-- Column 3: Flight Autonomy -->
-                            <div class="p-4 rounded-xl bg-dark-850 border border-slate-800/80">
-                                <div class="text-xs font-mono uppercase text-accent-blue tracking-wider mb-2">Autopilot Drone</div>
-                                <h3 class="text-sm font-bold text-white mb-1">Misi Tersimpan di Memori Drone</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    Didukung Mini 4/5 Pro, Air 3/3S, Mavic 3/4 Pro. Jika sinyal terputus di balik bukit, misi tetap tuntas dan RTH aman.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </nav>
         </div>
     </header>
 
-    <!-- SECTION 2: ZONA COBA GRATIS & PANDUAN CEPAT (TRIAL HUB) -->
-    <section id="trial-hub" class="py-16 sm:py-24 bg-dark-900 border-y border-slate-800 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-14">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-                    Zona Uji Coba & Dokumen
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                    Mulai Dalam 3 Menit — Coba Gratis & Pelajari Panduannya
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300">
-                    Unduh file aplikasi, tonton video tutorial instalasi di remote controller, dan pelajari dokumentasi lengkapnya.
-                </p>
-            </div>
+    <main id="wrap">
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1: APK Trial -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-slate-800 hover:border-cyan-500/40 transition">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-5">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        <!-- HERO SECTION: Authentic twstreamer Dark Band -->
+        <section class="tw-band tw-hero" id="hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="tw-chips" style="margin-bottom: 1rem;">
+                            <span class="tw-chip-solid">Pemetaan Otonom Mandiri</span>
+                            <span class="tw-chip">Tanpa Laptop</span>
                         </div>
-                        <div class="inline-block px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-xs font-semibold mb-2">Free Trial 7 Hari</div>
-                        <h3 class="text-lg font-bold text-white mb-2">Aplikasi TW-Mapper</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 mb-6 leading-relaxed">
-                            Pasang langsung di remote controller Anda dan rasakan kemudahan membuat misi pemetaan otonom tanpa biaya di awal.
-                        </p>
-                    </div>
-                    <a href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-cyan-500 text-white font-semibold text-xs tracking-wide text-center hover:bg-cyan-400 transition flex items-center justify-center gap-1.5 shadow-md shadow-cyan-500/20">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Unduh Aplikasi Trial
-                    </a>
-                </div>
 
-                <!-- Card 2: Video Tutorial YouTube -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-slate-800 hover:border-red-500/40 transition">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 mb-5">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        <h1>Pemetaan drone otonom, langsung di remote-mu.</h1>
+
+                        <p class="tw-standfirst">
+                            Rencanakan jalur terbang, ikuti kontur bukit secara presisi, dan kirim misi ke drone secara instan tanpa perlu repot membawa laptop ke lapangan.
+                        </p>
+
+                        <div class="tw-chips" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+                            <span class="tw-chip-solid">100% Mandiri Tanpa Laptop</span>
+                            <span class="tw-chip">Kirim Misi &lt; 1 Detik</span>
+                            <span class="tw-chip-solid">Sinyal Putus Misi Berjalan</span>
+                            <span class="tw-chip">Trial 7 Hari</span>
                         </div>
-                        <div class="inline-block px-2.5 py-0.5 rounded bg-red-500/10 text-red-400 text-xs font-semibold mb-2">Video Tutorial</div>
-                        <h3 class="text-lg font-bold text-white mb-2">Panduan Instalasi & Terbang</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 mb-6 leading-relaxed">
-                            Tonton tutorial cara pemasangan di remote controller dan langkah demi langkah membuat jalur terbang hingga drone lepas landas.
-                        </p>
-                    </div>
-                    <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-red-600 text-white font-semibold text-xs tracking-wide text-center hover:bg-red-500 transition flex items-center justify-center gap-1.5 shadow-md shadow-red-600/20">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        Tonton Video di YouTube
-                    </a>
-                </div>
 
-                <!-- Card 3: TW Tweaks -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-slate-800 hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <div class="tw-btns">
+                            <a href="#trial-hub" class="tw-btn tw-btn-lg">Coba Gratis 7 Hari</a>
+                            <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener" class="tw-btn-2 tw-btn-lg">Tonton Tutorial YouTube</a>
+                            <a href="https://wa.me/6285199391551" target="_blank" rel="noopener" class="tw-btn-wa tw-btn-lg">WhatsApp</a>
                         </div>
-                        <div class="inline-block px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-xs font-semibold mb-2">Modul Pendukung</div>
-                        <h3 class="text-lg font-bold text-white mb-2">TW Tweaks Modul</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 mb-6 leading-relaxed">
-                            Utilitas tambahan pendukung sistem remote controller untuk memastikan kestabilan dan kinerja optimal di lapangan.
-                        </p>
                     </div>
-                    <a href="https://drive.google.com/file/d/1yWlVlq5fPzJ6q4yE7mF8aK3nL2pQ1r/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 text-white font-semibold text-xs tracking-wide text-center hover:bg-emerald-500 transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Unduh TW Tweaks
-                    </a>
-                </div>
 
-                <!-- Card 4: Dokumen & Panduan -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-slate-800 hover:border-purple-500/40 transition">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-5">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        </div>
-                        <div class="inline-block px-2.5 py-0.5 rounded bg-purple-500/10 text-purple-400 text-xs font-semibold mb-2">Dokumentasi</div>
-                        <h3 class="text-lg font-bold text-white mb-2">Buku Panduan Teknis</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 mb-6 leading-relaxed">
-                            Petunjuk lengkap penggunaan seluruh fitur, persiapan file KML, konfigurasi peta offline, dan panduan keselamatan terbang.
-                        </p>
-                    </div>
-                    <a href="https://github.com/rwandaz/wandrone-web" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-purple-600 text-white font-semibold text-xs tracking-wide text-center hover:bg-purple-500 transition flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/20">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        Buka Dokumentasi
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 3: KEMUDAHAN UTAMA (MENGAPA TW-MAPPER?) -->
-    <section id="kemudahan" class="py-16 sm:py-24 bg-dark-950 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-                    Mudah & Praktis
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                    3 Alasan Utama Surveyor Memilih TW-Mapper
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300">
-                    Dirancang untuk mengatasi kerumitan membawa laptop, panas terik di lapangan, dan kendala sinyal putus di area terpencil.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Kemudahan 1 -->
-                <div class="glass-card rounded-2xl p-7 relative group hover:border-cyan-500/50 transition">
-                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                    </div>
-                    <div class="text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-2">01. Fleksibilitas Lapangan</div>
-                    <h3 class="text-xl font-bold text-white mb-3">100% Mandiri Tanpa Laptop</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Cukup bawa remote controller Anda ke lokasi survei. Rencanakan batas area, atur overlap foto, dan atur ketinggian langsung di layar genggam tanpa repot membuka laptop di bawah terik matahari.
-                    </p>
-                </div>
-
-                <!-- Kemudahan 2 -->
-                <div class="glass-card rounded-2xl p-7 relative group hover:border-emerald-500/50 transition">
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                    <div class="text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider mb-2">02. Kecepatan Operasional</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Kirim Misi Instan (&lt; 1 Detik)</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Fitur Flash Inject menyalurkan rute waypoint yang sudah dihitung langsung ke memori terbang remote dalam sekejap mata. Tanpa kabel transfer data, tanpa menunggu loading lama.
-                    </p>
-                </div>
-
-                <!-- Kemudahan 3 -->
-                <div class="glass-card rounded-2xl p-7 relative group hover:border-blue-500/50 transition">
-                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    </div>
-                    <div class="text-accent-blue font-mono text-xs font-bold uppercase tracking-wider mb-2">03. Keamanan Penerbangan</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Sinyal Putus Misi Tetap Berjalan</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Misi dieksekusi secara otonom oleh otak autopilot firmware drone. Bila sinyal radio remote terhalang pohon atau bukit, drone tetap menyelesaikan jalur foto secara mandiri lalu pulang ke titik lepas landas (RTH) dengan selamat.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 4: FITUR UNGGULAN INTERAKTIF (3 TAB SISTEM & ANIMASI VEKTOR) -->
-    <section id="fitur" class="py-16 sm:py-24 bg-dark-900 border-t border-slate-800 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-                    Fitur Unggulan Terpadu
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                    Eksplorasi Fitur Pemetaan Canggih TW-Mapper
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300">
-                    Pilih kategori di bawah untuk melihat teknologi pemetaan yang akan memudahkan pekerjaan survei Anda.
-                </p>
-
-                <!-- Interactive Tabs Navigation -->
-                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-8 p-1.5 rounded-2xl bg-dark-850 border border-slate-800 max-w-xl mx-auto">
-                    <button id="tab-btn-1" onclick="switchFeatureTab(1)" type="button" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition bg-cyan-500 text-white shadow-md shadow-cyan-500/20">
-                        📐 Lahan & Proyek
-                    </button>
-                    <button id="tab-btn-2" onclick="switchFeatureTab(2)" type="button" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition">
-                        ⚡ Transfer & Kecepatan
-                    </button>
-                    <button id="tab-btn-3" onclick="switchFeatureTab(3)" type="button" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition">
-                        ⛰️ Bukit & Struktur 3D
-                    </button>
-                </div>
-            </div>
-
-            <!-- TAB 1 CONTENT: Lahan & Proyek -->
-            <div id="tab-content-1" class="tab-panel transition-all duration-300">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Feature 1.1: KML Multi-Boundaries -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <!-- Animated SVG Visualization -->
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <polygon points="20,25 90,15 110,65 30,75" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4 2" fill="rgba(6,182,212,0.1)"/>
-                                    <polygon points="115,20 185,30 175,85 105,70" stroke="#10b981" stroke-width="2" stroke-dasharray="4 2" fill="rgba(16,185,129,0.1)"/>
-                                    <polygon points="40,80 120,75 110,110 35,105" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 2" fill="rgba(139,92,246,0.1)"/>
-                                    <circle cx="90" cy="15" r="4" fill="#06b6d4" class="anim-pulse"/>
-                                    <circle cx="185" cy="30" r="4" fill="#10b981" class="anim-pulse"/>
-                                    <text x="45" y="50" fill="#06b6d4" font-size="9" font-family="monospace">Blok A</text>
-                                    <text x="135" y="55" fill="#10b981" font-size="9" font-family="monospace">Blok B</text>
-                                    <text x="65" y="98" fill="#8b5cf6" font-size="9" font-family="monospace">Blok C</text>
-                                </svg>
+                    <div class="col-lg-6" style="margin-top: 2rem;">
+                        <!-- Architectural Flight Planner Visual -->
+                        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid var(--line-dark); border-radius: 8px; padding: 1.25rem; font-family: var(--mono);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line-dark); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                                <span style="color: var(--teal); font-size: 0.8125rem; font-weight: 600;">TW-MAPPER // FLIGHT MONITOR</span>
+                                <span style="color: var(--muted-dark); font-size: 0.75rem;">STANDALONE ENGINE</span>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">KML Multi-Boundaries</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Muat file KML yang berisi banyak batas kepemilikan lahan atau sertifikat tanah sekaligus dalam satu proyek survei tanpa perlu menggabungkannya manual.
-                            </p>
-                        </div>
-                    </div>
 
-                    <!-- Feature 1.2: Jalur Zig-Zag & Grid Otomatis -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <rect x="25" y="15" width="150" height="90" rx="4" stroke="#334155" stroke-width="1.5" stroke-dasharray="3 3"/>
-                                    <!-- Animated flight path -->
-                                    <path d="M35,30 L165,30 L165,55 L35,55 L35,80 L165,80 L165,100" stroke="#06b6d4" stroke-width="2.5" class="anim-dash"/>
-                                    <!-- Drone icon moving -->
+                            <div style="background: #000000; border: 1px solid var(--line-dark); border-radius: 6px; height: 160px; position: relative; overflow: hidden; margin-bottom: 1rem;">
+                                <svg width="100%" height="100%" viewBox="0 0 360 160" fill="none" style="display: block;">
+                                    <path d="M40,130 Q120,70 200,100 T340,50" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 2"/>
+                                    <!-- Drone Waypoint Route -->
+                                    <path d="M40,40 L120,40 L120,80 L200,80 L200,120 L320,120" stroke="#2DD4BF" stroke-width="2.5" class="anim-dash"/>
+                                    <circle cx="40" cy="40" r="4" fill="#2DD4BF"/>
+                                    <circle cx="120" cy="40" r="4" fill="#2DD4BF"/>
+                                    <circle cx="120" cy="80" r="4" fill="#2DD4BF"/>
+                                    <circle cx="200" cy="80" r="4" fill="#2DD4BF"/>
+                                    <circle cx="200" cy="120" r="4" fill="#2DD4BF"/>
+                                    <circle cx="320" cy="120" r="4" fill="#2DD4BF"/>
+                                    <!-- Drone animated point -->
                                     <g class="anim-drone">
-                                        <circle cx="100" cy="55" r="5" fill="#10b981"/>
-                                        <circle cx="100" cy="55" r="9" stroke="#10b981" stroke-width="1.5" class="anim-pulse"/>
+                                        <circle cx="200" cy="80" r="7" fill="#10B981" class="anim-pulse"/>
+                                        <circle cx="200" cy="80" r="4" fill="#FFFFFF"/>
                                     </g>
-                                    <!-- Camera trigger points -->
-                                    <circle cx="50" cy="30" r="2.5" fill="#e2e8f0"/>
-                                    <circle cx="90" cy="30" r="2.5" fill="#e2e8f0"/>
-                                    <circle cx="130" cy="30" r="2.5" fill="#e2e8f0"/>
-                                    <circle cx="150" cy="55" r="2.5" fill="#e2e8f0"/>
-                                    <circle cx="70" cy="55" r="2.5" fill="#e2e8f0"/>
-                                    <circle cx="50" cy="80" r="2.5" fill="#e2e8f0"/>
-                                    <circle cx="110" cy="80" r="2.5" fill="#e2e8f0"/>
+                                    <text x="215" y="85" fill="#2DD4BF" font-size="11" font-family="monospace">GSD: 2.1 cm/px</text>
+                                    <text x="50" y="145" fill="#9FB0C4" font-size="10" font-family="monospace">Follow Terrain: Constant AGL 80m</text>
                                 </svg>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">Grid & Zig-Zag Otomatis</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Kalkulasi otomatis sudut jalur optimal, overlap depan (front-lap), overlap samping (side-lap), dan resolusi tanah (GSD) untuk hasil ortofoto tajam.
-                            </p>
-                        </div>
-                    </div>
 
-                    <!-- Feature 1.3: Speed Clamping & Safe Alt -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <line x1="20" y1="90" x2="180" y2="90" stroke="#475569" stroke-width="2"/>
-                                    <!-- Speed gauge curve -->
-                                    <path d="M40,90 Q100,20 160,90" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4 2"/>
-                                    <!-- Limit threshold line -->
-                                    <line x1="30" y1="50" x2="170" y2="50" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6 3"/>
-                                    <text x="35" y="44" fill="#ef4444" font-size="9" font-family="monospace">Max Shutter Speed Safe Limit</text>
-                                    <rect x="75" y="60" width="50" height="22" rx="4" fill="#1e293b" stroke="#06b6d4" stroke-width="1"/>
-                                    <text x="82" y="75" fill="#06b6d4" font-size="10" font-family="monospace" font-weight="bold">8.5 m/s</text>
-                                </svg>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.75rem;">
+                                <div style="background: rgba(255,255,255,0.04); padding: 0.5rem 0.75rem; border-radius: 4px;">
+                                    <span style="color: var(--muted-dark); display: block;">Perangkat Remote:</span>
+                                    <span style="color: var(--ink-dark); font-weight: 600;">RC 2 &bull; RC Pro &bull; RC Pro 2 &bull; HP</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.04); padding: 0.5rem 0.75rem; border-radius: 4px;">
+                                    <span style="color: var(--muted-dark); display: block;">Injeksi Misi:</span>
+                                    <span style="color: var(--teal); font-weight: 600;">Flash Inject &lt; 1 Detik</span>
+                                </div>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">Speed Clamping Aman</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Mencegah drone terbang terlalu cepat saat memotret sehingga foto bebas dari efek motion blur, serta menjaga jarak aman dari rintangan sekitar.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Feature 1.4: Asymmetrical Corridor -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Center line (road or river) -->
-                                    <path d="M20,70 Q70,40 120,60 T180,45" stroke="#f59e0b" stroke-width="2"/>
-                                    <!-- Left corridor buffer (wide) -->
-                                    <path d="M20,40 Q70,10 120,30 T180,15" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3 3"/>
-                                    <!-- Right corridor buffer (narrow) -->
-                                    <path d="M20,85 Q70,55 120,75 T180,60" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3"/>
-                                    <text x="25" y="32" fill="#06b6d4" font-size="8" font-family="monospace">Kiri: +40m</text>
-                                    <text x="25" y="102" fill="#10b981" font-size="8" font-family="monospace">Kanan: +20m</text>
-                                </svg>
-                            </div>
-                            <h3 class="text-base font-bold text-white mb-2">Asymmetrical Corridor</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Sangat ideal untuk pemetaan jalur jalan raya, transmisi listrik, sungai, atau rel kereta dengan lebar batas kiri dan kanan yang berbeda.
-                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- TAB 2 CONTENT: Kecepatan & Transfer Nirkabel -->
-            <div id="tab-content-2" class="tab-panel hidden transition-all duration-300">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Feature 2.1: Flash Inject -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Source Remote -->
-                                    <rect x="20" y="35" width="45" height="50" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
-                                    <rect x="27" y="42" width="31" height="25" rx="2" fill="#0b1120"/>
-                                    <!-- Flash Transfer Beam -->
-                                    <path d="M75,60 L125,60" stroke="#10b981" stroke-width="3" class="anim-signal"/>
-                                    <polygon points="120,55 130,60 120,65" fill="#10b981"/>
-                                    <!-- Drone target -->
-                                    <circle cx="155" cy="60" r="18" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-                                    <path d="M145,60 L165,60 M155,50 L155,70" stroke="#10b981" stroke-width="2"/>
-                                    <text x="80" y="50" fill="#10b981" font-size="9" font-family="monospace" font-weight="bold">&lt; 1 Detik</text>
-                                </svg>
-                            </div>
-                            <h3 class="text-base font-bold text-white mb-2">Flash Inject Instan</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Injeksi jalur misi ke aplikasi resmi penerbangan remote dalam hitungan milidetik tanpa perlu restart remote atau menunggu transfer berkas berulang.
-                            </p>
-                        </div>
+        <!-- SECTION 1: ZONA COBA GRATIS & PANDUAN CEPAT (tw-side) -->
+        <section class="tw-side" id="trial-hub">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Mulai dalam 3 menit</h2>
+                        <p class="tw-standfirst">
+                            Dapatkan akses penuh selama 7 hari, ikuti video panduan instalasi di remote, dan siapkan dokumen teknisnya.
+                        </p>
                     </div>
 
-                    <!-- Feature 2.2: Direct Sync & Fleet Sync -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Node 1 -->
-                                    <circle cx="45" cy="60" r="16" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
-                                    <!-- Node 2 -->
-                                    <circle cx="155" cy="35" r="16" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
-                                    <!-- Node 3 -->
-                                    <circle cx="155" cy="85" r="16" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
-                                    <!-- Connecting lines -->
-                                    <line x1="61" y1="55" x2="139" y2="40" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4 3"/>
-                                    <line x1="61" y1="65" x2="139" y2="80" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4 3"/>
-                                    <text x="35" y="64" fill="#06b6d4" font-size="8" font-family="monospace">RC A</text>
-                                    <text x="145" y="39" fill="#10b981" font-size="8" font-family="monospace">RC B</text>
-                                    <text x="145" y="89" fill="#8b5cf6" font-size="8" font-family="monospace">RC C</text>
-                                </svg>
+                    <div class="col-lg-8 tw-side-body">
+                        <div class="tw-rows">
+                            <!-- Row 1: APK Trial -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-deep)" stroke-width="2">
+                                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a class="tw-name" href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" target="_blank" rel="noopener">Aplikasi TW-Mapper (Versi Trial)</a>
+                                    <p class="tw-one">Pasang langsung di remote controller Anda dan rasakan kemudahan membuat misi pemetaan tanpa biaya di awal.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Free Trial 7 Hari</span>
+                                        <span class="tw-chip">Akses Penuh Semua Fitur</span>
+                                        <span class="tw-chip">Format APK</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <span class="tw-price">Gratis 7 Hari</span>
+                                    <a href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" class="tw-btn" target="_blank" rel="noopener">Unduh APK Trial</a>
+                                </div>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">Direct & Fleet Sync</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Sinkronisasi data proyek dan jalur misi antar sesama remote rekan tim di lokasi proyek melalui jaringan lokal tanpa memerlukan kuota internet.
-                            </p>
-                        </div>
-                    </div>
 
-                    <!-- Feature 2.3: 100% Peta Offline -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Map tiles grid -->
-                                    <rect x="30" y="20" width="40" height="35" fill="#1e293b" stroke="#334155"/>
-                                    <rect x="75" y="20" width="40" height="35" fill="#0f172a" stroke="#334155"/>
-                                    <rect x="120" y="20" width="40" height="35" fill="#1e293b" stroke="#334155"/>
-                                    <rect x="30" y="60" width="40" height="35" fill="#0f172a" stroke="#334155"/>
-                                    <rect x="75" y="60" width="40" height="35" fill="#1e293b" stroke="#334155"/>
-                                    <rect x="120" y="60" width="40" height="35" fill="#0f172a" stroke="#334155"/>
-                                    <!-- No Signal badge -->
-                                    <rect x="60" y="98" width="80" height="18" rx="4" fill="#0b1120" stroke="#10b981"/>
-                                    <text x="68" y="110" fill="#10b981" font-size="8" font-family="monospace">100% OFFLINE OK</text>
-                                </svg>
+                            <!-- Row 2: Video Tutorial -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="#DC2626">
+                                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a class="tw-name" href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener">Video Tutorial Instalasi & Terbang</a>
+                                    <p class="tw-one">Panduan visual cara instalasi di remote controller dan langkah demi langkah membuat jalur terbang hingga drone lepas landas.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">YouTube Video</span>
+                                        <span class="tw-chip">Panduan Remote</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" class="tw-btn-2" target="_blank" rel="noopener">Tonton Tutorial</a>
+                                </div>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">Peta Satelit Offline</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Unduh peta satelit sebelum berangkat ke pelosok hutan atau area terpencil. Peta citra resolusi tinggi tetap tampil jernih tanpa sinyal seluler.
-                            </p>
-                        </div>
-                    </div>
 
-                    <!-- Feature 2.4: Local Elevation Server -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <rect x="60" y="25" width="80" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-                                    <line x1="70" y1="45" x2="130" y2="45" stroke="#475569" stroke-width="2"/>
-                                    <line x1="70" y1="65" x2="130" y2="65" stroke="#475569" stroke-width="2"/>
-                                    <circle cx="80" cy="35" r="3" fill="#10b981"/>
-                                    <circle cx="90" cy="35" r="3" fill="#06b6d4"/>
-                                    <circle cx="100" cy="35" r="3" fill="#f59e0b"/>
-                                    <text x="68" y="105" fill="#8b5cf6" font-size="9" font-family="monospace">Local Elevation DEM</text>
-                                </svg>
+                            <!-- Row 3: TW Tweaks -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a class="tw-name" href="https://drive.google.com/file/d/1yWlVlq5fPzJ6q4yE7mF8aK3nL2pQ1r/view?usp=sharing" target="_blank" rel="noopener">TW Tweaks Modul</a>
+                                    <p class="tw-one">Modul pendukung sistem remote controller untuk memastikan kelancaran performa aplikasi di lapangan.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Utilitas Sistem</span>
+                                        <span class="tw-chip">Optimalisasi Remote</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <a href="https://drive.google.com/file/d/1yWlVlq5fPzJ6q4yE7mF8aK3nL2pQ1r/view?usp=sharing" class="tw-btn-2" target="_blank" rel="noopener">Unduh Modul</a>
+                                </div>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">Local Elevation Server</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Menyimpan data elevasi kontur permukaan tanah di dalam remote controller sehingga fitur kontur elevasi tetap bekerja tanpa koneksi internet.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- TAB 3 CONTENT: Bukit & Struktur 3D -->
-            <div id="tab-content-3" class="tab-panel hidden transition-all duration-300">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Feature 3.1: Follow Terrain -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Hill profile -->
-                                    <path d="M10,105 Q60,100 80,60 T140,40 Q170,40 190,105" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="2"/>
-                                    <!-- Drone flight line following terrain -->
-                                    <path d="M10,75 Q60,70 80,30 T140,10 Q170,10 190,75" stroke="#06b6d4" stroke-width="2" class="anim-dash"/>
-                                    <circle cx="80" cy="30" r="4" fill="#06b6d4" class="anim-pulse"/>
-                                    <text x="60" y="20" fill="#06b6d4" font-size="8" font-family="monospace">AGL Konstan</text>
-                                </svg>
+                            <!-- Row 4: Dokumentasi Teknis -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a class="tw-name" href="https://github.com/rwandaz/wandrone-web" target="_blank" rel="noopener">Buku Panduan Teknis</a>
+                                    <p class="tw-one">Petunjuk lengkap pengoperasian fitur, persiapan file KML, konfigurasi peta offline, dan panduan keselamatan terbang.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Panduan Resmi</span>
+                                        <span class="tw-chip">Dokumentasi</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <a href="https://github.com/rwandaz/wandrone-web" class="tw-btn-2" target="_blank" rel="noopener">Buka Panduan</a>
+                                </div>
                             </div>
-                            <h3 class="text-base font-bold text-white mb-2">Follow Terrain (Elevasi Bukit)</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Drone otomatis terbang naik dan turun mengikuti kontur tanah perbukitan. Resolusi foto (GSD) tetap seragam dan drone terhindar dari tabrakan lereng.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Feature 3.2: Split Misi Multi-Baterai -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Split segments -->
-                                    <rect x="25" y="25" width="45" height="70" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="1.5"/>
-                                    <rect x="75" y="25" width="45" height="70" rx="4" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
-                                    <rect x="125" y="25" width="45" height="70" rx="4" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="1.5"/>
-                                    <text x="32" y="62" fill="#06b6d4" font-size="8" font-family="monospace">Bat 1</text>
-                                    <text x="82" y="62" fill="#10b981" font-size="8" font-family="monospace">Bat 2</text>
-                                    <text x="132" y="62" fill="#f59e0b" font-size="8" font-family="monospace">Bat 3</text>
-                                    <text x="50" y="110" fill="#cbd5e1" font-size="8" font-family="monospace">Auto Area Splitter</text>
-                                </svg>
-                            </div>
-                            <h3 class="text-base font-bold text-white mb-2">Split Misi Multi-Baterai</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Membagi area pemetaan yang sangat luas menjadi beberapa sub-misi sesuai perkiraan kapasitas baterai drone secara rapi tanpa ada area terlewat.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Feature 3.3: Orbit Helix 3D -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <!-- Structure tower in center -->
-                                    <rect x="90" y="30" width="20" height="70" rx="2" fill="#334155" stroke="#64748b"/>
-                                    <!-- Helix Spiral loop -->
-                                    <path d="M60,95 C140,95 140,75 60,75 C140,75 140,55 60,55 C140,55 140,35 60,35" stroke="#06b6d4" stroke-width="2" class="anim-dash"/>
-                                    <circle cx="100" cy="20" r="3" fill="#10b981" class="anim-pulse"/>
-                                    <text x="60" y="115" fill="#06b6d4" font-size="8" font-family="monospace">Continuous Spiral 3D</text>
-                                </svg>
-                            </div>
-                            <h3 class="text-base font-bold text-white mb-2">Orbit Helix Spiral 3D</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Pola terbang spiral naik berkesinambungan mengitari gedung, menara, atau monumen. Menghemat konsumsi baterai dan menghasilkan model 3D realistis.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Feature 3.4: Breakpoint Resume -->
-                    <div class="glass-card rounded-2xl p-5 border-slate-800 flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-36 rounded-xl bg-dark-950/80 border border-slate-800 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
-                                <svg class="w-full h-full" viewBox="0 0 200 120" fill="none">
-                                    <path d="M20,60 L85,60" stroke="#10b981" stroke-width="2.5"/>
-                                    <circle cx="85" cy="60" r="5" fill="#f59e0b" class="anim-pulse"/>
-                                    <path d="M85,60 L180,60" stroke="#475569" stroke-width="2" stroke-dasharray="4 2"/>
-                                    <text x="60" y="45" fill="#f59e0b" font-size="9" font-family="monospace" font-weight="bold">Titik Breakpoint</text>
-                                    <text x="35" y="80" fill="#10b981" font-size="8" font-family="monospace">Selesai</text>
-                                    <text x="110" y="80" fill="#64748b" font-size="8" font-family="monospace">Lanjut Otomatis</text>
-                                </svg>
-                            </div>
-                            <h3 class="text-base font-bold text-white mb-2">Breakpoint Resume Otomatis</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Ketika baterai menipis di tengah jalan, drone pulang untuk ganti baterai lalu dapat langsung melanjutkan pemotretan dari titik foto terakhir.
-                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SECTION 5: PILIHAN LISENSI (HOBBY VS PRO) - SEIMBANG & BERSIH -->
-    <section id="produk" class="py-16 sm:py-24 bg-dark-950 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-                    Paket & Lisensi
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                    Pilihan Lisensi Fleksibel Sesuai Kebutuhan Anda
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300">
-                    Pilih paket yang paling sesuai untuk hobi dan latihan, atau untuk kebutuhan survei industri dan operasional perusahaan Anda.
+        <!-- SECTION 2: 3 KEMUDAHAN UTAMA (tw-side tw-side-alt) -->
+        <section class="tw-side tw-side-alt" id="kemudahan">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Kenapa TW-Mapper</h2>
+                        <p class="tw-standfirst">
+                            Dirancang untuk mengatasi kerumitan membawa laptop, panas terik di lapangan, dan kendala sinyal putus di area terpencil.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <ol class="tw-steps">
+                            <li>
+                                <div>
+                                    <div class="tw-step-title">100% Mandiri Tanpa Laptop</div>
+                                    <div class="tw-step-desc">
+                                        Cukup bawa remote controller Anda ke lokasi survei. Rencanakan batas area, atur overlap foto, dan atur ketinggian langsung di layar genggam tanpa repot membuka laptop di bawah terik matahari.
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="tw-step-title">Kirim Misi Instan (&lt; 1 Detik)</div>
+                                    <div class="tw-step-desc">
+                                        Fitur Flash Inject menyalurkan rute waypoint yang sudah dihitung langsung ke direktori resmi remote dalam sekejap mata. Tanpa kabel transfer data, tanpa proses berbelit-belit.
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="tw-step-title">Sinyal Putus Misi Tetap Berjalan</div>
+                                    <div class="tw-step-desc">
+                                        Misi dieksekusi secara otonom oleh otak autopilot firmware drone. Bila sinyal radio terhalang bukit atau pohon, drone tetap menyelesaikan pemotretan mandiri lalu pulang ke titik lepas landas (RTH) dengan selamat.
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FITUR UNGGULAN (tw-side with Interactive Tabs) -->
+        <section class="tw-side" id="fitur">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Fitur Unggulan</h2>
+                        <p class="tw-standfirst">
+                            Pilih kategori untuk melihat kemampuan pemetaan cerdas yang membuat pekerjaan survei Anda lebih cepat, presisi, dan hemat baterai.
+                        </p>
+
+                        <!-- Tab Selection Buttons -->
+                        <div class="tw-tabs-nav">
+                            <button id="tab-btn-1" class="tw-tab-btn active" onclick="switchTab(1)">📐 Lahan & Proyek</button>
+                            <button id="tab-btn-2" class="tw-tab-btn" onclick="switchTab(2)">⚡ Transfer & Kecepatan</button>
+                            <button id="tab-btn-3" class="tw-tab-btn" onclick="switchTab(3)">⛰️ Bukit & Struktur 3D</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <!-- TAB 1: Lahan & Proyek -->
+                        <div id="tab-panel-1" class="tw-feature-grid">
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <polygon points="15,20 75,10 90,55 25,65" stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="3 2" fill="rgba(45,212,191,0.1)"/>
+                                        <polygon points="95,15 160,25 150,75 85,60" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2" fill="rgba(16,185,129,0.1)"/>
+                                        <polygon points="35,70 100,65 95,95 30,90" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3 2" fill="rgba(139,92,246,0.1)"/>
+                                        <circle cx="75" cy="10" r="3" fill="#2DD4BF" class="anim-pulse"/>
+                                        <circle cx="160" cy="25" r="3" fill="#10B981" class="anim-pulse"/>
+                                    </svg>
+                                </div>
+                                <h3>KML Multi-Boundaries</h3>
+                                <p>Muat file KML yang berisi banyak batas kepemilikan lahan atau sertifikat tanah sekaligus dalam satu proyek survei.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <rect x="20" y="10" width="140" height="80" rx="4" stroke="#334155" stroke-dasharray="3 3"/>
+                                        <path d="M30,25 L150,25 L150,50 L30,50 L30,75 L150,75" stroke="#2DD4BF" stroke-width="2" class="anim-dash"/>
+                                        <circle cx="90" cy="50" r="4" fill="#10B981" class="anim-pulse"/>
+                                    </svg>
+                                </div>
+                                <h3>Grid & Zig-zag Otomatis</h3>
+                                <p>Kalkulasi otomatis sudut jalur optimal, overlap depan, overlap samping, dan resolusi tanah (GSD) untuk ortofoto tajam.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <line x1="20" y1="75" x2="160" y2="75" stroke="#475569" stroke-width="1.5"/>
+                                        <path d="M30,75 Q90,15 150,75" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3 2"/>
+                                        <line x1="25" y1="40" x2="155" y2="40" stroke="#EF4444" stroke-width="1" stroke-dasharray="4 2"/>
+                                        <text x="50" y="35" fill="#EF4444" font-size="8" font-family="monospace">Batas Kecepatan Aman</text>
+                                    </svg>
+                                </div>
+                                <h3>Speed Clamping Aman</h3>
+                                <p>Mencegah drone terbang terlalu cepat saat memotret sehingga foto bebas blur dan ketinggian aman terjamin.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <path d="M15,55 Q60,30 110,50 T165,35" stroke="#F59E0B" stroke-width="2"/>
+                                        <path d="M15,30 Q60,5 110,25 T165,10" stroke="#2DD4BF" stroke-width="1" stroke-dasharray="3 2"/>
+                                        <path d="M15,75 Q60,50 110,70 T165,55" stroke="#10B981" stroke-width="1" stroke-dasharray="3 2"/>
+                                    </svg>
+                                </div>
+                                <h3>Asymmetrical Corridor</h3>
+                                <p>Ideal untuk pemetaan jalur jalan raya, transmisi listrik, atau sungai dengan lebar batas kiri dan kanan yang berbeda.</p>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: Transfer & Kecepatan -->
+                        <div id="tab-panel-2" class="tw-feature-grid" style="display: none;">
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <rect x="25" y="30" width="35" height="40" rx="4" fill="#1E293B" stroke="#2DD4BF"/>
+                                        <path d="M70,50 L115,50" stroke="#10B981" stroke-width="2.5" class="anim-dash"/>
+                                        <circle cx="140" cy="50" r="14" fill="#1E293B" stroke="#10B981"/>
+                                        <text x="75" y="42" fill="#10B981" font-size="9" font-family="monospace">&lt; 1s Flash</text>
+                                    </svg>
+                                </div>
+                                <h3>Flash Inject Instan</h3>
+                                <p>Injeksi jalur misi ke aplikasi resmi penerbangan remote dalam hitungan milidetik tanpa perlu restart remote controller.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <circle cx="45" cy="50" r="14" fill="#1E293B" stroke="#2DD4BF"/>
+                                        <circle cx="135" cy="30" r="14" fill="#1E293B" stroke="#10B981"/>
+                                        <circle cx="135" cy="70" r="14" fill="#1E293B" stroke="#8B5CF6"/>
+                                        <line x1="59" y1="45" x2="121" y2="35" stroke="#2DD4BF" stroke-dasharray="3 2"/>
+                                        <line x1="59" y1="55" x2="121" y2="65" stroke="#2DD4BF" stroke-dasharray="3 2"/>
+                                    </svg>
+                                </div>
+                                <h3>Direct & Fleet Sync</h3>
+                                <p>Sinkronisasi data proyek dan jalur misi antar sesama remote rekan tim di lapangan via koneksi lokal tanpa internet.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <rect x="30" y="20" width="35" height="25" fill="#1E293B" stroke="#334155"/>
+                                        <rect x="70" y="20" width="35" height="25" fill="#0F172A" stroke="#334155"/>
+                                        <rect x="110" y="20" width="35" height="25" fill="#1E293B" stroke="#334155"/>
+                                        <rect x="30" y="50" width="35" height="25" fill="#0F172A" stroke="#334155"/>
+                                        <rect x="70" y="50" width="35" height="25" fill="#1E293B" stroke="#334155"/>
+                                        <rect x="110" y="50" width="35" height="25" fill="#0F172A" stroke="#334155"/>
+                                    </svg>
+                                </div>
+                                <h3>100% Peta Offline</h3>
+                                <p>Unduh peta satelit sebelum ke lokasi terpencil. Citra resolusi tinggi tetap tampil jernih tanpa sinyal seluler.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <rect x="50" y="20" width="80" height="60" rx="6" fill="#1E293B" stroke="#8B5CF6"/>
+                                        <line x1="60" y1="40" x2="120" y2="40" stroke="#475569"/>
+                                        <line x1="60" y1="60" x2="120" y2="60" stroke="#475569"/>
+                                        <circle cx="70" cy="30" r="3" fill="#10B981"/>
+                                    </svg>
+                                </div>
+                                <h3>Local Elevation Server</h3>
+                                <p>Menyimpan data elevasi kontur permukaan tanah di dalam remote controller agar fungsi elevasi bekerja offline.</p>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: Bukit & Struktur 3D -->
+                        <div id="tab-panel-3" class="tw-feature-grid" style="display: none;">
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <path d="M10,85 Q55,80 75,45 T130,30 Q155,30 170,85" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="1.5"/>
+                                        <path d="M10,60 Q55,55 75,20 T130,5 Q155,5 170,60" stroke="#2DD4BF" stroke-width="2" class="anim-dash"/>
+                                        <circle cx="75" cy="20" r="3" fill="#2DD4BF" class="anim-pulse"/>
+                                    </svg>
+                                </div>
+                                <h3>Follow Terrain (Elevasi Bukit)</h3>
+                                <p>Drone otomatis terbang naik-turun mengikuti kontur tanah perbukitan sehingga resolusi foto (GSD) selalu konstan.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <rect x="25" y="20" width="38" height="60" rx="3" fill="rgba(45,212,191,0.15)" stroke="#2DD4BF"/>
+                                        <rect x="70" y="20" width="38" height="60" rx="3" fill="rgba(16,185,129,0.15)" stroke="#10B981"/>
+                                        <rect x="115" y="20" width="38" height="60" rx="3" fill="rgba(245,158,11,0.15)" stroke="#F59E0B"/>
+                                        <text x="32" y="55" fill="#2DD4BF" font-size="8" font-family="monospace">Bat 1</text>
+                                        <text x="77" y="55" fill="#10B981" font-size="8" font-family="monospace">Bat 2</text>
+                                        <text x="122" y="55" fill="#F59E0B" font-size="8" font-family="monospace">Bat 3</text>
+                                    </svg>
+                                </div>
+                                <h3>Split Misi Multi-Baterai</h3>
+                                <p>Membagi area pemetaan luas menjadi beberapa sub-misi sesuai kapasitas baterai drone tanpa ada area terlewat.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <rect x="80" y="25" width="20" height="60" rx="2" fill="#334155"/>
+                                        <path d="M50,80 C130,80 130,60 50,60 C130,60 130,40 50,40 C130,40 130,20 50,20" stroke="#2DD4BF" stroke-width="1.5" class="anim-dash"/>
+                                    </svg>
+                                </div>
+                                <h3>Orbit Helix Spiral 3D</h3>
+                                <p>Pola terbang spiral kontinu mengitari objek vertikal (gedung, tower, kubah) yang hemat baterai untuk model 3D.</p>
+                            </div>
+
+                            <div class="tw-feature-card">
+                                <div class="tw-feature-art">
+                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
+                                        <path d="M20,50 L75,50" stroke="#10B981" stroke-width="2"/>
+                                        <circle cx="75" cy="50" r="4" fill="#F59E0B" class="anim-pulse"/>
+                                        <path d="M75,50 L160,50" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
+                                        <text x="60" y="38" fill="#F59E0B" font-size="8" font-family="monospace">Breakpoint</text>
+                                    </svg>
+                                </div>
+                                <h3>Breakpoint Resume Otomatis</h3>
+                                <p>Ganti baterai di tengah jalan, drone otomatis melanjutkan misi langsung dari titik foto terakhir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PILIHAN LISENSI (tw-side tw-side-alt) -->
+        <section class="tw-side tw-side-alt" id="produk">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Pilihan lisensi</h2>
+                        <p class="tw-standfirst">
+                            Pilih lisensi yang paling sesuai untuk hobi perorangan atau operasional survei profesional perusahaan Anda.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <div class="tw-rows">
+                            <!-- Hobby License -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <img src="images/icon_hobby.svg" alt="Hobby Edition Icon"/>
+                                </div>
+                                <div>
+                                    <span class="tw-name">Lisensi Hobby</span>
+                                    <p class="tw-one">Untuk pilot perorangan, penghobi pemetaan, dan survei lahan skala ringan.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Grid &amp; Zig-zag Otomatis</span>
+                                        <span class="tw-chip">KML Standar</span>
+                                        <span class="tw-chip">Flash Inject</span>
+                                        <span class="tw-chip">Peta Offline</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <span class="tw-price">Hobby Edition</span>
+                                    <a href="https://wa.me/6285199391551?text=Halo%20WanDrone,%20saya%20ingin%20konsultasi%20mengenai%20Lisensi%20Hobby%20TW-Mapper" class="tw-btn-2" target="_blank" rel="noopener">Konsultasi Hobby</a>
+                                </div>
+                            </div>
+
+                            <!-- Pro License -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <img src="images/icon_pro.svg" alt="Pro Edition Icon"/>
+                                </div>
+                                <div>
+                                    <span class="tw-name">Lisensi Pro</span>
+                                    <p class="tw-one">Untuk surveyor profesional, perkebunan, pertambangan, kontraktor, dan instansi.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Semua Fitur Hobby</span>
+                                        <span class="tw-chip">Follow Terrain Bukit</span>
+                                        <span class="tw-chip">KML Multi-Boundaries</span>
+                                        <span class="tw-chip">Orbit Helix 3D</span>
+                                        <span class="tw-chip">Split Misi</span>
+                                        <span class="tw-chip">Fleet Sync</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <span class="tw-price">Pro Edition</span>
+                                    <a href="https://wa.me/6285199391551?text=Halo%20WanDrone,%20saya%20ingin%20konsultasi%20mengenai%20Lisensi%20Pro%20TW-Mapper" class="tw-btn" target="_blank" rel="noopener">Konsultasi Pro</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Table -->
+                        <table class="tw-vs">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fitur Pemetaan</th>
+                                    <th scope="col">Lisensi Hobby</th>
+                                    <th scope="col" class="tw-vs-us">Lisensi Pro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Jalur Grid &amp; Zig-zag Otomatis</th>
+                                    <td>Ya</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Flash Inject Instan (&lt; 1 Detik)</th>
+                                    <td>Ya</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Peta Satelit Offline</th>
+                                    <td>Ya</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Follow Terrain (Elevasi Kontur Bukit)</th>
+                                    <td>Tidak</td>
+                                    <td class="tw-vs-us">Ya (Otomatis)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">KML Multi-Boundaries Kompleks</th>
+                                    <td>Hanya Single Boundary</td>
+                                    <td class="tw-vs-us">Ya (Banyak Polygon)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Orbit Helix Spiral 3D &amp; Koridor</th>
+                                    <td>Tidak</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Split Misi Multi-Baterai &amp; Fleet Sync</th>
+                                    <td>Tidak</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: COCOK DENGAN PERANGKATMU (tw-side) -->
+        <section class="tw-side" id="kompatibilitas">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Cocok dengan perangkatmu</h2>
+                        <p class="tw-standfirst">
+                            Gunakan remote controller berlayar terintegrasi maupun smartphone Android dengan remote standar seri RC-N.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="tw-h2" style="font-size: 1.25rem;">Remote Controller</h3>
+                                <ul class="tw-list">
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>DJI RC 2</strong> (Layar 5.5" FHD terintegrasi)</span></li>
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>DJI RC Pro</strong> (Layar Ultra-Bright 1000 nits)</span></li>
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>DJI RC Pro 2</strong> (Generasi terbaru flagship)</span></li>
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>HP / Tablet Android</strong> (Remote seri RC-N1, RC-N2, RC-N3)</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-6" style="margin-top: 1.5rem;">
+                                <h3 class="tw-h2" style="font-size: 1.25rem;">Model Drone</h3>
+                                <ul class="tw-list">
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>DJI Mini Series:</strong> Mini 4 Pro, Mini 5 Pro</span></li>
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>DJI Air Series:</strong> Air 3, Air 3S</span></li>
+                                    <li><span class="tw-icon-check">✓</span> <span><strong>DJI Mavic Series:</strong> Mavic 3, Mavic 3 Pro, Mavic 3 Classic, Mavic 4 Pro</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: MEDIA SOSIAL & KONTAK WANDRONE (tw-side tw-side-alt) -->
+        <section class="tw-side tw-side-alt" id="kontak">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Terhubung dengan WanDrone</h2>
+                        <p class="tw-standfirst">
+                            Ikuti media sosial resmi kami untuk tutorial terbaru, tips praktis pemetaan lapangan, dan konsultasi langsung.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <div class="tw-rows">
+                            <!-- Instagram -->
+                            <div class="tw-row tw-row-plain">
+                                <div>
+                                    <span class="tw-name">Instagram Resmi</span>
+                                    <p class="tw-one">Update dokumentasi proyek, tips survei drone, dan foto kegiatan pemetaan.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">@wan.drone.plg</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <a href="https://instagram.com/wan.drone.plg" class="tw-btn-2" target="_blank" rel="noopener">Kunjungi Instagram</a>
+                                </div>
+                            </div>
+
+                            <!-- TikTok -->
+                            <div class="tw-row tw-row-plain">
+                                <div>
+                                    <span class="tw-name">TikTok Official</span>
+                                    <p class="tw-one">Video pendek tutorial lapangan, ulasan fitur, dan demonstrasi praktis.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">@wan.drone</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <a href="https://tiktok.com/@wan.drone" class="tw-btn-2" target="_blank" rel="noopener">Kunjungi TikTok</a>
+                                </div>
+                            </div>
+
+                            <!-- YouTube -->
+                            <div class="tw-row tw-row-plain">
+                                <div>
+                                    <span class="tw-name">YouTube Channel</span>
+                                    <p class="tw-one">Tutorial lengkap panduan instalasi, pemetaan 3D, dan rekaman webinar teknis.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">@wandrone.streamer</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <a href="https://youtube.com/@wandrone.streamer" class="tw-btn-2" target="_blank" rel="noopener">Buka YouTube</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp Helpdesk -->
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem;">
+                            <h4 style="font-family: var(--display); font-size: 1.125rem; margin-bottom: 0.75rem; color: var(--ink);">Bantuan Langsung WhatsApp</h4>
+                            <div class="row">
+                                <div class="col-md-4" style="margin-bottom: 0.5rem;">
+                                    <div style="font-size: 0.8125rem; color: var(--slate);">Layanan Lisensi:</div>
+                                    <a href="https://wa.me/6285199391551" target="_blank" rel="noopener" style="font-family: var(--mono); font-weight: 600; color: var(--teal-deep); text-decoration: none;">0851-9939-1551</a>
+                                </div>
+                                <div class="col-md-4" style="margin-bottom: 0.5rem;">
+                                    <div style="font-size: 0.8125rem; color: var(--slate);">Konsultasi Teknis 1:</div>
+                                    <a href="https://wa.me/628111969111" target="_blank" rel="noopener" style="font-family: var(--mono); font-weight: 600; color: var(--teal-deep); text-decoration: none;">0811-1969-111</a>
+                                </div>
+                                <div class="col-md-4" style="margin-bottom: 0.5rem;">
+                                    <div style="font-size: 0.8125rem; color: var(--slate);">Konsultasi Teknis 2:</div>
+                                    <a href="https://wa.me/6285175009498" target="_blank" rel="noopener" style="font-family: var(--mono); font-weight: 600; color: var(--teal-deep); text-decoration: none;">0851-7500-9498</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: END BAND (.tw-band.tw-band-end) -->
+        <section class="tw-band tw-band-end">
+            <div class="container tw-close">
+                <h2 class="tw-h2">Siap begitu remote-mu siap.</h2>
+                <p>
+                    Coba versi trial 7 hari penuh sekarang dan rasakan efisiensi pemetaan otonom langsung di remote controller Anda.
+                </p>
+                <p class="tw-btns">
+                    <a href="#trial-hub" class="tw-btn tw-btn-lg">Unduh Trial 7 Hari</a>
+                    <a href="https://wa.me/6285199391551" class="tw-btn-wa tw-btn-lg" target="_blank" rel="noopener">Hubungi WhatsApp</a>
                 </p>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
-                <!-- HOBBY LICENSE CARD -->
-                <div class="glass-card rounded-2xl p-8 border-slate-800 hover:border-cyan-500/50 transition flex flex-col justify-between relative group">
-                    <div>
-                        <!-- Header with Custom Icon -->
-                        <div class="flex items-center justify-between mb-6">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold uppercase tracking-wider">
-                                    Lisensi Standar
-                                </span>
-                                <h3 class="text-2xl font-bold text-white mt-2">Hobby Edition</h3>
-                                <p class="text-xs text-slate-400">Untuk pilot perorangan, penghobi, dan survei area berskala ringan.</p>
-                            </div>
-                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 p-2.5 flex items-center justify-center">
-                                <img src="images/icon_hobby.svg" alt="Hobby Icon" class="w-full h-full object-contain">
-                            </div>
-                        </div>
+    </main>
 
-                        <!-- Feature Checklist -->
-                        <div class="space-y-3.5 my-8">
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
-                                <span>Generator Jalur Terbang <strong>Grid & Zig-zag Otomatis</strong></span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Flash Inject Instan</strong> ke direktori resmi remote</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
-                                <span>Import file <strong>KML Standar</strong> (Single Boundary Polygon)</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
-                                <span>Kalkulasi <strong>GSD & Overlap</strong> Kamera Presisi</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
-                                <span>Penyimpanan <strong>Peta Offline</strong> Lokal</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-400">
-                                <span class="text-slate-600 font-bold mt-0.5">—</span>
-                                <span>Fitur Kontur Elevasi Bukit (Tersedia di Pro)</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-400">
-                                <span class="text-slate-600 font-bold mt-0.5">—</span>
-                                <span>KML Multi-Boundaries Banyak Blok (Tersedia di Pro)</span>
-                            </div>
-                        </div>
+    <!-- FOOTER (Authentic twstreamer dark footer) -->
+    <footer class="tw-band">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <img src="favicon.png" alt="WanDrone" width="28" height="28"/>
+                        <span style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink-dark);">WanDrone</span>
                     </div>
-
-                    <div>
-                        <a href="https://wa.me/6285199391551?text=Halo%20WanDrone,%20saya%20ingin%20konsultasi%20mengenai%20Lisensi%20Hobby%20TW-Mapper" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 px-6 rounded-xl bg-dark-900 border border-slate-700 hover:border-cyan-500/60 text-white font-semibold text-sm text-center flex items-center justify-center gap-2 hover:bg-dark-850 transition">
-                            <svg class="w-4 h-4 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                            Konsultasi Lisensi Hobby
-                        </a>
-                    </div>
+                    <ul class="tw-list">
+                        <li><span>Solusi Pemetaan Drone Otonom</span></li>
+                        <li><span>Instagram: <a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener">@wan.drone.plg</a></span></li>
+                        <li><span>TikTok: <a href="https://tiktok.com/@wan.drone" target="_blank" rel="noopener">@wan.drone</a></span></li>
+                        <li><span>YouTube: <a href="https://youtube.com/@wandrone.streamer" target="_blank" rel="noopener">@wandrone.streamer</a></span></li>
+                    </ul>
                 </div>
 
-                <!-- PRO LICENSE CARD -->
-                <div class="glass-card rounded-2xl p-8 border-slate-800 hover:border-emerald-500/50 transition flex flex-col justify-between relative group">
-                    <div>
-                        <!-- Header with Custom Icon -->
-                        <div class="flex items-center justify-between mb-6">
-                            <div>
-                                <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider">
-                                    Lisensi Lengkap
-                                </span>
-                                <h3 class="text-2xl font-bold text-white mt-2">Pro Edition</h3>
-                                <p class="text-xs text-slate-400">Untuk surveyor profesional, perkebunan, pertambangan, dan instansi.</p>
-                            </div>
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-2.5 flex items-center justify-center">
-                                <img src="images/icon_pro.svg" alt="Pro Icon" class="w-full h-full object-contain">
-                            </div>
-                        </div>
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <h3 class="tw-h2">Navigasi Halaman</h3>
+                    <ul class="tw-list">
+                        <li><a href="#trial-hub">Zona Trial 7 Hari &amp; Panduan</a></li>
+                        <li><a href="#kemudahan">3 Kemudahan Utama</a></li>
+                        <li><a href="#fitur">Fitur Unggulan</a></li>
+                        <li><a href="#produk">Pilihan Lisensi (Hobby &amp; Pro)</a></li>
+                        <li><a href="#kompatibilitas">Kompatibilitas Perangkat</a></li>
+                    </ul>
+                </div>
 
-                        <!-- Feature Checklist -->
-                        <div class="space-y-3.5 my-8">
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Seluruh Fitur Hobby</strong> Termasuk Penuh</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Follow Terrain:</strong> Kontur Elevasi Bukit Otomatis</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>KML Multi-Boundaries:</strong> Banyak polygon batas lahan sekaligus</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Orbit Helix Spiral 3D</strong> & Koridor Asimetris</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Split Misi Multi-Baterai</strong> & Breakpoint Resume</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Direct Sync & Fleet Sync</strong> Antar Remote</span>
-                            </div>
-                            <div class="flex items-start gap-3 text-sm text-slate-300">
-                                <span class="text-emerald-400 font-bold mt-0.5">✓</span>
-                                <span><strong>Dukungan Teknis Prioritas</strong> & Pendampingan</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <a href="https://wa.me/6285199391551?text=Halo%20WanDrone,%20saya%20ingin%20konsultasi%20mengenai%20Lisensi%20Pro%20TW-Mapper" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm text-center flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition shadow-lg shadow-emerald-500/20">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                            Konsultasi Lisensi Pro
-                        </a>
-                    </div>
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <h3 class="tw-h2">Dukungan &amp; Layanan</h3>
+                    <ul class="tw-list">
+                        <li><span>WhatsApp Lisensi: 0851-9939-1551</span></li>
+                        <li><span>Konsultasi Teknis: 0811-1969-111</span></li>
+                        <li><span>Konsultasi Teknis: 0851-7500-9498</span></li>
+                        <li><a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener">Video Tutorial YouTube</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Ringkasan Komparasi Ringkas -->
-            <div class="max-w-3xl mx-auto p-4 rounded-xl bg-dark-900 border border-slate-800 text-center text-xs text-slate-400">
-                💡 <strong>Catatan:</strong> Lisensi dapat dipilih dengan skema yang fleksibel sesuai alokasi proyek Anda. Hubungi helpdesk kami untuk rincian aktivasi perangkat.
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 6: KOMPATIBILITAS PERANGKAT LENGKAP -->
-    <section id="kompatibilitas" class="py-16 sm:py-24 bg-dark-900 border-t border-slate-800 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-14">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-                    Kompatibilitas Luas
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                    Mendukung Ragam Remote Controller & Armada Drone
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300">
-                    Gunakan remote controller berlayar terintegrasi maupun smartphone Android dengan remote standar seri RC-N.
-                </p>
-            </div>
-
-            <!-- Remote Controllers Grid -->
-            <div class="mb-14">
-                <h3 class="text-xs font-mono uppercase text-cyan-400 tracking-wider mb-6 text-center">Remote Controller yang Didukung</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-                    <!-- RC 2 -->
-                    <div class="glass-card rounded-2xl p-5 text-center flex flex-col items-center">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center mb-3">
-                            <img src="images/rc2.png" alt="DJI RC 2" class="max-h-full max-w-full object-contain filter drop-shadow">
-                        </div>
-                        <h4 class="text-sm font-bold text-white">DJI RC 2</h4>
-                        <p class="text-[11px] text-slate-400">Layar 5.5" FHD Terintegrasi</p>
-                    </div>
-
-                    <!-- RC Pro -->
-                    <div class="glass-card rounded-2xl p-5 text-center flex flex-col items-center">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center mb-3">
-                            <img src="images/rcpro.png" alt="DJI RC Pro" class="max-h-full max-w-full object-contain filter drop-shadow">
-                        </div>
-                        <h4 class="text-sm font-bold text-white">DJI RC Pro</h4>
-                        <p class="text-[11px] text-slate-400">Layar Ultra-Bright 1000 nits</p>
-                    </div>
-
-                    <!-- RC Pro 2 -->
-                    <div class="glass-card rounded-2xl p-5 text-center flex flex-col items-center">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center mb-3">
-                            <img src="images/rcpro2.png" alt="DJI RC Pro 2" class="max-h-full max-w-full object-contain filter drop-shadow">
-                        </div>
-                        <h4 class="text-sm font-bold text-white">DJI RC Pro 2</h4>
-                        <p class="text-[11px] text-slate-400">Generasi Terbaru Flagship</p>
-                    </div>
-
-                    <!-- HP / Tablet (RC-N) -->
-                    <div class="glass-card rounded-2xl p-5 text-center flex flex-col items-center">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center mb-3">
-                            <img src="images/rcn.png" alt="HP / Tablet RC-N" class="max-h-full max-w-full object-contain filter drop-shadow">
-                        </div>
-                        <h4 class="text-sm font-bold text-white">HP / Tablet Android</h4>
-                        <p class="text-[11px] text-slate-400">Remote RC-N1 / RC-N2 / RC-N3</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Drone Models Grid -->
-            <div>
-                <h3 class="text-xs font-mono uppercase text-emerald-400 tracking-wider mb-6 text-center">Model Drone yang Didukung</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <div class="glass-card rounded-xl p-4 text-center">
-                        <img src="images/mini4pro.png" alt="Mini 4 Pro" class="h-16 mx-auto object-contain mb-2">
-                        <div class="text-xs font-bold text-white">Mini 4 Pro</div>
-                        <div class="text-[10px] text-slate-400">Kamera 48MP</div>
-                    </div>
-                    <div class="glass-card rounded-xl p-4 text-center">
-                        <img src="images/mini5pro.png" alt="Mini 5 Pro" class="h-16 mx-auto object-contain mb-2">
-                        <div class="text-xs font-bold text-white">Mini 5 Pro</div>
-                        <div class="text-[10px] text-slate-400">Generasi Baru</div>
-                    </div>
-                    <div class="glass-card rounded-xl p-4 text-center">
-                        <img src="images/air3.png" alt="Air 3" class="h-16 mx-auto object-contain mb-2">
-                        <div class="text-xs font-bold text-white">Air 3</div>
-                        <div class="text-[10px] text-slate-400">Dual Kamera</div>
-                    </div>
-                    <div class="glass-card rounded-xl p-4 text-center">
-                        <img src="images/air3s.png" alt="Air 3S" class="h-16 mx-auto object-contain mb-2">
-                        <div class="text-xs font-bold text-white">Air 3S</div>
-                        <div class="text-[10px] text-slate-400">Sensor 1-Inci</div>
-                    </div>
-                    <div class="glass-card rounded-xl p-4 text-center">
-                        <img src="images/mavic3pro.png" alt="Mavic 3 Pro" class="h-16 mx-auto object-contain mb-2">
-                        <div class="text-xs font-bold text-white">Mavic 3 Series</div>
-                        <div class="text-[10px] text-slate-400">Mavic 3 / Pro / Classic</div>
-                    </div>
-                    <div class="glass-card rounded-xl p-4 text-center">
-                        <img src="images/mavic4pro.png" alt="Mavic 4 Pro" class="h-16 mx-auto object-contain mb-2">
-                        <div class="text-xs font-bold text-white">Mavic 4 Pro</div>
-                        <div class="text-[10px] text-slate-400">Flagship Pemetaan</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 7: MEDIA SOSIAL & LAYANAN RESMI WANDRONE -->
-    <section id="kontak" class="py-16 sm:py-24 bg-dark-950 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-                    Media Sosial & Komunitas
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                    Terhubung Langsung dengan WanDrone
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300">
-                    Ikuti video tutorial terbaru, tips praktis pemetaan lapangan, dan konsultasi langsung dengan tim dukungan kami.
-                </p>
-            </div>
-
-            <!-- Social Media Channels (Instagram, TikTok, YouTube) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <!-- Instagram Card -->
-                <a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-6 border-slate-800 hover:border-pink-500/50 transition group flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition shadow-lg shadow-pink-500/20">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </div>
-                    <div>
-                        <div class="text-xs text-pink-400 font-semibold uppercase tracking-wider">Instagram Resmi</div>
-                        <div class="text-base font-bold text-white group-hover:text-pink-400 transition">@wan.drone.plg</div>
-                        <div class="text-xs text-slate-400">Update foto & dokumentasi proyek</div>
-                    </div>
-                </a>
-
-                <!-- TikTok Card -->
-                <a href="https://tiktok.com/@wan.drone" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-6 border-slate-800 hover:border-cyan-500/50 transition group flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-slate-700 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition shadow-lg shadow-cyan-500/10">
-                        <svg class="w-7 h-7 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 003 15.68 6.34 6.34 0 009.34 22a6.34 6.34 0 006.33-6.32V9.06a8.16 8.16 0 004.92 1.63V7.24a4.89 4.89 0 01-1-.55z"/></svg>
-                    </div>
-                    <div>
-                        <div class="text-xs text-cyan-400 font-semibold uppercase tracking-wider">TikTok Official</div>
-                        <div class="text-base font-bold text-white group-hover:text-cyan-400 transition">@wan.drone</div>
-                        <div class="text-xs text-slate-400">Video reels & tips lapangan</div>
-                    </div>
-                </a>
-
-                <!-- YouTube Card -->
-                <a href="https://youtube.com/@wandrone.streamer" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-6 border-slate-800 hover:border-red-500/50 transition group flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-red-600 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition shadow-lg shadow-red-600/20">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                    </div>
-                    <div>
-                        <div class="text-xs text-red-400 font-semibold uppercase tracking-wider">YouTube Channel</div>
-                        <div class="text-base font-bold text-white group-hover:text-red-400 transition">@wandrone.streamer</div>
-                        <div class="text-xs text-slate-400">Tutorial lengkap & webinar</div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- WhatsApp Helpdesk & Contacts -->
-            <div class="glass-card rounded-2xl p-8 border-slate-800">
-                <h3 class="text-base font-bold text-white mb-6 text-center">Kontak Bantuan & Konsultasi Langsung</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <a href="https://wa.me/6285199391551" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-emerald-500/50 transition flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                        </div>
-                        <div>
-                            <div class="text-xs text-slate-400">Layanan Lisensi & Aktivasi</div>
-                            <div class="text-sm font-bold text-white font-mono">0851-9939-1551</div>
-                        </div>
-                    </a>
-
-                    <a href="https://wa.me/628111969111" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-cyan-500/50 transition flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                        </div>
-                        <div>
-                            <div class="text-xs text-slate-400">Konsultasi Teknis & Misi 1</div>
-                            <div class="text-sm font-bold text-white font-mono">0811-1969-111</div>
-                        </div>
-                    </a>
-
-                    <a href="https://wa.me/6285175009498" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-cyan-500/50 transition flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                        </div>
-                        <div>
-                            <div class="text-xs text-slate-400">Konsultasi Teknis & Misi 2</div>
-                            <div class="text-sm font-bold text-white font-mono">0851-7500-9498</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-dark-950 border-t border-slate-800/80 py-12 text-slate-400 text-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800/60">
-                <div class="flex items-center gap-3">
-                    <img src="favicon.png" alt="WanDrone" class="w-8 h-8 object-contain">
-                    <div>
-                        <div class="text-white font-bold font-mono text-sm">WanDrone</div>
-                        <div class="text-[11px] text-slate-400">TW-Mapper Autonomous System</div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap items-center justify-center gap-6 text-slate-300">
-                    <a href="#trial-hub" class="hover:text-cyan-400 transition">Trial 7 Hari</a>
-                    <a href="#kemudahan" class="hover:text-cyan-400 transition">Kemudahan</a>
-                    <a href="#fitur" class="hover:text-cyan-400 transition">Fitur Unggulan</a>
-                    <a href="#produk" class="hover:text-cyan-400 transition">Pilihan Lisensi</a>
-                    <a href="#kompatibilitas" class="hover:text-cyan-400 transition">Kompatibilitas</a>
-                    <a href="#kontak" class="hover:text-cyan-400 transition">Kontak & Sosmed</a>
-                </div>
-            </div>
-
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-                <p>&copy; 2026 WanDrone. Seluruh hak cipta dilindungi undang-undang.</p>
-                <p class="text-[11px] text-slate-400">
-                    DJI, Mini 4 Pro, Mini 5 Pro, Air 3, Mavic 3, dan RC 2 adalah merek dagang terdaftar milik SZ DJI Technology Co., Ltd.
-                </p>
+            <div class="tw-foot-legal">
+                <span>&copy; 2026 WanDrone. Seluruh hak cipta dilindungi undang-undang.</span>
+                <span>DJI, Mini 4 Pro, Mini 5 Pro, Air 3, Mavic 3, dan RC 2 adalah merek dagang terdaftar milik SZ DJI Technology Co., Ltd.</span>
             </div>
         </div>
     </footer>
 
-    <!-- Interactive Scripts -->
+    <!-- Interactive Script for Tabs -->
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Tab Switching for Feature Section
-        function switchFeatureTab(tabIndex) {
-            // Hide all tab panels
+        function switchTab(index) {
             for (let i = 1; i <= 3; i++) {
-                const panel = document.getElementById('tab-content-' + i);
                 const btn = document.getElementById('tab-btn-' + i);
-                if (panel && btn) {
-                    if (i === tabIndex) {
-                        panel.classList.remove('hidden');
-                        btn.className = 'flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition bg-cyan-500 text-white shadow-md shadow-cyan-500/20';
+                const panel = document.getElementById('tab-panel-' + i);
+                if (btn && panel) {
+                    if (i === index) {
+                        btn.classList.add('active');
+                        panel.style.display = 'grid';
                     } else {
-                        panel.classList.add('hidden');
-                        btn.className = 'flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition';
+                        btn.classList.remove('active');
+                        panel.style.display = 'none';
                     }
                 }
             }

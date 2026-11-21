@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="id-ID" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    
+    <title>Informasi Lisensi — WanDrone APP</title>
+    <meta name="description" content="Informasi resmi lisensi TW-Mapper (Hobby & Pro Edition) dan kontak aktivasi. Hubungi Jejen (Informasi Lisensi) dan tim Product Knowledge (Ian, Upay, Wan)."/>
+    
+    <!-- OpenGraph / Social Meta -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Informasi Lisensi TW-Mapper | WanDrone APP"/>
+    <meta property="og:site_name" content="WanDrone"/>
+    <meta property="og:description" content="Informasi lisensi resmi, paket Hobby & Pro, panduan aktivasi, serta kontak resmi lisensi dan konsultasi teknis."/>
+    <meta property="og:image" content="favicon.png"/>
+    
+    <!-- Favicon WanDrone -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+    <link rel="apple-touch-icon" href="favicon.png"/>
+
+    <!-- Google Fonts: Barlow Semi Condensed + IBM Plex Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <style>
+        :root {
+            --ink: #0A0E16;
+            --slate: #3A4657;
+            --line: #D6DCE5;
+            --mist: #F3F5F8;
+            --teal: #2DD4BF;
+            --teal-deep: #0F766E;
+            --teal-hover: #22B8A6;
+            --teal-down: #1FA896;
+            --ink-dark: #E8EEF4;
+            --muted-dark: #9FB0C4;
+            --line-dark: rgba(232, 238, 244, 0.14);
+            --fill-dark: rgba(232, 238, 244, 0.10);
+            --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+            --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+            --nav-height: 64px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: var(--slate);
+            font-family: var(--body);
+            font-size: 1rem;
+            line-height: 1.55;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -0.75rem;
+            margin-right: -0.75rem;
+        }
+
+        [class*="col-"] {
+            position: relative;
+            width: 100%;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .col-12 { flex: 0 0 100%; max-width: 100%; }
+        .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+        .col-md-6 { flex: 0 0 100%; max-width: 100%; }
+        .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+        .col-lg-8 { flex: 0 0 100%; max-width: 100%; }
+
+        @media (min-width: 768px) {
+            .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+            .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+            .col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+        }
+
+        h1, h2, h3, h4, .tw-h2, .tw-name, .tw-price {
+            font-family: var(--display);
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: var(--ink-dark);
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 3rem; }
+        }
+
+        .tw-h2 {
+            font-size: 1.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tw-standfirst {
+            font-size: 1.125rem;
+            line-height: 1.5;
+            color: var(--slate);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Top Announcement Bar */
+        .tw-announcement {
+            background: #06090e;
+            border-bottom: 1px solid var(--line-dark);
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
+            text-align: center;
+        }
+        .tw-announcement strong {
+            color: var(--teal);
+            font-weight: 600;
+        }
+        .tw-announcement a {
+            color: var(--ink-dark);
+            text-decoration: underline;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        header#top {
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: var(--nav-height);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .nav-brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .nav-brand-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .nav-brand-title {
+            font-family: var(--display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-brand-subtitle {
+            font-family: var(--body);
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: var(--slate);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-menu {
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        @media (min-width: 860px) {
+            .nav-menu { display: flex; }
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--slate);
+            text-decoration: none;
+            transition: color 120ms;
+        }
+
+        .nav-link:hover {
+            color: var(--teal-deep);
+        }
+
+        .tw-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            align-items: center;
+        }
+
+        .tw-btn, .tw-btn-2, .tw-btn-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--body);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            line-height: 1.2;
+            padding: 0.75rem 1.25rem;
+            min-height: 44px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            text-decoration: none;
+            transition: background-color 120ms, border-color 120ms, color 120ms;
+            cursor: pointer;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .tw-btn-lg {
+            font-size: 1rem;
+            padding: 0.875rem 1.75rem;
+            min-height: 50px;
+        }
+
+        .tw-btn {
+            background: var(--teal) !important;
+            border-color: var(--teal) !important;
+            color: var(--ink) !important;
+        }
+
+        .tw-btn:hover {
+            background: var(--teal-hover) !important;
+            border-color: var(--teal-hover) !important;
+        }
+
+        .tw-btn-2 {
+            background: transparent !important;
+            border-color: var(--ink) !important;
+            color: var(--ink) !important;
+        }
+
+        .tw-btn-2:hover {
+            background: var(--line) !important;
+        }
+
+        .tw-band .tw-btn-2 {
+            border-color: var(--ink-dark) !important;
+            color: var(--ink-dark) !important;
+        }
+
+        .tw-band .tw-btn-2:hover {
+            background: var(--fill-dark) !important;
+        }
+
+        .tw-btn-wa {
+            background: #25D366 !important;
+            border-color: #25D366 !important;
+            color: #FFFFFF !important;
+        }
+
+        .tw-btn-wa:hover {
+            background: #20BA5A !important;
+        }
+
+        .tw-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.5rem 0 0.75rem;
+        }
+
+        .tw-chip, .tw-chip-solid {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.4;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            color: var(--slate);
+        }
+
+        .tw-chip-solid {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--mist);
+        }
+
+        .tw-band {
+            background: var(--ink);
+            color: var(--muted-dark);
+            padding: 4rem 0;
+        }
+
+        .tw-hero {
+            padding-top: 3.5rem;
+            padding-bottom: 4rem;
+        }
+
+        .tw-hero .tw-standfirst {
+            color: var(--muted-dark);
+            font-size: 1.25rem;
+            line-height: 1.45;
+            max-width: 62ch;
+        }
+
+        .tw-side {
+            padding: 4rem 0;
+            background: #FFFFFF;
+            border-top: 1px solid var(--line);
+        }
+
+        .tw-side.tw-side-alt {
+            background: var(--mist);
+        }
+
+        .tw-side-head {
+            margin-bottom: 2rem;
+            padding-right: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .tw-side-head {
+                margin-bottom: 0;
+            }
+        }
+
+        .tw-rows {
+            border-top: 1px solid var(--line);
+        }
+
+        .tw-row {
+            display: grid;
+            grid-template-columns: 88px 1fr;
+            gap: 1rem 1.25rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--line);
+            align-items: start;
+        }
+
+        @media (min-width: 768px) {
+            .tw-row {
+                grid-template-columns: 110px 1fr 220px;
+                gap: 1.5rem;
+            }
+        }
+
+        .tw-tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 88px;
+            height: 88px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .tw-tile {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        .tw-tile img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .tw-name {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--ink);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .tw-one {
+            color: var(--slate);
+            font-size: 0.9375rem;
+            margin: 0.25rem 0 0.5rem;
+            line-height: 1.45;
+        }
+
+        .tw-buy {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            grid-column: 2;
+        }
+
+        @media (min-width: 768px) {
+            .tw-buy {
+                grid-column: auto;
+                align-items: flex-end;
+            }
+        }
+
+        .tw-price {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        .tw-steps {
+            list-style: none;
+            counter-reset: tw;
+            margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .tw-steps li {
+            counter-increment: tw;
+            display: grid;
+            grid-template-columns: 2.5rem 1fr;
+            gap: 1.25rem;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--line);
+            color: var(--ink);
+            align-items: baseline;
+        }
+
+        .tw-steps li::before {
+            content: counter(tw);
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1.75rem;
+            color: var(--teal-deep);
+            line-height: 1;
+        }
+
+        .tw-step-title {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.25rem;
+        }
+
+        .tw-step-desc {
+            font-size: 0.9375rem;
+            color: var(--slate);
+            line-height: 1.45;
+        }
+
+        .tw-vs {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tw-vs th, .tw-vs td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle;
+            font-size: 0.9375rem;
+        }
+
+        .tw-vs thead th {
+            font-family: var(--display);
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 1.05rem;
+            background: #FFFFFF;
+        }
+
+        .tw-vs tbody th {
+            font-weight: 500;
+            color: var(--slate);
+        }
+
+        .tw-vs .tw-vs-us {
+            background: rgba(45, 212, 191, 0.08);
+            color: var(--teal-deep);
+            font-weight: 600;
+        }
+
+        .tw-vs thead .tw-vs-us {
+            border-top: 2px solid var(--teal-deep);
+        }
+
+        /* Contact Card Style */
+        .tw-contact-card {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: border-color 120ms;
+        }
+
+        .tw-contact-card:hover {
+            border-color: var(--teal-deep);
+        }
+
+        .tw-contact-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .tw-contact-role {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--teal-deep);
+        }
+
+        .tw-contact-name {
+            font-family: var(--display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .tw-contact-phone {
+            font-family: var(--mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        footer.tw-band {
+            padding: 3.5rem 0 2rem;
+            border-top: 1px solid var(--line-dark);
+        }
+
+        footer .tw-h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        footer .tw-list li {
+            list-style: none;
+            padding: 0.25rem 0;
+            color: var(--muted-dark);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--muted-dark);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--teal);
+            text-decoration: underline;
+        }
+
+        .tw-foot-legal {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line-dark);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
+        }
+    </style>
+</head>
+<body id="wrapwrap">
+
+    <!-- Top Announcement Bar -->
+    <div class="tw-announcement">
+        <span>🎉 <strong>VERSI COBA GRATIS TERSEDIA</strong> — Coba langsung di remote controller Anda sebelum aktivasi lisensi.</span>
+        <a href="index.html#trial-hub">Unduh Coba Gratis &rarr;</a>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header id="top" role="banner">
+        <div class="container">
+            <nav class="nav-wrapper" aria-label="Navigasi Lisensi">
+                <a href="index.html" class="nav-brand">
+                    <img src="favicon.png" alt="TW Mapper Logo"/>
+                    <div class="nav-brand-group">
+                        <div class="nav-brand-title">TW Mapper</div>
+                        <div class="nav-brand-subtitle">mapping instan dengan drone consumer</div>
+                    </div>
+                </a>
+
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a role="menuitem" href="index.html" class="nav-link">&larr; Kembali ke Beranda</a></li>
+                    <li role="none"><a role="menuitem" href="#paket-lisensi" class="nav-link">Pilihan Paket</a></li>
+                    <li role="none"><a role="menuitem" href="#alur-aktivasi" class="nav-link">Alur Aktivasi</a></li>
+                    <li role="none"><a role="menuitem" href="#kontak-resmi" class="nav-link">Kontak Lisensi &amp; Teknis</a></li>
+                </ul>
+
+                <div>
+                    <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20informasi%20dan%20aktivasi%20lisensi%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn" style="padding: 0.5rem 1rem; min-height: 38px; font-size: 0.875rem;">
+                        Hubungi Jejen (Lisensi)
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="wrap">
+
+        <!-- HERO SECTION LISENSI -->
+        <section class="tw-band tw-hero" id="hero-lisensi">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7">
+                        <div class="tw-chips" style="margin-bottom: 1rem;">
+                            <span class="tw-chip-solid">Informasi &amp; Aktivasi Lisensi</span>
+                            <span class="tw-chip">Official Helpdesk</span>
+                        </div>
+
+                        <h1>Informasi Lisensi Resmi TW-Mapper</h1>
+
+                        <p class="tw-standfirst">
+                            Temukan pilihan lisensi yang tepat untuk kebutuhan pemetaan udara Anda, pelajari alur aktivasi perangkat, dan hubungi narahubung resmi kami untuk proses pemesanan.
+                        </p>
+
+                        <div class="tw-btns">
+                            <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20informasi%20dan%20aktivasi%20lisensi%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-wa tw-btn-lg">
+                                📞 Chat WhatsApp Jejen (0851-9939-1551)
+                            </a>
+                            <a href="#paket-lisensi" class="tw-btn-2 tw-btn-lg">Lihat Pilihan Paket &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5" style="margin-top: 2rem;">
+                        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid var(--line-dark); border-radius: 8px; padding: 1.5rem; font-family: var(--body);">
+                            <div style="color: var(--teal); font-family: var(--display); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">
+                                Kontak Langsung Lisensi:
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted-dark); letter-spacing: 0.05em;">Informasi Lisensi &amp; Aktivasi:</div>
+                                <div style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: #FFFFFF;">Jejen</div>
+                                <div style="font-family: var(--mono); color: var(--teal); font-size: 1.1rem; font-weight: 600;">0851-9939-1551</div>
+                            </div>
+                            <div style="border-top: 1px solid var(--line-dark); padding-top: 0.75rem; font-size: 0.8125rem; color: var(--muted-dark); line-height: 1.45;">
+                                Untuk aktivasi perangkat remote (RC 2, RC Pro, RC Pro 2, atau smartphone RC-N), siapkan Device ID dari aplikasi TW-Mapper Anda.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: PAKET LISENSI (tw-side) -->
+        <section class="tw-side" id="paket-lisensi">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Pilihan paket lisensi</h2>
+                        <p class="tw-standfirst">
+                            Tersedia edisi Hobby untuk perorangan dan edisi Pro untuk kebutuhan survei industri serta pemetaan perbukitan yang kompleks.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <div class="tw-rows">
+                            <!-- Hobby Edition -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <img src="images/icon_hobby.svg" alt="Hobby Edition Icon"/>
+                                </div>
+                                <div>
+                                    <span class="tw-name">Lisensi Hobby Edition</span>
+                                    <p class="tw-one">Cocok untuk pilot personal, penghobi, survei lahan datar, dan kebutuhan latihan pemetaan udara.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Jalur Grid &amp; Zig-zag</span>
+                                        <span class="tw-chip">KML Standar</span>
+                                        <span class="tw-chip">Flash Inject</span>
+                                        <span class="tw-chip">Peta Offline</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <span class="tw-price">Hobby Edition</span>
+                                    <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20konsultasi%20Lisensi%20Hobby%20TW-Mapper" class="tw-btn-2" target="_blank" rel="noopener">Hubungi Jejen</a>
+                                </div>
+                            </div>
+
+                            <!-- Pro Edition -->
+                            <div class="tw-row">
+                                <div class="tw-tile">
+                                    <img src="images/icon_pro.svg" alt="Pro Edition Icon"/>
+                                </div>
+                                <div>
+                                    <span class="tw-name">Lisensi Pro Edition</span>
+                                    <p class="tw-one">Paket lengkap untuk surveyor profesional, perkebunan, pertambangan, kontraktor konstruksi, dan instansi pemetaan.</p>
+                                    <p class="tw-chips">
+                                        <span class="tw-chip">Semua Fitur Hobby</span>
+                                        <span class="tw-chip">Follow Terrain Bukit</span>
+                                        <span class="tw-chip">KML Multi-Boundaries</span>
+                                        <span class="tw-chip">Orbit Helix 3D</span>
+                                        <span class="tw-chip">Split Misi Multi-Baterai</span>
+                                        <span class="tw-chip">Fleet Sync</span>
+                                    </p>
+                                </div>
+                                <div class="tw-buy">
+                                    <span class="tw-price">Pro Edition</span>
+                                    <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20konsultasi%20Lisensi%20Pro%20TW-Mapper" class="tw-btn" target="_blank" rel="noopener">Hubungi Jejen</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Table -->
+                        <table class="tw-vs">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fitur Pemetaan</th>
+                                    <th scope="col">Lisensi Hobby</th>
+                                    <th scope="col" class="tw-vs-us">Lisensi Pro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Jalur Grid &amp; Zig-zag Otomatis</th>
+                                    <td>Ya</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Flash Inject Instan (&lt; 1 Detik)</th>
+                                    <td>Ya</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Peta Satelit Offline</th>
+                                    <td>Ya</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Follow Terrain (Elevasi Kontur Bukit)</th>
+                                    <td>Tidak</td>
+                                    <td class="tw-vs-us">Ya (Otomatis)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">KML Multi-Boundaries Kompleks</th>
+                                    <td>Single Boundary</td>
+                                    <td class="tw-vs-us">Ya (Banyak Polygon)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Orbit Helix Spiral 3D &amp; Koridor Asimetris</th>
+                                    <td>Tidak</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Split Misi Multi-Baterai &amp; Fleet Sync</th>
+                                    <td>Tidak</td>
+                                    <td class="tw-vs-us">Ya</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ALUR AKTIVASI (tw-side tw-side-alt) -->
+        <section class="tw-side tw-side-alt" id="alur-aktivasi">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Alur aktivasi lisensi</h2>
+                        <p class="tw-standfirst">
+                            Tiga langkah praktis untuk mengaktifkan lisensi TW-Mapper di perangkat remote controller Anda.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <ol class="tw-steps">
+                            <li>
+                                <div>
+                                    <div class="tw-step-title">1. Unduh &amp; Pasang Aplikasi di Remote</div>
+                                    <div class="tw-step-desc">
+                                        Pasang APK TW-Mapper di remote controller Anda (DJI RC 2, RC Pro, RC Pro 2, atau smartphone Android). Anda dapat mencoba fitur-fiturnya secara gratis terlebih dahulu.
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="tw-step-title">2. Hubungi Jejen (Informasi Lisensi)</div>
+                                    <div class="tw-step-desc">
+                                        Buka menu pengaturan aplikasi di remote untuk melihat Device ID Anda. Kirimkan Device ID tersebut kepada <strong>Jejen (0851-9939-1551)</strong> melalui WhatsApp beserta pilihan edisi lisensi yang Anda kehendaki.
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="tw-step-title">3. Lisensi Aktif Seketika</div>
+                                    <div class="tw-step-desc">
+                                        Setelah aktivasi diproses oleh tim kami, aplikasi Anda langsung terbuka penuh dan siap digunakan terbang pemetaan mandiri di lapangan tanpa laptop.
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KONTAK RESMI LISENSI & PRODUCT KNOWLEDGE (tw-side) -->
+        <section class="tw-side" id="kontak-resmi">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 tw-side-head">
+                        <h2 class="tw-h2">Kontak resmi</h2>
+                        <p class="tw-standfirst">
+                            Hubungi narahubung resmi kami sesuai kebutuhan informasi lisensi maupun konsultasi teknis operasional pemetaan.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-8 tw-side-body">
+                        <!-- Card 1: Informasi Lisensi (Jejen) -->
+                        <div class="tw-contact-card" style="border-left: 4px solid var(--teal-deep);">
+                            <div class="tw-contact-header">
+                                <span class="tw-contact-role">📞 INFORMASI LISENSI &amp; AKTIVASI</span>
+                                <span class="tw-chip-solid">Narahubung Lisensi</span>
+                            </div>
+                            <div class="tw-contact-name">Jejen</div>
+                            <div class="tw-contact-phone">0851-9939-1551</div>
+                            <p class="tw-one" style="margin-bottom: 0.85rem;">
+                                Layanan resmi pemesanan lisensi, aktivasi perangkat remote controller, faktur, dan administrasi akun.
+                            </p>
+                            <a href="https://wa.me/6285199391551?text=Halo%20Jejen,%20saya%20ingin%20informasi%20lisensi%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-wa">
+                                Chat WhatsApp Jejen
+                            </a>
+                        </div>
+
+                        <!-- Card 2: Product Knowledge (Ian, Upay, Wan) -->
+                        <div class="tw-contact-card" style="border-left: 4px solid var(--teal); margin-top: 1.5rem;">
+                            <div class="tw-contact-header">
+                                <span class="tw-contact-role">🛠️ PRODUCT KNOWLEDGE &amp; KONSULTASI TEKNIS</span>
+                                <span class="tw-chip">Tim Teknis Lapangan</span>
+                            </div>
+                            <p class="tw-one" style="margin-bottom: 1rem;">
+                                Untuk informasi produk, fitur aplikasi, panduan penggunaan, dan konsultasi teknis pemetaan fotogrametri di lapangan, Anda dapat menghubungi tim kami:
+                            </p>
+
+                            <div class="row">
+                                <!-- Ian -->
+                                <div class="col-md-4" style="margin-bottom: 1rem;">
+                                    <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.85rem;">
+                                        <div style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink);">Ian</div>
+                                        <div style="font-family: var(--mono); font-size: 0.95rem; font-weight: 600; color: var(--teal-deep); margin: 0.25rem 0 0.5rem;">0851-9939-1551</div>
+                                        <a href="https://wa.me/6285199391551?text=Halo%20Ian,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="width: 100%; padding: 0.4rem 0.75rem; min-height: 36px; font-size: 0.8125rem;">
+                                            Hubungi Ian
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Upay -->
+                                <div class="col-md-4" style="margin-bottom: 1rem;">
+                                    <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.85rem;">
+                                        <div style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink);">Upay</div>
+                                        <div style="font-family: var(--mono); font-size: 0.95rem; font-weight: 600; color: var(--teal-deep); margin: 0.25rem 0 0.5rem;">0811-1969-111</div>
+                                        <a href="https://wa.me/628111969111?text=Halo%20Upay,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="width: 100%; padding: 0.4rem 0.75rem; min-height: 36px; font-size: 0.8125rem;">
+                                            Hubungi Upay
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Wan -->
+                                <div class="col-md-4" style="margin-bottom: 1rem;">
+                                    <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.85rem;">
+                                        <div style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink);">Wan</div>
+                                        <div style="font-family: var(--mono); font-size: 0.95rem; font-weight: 600; color: var(--teal-deep); margin: 0.25rem 0 0.5rem;">0851-7500-9498</div>
+                                        <a href="https://wa.me/6285175009498?text=Halo%20Wan,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="width: 100%; padding: 0.4rem 0.75rem; min-height: 36px; font-size: 0.8125rem;">
+                                            Hubungi Wan
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="tw-band">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <img src="favicon.png" alt="WanDrone" width="28" height="28"/>
+                        <span style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink-dark);">WanDrone</span>
+                    </div>
+                    <ul class="tw-list">
+                        <li><span>Solusi Pemetaan Drone Otonom</span></li>
+                        <li><span>Instagram: <a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener">@wan.drone.plg</a></span></li>
+                        <li><span>TikTok: <a href="https://tiktok.com/@wan.drone" target="_blank" rel="noopener">@wan.drone</a></span></li>
+                        <li><span>YouTube: <a href="https://youtube.com/@wandrone.streamer" target="_blank" rel="noopener">@wandrone.streamer</a></span></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <h3 class="tw-h2">Navigasi</h3>
+                    <ul class="tw-list">
+                        <li><a href="index.html">&larr; Kembali ke Beranda</a></li>
+                        <li><a href="#paket-lisensi">Pilihan Paket Lisensi</a></li>
+                        <li><a href="#alur-aktivasi">Alur Aktivasi Perangkat</a></li>
+                        <li><a href="#kontak-resmi">Kontak Narahubung</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <h3 class="tw-h2">Narahubung Resmi</h3>
+                    <ul class="tw-list">
+                        <li><span>Informasi Lisensi: <strong>Jejen</strong> (0851-9939-1551)</span></li>
+                        <li><span>Product Knowledge: <strong>Ian</strong> (0851-9939-1551)</span></li>
+                        <li><span>Product Knowledge: <strong>Upay</strong> (0811-1969-111)</span></li>
+                        <li><span>Product Knowledge: <strong>Wan</strong> (0851-7500-9498)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tw-foot-legal">
+                <span>&copy; 2026 WanDrone. Seluruh hak cipta dilindungi undang-undang.</span>
+                <span>DJI, Mini 4 Pro, Mini 5 Pro, Air 3, Mavic 3, dan RC 2 adalah merek dagang terdaftar milik SZ DJI Technology Co., Ltd.</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

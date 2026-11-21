@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     
     <title>WanDrone APP</title>
-    <meta name="description" content="Aplikasi pemetaan drone otonom langsung di remote controller DJI RC 2, RC Pro, RC Pro 2, dan HP/Tablet. Rencanakan jalur terbang, ikuti kontur bukit, dan kirim misi tanpa laptop. Dilengkapi Free Trial 7 Hari."/>
+    <meta name="description" content="Aplikasi pemetaan drone otonom langsung di remote controller DJI RC 2, RC Pro, RC Pro 2, dan HP/Tablet. Rencanakan jalur terbang, ikuti kontur bukit, dan kirim misi tanpa laptop. Tersedia versi coba gratis."/>
     
     <!-- OpenGraph / Social Meta -->
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="WanDrone APP | Pemetaan Drone Otonom di Remote Controller"/>
     <meta property="og:site_name" content="WanDrone"/>
-    <meta property="og:description" content="Pemetaan otonom mandiri langsung di remote controller tanpa laptop. Dilengkapi Free Trial 7 Hari, Follow Terrain, dan Flash Inject instan."/>
+    <meta property="og:description" content="Pemetaan otonom mandiri langsung di remote controller tanpa laptop. Tersedia versi coba gratis, Follow Terrain, dan Flash Inject instan."/>
     <meta property="og:image" content="favicon.png"/>
     
     <!-- Favicon WanDrone -->
@@ -194,31 +194,33 @@
         }
 
         .nav-brand img {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             object-fit: contain;
         }
 
-        .nav-brand-text {
-            font-family: var(--display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
+        .nav-brand-group {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .nav-trial-badge {
+        .nav-brand-title {
+            font-family: var(--display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-brand-subtitle {
             font-family: var(--body);
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: rgba(15, 118, 110, 0.12);
-            color: var(--teal-deep);
-            padding: 0.15rem 0.45rem;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: var(--slate);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
         }
 
         .nav-menu {
@@ -784,10 +786,10 @@
 </head>
 <body id="wrapwrap">
 
-    <!-- Top Announcement Bar (Trial 7 Hari) -->
+    <!-- Top Announcement Bar (Coba Gratis) -->
     <div class="tw-announcement">
-        <span>🎉 <strong>FREE TRIAL 7 HARI TERSEDIA</strong> — Coba pemetaan otonom langsung di remote controller Anda tanpa biaya awal.</span>
-        <a href="#trial-hub">Unduh Trial Sekarang &rarr;</a>
+        <span>🎉 <strong>VERSI COBA GRATIS TERSEDIA</strong> — Rasakan pemetaan otonom langsung di remote controller Anda tanpa biaya awal.</span>
+        <a href="#trial-hub">Coba Gratis Sekarang &rarr;</a>
     </div>
 
     <!-- Main Navigation Bar -->
@@ -795,15 +797,15 @@
         <div class="container">
             <nav class="nav-wrapper" aria-label="Navigasi Utama">
                 <a href="#" class="nav-brand">
-                    <img src="favicon.png" alt="WanDrone Logo"/>
-                    <span class="nav-brand-text">
-                        WanDrone APP
-                        <span class="nav-trial-badge">TW-Mapper</span>
-                    </span>
+                    <img src="favicon.png" alt="TW Mapper Logo"/>
+                    <div class="nav-brand-group">
+                        <div class="nav-brand-title">TW Mapper</div>
+                        <div class="nav-brand-subtitle">mapping instan dengan drone consumer</div>
+                    </div>
                 </a>
 
                 <ul class="nav-menu" role="menubar">
-                    <li role="none"><a role="menuitem" href="#trial-hub" class="nav-link">Trial 7 Hari</a></li>
+                    <li role="none"><a role="menuitem" href="#trial-hub" class="nav-link">Coba Gratis</a></li>
                     <li role="none"><a role="menuitem" href="#kemudahan" class="nav-link">Kemudahan</a></li>
                     <li role="none"><a role="menuitem" href="#fitur" class="nav-link">Fitur</a></li>
                     <li role="none"><a role="menuitem" href="#produk" class="nav-link">Lisensi</a></li>
@@ -842,11 +844,11 @@
                             <span class="tw-chip-solid">100% Mandiri Tanpa Laptop</span>
                             <span class="tw-chip">Kirim Misi &lt; 1 Detik</span>
                             <span class="tw-chip-solid">Sinyal Putus Misi Berjalan</span>
-                            <span class="tw-chip">Trial 7 Hari</span>
+                            <span class="tw-chip">Coba Gratis</span>
                         </div>
 
                         <div class="tw-btns">
-                            <a href="#trial-hub" class="tw-btn tw-btn-lg">Coba Gratis 7 Hari</a>
+                            <a href="#trial-hub" class="tw-btn tw-btn-lg">Coba Gratis Sekarang</a>
                             <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener" class="tw-btn-2 tw-btn-lg">Tonton Tutorial YouTube</a>
                             <a href="https://wa.me/6285199391551" target="_blank" rel="noopener" class="tw-btn-wa tw-btn-lg">WhatsApp</a>
                         </div>
@@ -904,7 +906,7 @@
                     <div class="col-lg-4 tw-side-head">
                         <h2 class="tw-h2">Mulai dalam 3 menit</h2>
                         <p class="tw-standfirst">
-                            Dapatkan akses penuh selama 7 hari, ikuti video panduan instalasi di remote, dan siapkan dokumen teknisnya.
+                            Dapatkan akses coba gratis, ikuti video panduan instalasi di remote, dan siapkan dokumen teknisnya.
                         </p>
                     </div>
 
@@ -919,17 +921,17 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <a class="tw-name" href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" target="_blank" rel="noopener">Aplikasi TW-Mapper (Versi Trial)</a>
+                                    <a class="tw-name" href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" target="_blank" rel="noopener">Aplikasi TW-Mapper (Coba Gratis)</a>
                                     <p class="tw-one">Pasang langsung di remote controller Anda dan rasakan kemudahan membuat misi pemetaan tanpa biaya di awal.</p>
                                     <p class="tw-chips">
-                                        <span class="tw-chip">Free Trial 7 Hari</span>
+                                        <span class="tw-chip">Coba Gratis</span>
                                         <span class="tw-chip">Akses Penuh Semua Fitur</span>
                                         <span class="tw-chip">Format APK</span>
                                     </p>
                                 </div>
                                 <div class="tw-buy">
-                                    <span class="tw-price">Gratis 7 Hari</span>
-                                    <a href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" class="tw-btn" target="_blank" rel="noopener">Unduh APK Trial</a>
+                                    <span class="tw-price">Coba Gratis</span>
+                                    <a href="https://drive.google.com/file/d/154FfXo-n6TzI10D03oFv9XGj5XqT6c6r/view?usp=sharing" class="tw-btn" target="_blank" rel="noopener">Unduh Coba Gratis</a>
                                 </div>
                             </div>
 
@@ -1465,10 +1467,10 @@
             <div class="container tw-close">
                 <h2 class="tw-h2">Siap begitu remote-mu siap.</h2>
                 <p>
-                    Coba versi trial 7 hari penuh sekarang dan rasakan efisiensi pemetaan otonom langsung di remote controller Anda.
+                    Coba gratis sekarang dan rasakan efisiensi pemetaan otonom langsung di remote controller Anda.
                 </p>
                 <p class="tw-btns">
-                    <a href="#trial-hub" class="tw-btn tw-btn-lg">Unduh Trial 7 Hari</a>
+                    <a href="#trial-hub" class="tw-btn tw-btn-lg">Unduh Coba Gratis</a>
                     <a href="https://wa.me/6285199391551" class="tw-btn-wa tw-btn-lg" target="_blank" rel="noopener">Hubungi WhatsApp</a>
                 </p>
             </div>
@@ -1496,7 +1498,7 @@
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
                     <h3 class="tw-h2">Navigasi Halaman</h3>
                     <ul class="tw-list">
-                        <li><a href="#trial-hub">Zona Trial 7 Hari &amp; Panduan</a></li>
+                        <li><a href="#trial-hub">Zona Coba Gratis &amp; Panduan</a></li>
                         <li><a href="#kemudahan">3 Kemudahan Utama</a></li>
                         <li><a href="#fitur">Fitur Unggulan</a></li>
                         <li><a href="#produk">Pilihan Lisensi (Hobby &amp; Pro)</a></li>

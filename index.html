@@ -681,39 +681,22 @@
 
         .tw-feature-art {
             width: 100%;
-            height: 120px;
-            background: var(--ink);
+            height: 150px;
+            background: #0A0E16;
             border-radius: 6px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid var(--line);
+            margin-bottom: 0.85rem;
         }
 
-        /* SVG Animations */
-        @keyframes dash {
-            to { stroke-dashoffset: -100; }
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            50% { transform: scale(1.15); opacity: 0.3; }
-            100% { transform: scale(0.9); opacity: 0.8; }
-        }
-        @keyframes drone-float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-4px); }
-        }
-
-        .anim-dash {
-            stroke-dasharray: 6 4;
-            animation: dash 4s linear infinite;
-        }
-        .anim-pulse {
-            transform-origin: center;
-            animation: pulse-ring 2.5s ease-in-out infinite;
-        }
-        .anim-drone {
-            animation: drone-float 3s ease-in-out infinite;
+        .tw-feature-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
         }
 
         /* End Band */
@@ -840,60 +823,15 @@
                             Rencanakan jalur terbang, ikuti kontur bukit secara presisi, dan kirim misi ke drone secara instan tanpa perlu repot membawa laptop ke lapangan.
                         </p>
 
-                        <div class="tw-chips" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-                            <span class="tw-chip-solid">100% Mandiri Tanpa Laptop</span>
-                            <span class="tw-chip">Kirim Misi &lt; 1 Detik</span>
-                            <span class="tw-chip-solid">Sinyal Putus Misi Berjalan</span>
-                            <span class="tw-chip">Coba Gratis</span>
-                        </div>
-
-                        <div class="tw-btns">
+                        <div class="tw-btns" style="margin-top: 1.5rem;">
                             <a href="#trial-hub" class="tw-btn tw-btn-lg">Coba Gratis Sekarang</a>
                             <a href="https://youtu.be/E2kpI9SfVjU?si=HTqeJLG2305BBvSH" target="_blank" rel="noopener" class="tw-btn-2 tw-btn-lg">Tonton Tutorial YouTube</a>
-                            <a href="https://wa.me/6285199391551" target="_blank" rel="noopener" class="tw-btn-wa tw-btn-lg">WhatsApp</a>
+                            <a href="https://wa.me/6285175009498" target="_blank" rel="noopener" class="tw-btn-wa tw-btn-lg">WhatsApp</a>
                         </div>
                     </div>
 
-                    <div class="col-lg-6" style="margin-top: 2rem;">
-                        <!-- Architectural Flight Planner Visual -->
-                        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid var(--line-dark); border-radius: 8px; padding: 1.25rem; font-family: var(--mono);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line-dark); padding-bottom: 0.75rem; margin-bottom: 1rem;">
-                                <span style="color: var(--teal); font-size: 0.8125rem; font-weight: 600;">TW-MAPPER // FLIGHT MONITOR</span>
-                                <span style="color: var(--muted-dark); font-size: 0.75rem;">STANDALONE ENGINE</span>
-                            </div>
-
-                            <div style="background: #000000; border: 1px solid var(--line-dark); border-radius: 6px; height: 160px; position: relative; overflow: hidden; margin-bottom: 1rem;">
-                                <svg width="100%" height="100%" viewBox="0 0 360 160" fill="none" style="display: block;">
-                                    <path d="M40,130 Q120,70 200,100 T340,50" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 2"/>
-                                    <!-- Drone Waypoint Route -->
-                                    <path d="M40,40 L120,40 L120,80 L200,80 L200,120 L320,120" stroke="#2DD4BF" stroke-width="2.5" class="anim-dash"/>
-                                    <circle cx="40" cy="40" r="4" fill="#2DD4BF"/>
-                                    <circle cx="120" cy="40" r="4" fill="#2DD4BF"/>
-                                    <circle cx="120" cy="80" r="4" fill="#2DD4BF"/>
-                                    <circle cx="200" cy="80" r="4" fill="#2DD4BF"/>
-                                    <circle cx="200" cy="120" r="4" fill="#2DD4BF"/>
-                                    <circle cx="320" cy="120" r="4" fill="#2DD4BF"/>
-                                    <!-- Drone animated point -->
-                                    <g class="anim-drone">
-                                        <circle cx="200" cy="80" r="7" fill="#10B981" class="anim-pulse"/>
-                                        <circle cx="200" cy="80" r="4" fill="#FFFFFF"/>
-                                    </g>
-                                    <text x="215" y="85" fill="#2DD4BF" font-size="11" font-family="monospace">GSD: 2.1 cm/px</text>
-                                    <text x="50" y="145" fill="#9FB0C4" font-size="10" font-family="monospace">Follow Terrain: Constant AGL 80m</text>
-                                </svg>
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.75rem;">
-                                <div style="background: rgba(255,255,255,0.04); padding: 0.5rem 0.75rem; border-radius: 4px;">
-                                    <span style="color: var(--muted-dark); display: block;">Perangkat Remote:</span>
-                                    <span style="color: var(--ink-dark); font-weight: 600;">RC 2 &bull; RC Pro &bull; RC Pro 2 &bull; HP</span>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.04); padding: 0.5rem 0.75rem; border-radius: 4px;">
-                                    <span style="color: var(--muted-dark); display: block;">Injeksi Misi:</span>
-                                    <span style="color: var(--teal); font-weight: 600;">Flash Inject &lt; 1 Detik</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-lg-6" style="margin-top: 2rem; display: flex; align-items: center; justify-content: center;">
+                        <img src="images/dji_rc2_twmapper.png" alt="DJI RC 2 dengan Layar Aplikasi TW Mapper" width="1000" height="1000" style="width: 100%; max-width: 480px; height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 30px rgba(45, 212, 191, 0.2)); border-radius: 6px;" loading="eager"/>
                     </div>
                 </div>
             </div>
@@ -1070,13 +1008,7 @@
                         <div id="tab-panel-1" class="tw-feature-grid">
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <polygon points="15,20 75,10 90,55 25,65" stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="3 2" fill="rgba(45,212,191,0.1)"/>
-                                        <polygon points="95,15 160,25 150,75 85,60" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2" fill="rgba(16,185,129,0.1)"/>
-                                        <polygon points="35,70 100,65 95,95 30,90" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3 2" fill="rgba(139,92,246,0.1)"/>
-                                        <circle cx="75" cy="10" r="3" fill="#2DD4BF" class="anim-pulse"/>
-                                        <circle cx="160" cy="25" r="3" fill="#10B981" class="anim-pulse"/>
-                                    </svg>
+                                    <img src="images/features/multi_area.png" alt="KML Multi-Boundaries" loading="lazy"/>
                                 </div>
                                 <h3>KML Multi-Boundaries</h3>
                                 <p>Muat file KML yang berisi banyak batas kepemilikan lahan atau sertifikat tanah sekaligus dalam satu proyek survei.</p>
@@ -1084,24 +1016,15 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <rect x="20" y="10" width="140" height="80" rx="4" stroke="#334155" stroke-dasharray="3 3"/>
-                                        <path d="M30,25 L150,25 L150,50 L30,50 L30,75 L150,75" stroke="#2DD4BF" stroke-width="2" class="anim-dash"/>
-                                        <circle cx="90" cy="50" r="4" fill="#10B981" class="anim-pulse"/>
-                                    </svg>
+                                    <img src="images/features/boustrophedon_grid.png" alt="Grid &amp; Zig-zag Otomatis" loading="lazy"/>
                                 </div>
-                                <h3>Grid & Zig-zag Otomatis</h3>
+                                <h3>Grid &amp; Zig-zag Otomatis</h3>
                                 <p>Kalkulasi otomatis sudut jalur optimal, overlap depan, overlap samping, dan resolusi tanah (GSD) untuk ortofoto tajam.</p>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <line x1="20" y1="75" x2="160" y2="75" stroke="#475569" stroke-width="1.5"/>
-                                        <path d="M30,75 Q90,15 150,75" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3 2"/>
-                                        <line x1="25" y1="40" x2="155" y2="40" stroke="#EF4444" stroke-width="1" stroke-dasharray="4 2"/>
-                                        <text x="50" y="35" fill="#EF4444" font-size="8" font-family="monospace">Batas Kecepatan Aman</text>
-                                    </svg>
+                                    <img src="images/features/speed_clamping.png" alt="Speed Clamping Aman" loading="lazy"/>
                                 </div>
                                 <h3>Speed Clamping Aman</h3>
                                 <p>Mencegah drone terbang terlalu cepat saat memotret sehingga foto bebas blur dan ketinggian aman terjamin.</p>
@@ -1109,11 +1032,7 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <path d="M15,55 Q60,30 110,50 T165,35" stroke="#F59E0B" stroke-width="2"/>
-                                        <path d="M15,30 Q60,5 110,25 T165,10" stroke="#2DD4BF" stroke-width="1" stroke-dasharray="3 2"/>
-                                        <path d="M15,75 Q60,50 110,70 T165,55" stroke="#10B981" stroke-width="1" stroke-dasharray="3 2"/>
-                                    </svg>
+                                    <img src="images/features/corridor_buffer.png" alt="Asymmetrical Corridor" loading="lazy"/>
                                 </div>
                                 <h3>Asymmetrical Corridor</h3>
                                 <p>Ideal untuk pemetaan jalur jalan raya, transmisi listrik, atau sungai dengan lebar batas kiri dan kanan yang berbeda.</p>
@@ -1124,12 +1043,7 @@
                         <div id="tab-panel-2" class="tw-feature-grid" style="display: none;">
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <rect x="25" y="30" width="35" height="40" rx="4" fill="#1E293B" stroke="#2DD4BF"/>
-                                        <path d="M70,50 L115,50" stroke="#10B981" stroke-width="2.5" class="anim-dash"/>
-                                        <circle cx="140" cy="50" r="14" fill="#1E293B" stroke="#10B981"/>
-                                        <text x="75" y="42" fill="#10B981" font-size="9" font-family="monospace">&lt; 1s Flash</text>
-                                    </svg>
+                                    <img src="images/features/flash_inject.png" alt="Flash Inject Instan" loading="lazy"/>
                                 </div>
                                 <h3>Flash Inject Instan</h3>
                                 <p>Injeksi jalur misi ke aplikasi resmi penerbangan remote dalam hitungan milidetik tanpa perlu restart remote controller.</p>
@@ -1137,28 +1051,15 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <circle cx="45" cy="50" r="14" fill="#1E293B" stroke="#2DD4BF"/>
-                                        <circle cx="135" cy="30" r="14" fill="#1E293B" stroke="#10B981"/>
-                                        <circle cx="135" cy="70" r="14" fill="#1E293B" stroke="#8B5CF6"/>
-                                        <line x1="59" y1="45" x2="121" y2="35" stroke="#2DD4BF" stroke-dasharray="3 2"/>
-                                        <line x1="59" y1="55" x2="121" y2="65" stroke="#2DD4BF" stroke-dasharray="3 2"/>
-                                    </svg>
+                                    <img src="images/features/fleet_sync.png" alt="Direct &amp; Fleet Sync" loading="lazy"/>
                                 </div>
-                                <h3>Direct & Fleet Sync</h3>
+                                <h3>Direct &amp; Fleet Sync</h3>
                                 <p>Sinkronisasi data proyek dan jalur misi antar sesama remote rekan tim di lapangan via koneksi lokal tanpa internet.</p>
                             </div>
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <rect x="30" y="20" width="35" height="25" fill="#1E293B" stroke="#334155"/>
-                                        <rect x="70" y="20" width="35" height="25" fill="#0F172A" stroke="#334155"/>
-                                        <rect x="110" y="20" width="35" height="25" fill="#1E293B" stroke="#334155"/>
-                                        <rect x="30" y="50" width="35" height="25" fill="#0F172A" stroke="#334155"/>
-                                        <rect x="70" y="50" width="35" height="25" fill="#1E293B" stroke="#334155"/>
-                                        <rect x="110" y="50" width="35" height="25" fill="#0F172A" stroke="#334155"/>
-                                    </svg>
+                                    <img src="images/features/offline_maps.png" alt="100% Peta Offline" loading="lazy"/>
                                 </div>
                                 <h3>100% Peta Offline</h3>
                                 <p>Unduh peta satelit sebelum ke lokasi terpencil. Citra resolusi tinggi tetap tampil jernih tanpa sinyal seluler.</p>
@@ -1166,12 +1067,7 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <rect x="50" y="20" width="80" height="60" rx="6" fill="#1E293B" stroke="#8B5CF6"/>
-                                        <line x1="60" y1="40" x2="120" y2="40" stroke="#475569"/>
-                                        <line x1="60" y1="60" x2="120" y2="60" stroke="#475569"/>
-                                        <circle cx="70" cy="30" r="3" fill="#10B981"/>
-                                    </svg>
+                                    <img src="images/features/dem_server.png" alt="Local Elevation Server" loading="lazy"/>
                                 </div>
                                 <h3>Local Elevation Server</h3>
                                 <p>Menyimpan data elevasi kontur permukaan tanah di dalam remote controller agar fungsi elevasi bekerja offline.</p>
@@ -1182,11 +1078,7 @@
                         <div id="tab-panel-3" class="tw-feature-grid" style="display: none;">
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <path d="M10,85 Q55,80 75,45 T130,30 Q155,30 170,85" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="1.5"/>
-                                        <path d="M10,60 Q55,55 75,20 T130,5 Q155,5 170,60" stroke="#2DD4BF" stroke-width="2" class="anim-dash"/>
-                                        <circle cx="75" cy="20" r="3" fill="#2DD4BF" class="anim-pulse"/>
-                                    </svg>
+                                    <img src="images/features/follow_terrain.png" alt="Follow Terrain (Elevasi Bukit)" loading="lazy"/>
                                 </div>
                                 <h3>Follow Terrain (Elevasi Bukit)</h3>
                                 <p>Drone otomatis terbang naik-turun mengikuti kontur tanah perbukitan sehingga resolusi foto (GSD) selalu konstan.</p>
@@ -1194,14 +1086,7 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <rect x="25" y="20" width="38" height="60" rx="3" fill="rgba(45,212,191,0.15)" stroke="#2DD4BF"/>
-                                        <rect x="70" y="20" width="38" height="60" rx="3" fill="rgba(16,185,129,0.15)" stroke="#10B981"/>
-                                        <rect x="115" y="20" width="38" height="60" rx="3" fill="rgba(245,158,11,0.15)" stroke="#F59E0B"/>
-                                        <text x="32" y="55" fill="#2DD4BF" font-size="8" font-family="monospace">Bat 1</text>
-                                        <text x="77" y="55" fill="#10B981" font-size="8" font-family="monospace">Bat 2</text>
-                                        <text x="122" y="55" fill="#F59E0B" font-size="8" font-family="monospace">Bat 3</text>
-                                    </svg>
+                                    <img src="images/features/split_mission.png" alt="Split Misi Multi-Baterai" loading="lazy"/>
                                 </div>
                                 <h3>Split Misi Multi-Baterai</h3>
                                 <p>Membagi area pemetaan luas menjadi beberapa sub-misi sesuai kapasitas baterai drone tanpa ada area terlewat.</p>
@@ -1209,10 +1094,7 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <rect x="80" y="25" width="20" height="60" rx="2" fill="#334155"/>
-                                        <path d="M50,80 C130,80 130,60 50,60 C130,60 130,40 50,40 C130,40 130,20 50,20" stroke="#2DD4BF" stroke-width="1.5" class="anim-dash"/>
-                                    </svg>
+                                    <img src="images/features/orbit_helix.png" alt="Orbit Helix Spiral 3D" loading="lazy"/>
                                 </div>
                                 <h3>Orbit Helix Spiral 3D</h3>
                                 <p>Pola terbang spiral kontinu mengitari objek vertikal (gedung, tower, kubah) yang hemat baterai untuk model 3D.</p>
@@ -1220,12 +1102,7 @@
 
                             <div class="tw-feature-card">
                                 <div class="tw-feature-art">
-                                    <svg width="180" height="100" viewBox="0 0 180 100" fill="none">
-                                        <path d="M20,50 L75,50" stroke="#10B981" stroke-width="2"/>
-                                        <circle cx="75" cy="50" r="4" fill="#F59E0B" class="anim-pulse"/>
-                                        <path d="M75,50 L160,50" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
-                                        <text x="60" y="38" fill="#F59E0B" font-size="8" font-family="monospace">Breakpoint</text>
-                                    </svg>
+                                    <img src="images/features/breakpoint_resume.png" alt="Breakpoint Resume Otomatis" loading="lazy"/>
                                 </div>
                                 <h3>Breakpoint Resume Otomatis</h3>
                                 <p>Ganti baterai di tengah jalan, drone otomatis melanjutkan misi langsung dari titik foto terakhir.</p>
@@ -1517,11 +1394,11 @@
                                     <span class="tw-name">YouTube Channel</span>
                                     <p class="tw-one">Tutorial lengkap panduan instalasi, pemetaan 3D, dan rekaman webinar teknis.</p>
                                     <p class="tw-chips">
-                                        <span class="tw-chip">@wandrone.streamer</span>
+                                        <span class="tw-chip">@wandroneapp</span>
                                     </p>
                                 </div>
                                 <div class="tw-buy">
-                                    <a href="https://youtube.com/@wandrone.streamer" class="tw-btn-2" target="_blank" rel="noopener">Buka YouTube</a>
+                                    <a href="https://www.youtube.com/@wandroneapp" class="tw-btn-2" target="_blank" rel="noopener">Buka YouTube</a>
                                 </div>
                             </div>
                         </div>
@@ -1599,7 +1476,7 @@
                 </p>
                 <p class="tw-btns">
                     <a href="#trial-hub" class="tw-btn tw-btn-lg">Unduh Coba Gratis</a>
-                    <a href="https://wa.me/6285199391551" class="tw-btn-wa tw-btn-lg" target="_blank" rel="noopener">Hubungi WhatsApp</a>
+                    <a href="https://wa.me/6285175009498" class="tw-btn-wa tw-btn-lg" target="_blank" rel="noopener">Hubungi WhatsApp</a>
                 </p>
             </div>
         </section>
@@ -1619,7 +1496,7 @@
                         <li><span>Solusi Pemetaan Drone Otonom</span></li>
                         <li><span>Instagram: <a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener">@wan.drone.plg</a></span></li>
                         <li><span>TikTok: <a href="https://tiktok.com/@wan.drone" target="_blank" rel="noopener">@wan.drone</a></span></li>
-                        <li><span>YouTube: <a href="https://youtube.com/@wandrone.streamer" target="_blank" rel="noopener">@wandrone.streamer</a></span></li>
+                        <li><span>YouTube: <a href="https://www.youtube.com/@wandroneapp" target="_blank" rel="noopener">@wandroneapp</a></span></li>
                     </ul>
                 </div>
 
@@ -1646,7 +1523,7 @@
             </div>
 
             <div class="tw-foot-legal">
-                <span>&copy; 2026 WanDrone. Seluruh hak cipta dilindungi undang-undang.</span>
+                <span>&copy; 2026 WanDrone.</span>
                 <span>DJI, Mini 4 Pro, Mini 5 Pro, Air 3, Mavic 3, dan RC 2 adalah merek dagang terdaftar milik SZ DJI Technology Co., Ltd.</span>
             </div>
         </div>

@@ -1,33 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <defs>
-    <linearGradient id="bgPro" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#111827"/>
-      <stop offset="100%" stop-color="#0A0E16"/>
-    </linearGradient>
-  </defs>
-  <!-- Card Background -->
-  <rect x="2" y="2" width="96" height="96" rx="10" fill="url(#bgPro)" stroke="#1F2937" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!-- Topographic Terrain Contours (Pro Follow Terrain Feature) -->
+  <path d="M10 52 Q22 46 32 49 T54 44" stroke="#94A3B8" stroke-width="1.25" stroke-dasharray="2 2"/>
+  <path d="M8 57 Q20 50 32 53 T56 49" stroke="#0F766E" stroke-width="1.5"/>
+
+  <!-- LiDAR / Sensor Scanning Rays -->
+  <path d="M26 31 L14 46 M38 31 L50 46" stroke="#2DD4BF" stroke-width="1.25" stroke-dasharray="2 2" stroke-linecap="round"/>
+
+  <!-- Enterprise Quadcopter Drone -->
+  <!-- Diagonal Arms -->
+  <line x1="16" y1="16" x2="48" y2="38" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+  <line x1="16" y1="38" x2="48" y2="16" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Heavy Rotors -->
+  <ellipse cx="16" cy="16" rx="9" ry="4.5" stroke="#0F766E" stroke-width="1.75" fill="#CCFBF1"/>
+  <ellipse cx="48" cy="16" rx="9" ry="4.5" stroke="#0F766E" stroke-width="1.75" fill="#CCFBF1"/>
+  <ellipse cx="16" cy="38" rx="9" ry="4.5" stroke="#0F766E" stroke-width="1.75" fill="#CCFBF1"/>
+  <ellipse cx="48" cy="38" rx="9" ry="4.5" stroke="#0F766E" stroke-width="1.75" fill="#CCFBF1"/>
+
+  <!-- Rotor Hubs -->
+  <circle cx="16" cy="16" r="2.75" fill="#0F172A"/>
+  <circle cx="48" cy="16" r="2.75" fill="#0F172A"/>
+  <circle cx="16" cy="38" r="2.75" fill="#0F172A"/>
+  <circle cx="48" cy="38" r="2.75" fill="#0F172A"/>
+
+  <!-- Heavy Fuselage Body -->
+  <rect x="23" y="19" width="18" height="16" rx="4" fill="#0F172A" stroke="#2DD4BF" stroke-width="1.5"/>
   
-  <!-- Terrain Elevation Curves -->
-  <path d="M 16 66 Q 32 50 48 58 T 84 46" fill="none" stroke="rgba(45, 212, 191, 0.4)" stroke-width="1.5" stroke-dasharray="3 2"/>
-  <path d="M 16 52 Q 32 36 48 44 T 84 32" fill="none" stroke="#2DD4BF" stroke-width="1.8"/>
+  <!-- Optical & LiDAR Sensor Core -->
+  <circle cx="32" cy="27" r="4.5" fill="#2DD4BF"/>
+  <circle cx="32" cy="27" r="2" fill="#042F2E"/>
 
-  <!-- Drone Icon Center -->
-  <g transform="translate(50, 36)">
-    <!-- Drone Arms -->
-    <line x1="-16" y1="-12" x2="16" y2="12" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round"/>
-    <line x1="-16" y1="12" x2="16" y2="-12" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round"/>
-    <!-- Propellers -->
-    <ellipse cx="-16" cy="-12" rx="7" ry="2.5" fill="none" stroke="#2DD4BF" stroke-width="1.2"/>
-    <ellipse cx="16" cy="-12" rx="7" ry="2.5" fill="none" stroke="#2DD4BF" stroke-width="1.2"/>
-    <ellipse cx="-16" cy="12" rx="7" ry="2.5" fill="none" stroke="#2DD4BF" stroke-width="1.2"/>
-    <ellipse cx="16" cy="12" rx="7" ry="2.5" fill="none" stroke="#2DD4BF" stroke-width="1.2"/>
-    <!-- Drone Body -->
-    <rect x="-7" y="-6" width="14" height="12" rx="3" fill="#1E293B" stroke="#E2E8F0" stroke-width="1.5"/>
-    <circle cx="0" cy="0" r="3" fill="#2DD4BF"/>
-  </g>
-
-  <!-- Tag Pro -->
-  <rect x="20" y="74" width="60" height="18" rx="4" fill="#1E293B" stroke="#374151" stroke-width="1"/>
-  <text x="50" y="86.5" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" fill="#2DD4BF" text-anchor="middle" letter-spacing="1.5">⚡ PRO</text>
+  <!-- Enterprise Pro Badge Accent -->
+  <rect x="22" y="7" width="20" height="6" rx="3" fill="#0F172A" stroke="#2DD4BF" stroke-width="1"/>
+  <text x="32" y="11.8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="5" font-weight="800" fill="#2DD4BF" text-anchor="middle" letter-spacing="0.5">PRO</text>
 </svg>

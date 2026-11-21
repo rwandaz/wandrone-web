@@ -406,17 +406,61 @@
                 font-size: 0.95rem !important;
                 line-height: 1.45 !important;
             }
-            .tw-hero .tw-btns {
+            /* All Buttons Normalization on Mobile */
+            .tw-btns {
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 0.65rem !important;
                 width: 100% !important;
+                gap: 0.55rem !important;
+                align-items: stretch !important;
             }
-            .tw-hero .tw-btns a,
-            .tw-hero .tw-btns button {
+            .tw-btns a,
+            .tw-btns button {
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
                 justify-content: center !important;
                 text-align: center !important;
+            }
+            .tw-btn, .tw-btn-2, .tw-btn-wa {
+                font-size: 0.875rem !important;
+                padding: 0.55rem 0.95rem !important;
+                min-height: 40px !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+                max-width: 100% !important;
+            }
+            .tw-btn-lg {
+                font-size: 0.875rem !important;
+                padding: 0.6rem 1rem !important;
+                min-height: 42px !important;
+            }
+            .tw-close .tw-btns {
+                max-width: 320px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            .tw-license-btn-wrap {
+                width: 100% !important;
+            }
+            .tw-license-btn-wrap a {
+                width: 100% !important;
+                min-height: 40px !important;
+                padding: 0.55rem 0.95rem !important;
+                font-size: 0.875rem !important;
+                box-sizing: border-box !important;
+            }
+            .tw-info-callout {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                text-align: center !important;
+                padding: 1rem !important;
+            }
+            .tw-info-callout a {
+                width: 100% !important;
+                justify-content: center !important;
             }
         }
 
@@ -634,8 +678,7 @@
         /* Comparison Table (.tw-vs) */
         .tw-table-wrap {
             width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
             border: 1px solid var(--line);
             border-radius: 8px;
             margin: 1rem 0 0.5rem;
@@ -643,7 +686,11 @@
         }
 
         .tw-table-hint {
-            display: none;
+            display: none !important;
+        }
+
+        .tw-hide-mob {
+            display: inline;
         }
 
         .tw-vs {
@@ -683,25 +730,45 @@
             border-top: 2px solid var(--teal-deep);
         }
 
-        @media (max-width: 640px) {
-            .tw-table-hint {
-                display: block;
-                font-size: 0.75rem;
-                color: var(--slate);
-                margin: 0.85rem 0 0.35rem;
-                text-align: right;
+        @media (max-width: 767px) {
+            .tw-hide-mob {
+                display: none !important;
+            }
+            .tw-table-wrap {
+                overflow: hidden !important;
+                overflow-x: hidden !important;
+                margin: 0.75rem 0 0.5rem !important;
             }
             .tw-table-wrap .tw-vs {
-                min-width: 480px;
-                margin: 0;
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+                table-layout: fixed !important;
+                margin: 0 !important;
             }
             .tw-vs th, .tw-vs td {
-                padding: 0.6rem 0.75rem;
-                font-size: 0.8125rem;
+                padding: 0.45rem 0.35rem !important;
+                font-size: 0.75rem !important;
+                line-height: 1.3 !important;
+                word-break: break-word !important;
             }
             .tw-vs thead th {
-                font-size: 0.875rem;
-                padding: 0.65rem 0.75rem;
+                font-size: 0.8125rem !important;
+                padding: 0.5rem 0.35rem !important;
+            }
+            .tw-vs th:first-child, .tw-vs td:first-child {
+                width: 52% !important;
+                padding-left: 0.5rem !important;
+                text-align: left !important;
+            }
+            .tw-vs th:nth-child(2), .tw-vs td:nth-child(2) {
+                width: 24% !important;
+                text-align: center !important;
+            }
+            .tw-vs th:nth-child(3), .tw-vs td:nth-child(3) {
+                width: 24% !important;
+                text-align: center !important;
+                padding-right: 0.5rem !important;
             }
         }
 
@@ -735,40 +802,10 @@
         /* Interactive Tabs for Features */
         .tw-tabs-nav {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 767px) {
-            .tw-tabs-nav {
-                display: flex !important;
-                flex-direction: row !important;
-                flex-wrap: nowrap !important;
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch !important;
-                gap: 0.5rem !important;
-                padding-bottom: 0.4rem !important;
-                margin-top: 0.75rem !important;
-                scrollbar-width: none !important;
-            }
-            .tw-tabs-nav::-webkit-scrollbar {
-                display: none;
-            }
-            .tw-tab-btn {
-                flex-shrink: 0 !important;
-                white-space: nowrap !important;
-                padding: 0.45rem 0.85rem !important;
-                font-size: 0.8125rem !important;
-                border-radius: 999px !important;
-            }
-        }
-
-        .tw-tabs-nav {
-            display: flex;
             flex-direction: column;
             gap: 0.4rem;
             margin-top: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .tw-tab-btn {
@@ -798,6 +835,28 @@
             border-color: var(--ink);
             color: #FFFFFF;
             font-weight: 600;
+        }
+
+        @media (max-width: 767px) {
+            .tw-tabs-nav {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.35rem !important;
+                width: 100% !important;
+                overflow: visible !important;
+                margin-top: 0.75rem !important;
+                margin-bottom: 1.25rem !important;
+            }
+            .tw-tab-btn {
+                width: 100% !important;
+                padding: 0.55rem 0.85rem !important;
+                font-size: 0.8125rem !important;
+                border-radius: 8px !important;
+                text-align: left !important;
+                justify-content: flex-start !important;
+                white-space: normal !important;
+                flex-shrink: 0 !important;
+            }
         }
 
         .tw-feature-grid {
@@ -1644,19 +1703,18 @@
                         </div>
 
                         <!-- Comparison Table -->
-                        <div class="tw-table-hint">&larr; Geser tabel untuk melihat perbandingan &rarr;</div>
                         <div class="tw-table-wrap">
                             <table class="tw-vs">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Fitur &amp; Kemampuan</th>
-                                        <th scope="col">Paket Hobby</th>
-                                        <th scope="col" class="tw-vs-us">Paket Pro</th>
+                                        <th scope="col">Fitur</th>
+                                        <th scope="col"><span class="tw-hide-mob">Paket </span>Hobby</th>
+                                        <th scope="col" class="tw-vs-us"><span class="tw-hide-mob">Paket </span>Pro</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Semua Fitur Pemetaan (Grid, KML, Koridor, Orbit 3D)</th>
+                                        <th scope="row">Fitur Pemetaan (Grid, KML, Orbit 3D)</th>
                                         <td>Ya</td>
                                         <td class="tw-vs-us">Ya</td>
                                     </tr>
@@ -1666,52 +1724,52 @@
                                         <td class="tw-vs-us">Ya</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Injeksi Berkas Standar (Timpa Dummy)</th>
+                                        <th scope="row">Injeksi Berkas (Dummy)</th>
                                         <td>Ya</td>
                                         <td class="tw-vs-us">Ya</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Flash Inject Instan (&lt; 1 Detik via TW Tweaks)</th>
+                                        <th scope="row">Flash Inject (&lt; 1 dtk)</th>
                                         <td>Ya</td>
                                         <td class="tw-vs-us">Ya</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Local Link / Direct Sync (Nirkabel Tanpa Kuota)</th>
+                                        <th scope="row">Local Link (Sync Nirkabel)</th>
                                         <td>Ya</td>
                                         <td class="tw-vs-us">Ya</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Split Misi Multi-Baterai</th>
-                                        <td>Hingga 5 Bagian</td>
-                                        <td class="tw-vs-us"><strong>Unlimited (Tanpa Batas)</strong></td>
+                                        <td>Hingga 5</td>
+                                        <td class="tw-vs-us"><strong>Unlimited</strong></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Follow Terrain (Ketinggian Ikuti Bukit &amp; Lembah)</th>
+                                        <th scope="row">Follow Terrain (Ikuti Kontur)</th>
                                         <td>Tidak</td>
-                                        <td class="tw-vs-us"><strong>Ya (Otomatis DEM)</strong></td>
+                                        <td class="tw-vs-us"><strong>Ya (DEM)</strong></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">TW Tweaks / DJI Fly Mod (Dukungan Fitur Tambahan)</th>
-                                        <td>Tidak</td>
-                                        <td class="tw-vs-us"><strong>Ya</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Fleet Sync (Transfer Rute Langsung Antar-Remote)</th>
+                                        <th scope="row">TW Tweaks / Fly Mod</th>
                                         <td>Tidak</td>
                                         <td class="tw-vs-us"><strong>Ya</strong></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Drone Tools: FCC Boost (Penguat Sinyal Transmisi)</th>
+                                        <th scope="row">Fleet Sync (Antar-Remote)</th>
                                         <td>Tidak</td>
                                         <td class="tw-vs-us"><strong>Ya</strong></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Drone Tools: Altitude Unlock (Buka Batas hingga 500m)</th>
+                                        <th scope="row">Drone Tools: FCC Boost</th>
                                         <td>Tidak</td>
                                         <td class="tw-vs-us"><strong>Ya</strong></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Drone Tools: ATTI Mode (Manual Tanpa GPS)</th>
+                                        <th scope="row">Drone Tools: Alt Unlock 500m</th>
+                                        <td>Tidak</td>
+                                        <td class="tw-vs-us"><strong>Ya</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Drone Tools: ATTI Mode</th>
                                         <td>Tidak</td>
                                         <td class="tw-vs-us"><strong>Ya</strong></td>
                                     </tr>
@@ -1719,7 +1777,7 @@
                             </table>
                         </div>
 
-                        <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
+                        <div class="tw-info-callout" style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
                             <div style="font-family: var(--display); font-size: 1rem; font-weight: 600; color: var(--ink);">
                                 Butuh informasi rincian atau alur aktivasi lisensi resmi?
                             </div>

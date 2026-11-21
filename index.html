@@ -384,6 +384,9 @@
             .tw-mob-tabbar {
                 display: block;
             }
+            .tw-nav-desktop-only {
+                display: none !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1377,12 +1380,11 @@
                     <li role="none"><a role="menuitem" href="#kompatibilitas" class="nav-link">Perangkat</a></li>
                     <li role="none"><a role="menuitem" href="#fitur" class="nav-link">Fitur</a></li>
                     <li role="none"><a role="menuitem" href="lisensi.html" class="nav-link">Lisensi</a></li>
-                    <li role="none"><a role="menuitem" href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="nav-link" style="color: var(--teal-deep); font-weight: 600;">Akun Lisensi &nearr;</a></li>
                     <li role="none"><a role="menuitem" href="#kontak" class="nav-link">Sosial Media</a></li>
                 </ul>
 
                 <div class="nav-actions">
-                    <a href="lisensi.html" class="tw-btn tw-nav-btn" style="padding: 0.45rem 0.85rem; min-height: 36px; font-size: 0.8125rem;">
+                    <a href="lisensi.html" class="tw-btn tw-nav-btn tw-nav-desktop-only" style="padding: 0.45rem 0.85rem; min-height: 36px; font-size: 0.8125rem;">
                         <span class="tw-hide-narrow">Layanan </span>Lisensi
                     </a>
                     <button id="tw-nav-toggle" class="tw-nav-toggle" aria-label="Buka Menu" onclick="toggleMobileNav()">
@@ -1400,7 +1402,6 @@
                 <a href="#kompatibilitas" class="tw-mob-tab-item">Perangkat</a>
                 <a href="#fitur" class="tw-mob-tab-item">Fitur</a>
                 <a href="lisensi.html" class="tw-mob-tab-item">Lisensi</a>
-                <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mob-tab-item tw-mob-tab-accent">Akun Lisensi &nearr;</a>
                 <a href="#kontak" class="tw-mob-tab-item">Sosial Media</a>
             </div>
         </nav>
@@ -1414,7 +1415,6 @@
                     <li><a href="#kompatibilitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📱 Perangkat</a></li>
                     <li><a href="#fitur" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📐 Fitur Unggulan</a></li>
                     <li><a href="lisensi.html" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📋 Lisensi</a></li>
-                    <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 600;">🔐 Akun Lisensi &nearr;</a></li>
                     <li><a href="#kontak" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">💬 Sosial Media</a></li>
                 </ul>
             </div>

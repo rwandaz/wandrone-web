@@ -1342,84 +1342,20 @@
                         </div>
                     </div>
 
-                    <!-- Tech Infographic Box -->
-                    <div class="tw-hero-art-box">
-                        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line-dark); padding-bottom: 0.75rem; margin-bottom: 1rem;">
-                            <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--teal); font-weight: 600;">SYS_ARCHITECTURE // TW-MAPPER</span>
-                            <span style="font-family: var(--mono); font-size: 0.7rem; color: var(--muted-dark);">REV 2026.11</span>
+                    <!-- Visualisasi DJI RC 2 dengan Layar Aplikasi TW Mapper -->
+                    <div class="tw-hero-art-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1.25rem; background: radial-gradient(circle at center, rgba(45, 212, 191, 0.08) 0%, rgba(10, 14, 22, 0.6) 80%); border: 1px solid var(--line-dark); border-radius: 8px; text-align: center;">
+                        <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line-dark); padding-bottom: 0.75rem; margin-bottom: 1.25rem;">
+                            <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--teal); font-weight: 600; letter-spacing: 0.05em;">DJI RC 2 // TW-MAPPER</span>
+                            <span style="font-family: var(--mono); font-size: 0.7rem; color: var(--muted-dark);">ANTARMUKA LAPANGAN</span>
                         </div>
 
-                        <!-- Technical SVG Diagram -->
-                        <svg viewBox="0 0 460 310" width="100%" height="auto" style="overflow: visible;">
-                            <defs>
-                                <linearGradient id="glowTeal" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.2"/>
-                                    <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0.8"/>
-                                </linearGradient>
-                                <filter id="pulseGlow" x="-20%" y="-20%" width="140%" height="140%">
-                                    <feGaussianBlur stdDeviation="3" result="glow"/>
-                                    <feMerge>
-                                        <feMergeNode in="glow"/>
-                                        <feMergeNode in="SourceGraphic"/>
-                                    </feMerge>
-                                </filter>
-                            </defs>
+                        <div style="position: relative; width: 100%; max-width: 440px; margin: 0 auto;">
+                            <img src="images/dji_rc2_twmapper.png" alt="Visualisasi DJI RC 2 dengan Layar Aplikasi TW Mapper" width="1000" height="1000" style="width: 100%; height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 30px rgba(45, 212, 191, 0.2)); border-radius: 6px;" loading="eager"/>
+                        </div>
 
-                            <!-- Background Grid -->
-                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(232, 238, 244, 0.05)" stroke-width="1"/>
-                            </pattern>
-                            <rect width="460" height="310" fill="url(#grid)" rx="6"/>
-
-                            <!-- Box 1: Smart Remote (DJI RC 2 / RC Pro) -->
-                            <g transform="translate(20, 30)">
-                                <rect width="180" height="110" rx="6" fill="#111827" stroke="#2DD4BF" stroke-width="1.5"/>
-                                <text x="14" y="26" fill="#E8EEF4" font-family="Barlow Semi Condensed" font-weight="600" font-size="14">DJI SMART REMOTE</text>
-                                <text x="14" y="42" fill="#9FB0C4" font-family="IBM Plex Sans" font-size="10">RC 2 &bull; RC Pro &bull; RC Pro 2 &bull; HP</text>
-                                
-                                <rect x="14" y="52" width="152" height="42" rx="4" fill="#0A0E16" stroke="rgba(232, 238, 244, 0.12)"/>
-                                <text x="24" y="68" fill="#2DD4BF" font-family="JetBrains Mono" font-weight="600" font-size="10">TW-MAPPER APP</text>
-                                <text x="24" y="82" fill="#E8EEF4" font-family="IBM Plex Sans" font-size="9">Generator Rute Misi</text>
-                            </g>
-
-                            <!-- Flow Arrow: Direct Injection -->
-                            <path d="M 200 85 L 250 85" stroke="#2DD4BF" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
-                            <polygon points="254,85 248,82 248,88" fill="#2DD4BF"/>
-                            <text x="204" y="78" fill="#2DD4BF" font-family="JetBrains Mono" font-size="8">FLASH INJECT</text>
-
-                            <!-- Box 2: DJI Fly App Environment -->
-                            <g transform="translate(260, 30)">
-                                <rect width="180" height="110" rx="6" fill="#111827" stroke="rgba(232, 238, 244, 0.25)" stroke-width="1.2"/>
-                                <text x="14" y="26" fill="#E8EEF4" font-family="Barlow Semi Condensed" font-weight="600" font-size="14">DJI FLY ENVIRONMENT</text>
-                                <text x="14" y="42" fill="#9FB0C4" font-family="IBM Plex Sans" font-size="10">Official Waypoint Directory</text>
-                                
-                                <rect x="14" y="52" width="152" height="42" rx="4" fill="#0A0E16" stroke="rgba(232, 238, 244, 0.12)"/>
-                                <text x="24" y="68" fill="#9FB0C4" font-family="JetBrains Mono" font-weight="600" font-size="10">AUTONOMOUS MISSION</text>
-                                <text x="24" y="82" fill="#2DD4BF" font-family="IBM Plex Sans" font-size="9">Ready for Takeoff (No SDK Lag)</text>
-                            </g>
-
-                            <!-- Flow Down Arrow: Radio Transmission -->
-                            <path d="M 350 140 L 350 185" stroke="#2DD4BF" stroke-width="2" fill="none"/>
-                            <polygon points="350,189 347,183 353,183" fill="#2DD4BF"/>
-                            <text x="358" y="168" fill="#2DD4BF" font-family="JetBrains Mono" font-size="8">O4/O3+ RF UPLOAD</text>
-
-                            <!-- Box 3: Flight Controller & Drone Execution -->
-                            <g transform="translate(20, 195)">
-                                <rect width="420" height="95" rx="6" fill="#111827" stroke="#2DD4BF" stroke-width="1.2"/>
-                                <text x="16" y="24" fill="#E8EEF4" font-family="Barlow Semi Condensed" font-weight="600" font-size="14">DJI ONBOARD AUTOPILOT (MINI 4/5 PRO &bull; AIR 3/3S &bull; MAVIC 3/4 PRO)</text>
-                                <text x="16" y="40" fill="#9FB0C4" font-family="IBM Plex Sans" font-size="11">Misi mandiri tersimpan di memori drone: Jika sinyal putus, misi tetap tuntas & RTH aman.</text>
-                                
-                                <!-- Elevation Contour Profile Curve -->
-                                <path d="M 20 80 Q 80 55 140 70 T 260 60 T 360 80 L 420 75" fill="none" stroke="rgba(232, 238, 244, 0.2)" stroke-width="1.5" stroke-dasharray="3 3"/>
-                                <path d="M 20 62 Q 80 37 140 52 T 260 42 T 360 62 L 420 57" fill="none" stroke="#2DD4BF" stroke-width="2"/>
-                                <text x="22" y="56" fill="#2DD4BF" font-family="JetBrains Mono" font-size="9">▲ Follow Terrain (Constant AGL)</text>
-                                <text x="310" y="88" fill="#9FB0C4" font-family="JetBrains Mono" font-size="8">ELEVASI KONTUR TANAH</text>
-                            </g>
-                        </svg>
-
-                        <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--muted-dark);">
-                            <span>&bull; Pre-calibrated DJI Optical Matrix</span>
-                            <span style="color: var(--teal); font-weight: 500;">Zero Virtual Stick Latency</span>
+                        <div style="margin-top: 1.25rem; display: flex; align-items: center; justify-content: space-between; width: 100%; font-size: 0.8rem; color: var(--muted-dark); border-top: 1px solid var(--line-dark); padding-top: 0.75rem;">
+                            <span>&bull; Layar 5.5&quot; FHD Terintegrasi</span>
+                            <span style="color: var(--teal); font-weight: 500;">Antarmuka TW-Mapper Aktif</span>
                         </div>
                     </div>
                 </div>

@@ -246,6 +246,187 @@
             color: var(--teal-deep);
         }
 
+        /* Mobile Navigation & Tab Bar */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tw-nav-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 0.35rem 0.55rem;
+            font-size: 1.15rem;
+            line-height: 1;
+            color: var(--ink);
+            cursor: pointer;
+            min-height: 36px;
+            min-width: 36px;
+            box-sizing: border-box;
+            transition: background-color 0.15s, border-color 0.15s;
+        }
+        .tw-nav-toggle:active {
+            background: var(--mist);
+        }
+
+        .tw-mob-tabbar {
+            display: none;
+            width: 100%;
+            background: #FFFFFF;
+            border-top: 1px solid var(--line);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .tw-mob-tabbar-track {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.45rem 1rem;
+            scrollbar-width: none;
+            box-sizing: border-box;
+        }
+
+        .tw-mob-tabbar-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tw-mob-tab-item {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--slate);
+            background: var(--mist);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.32rem 0.75rem;
+            text-decoration: none;
+            flex-shrink: 0;
+            white-space: nowrap;
+            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+        }
+
+        .tw-mob-tab-item:active, .tw-mob-tab-item:hover {
+            background: #E2E8F0;
+            color: var(--ink);
+        }
+
+        .tw-mob-tab-item.tw-mob-tab-accent {
+            background: rgba(45, 212, 191, 0.12);
+            border-color: rgba(45, 212, 191, 0.4);
+            color: var(--teal-deep);
+            font-weight: 600;
+        }
+
+        .tw-mobile-dropdown {
+            display: none;
+            background: #FFFFFF;
+            border-top: 1px solid var(--line);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .tw-mobile-dropdown.is-open {
+            display: block;
+        }
+
+        .tw-mobile-nav-list {
+            list-style: none;
+            padding: 0.5rem 0;
+            margin: 0;
+        }
+
+        .tw-mobile-nav-list li {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tw-mobile-nav-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tw-mobile-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.65rem 0.25rem;
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+
+        .tw-mobile-nav-link:active {
+            color: var(--teal-deep);
+        }
+
+        #trial-hub,
+        #kemudahan,
+        #kompatibilitas,
+        #fitur,
+        #kontak,
+        section[id] {
+            scroll-margin-top: 115px;
+        }
+
+        @media (max-width: 859px) {
+            .tw-nav-toggle {
+                display: inline-flex;
+            }
+            .tw-mob-tabbar {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-brand img {
+                width: 32px;
+                height: 32px;
+            }
+            .nav-brand-title {
+                font-size: 1.15rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.62rem;
+            }
+            .tw-hide-narrow {
+                display: none;
+            }
+            .tw-nav-btn {
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.775rem !important;
+                min-height: 34px !important;
+            }
+            .tw-nav-toggle {
+                padding: 0.3rem 0.5rem !important;
+                min-height: 34px !important;
+                min-width: 34px !important;
+            }
+        }
+
+        @media (min-width: 860px) {
+            .tw-nav-toggle,
+            .tw-mob-tabbar,
+            .tw-mobile-dropdown {
+                display: none !important;
+            }
+            #trial-hub,
+            #kemudahan,
+            #kompatibilitas,
+            #fitur,
+            #kontak,
+            section[id] {
+                scroll-margin-top: 80px;
+            }
+        }
+
         /* Buttons matching twstreamer.app */
         .tw-btns {
             display: flex;
@@ -1198,12 +1379,43 @@
                     <li role="none"><a role="menuitem" href="#kontak" class="nav-link">Sosial Media</a></li>
                 </ul>
 
-                <div>
-                    <a href="lisensi.html" class="tw-btn" style="padding: 0.5rem 1rem; min-height: 38px; font-size: 0.875rem;">
-                        Layanan Lisensi
+                <div class="nav-actions">
+                    <a href="lisensi.html" class="tw-btn tw-nav-btn" style="padding: 0.45rem 0.85rem; min-height: 36px; font-size: 0.8125rem;">
+                        <span class="tw-hide-narrow">Layanan </span>Lisensi
                     </a>
+                    <button id="tw-nav-toggle" class="tw-nav-toggle" aria-label="Buka Menu" onclick="toggleMobileNav()">
+                        <span id="tw-nav-icon">☰</span>
+                    </button>
                 </div>
             </nav>
+        </div>
+
+        <!-- Sticky Mobile Quick Tab Bar -->
+        <nav class="tw-mob-tabbar" aria-label="Navigasi Tab Cepat">
+            <div class="tw-mob-tabbar-track">
+                <a href="#trial-hub" class="tw-mob-tab-item">Coba Gratis</a>
+                <a href="#kemudahan" class="tw-mob-tab-item">Kemudahan</a>
+                <a href="#kompatibilitas" class="tw-mob-tab-item">Perangkat</a>
+                <a href="#fitur" class="tw-mob-tab-item">Fitur</a>
+                <a href="lisensi.html" class="tw-mob-tab-item">Lisensi</a>
+                <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mob-tab-item tw-mob-tab-accent">Akun Lisensi &nearr;</a>
+                <a href="#kontak" class="tw-mob-tab-item">Sosial Media</a>
+            </div>
+        </nav>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="tw-mobile-dropdown" class="tw-mobile-dropdown">
+            <div class="container">
+                <ul class="tw-mobile-nav-list">
+                    <li><a href="#trial-hub" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">🚀 Coba Gratis</a></li>
+                    <li><a href="#kemudahan" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">✨ Kemudahan</a></li>
+                    <li><a href="#kompatibilitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📱 Perangkat</a></li>
+                    <li><a href="#fitur" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📐 Fitur Unggulan</a></li>
+                    <li><a href="lisensi.html" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">📋 Lisensi</a></li>
+                    <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 600;">🔐 Akun Lisensi &nearr;</a></li>
+                    <li><a href="#kontak" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">💬 Sosial Media</a></li>
+                </ul>
+            </div>
         </div>
     </header>
 
@@ -2006,6 +2218,20 @@
                         panel.style.display = 'none';
                     }
                 }
+            }
+        }
+
+        function toggleMobileNav(forceState) {
+            const dd = document.getElementById('tw-mobile-dropdown');
+            const icon = document.getElementById('tw-nav-icon');
+            if (!dd) return;
+            const shouldOpen = (forceState !== undefined) ? forceState : !dd.classList.contains('is-open');
+            if (shouldOpen) {
+                dd.classList.add('is-open');
+                if (icon) icon.textContent = '✕';
+            } else {
+                dd.classList.remove('is-open');
+                if (icon) icon.textContent = '☰';
             }
         }
     </script>

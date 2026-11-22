@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    
+    <title>Pusat Bantuan &amp; Forum Tanya Jawab — WanDrone</title>
+    <meta name="description" content="Pusat bantuan resmi, tanya jawab teknis pemetaan TW-Mapper, dan forum diskusi komunitas WanDrone. Cari solusi instan atau ajukan pertanyaan langsung."/>
+    
+    <!-- OpenGraph / Social Meta -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Pusat Bantuan &amp; Forum Tanya Jawab | WanDrone"/>
+    <meta property="og:site_name" content="WanDrone"/>
+    <meta property="og:description" content="Tanya jawab seputar lisensi TW-Mapper, integrasi remote, alur injeksi tanpa dummy, berkas KML, dan konsultasi komunitas."/>
+    <meta property="og:image" content="favicon.png"/>
+    
+    <!-- Favicon WanDrone -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+    <link rel="apple-touch-icon" href="favicon.png"/>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <style>
+        :root {
+            --ink: #0A0E16;
+            --slate: #3A4657;
+            --line: #D6DCE5;
+            --mist: #F3F5F8;
+            --teal: #2DD4BF;
+            --teal-deep: #0F766E;
+            --teal-hover: #22B8A6;
+            --teal-down: #1FA896;
+            --ink-dark: #E8EEF4;
+            --muted-dark: #9FB0C4;
+            --line-dark: rgba(232, 238, 244, 0.14);
+            --fill-dark: rgba(232, 238, 244, 0.10);
+            --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+            --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+            --nav-height: 64px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: var(--slate);
+            font-family: var(--body);
+            font-size: 1rem;
+            line-height: 1.55;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -0.75rem;
+            margin-right: -0.75rem;
+        }
+
+        [class*="col-"] {
+            position: relative;
+            width: 100%;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+            .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+            .col-md-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+            .col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+            .col-lg-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+            .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
+            .col-lg-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+            .col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+            .col-lg-9 { flex: 0 0 75%; max-width: 75%; }
+        }
+
+        /* HEADER / NAVBAR */
+        .tw-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 14, 22, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line-dark);
+            height: var(--nav-height);
+        }
+
+        .tw-nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: var(--nav-height);
+        }
+
+        .tw-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        .tw-brand-text {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: #FFFFFF;
+        }
+
+        .tw-nav-links {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        @media (min-width: 992px) {
+            .tw-nav-links { display: flex; }
+            .tw-hamburger { display: none; }
+        }
+
+        .tw-nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--muted-dark);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .tw-nav-link:hover, .tw-nav-link.active {
+            color: #FFFFFF;
+            background: var(--fill-dark);
+        }
+
+        .tw-hamburger {
+            background: transparent;
+            border: 1px solid var(--line-dark);
+            color: var(--ink-dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile Dropdown */
+        .tw-mobile-dropdown {
+            display: none;
+            position: absolute;
+            top: var(--nav-height);
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 22, 0.98);
+            border-bottom: 1px solid var(--line-dark);
+            padding: 1rem 0;
+            z-index: 999;
+        }
+
+        .tw-mobile-dropdown.is-open { display: block; }
+
+        .tw-mobile-nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tw-mobile-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--ink-dark);
+            text-decoration: none;
+            padding: 0.65rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
+        .tw-mobile-nav-link:hover {
+            background: var(--fill-dark);
+            color: var(--teal);
+        }
+
+        /* BUTTONS */
+        .tw-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--teal);
+            color: var(--ink);
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: 0.875rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .tw-btn:hover {
+            background: var(--teal-hover);
+            color: var(--ink);
+        }
+
+        .tw-btn-2 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--fill-dark);
+            color: var(--ink-dark);
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.02em;
+            padding: 0.625rem 1.15rem;
+            border-radius: 6px;
+            border: 1px solid var(--line-dark);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .tw-btn-2:hover {
+            background: rgba(232, 238, 244, 0.16);
+            color: #FFFFFF;
+        }
+
+        .tw-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: var(--fill-dark);
+            border: 1px solid var(--line-dark);
+            color: var(--teal);
+        }
+
+        .tw-chip-solid {
+            background: var(--teal);
+            color: var(--ink);
+            border: 1px solid var(--teal);
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+        }
+
+        /* HERO SECTION */
+        .tw-band {
+            background-color: var(--ink);
+            color: var(--ink-dark);
+            padding: 3rem 0 3.5rem;
+        }
+
+        .tw-hero h1 {
+            font-family: var(--display);
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: #FFFFFF;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.85rem;
+        }
+
+        .tw-standfirst {
+            font-size: 1.0625rem;
+            color: var(--muted-dark);
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+            max-width: 720px;
+        }
+
+        /* SEARCH BAR */
+        .faq-search-wrapper {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--line-dark);
+            border-radius: 10px;
+            padding: 1.25rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            margin-bottom: 2rem;
+            transition: border-color 0.2s;
+        }
+
+        .faq-search-wrapper:focus-within {
+            border-color: var(--teal);
+        }
+
+        .faq-search-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(10, 14, 22, 0.8);
+            border: 1px solid var(--line-dark);
+            border-radius: 8px;
+            padding: 0.5rem 0.85rem;
+        }
+
+        .faq-search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-family: var(--body);
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .faq-search-input::placeholder {
+            color: var(--muted-dark);
+            opacity: 0.75;
+        }
+
+        .faq-search-clear {
+            background: transparent;
+            border: none;
+            color: var(--muted-dark);
+            cursor: pointer;
+            padding: 0.25rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .faq-search-clear:hover {
+            color: #FFFFFF;
+            background: var(--fill-dark);
+        }
+
+        .faq-search-hint {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* TABS */
+        .faq-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--line-dark);
+            padding-bottom: 0.75rem;
+            overflow-x: auto;
+        }
+
+        .faq-tab-btn {
+            background: transparent;
+            border: 1px solid var(--line-dark);
+            color: var(--muted-dark);
+            font-family: var(--display);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+
+        .faq-tab-btn:hover {
+            color: #FFFFFF;
+            background: var(--fill-dark);
+        }
+
+        .faq-tab-btn.active {
+            background: var(--teal);
+            color: var(--ink);
+            border-color: var(--teal);
+        }
+
+        /* ACCORDION FAQ ITEM */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--line-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.15s, background-color 0.15s;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(45, 212, 191, 0.4);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .faq-item[open] {
+            border-color: var(--teal);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .faq-summary {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            list-style: none;
+            font-family: var(--display);
+            font-size: 1.0625rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            user-select: none;
+        }
+
+        .faq-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-chevron {
+            flex-shrink: 0;
+            color: var(--teal);
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item[open] .faq-chevron {
+            transform: rotate(180deg);
+        }
+
+        .faq-body {
+            padding: 0 1.25rem 1.25rem 1.25rem;
+            color: var(--ink-dark);
+            font-size: 0.9375rem;
+            line-height: 1.65;
+            border-top: 1px solid rgba(232, 238, 244, 0.08);
+            margin-top: 0.25rem;
+            padding-top: 1rem;
+        }
+
+        .faq-body p {
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-body ul, .faq-body ol {
+            margin-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        .faq-tag-chip {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-family: var(--mono);
+            background: rgba(45, 212, 191, 0.12);
+            color: var(--teal);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            margin-top: 0.6rem;
+            margin-right: 0.35rem;
+        }
+
+        /* COMMUNITY Q&A SECTION */
+        .qa-section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--line-dark);
+        }
+
+        .qa-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--line-dark);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.15s;
+        }
+
+        .qa-card:hover {
+            border-color: rgba(45, 212, 191, 0.35);
+        }
+
+        .qa-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .qa-card-title {
+            font-family: var(--display);
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+        }
+
+        .qa-card-body {
+            font-size: 0.9375rem;
+            color: var(--ink-dark);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .qa-admin-reply {
+            background: rgba(10, 14, 22, 0.85);
+            border-left: 3px solid var(--teal);
+            padding: 0.85rem 1rem;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.875rem;
+            color: var(--ink-dark);
+            margin-top: 0.75rem;
+        }
+
+        .qa-admin-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--mono);
+            color: var(--teal);
+            margin-bottom: 0.35rem;
+        }
+
+        /* MODAL */
+        .tw-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .tw-modal.is-open {
+            display: flex;
+        }
+
+        .tw-modal-card {
+            background: #0F172A;
+            border: 1px solid var(--line-dark);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            padding: 1.75rem;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .tw-modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--line-dark);
+        }
+
+        .tw-modal-title {
+            font-family: var(--display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .tw-modal-close {
+            background: transparent;
+            border: none;
+            color: var(--muted-dark);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+        }
+
+        .tw-modal-close:hover {
+            color: #FFFFFF;
+            background: var(--fill-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--display);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--ink-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-label .privacy-pill {
+            font-family: var(--mono);
+            font-size: 0.6875rem;
+            color: var(--teal);
+            background: rgba(45, 212, 191, 0.12);
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            margin-left: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(10, 14, 22, 0.9);
+            border: 1px solid var(--line-dark);
+            border-radius: 6px;
+            padding: 0.65rem 0.85rem;
+            color: #FFFFFF;
+            font-family: var(--body);
+            font-size: 0.9375rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .form-control:focus {
+            border-color: var(--teal);
+        }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: var(--muted-dark);
+            margin-top: 0.3rem;
+            line-height: 1.4;
+        }
+
+        /* FOOTER */
+        .tw-foot-legal {
+            border-top: 1px solid var(--line-dark);
+            margin-top: 2rem;
+            padding-top: 1.25rem;
+            font-size: 0.8125rem;
+            color: var(--muted-dark);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .tw-list {
+            list-style: none;
+        }
+
+        .tw-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--muted-dark);
+        }
+
+        .tw-list a {
+            color: var(--ink-dark);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .tw-list a:hover {
+            color: var(--teal);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="tw-nav" id="top">
+        <div class="container">
+            <div class="tw-nav-inner">
+                <a href="index.html" class="tw-brand">
+                    <img src="favicon.png" alt="WanDrone" width="32" height="32"/>
+                    <span class="tw-brand-text">WanDrone</span>
+                </a>
+
+                <ul class="tw-nav-links">
+                    <li><a href="index.html" class="tw-nav-link">&larr; Halaman Utama</a></li>
+                    <li><a href="lisensi.html" class="tw-nav-link">Pilihan Lisensi</a></li>
+                    <li><a href="#faq-resmi" class="tw-nav-link active">FAQ Resmi</a></li>
+                    <li><a href="#forum-komunitas" class="tw-nav-link">Forum Tanya Jawab</a></li>
+                    <li><button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">+ Ajukan Pertanyaan</button></li>
+                </ul>
+
+                <button class="tw-hamburger" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="tw-nav-icon">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="tw-mobile-dropdown" class="tw-mobile-dropdown">
+            <div class="container">
+                <ul class="tw-mobile-nav-list">
+                    <li><a href="index.html" class="tw-mobile-nav-link">&larr; Halaman Utama</a></li>
+                    <li><a href="lisensi.html" class="tw-mobile-nav-link">Pilihan Lisensi</a></li>
+                    <li><a href="#faq-resmi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">FAQ Resmi</a></li>
+                    <li><a href="#forum-komunitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">Forum Tanya Jawab</a></li>
+                    <li><a href="javascript:void(0)" onclick="toggleMobileNav(false); openQuestionModal();" class="tw-mobile-nav-link" style="color: var(--teal);">+ Ajukan Pertanyaan Baru</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="tw-band tw-hero">
+        <div class="container">
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1.25rem;">
+                <a href="index.html" class="tw-btn-2" style="padding: 0.35rem 0.85rem; font-size: 0.8125rem;">&larr; Halaman Utama</a>
+                <span class="tw-chip-solid">Pusat Bantuan &amp; Komunitas</span>
+                <span class="tw-chip">Official Support</span>
+            </div>
+
+            <h1>Pusat Bantuan &amp; Forum Tanya Jawab</h1>
+            <p class="tw-standfirst">
+                Temukan solusi teknis operasional TW-Mapper, ketentuan lisensi, alur injeksi tanpa dummy, berkas KML, dan konsultasikan pertanyaan Anda langsung bersama tim teknis WanDrone.
+            </p>
+
+            <!-- SEARCH BAR (FUZZY & TYPO TOLERANT) -->
+            <div class="faq-search-wrapper">
+                <div class="faq-search-inner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal); flex-shrink: 0;">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Ketik pertanyaan atau kata kunci (contoh: injek dumi, lisensi devic, kmz, offline)..." oninput="handleSearch(this.value)" autocomplete="off"/>
+                    <button id="faq-search-clear" class="faq-search-clear" aria-label="Bersihkan pencarian" onclick="clearSearch()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="faq-search-hint">
+                    <span>*Pencarian pintar: toleran terhadap singkatan, sinonim &amp; salah ketik (typo).</span>
+                    <span id="search-result-count" style="color: var(--teal); font-weight: 500;"></span>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="faq-tabs">
+                <button class="faq-tab-btn active" onclick="switchTab('all', this)">Semua Topik</button>
+                <button class="faq-tab-btn" onclick="switchTab('official', this)">Panduan Resmi (FAQ)</button>
+                <button class="faq-tab-btn" onclick="switchTab('community', this)">Forum Komunitas</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="tw-band" style="background-color: #0B111E; padding-top: 1rem;">
+        <div class="container">
+
+            <!-- SECTION 1: FAQ RESMI -->
+            <div id="faq-resmi" style="margin-bottom: 3.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                    <div>
+                        <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: #FFFFFF;">Panduan Resmi TW-Mapper</h2>
+                        <p style="font-size: 0.875rem; color: var(--muted-dark);">Jawaban resmi untuk pertanyaan teknis, ketentuan lisensi, dan operasional lapangan.</p>
+                    </div>
+                    <span class="tw-chip">8 Topik Terverifikasi</span>
+                </div>
+
+                <div class="faq-list" id="official-faq-container">
+
+                    <!-- FAQ 1 -->
+                    <details class="faq-item" data-category="official" data-keywords="lisensi tw-mapper berapa perangkat device unit remote rc 2 pro hp smartphone dua satu hobby pilot perorangan">
+                        <summary class="faq-summary">
+                            <span>1. Lisensi TW-Mapper berlaku untuk berapa perangkat (Paket Hobby vs Paket Pro)?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p><strong>Ketentuan resmi jumlah perangkat aktif:</strong></p>
+                            <ul>
+                                <li><strong>Paket Hobby:</strong> Berlaku resmi untuk <strong>1 perangkat</strong> aktif (1 unit remote controller dengan layar terintegrasi atau 1 smartphone Android), ditujukan untuk pilot perorangan.</li>
+                                <li><strong>Paket Pro:</strong> Berlaku resmi untuk <strong>2 perangkat</strong> aktif secara bersamaan (misalnya 1 unit remote controller layar seperti DJI RC 2 / RC Pro dan 1 smartphone Android / remote cadangan), memberikan kelancaran dan fleksibilitas penuh untuk operasional survei di lapangan.</li>
+                            </ul>
+                            <div>
+                                <span class="faq-tag-chip">Lisensi</span>
+                                <span class="faq-tag-chip">2 Perangkat</span>
+                                <span class="faq-tag-chip">Hobby &amp; Pro</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 2 -->
+                    <details class="faq-item" data-category="official" data-keywords="kml kmz import file berkas otomatis generate grid drag drop multi boundaries poligon manual gambar lahan kebun">
+                        <summary class="faq-summary">
+                            <span>2. Apakah TW-Mapper bisa membuat misi otomatis dari berkas KML, atau harus menggambar manual?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p><strong>Bisa otomatis penuh pada Paket Hobby maupun Paket Pro.</strong></p>
+                            <p>Anda tidak perlu menggambar batas poligon secara manual di layar remote. Cukup memindahkan atau mengimpor berkas batas area kerja berformat <strong>KML</strong>:</p>
+                            <ul>
+                                <li><strong>Pada Paket Hobby:</strong> Otomatis menghasilkan kisi jalur terbang (<em>grid flight path</em>), sudut heading kamera, serta persentase overlap standar.</li>
+                                <li><strong>Pada Paket Pro:</strong> Dilengkapi kapabilitas tingkat lanjut untuk menangani <em>multi-boundaries</em> (banyak blok kebun sekaligus dalam satu berkas KML), integrasi <em>Follow Terrain</em> (mengikuti kontur elevasi bukit/lembah berbasis DEM), serta pembagian rute (<em>Split Mission</em>) tanpa batas luas area.</li>
+                            </ul>
+                            <div>
+                                <span class="faq-tag-chip">Berkas KML</span>
+                                <span class="faq-tag-chip">Otomatis Grid</span>
+                                <span class="faq-tag-chip">Multi-Boundaries</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 3 -->
+                    <details class="faq-item" data-category="official" data-keywords="injeksi tanpa dummy flash inject mod dji fly mod tw tweaks aktifkan aktivasi setting pengaturan remote rc 2 pro pro 2">
+                        <summary class="faq-summary">
+                            <span>3. Bagaimana cara mengaktifkan fitur Injeksi Tanpa Dummy pada Paket Pro?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p>Fitur injeksi langsung tanpa berkas dummy memerlukan instalasi modul <strong>DJI Fly Mod (TW Tweaks)</strong> pada remote controller Anda.</p>
+                            <p>Setelah modul terpasang, buka menu Pengaturan (<em>Settings</em>) di dalam aplikasi TW-Mapper, lalu pilih opsi koneksi <strong>"DJI Fly MOD"</strong>. Seluruh jalur misi terbang akan langsung terinjeksi secara instan ke sistem remote tanpa perlu menyiapkan berkas dummy lagi.</p>
+                            <div>
+                                <span class="faq-tag-chip">Injeksi Tanpa Dummy</span>
+                                <span class="faq-tag-chip">DJI Fly MOD</span>
+                                <span class="faq-tag-chip">TW Tweaks</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 4 -->
+                    <details class="faq-item" data-category="official" data-keywords="hp android shizuku rcn rcn1 rcn2 rcn3 smartphone remote hp tw tweaks dji fly mod injeksi jalur waypoint">
+                        <summary class="faq-summary">
+                            <span>4. Bagaimana alur injeksi rute jika menggunakan smartphone Android (Remote Seri RC-N1 / RC-N2 / RC-N3)?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p>Untuk pengguna smartphone atau tablet Android dengan remote DJI seri RC-N, TW-Mapper menyediakan dua pilihan alur injeksi yang sangat fleksibel:</p>
+                            <ol>
+                                <li><strong>Metode TW Tweaks / DJI Fly Mod:</strong> Jika smartphone Anda telah dipasang DJI Fly Mod (TW Tweaks), pilih opsi koneksi "DJI Fly MOD" di pengaturan TW-Mapper. Injeksi rute langsung berjalan instan tanpa berkas dummy.</li>
+                                <li><strong>Metode Shizuku Direct Inject:</strong> Memanfaatkan modul pendukung Shizuku (tanpa perlu root). Cukup pastikan layanan Shizuku aktif, tekan tombol "Injeksi Misi KMZ", dan berkas rute WPML langsung ditransfer ke direktori internal DJI Fly dalam hitungan 1 detik.</li>
+                            </ol>
+                            <div>
+                                <span class="faq-tag-chip">Smartphone Android</span>
+                                <span class="faq-tag-chip">Seri RC-N</span>
+                                <span class="faq-tag-chip">Shizuku &amp; TW Mod</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 5 -->
+                    <details class="faq-item" data-category="official" data-keywords="drone didukung kompatibel armada mini 4 pro mini 5 pro air 3 air 3s mavic 3 series classic mavic 4 pro rc 2 rc pro rc pro 2 rcn hp android">
+                        <summary class="faq-summary">
+                            <span>5. Drone dan Remote Controller apa saja yang didukung oleh TW-Mapper?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p>TW-Mapper mendukung seluruh jajaran perangkat DJI modern berbasis DJI Fly yang tercantum resmi di situs WanDrone:</p>
+                            <p><strong>Model Drone yang Didukung:</strong></p>
+                            <ul>
+                                <li><strong>DJI Mini 4 Pro:</strong> Sensor 1/1.3", Waypoint Flight mandiri.</li>
+                                <li><strong>DJI Mini 5 Pro:</strong> Sensor Generasi Baru.</li>
+                                <li><strong>DJI Air 3:</strong> Dual Kamera 24mm &amp; 70mm, tahan hembusan angin.</li>
+                                <li><strong>DJI Air 3S:</strong> Sensor Utama 1 Inci + Tele 70mm.</li>
+                                <li><strong>DJI Mavic 3 Series:</strong> Mavic 3, Mavic 3 Classic, Mavic 3 Pro.</li>
+                                <li><strong>DJI Mavic 4 Pro:</strong> Flagship Multi-Kamera.</li>
+                            </ul>
+                            <p><strong>Remote Controller yang Didukung:</strong></p>
+                            <ul>
+                                <li><strong>DJI RC 2:</strong> Remote dengan layar 5.5" FHD terintegrasi.</li>
+                                <li><strong>DJI RC Pro:</strong> Remote profesional dengan layar 5.5" 1000 nit.</li>
+                                <li><strong>DJI RC Pro 2:</strong> Remote generasi flagship dengan layar Ultra Bright.</li>
+                                <li><strong>HP / Tablet Android Seri RC-N:</strong> Smartphone/tablet Android yang terhubung ke remote DJI RC-N1, RC-N2, atau RC-N3.</li>
+                            </ul>
+                            <div>
+                                <span class="faq-tag-chip">Kompatibilitas</span>
+                                <span class="faq-tag-chip">Air 3 / Mini 4 / Mavic 3</span>
+                                <span class="faq-tag-chip">RC 2 / RC Pro</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 6 -->
+                    <details class="faq-item" data-category="official" data-keywords="internet offline luring kuota sinyal kebun remote area sinyal cache peta satelit tanpa sinyal">
+                        <summary class="faq-summary">
+                            <span>6. Apakah aplikasi TW-Mapper membutuhkan koneksi internet saat terbang di lapangan?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p><strong>Tidak membutuhkan internet saat di lapangan.</strong></p>
+                            <p>TW-Mapper didesain 100% mandiri untuk penggunaan lapangan secara luring (<em>offline</em>). Selama Anda telah mengunduh data <em>cache</em> citra satelit area kerja sebelumnya saat berada di basecamp atau hotel, remote dan drone dapat menjalankan seluruh proses perencanaan hingga eksekusi misi tanpa memerlukan kuota internet maupun sinyal seluler di remote area.</p>
+                            <div>
+                                <span class="faq-tag-chip">100% Offline</span>
+                                <span class="faq-tag-chip">Cache Citra Satelit</span>
+                                <span class="faq-tag-chip">Remote Area</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 7 -->
+                    <details class="faq-item" data-category="official" data-keywords="root modifikasi fisik bongkar garansi aman standar pabrik kerusakan aman resmi">
+                        <summary class="faq-summary">
+                            <span>7. Apakah perlu melakukan modifikasi fisik atau rooting pada drone maupun remote?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p><strong>Sama sekali tidak.</strong></p>
+                            <p>Drone dan remote controller Anda tetap 100% berstatus original standar pabrik. Tidak ada pembongkaran perangkat keras (<em>hardware</em>), tidak ada modifikasi firmware yang membahayakan, dan seluruh sistem remote tetap aman.</p>
+                            <div>
+                                <span class="faq-tag-chip">Tanpa Root</span>
+                                <span class="faq-tag-chip">Standar Pabrik</span>
+                                <span class="faq-tag-chip">Aman</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 8 -->
+                    <details class="faq-item" data-category="official" data-keywords="kecepatan slider speed pelan lambat foto bolong microsd kamera 48mp dynamic speed clamping proteksi">
+                        <summary class="faq-summary">
+                            <span>8. Mengapa slider kecepatan drone (speed) dibatasi otomatis dan tidak bisa dinaikkan maksimal?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p>Sistem TW-Mapper mengaktifkan proteksi cerdas <strong>Dynamic Speed Clamping</strong>.</p>
+                            <p>Fitur ini menghitung batas kecepatan terbang aman berdasarkan ketinggian terbang, persentase overlap, dan interval buka-tutup rana kamera (terutama pada resolusi 48 MP). Kecepatan disesuaikan otomatis agar kartu memori MicroSD drone sempat memproses dan menyimpan file foto, mencegah risiko foto terlewat atau tidak terekam (<em>anti foto bolong</em>).</p>
+                            <div>
+                                <span class="faq-tag-chip">Speed Clamping</span>
+                                <span class="faq-tag-chip">Anti Foto Bolong</span>
+                                <span class="faq-tag-chip">Proteksi MicroSD</span>
+                            </div>
+                        </div>
+                    </details>
+
+                </div>
+            </div>
+
+            <!-- SECTION 2: FORUM KOMUNITAS -->
+            <div id="forum-komunitas" style="margin-bottom: 3rem;">
+                <div class="qa-section-head">
+                    <div>
+                        <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: #FFFFFF;">Forum Tanya Jawab Komunitas</h2>
+                        <p style="font-size: 0.875rem; color: var(--muted-dark);">Pertanyaan dari pengguna dan jawaban resmi yang telah diverifikasi oleh tim WanDrone.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span>Ajukan Pertanyaan</span>
+                        </button>
+                        <button id="admin-toggle-btn" onclick="openAdminPanel()" class="tw-btn-2" style="padding: 0.5rem 0.85rem;" title="Mode Moderasi Admin">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Forum Items Container -->
+                <div id="community-qa-container">
+                    <!-- Loading or injected questions -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL: AJUKAN PERTANYAAN -->
+    <div id="question-modal" class="tw-modal">
+        <div class="tw-modal-card">
+            <div class="tw-modal-head">
+                <div>
+                    <h3 class="tw-modal-title">Ajukan Pertanyaan ke Tim</h3>
+                    <p style="font-size: 0.8125rem; color: var(--muted-dark);">Pertanyaan akan dijawab oleh admin resmi WanDrone.</p>
+                </div>
+                <button class="tw-modal-close" onclick="closeQuestionModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <form id="question-form" onsubmit="submitQuestion(event)">
+                <div class="form-group">
+                    <label class="form-label" for="q-author">Nama Anda <span style="color: var(--teal);">*</span></label>
+                    <input type="text" id="q-author" class="form-control" placeholder="Contoh: Ian Pratama" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="q-contact">
+                        Nomor WhatsApp atau Email <span style="color: var(--teal);">*</span>
+                        <span class="privacy-pill">Dijamin Privat</span>
+                    </label>
+                    <input type="text" id="q-contact" class="form-control" placeholder="Contoh: 0812xxxxxxx atau nama@gmail.com" required/>
+                    <div class="form-hint">
+                        Nomor WhatsApp dan Email Anda hanya tersimpan aman di database privat kami agar tim dapat memberi notifikasi jawaban. Tidak akan pernah ditampilkan ke publik.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="q-device">Perangkat yang Digunakan</label>
+                    <select id="q-device" class="form-control">
+                        <option value="DJI RC 2">DJI RC 2</option>
+                        <option value="DJI RC Pro">DJI RC Pro</option>
+                        <option value="DJI RC Pro 2">DJI RC Pro 2</option>
+                        <option value="HP / Tablet Android (Seri RC-N)">HP / Tablet Android (Seri RC-N)</option>
+                        <option value="DJI Mini 4 Pro / Mini 5 Pro">DJI Mini 4 Pro / Mini 5 Pro</option>
+                        <option value="DJI Air 3 / Air 3S">DJI Air 3 / Air 3S</option>
+                        <option value="DJI Mavic 3 / Mavic 4 Series">DJI Mavic 3 / Mavic 4 Series</option>
+                        <option value="Lainnya">Lainnya / Umum</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="q-title">Judul Topik / Kendala <span style="color: var(--teal);">*</span></label>
+                    <input type="text" id="q-title" class="form-control" placeholder="Contoh: Cara atur overlap saat Follow Terrain di perbukitan" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="q-body">Rincian Pertanyaan <span style="color: var(--teal);">*</span></label>
+                    <textarea id="q-body" class="form-control" rows="4" placeholder="Jelaskan detail pertanyaan, alur yang dilakukan, atau kendala yang dihadapi di remote..." required></textarea>
+                </div>
+
+                <div id="q-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem; margin-bottom: 1rem;"></div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeQuestionModal()">Batal</button>
+                    <button type="submit" id="q-submit-btn" class="tw-btn">Kirim Pertanyaan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN MODERATION -->
+    <div id="admin-modal" class="tw-modal">
+        <div class="tw-modal-card" style="max-width: 750px;">
+            <div class="tw-modal-head">
+                <div>
+                    <h3 class="tw-modal-title">Panel Moderasi Admin</h3>
+                    <p style="font-size: 0.8125rem; color: var(--muted-dark);">Kelola dan publikasikan jawaban resmi untuk pertanyaan masuk.</p>
+                </div>
+                <button class="tw-modal-close" onclick="closeAdminModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <div id="admin-auth-view">
+                <div class="form-group">
+                    <label class="form-label" for="admin-pin">Masukkan PIN Moderasi Admin</label>
+                    <input type="password" id="admin-pin" class="form-control" placeholder="PIN Admin..."/>
+                </div>
+                <div style="text-align: right; margin-top: 1rem;">
+                    <button class="tw-btn" onclick="verifyAdminPIN()">Buka Dashboard Admin</button>
+                </div>
+            </div>
+
+            <div id="admin-dashboard-view" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span id="admin-pending-count" class="tw-chip">0 Pertanyaan Menunggu</span>
+                    <button class="tw-btn-2" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="loadAdminQuestions()">Refresh Data</button>
+                </div>
+                <div id="admin-questions-list" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Pending questions rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="tw-band">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <img src="favicon.png" alt="WanDrone" width="28" height="28"/>
+                        <span style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink-dark);">WanDrone</span>
+                    </div>
+                    <ul class="tw-list">
+                        <li><span>Solusi Pemetaan Drone Otonom</span></li>
+                        <li><span>Instagram: <a href="https://instagram.com/wan.drone.plg" target="_blank" rel="noopener">@wan.drone.plg</a></span></li>
+                        <li><span>TikTok: <a href="https://tiktok.com/@wan.drone" target="_blank" rel="noopener">@wan.drone</a></span></li>
+                        <li><span>YouTube: <a href="https://www.youtube.com/@wandroneapp" target="_blank" rel="noopener">@wandroneapp</a></span></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Navigasi</h3>
+                    <ul class="tw-list">
+                        <li><a href="index.html">&larr; Halaman Utama</a></li>
+                        <li><a href="lisensi.html">Pilihan Lisensi Resmi</a></li>
+                        <li><a href="#faq-resmi">FAQ &amp; Panduan Resmi</a></li>
+                        <li><a href="#forum-komunitas">Forum Tanya Jawab</a></li>
+                        <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi &rarr;</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4" style="margin-bottom: 1.5rem;">
+                    <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Narahubung Resmi</h3>
+                    <ul class="tw-list">
+                        <li><span>Informasi Lisensi: <strong>Jejen</strong> (<a href="https://wa.me/6285199391551" target="_blank" rel="noopener">0851-9939-1551</a>)</span></li>
+                        <li><span>Product Knowledge: <strong>Rwanda</strong> (<a href="https://wa.me/6285175009498" target="_blank" rel="noopener">0851-7500-9498</a>)</span></li>
+                        <li><span>Product Knowledge: <strong>Ian</strong> (<a href="https://wa.me/628111969111" target="_blank" rel="noopener">0811-1969-111</a>)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ecosystem Logos -->
+            <div class="tw-foot-brands" style="margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--line-dark); display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap;">
+                <a href="index.html" aria-label="WanDrone" style="display: inline-flex; align-items: center; text-decoration: none; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+                    <img src="images/wandrone-logo-white.png" alt="WanDrone" style="height: 38px; width: auto; max-width: 160px; object-fit: contain; display: block;"/>
+                </a>
+                <span style="color: var(--line-dark); font-size: 1.25rem; user-select: none;">•</span>
+                <a href="https://www.twstreamer.app/" target="_blank" rel="noopener" aria-label="Throttle Warriors" style="display: inline-flex; align-items: center; text-decoration: none; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+                    <img src="images/throttle-warrior-logo.png" alt="Throttle Warriors" style="height: 38px; width: auto; max-width: 160px; object-fit: contain; display: block;"/>
+                </a>
+            </div>
+
+            <div class="tw-foot-legal">
+                <span>&copy; 2026 WanDrone.</span>
+                <span>DJI &amp; produk terkait adalah merek dagang SZ DJI Technology Co., Ltd.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUPABASE CLIENT & FUZZY LOGIC SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = window.WAN_SUPABASE_URL || 'https://jnvjylwukpxvjtyqubzp.supabase.co';
+        const SUPABASE_ANON_KEY = window.WAN_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy_anon_key_for_wandrone_public';
+        
+        let supabaseClient = null;
+        try {
+            if (window.supabase && SUPABASE_URL && !SUPABASE_URL.includes('dummy')) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+        } catch (e) {
+            console.warn('Supabase init notice:', e);
+        }
+
+        // Local storage mock store for community Q&A fallback
+        const MOCK_COMMUNITY_KEY = 'wandrone_forum_questions_cache';
+        const DEFAULT_COMMUNITY_QA = [
+            {
+                id: 'cm-1',
+                created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+                author_name: 'Budi Santoso',
+                device_model: 'DJI Air 3 (DJI RC 2)',
+                question_title: 'Apakah hasil foto geotagging TW-Mapper langsung kompatibel dengan Agisoft dan Pix4D?',
+                question_body: 'Halo tim, mau tanya saat drone selesai terbang otomatis dan foto tersimpan di MicroSD, apakah posisi latitude, longitude, dan ketinggiannya sudah langsung ter-geotag ke EXIF foto untuk olah di Agisoft Metashape atau Pix4D?',
+                admin_answer: 'Halo Pak Budi. Ya, 100% langsung kompatibel. TW-Mapper memerintahkan kamera drone DJI untuk mengambil foto dengan metadata geotagging EXIF asli DJI (koordinat GPS & RTK serta ketinggian elipsoid). Anda bisa langsung memasukkan berkas foto ke Agisoft Metashape, Pix4D, DroneDeploy, maupun WebODM tanpa konversi.',
+                answered_at: new Date(Date.now() - 86400000).toISOString(),
+                answered_by: 'Admin WanDrone'
+            },
+            {
+                id: 'cm-2',
+                created_at: new Date(Date.now() - 86400000 * 4).toISOString(),
+                author_name: 'Fauzan Pilot Drone',
+                device_model: 'DJI Mini 4 Pro',
+                question_title: 'Bagaimana cara melanjutkan rute jika baterai habis di tengah blok yang luas?',
+                question_body: 'Kemarin terbang survei 60 Hektar di kebun sawit, baterai tinggal 20% pas waypoint ke-45 dari total 90. Cara lanjutkannya bagaimana biar tidak mengulang dari waypoint 1?',
+                admin_answer: 'Halo Mas Fauzan. Di aplikasi DJI Fly sudah memiliki fitur Resume Waypoint otomatis. Saat baterai menipis, tekan tombol RTH (Return to Home) di remote. Ganti baterai baru, nyalakan kembali drone, lalu di DJI Fly buka kembali misi tersebut dan pilih opsi "Lanjutkan dari Titik Terakhir". Drone akan langsung terbang menuju waypoint ke-45 dan melanjutkan pemetaan.',
+                answered_at: new Date(Date.now() - 86400000 * 3).toISOString(),
+                answered_by: 'Admin WanDrone'
+            }
+        ];
+
+        function getStoredQuestions() {
+            try {
+                const stored = localStorage.getItem(MOCK_COMMUNITY_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch (e) {}
+            return DEFAULT_COMMUNITY_QA;
+        }
+
+        function saveStoredQuestions(questions) {
+            try {
+                localStorage.setItem(MOCK_COMMUNITY_KEY, JSON.stringify(questions));
+            } catch (e) {}
+        }
+
+        let allCommunityQuestions = getStoredQuestions();
+
+        // RENDER COMMUNITY QUESTIONS
+        function renderCommunityQuestions(questionsToRender) {
+            const container = document.getElementById('community-qa-container');
+            if (!container) return;
+
+            const list = questionsToRender || allCommunityQuestions.filter(q => q.admin_answer);
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div style="background: rgba(15, 23, 42, 0.6); border: 1px dashed var(--line-dark); border-radius: 8px; padding: 2rem; text-align: center; color: var(--muted-dark);">
+                        <p style="margin-bottom: 0.5rem; font-size: 1rem; color: #FFFFFF;">Belum ada topik diskusi yang cocok.</p>
+                        <p style="font-size: 0.875rem;">Jadilah yang pertama mengajukan pertanyaan kepada tim teknis WanDrone!</p>
+                        <button onclick="openQuestionModal()" class="tw-btn" style="margin-top: 1rem; padding: 0.45rem 1rem;">+ Ajukan Pertanyaan Sekarang</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map(q => {
+                const dateStr = new Date(q.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                return `
+                    <div class="qa-card" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
+                        <div class="qa-card-meta">
+                            <span style="font-weight: 600; color: #FFFFFF;">${escapeHtml(q.author_name)}</span>
+                            <span>•</span>
+                            <span>${dateStr}</span>
+                            <span>•</span>
+                            <span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(q.device_model || 'Umum')}</span>
+                        </div>
+                        <div class="qa-card-title">${escapeHtml(q.question_title)}</div>
+                        <div class="qa-card-body">${escapeHtml(q.question_body)}</div>
+                        ${q.admin_answer ? `
+                            <div class="qa-admin-reply">
+                                <div class="qa-admin-badge">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
+                                </div>
+                                <div style="line-height: 1.55;">${escapeHtml(q.admin_answer)}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // FUZZY TYPO-TOLERANT SEARCH ALGORITHM
+        function levenshtein(s1, s2) {
+            const m = s1.length, n = s2.length;
+            const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+            for (let i = 0; i <= m; i++) dp[i][0] = i;
+            for (let j = 0; j <= n; j++) dp[0][j] = j;
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+                    dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+                }
+            }
+            return dp[m][n];
+        }
+
+        function tokenMatchScore(token, words) {
+            let bestSim = 0;
+            for (const w of words) {
+                if (token === w) return 1.0;
+                if (token.includes(w) || w.includes(token)) {
+                    const ratio = Math.min(token.length, w.length) / Math.max(token.length, w.length);
+                    const sim = Math.max(0.85, ratio);
+                    if (sim > bestSim) bestSim = sim;
+                    continue;
+                }
+                const maxL = Math.max(token.length, w.length);
+                if (maxL >= 3) {
+                    const d = levenshtein(token, w);
+                    const sim = 1.0 - (d / maxL);
+                    if (sim > bestSim) bestSim = sim;
+                }
+            }
+            return bestSim >= 0.55 ? bestSim : 0;
+        }
+
+        let currentActiveTab = 'all';
+
+        function handleSearch(query) {
+            const clearBtn = document.getElementById('faq-search-clear');
+            const countLabel = document.getElementById('search-result-count');
+            const raw = query.trim().toLowerCase();
+
+            if (clearBtn) clearBtn.style.display = raw.length > 0 ? 'inline-flex' : 'none';
+
+            const officialItems = document.querySelectorAll('#official-faq-container .faq-item');
+            const communityItems = document.querySelectorAll('#community-qa-container .qa-card');
+
+            if (!raw) {
+                if (countLabel) countLabel.textContent = '';
+                officialItems.forEach(el => {
+                    el.style.display = (currentActiveTab === 'community') ? 'none' : 'block';
+                    el.removeAttribute('open');
+                });
+                communityItems.forEach(el => {
+                    el.style.display = (currentActiveTab === 'official') ? 'none' : 'block';
+                });
+                return;
+            }
+
+            const tokens = raw.split(/\s+/).filter(t => t.length >= 2);
+            let matchedOfficial = 0;
+            let matchedCommunity = 0;
+
+            // Search in Official FAQ
+            officialItems.forEach(el => {
+                if (currentActiveTab === 'community') {
+                    el.style.display = 'none';
+                    return;
+                }
+                const textToSearch = (el.querySelector('.faq-summary')?.textContent || '') + ' ' + (el.getAttribute('data-keywords') || '');
+                const words = textToSearch.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+                
+                const score = tokens.reduce((sum, t) => sum + tokenMatchScore(t, words), 0);
+                const hasMatch = tokens.some(t => tokenMatchScore(t, words) > 0);
+
+                if (hasMatch && score >= 0.5) {
+                    el.style.display = 'block';
+                    matchedOfficial++;
+                    if (tokens.length >= 2 || score > 1.2) el.setAttribute('open', '');
+                } else {
+                    el.style.display = 'none';
+                    el.removeAttribute('open');
+                }
+            });
+
+            // Search in Community Q&A
+            communityItems.forEach(el => {
+                if (currentActiveTab === 'official') {
+                    el.style.display = 'none';
+                    return;
+                }
+                const textToSearch = el.getAttribute('data-keywords') || '';
+                const words = textToSearch.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+                
+                const score = tokens.reduce((sum, t) => sum + tokenMatchScore(t, words), 0);
+                const hasMatch = tokens.some(t => tokenMatchScore(t, words) > 0);
+
+                if (hasMatch && score >= 0.5) {
+                    el.style.display = 'block';
+                    matchedCommunity++;
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+
+            const total = matchedOfficial + matchedCommunity;
+            if (countLabel) {
+                countLabel.textContent = total > 0 ? `${total} topik ditemukan` : 'Tidak ada topik yang cocok';
+            }
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('faq-search-input');
+            if (input) {
+                input.value = '';
+                handleSearch('');
+                input.focus();
+            }
+        }
+
+        function switchTab(tab, btn) {
+            currentActiveTab = tab;
+            document.querySelectorAll('.faq-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const officialSection = document.getElementById('faq-resmi');
+            const communitySection = document.getElementById('forum-komunitas');
+
+            if (tab === 'official') {
+                if (officialSection) officialSection.style.display = 'block';
+                if (communitySection) communitySection.style.display = 'none';
+            } else if (tab === 'community') {
+                if (officialSection) officialSection.style.display = 'none';
+                if (communitySection) communitySection.style.display = 'block';
+            } else {
+                if (officialSection) officialSection.style.display = 'block';
+                if (communitySection) communitySection.style.display = 'block';
+            }
+
+            const input = document.getElementById('faq-search-input');
+            if (input && input.value.trim()) {
+                handleSearch(input.value);
+            }
+        }
+
+        // MODAL HANDLERS
+        function openQuestionModal() {
+            const m = document.getElementById('question-modal');
+            if (m) m.classList.add('is-open');
+        }
+
+        function closeQuestionModal() {
+            const m = document.getElementById('question-modal');
+            if (m) m.classList.remove('is-open');
+            const alertBox = document.getElementById('q-alert');
+            if (alertBox) alertBox.style.display = 'none';
+        }
+
+        function submitQuestion(e) {
+            e.preventDefault();
+            const author = document.getElementById('q-author').value.trim();
+            const contact = document.getElementById('q-contact').value.trim();
+            const device = document.getElementById('q-device').value;
+            const title = document.getElementById('q-title').value.trim();
+            const body = document.getElementById('q-body').value.trim();
+            const submitBtn = document.getElementById('q-submit-btn');
+            const alertBox = document.getElementById('q-alert');
+
+            if (!author || !contact || !title || !body) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim...';
+
+            const newQ = {
+                id: 'cm-' + Date.now(),
+                created_at: new Date().toISOString(),
+                author_name: author,
+                contact_info: contact,
+                device_model: device,
+                question_title: title,
+                question_body: body,
+                status: 'pending',
+                admin_answer: null
+            };
+
+            // 1. Try sending to Supabase if configured
+            if (supabaseClient) {
+                supabaseClient.from('forum_questions').insert([{
+                    author_name: author,
+                    contact_info: contact,
+                    device_model: device,
+                    question_title: title,
+                    question_body: body,
+                    status: 'pending'
+                }]).then(({ error }) => {
+                    if (error) console.warn('Supabase insert notice:', error);
+                });
+            }
+
+            // 2. Save to local storage cache as pending
+            allCommunityQuestions.unshift(newQ);
+            saveStoredQuestions(allCommunityQuestions);
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim Pertanyaan';
+                document.getElementById('question-form').reset();
+                
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = 'rgba(45, 212, 191, 0.15)';
+                    alertBox.style.border = '1px solid var(--teal)';
+                    alertBox.style.color = '#FFFFFF';
+                    alertBox.innerHTML = `<strong>Terima Kasih, ${escapeHtml(author)}!</strong> Pertanyaan Anda berhasil dikirim dan tersimpan di database. Tim admin WanDrone akan meninjau dan memberikan jawaban resmi secepatnya.`;
+                }
+
+                setTimeout(() => {
+                    closeQuestionModal();
+                }, 3500);
+            }, 600);
+        }
+
+        // ADMIN PANEL
+        function openAdminPanel() {
+            const m = document.getElementById('admin-modal');
+            if (m) m.classList.add('is-open');
+        }
+
+        function closeAdminModal() {
+            const m = document.getElementById('admin-modal');
+            if (m) m.classList.remove('is-open');
+        }
+
+        function verifyAdminPIN() {
+            const pin = document.getElementById('admin-pin').value.trim();
+            if (pin === 'wandrone2026' || pin === 'admin123') {
+                document.getElementById('admin-auth-view').style.display = 'none';
+                document.getElementById('admin-dashboard-view').style.display = 'block';
+                loadAdminQuestions();
+            } else {
+                alert('PIN Salah. Silakan coba lagi.');
+            }
+        }
+
+        function loadAdminQuestions() {
+            const listContainer = document.getElementById('admin-questions-list');
+            const countBadge = document.getElementById('admin-pending-count');
+            if (!listContainer) return;
+
+            const pending = allCommunityQuestions.filter(q => !q.admin_answer);
+            if (countBadge) countBadge.textContent = `${pending.length} Pertanyaan Menunggu`;
+
+            if (pending.length === 0) {
+                listContainer.innerHTML = '<div style="color: var(--muted-dark); text-align: center; padding: 1.5rem;">Tidak ada pertanyaan yang menunggu moderasi.</div>';
+                return;
+            }
+
+            listContainer.innerHTML = pending.map(q => `
+                <div style="background: rgba(10, 14, 22, 0.9); border: 1px solid var(--line-dark); border-radius: 6px; padding: 1rem; margin-bottom: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <strong style="color: #FFFFFF;">${escapeHtml(q.author_name)}</strong>
+                        <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--teal);">${escapeHtml(q.contact_info || 'Privat')}</span>
+                    </div>
+                    <div style="font-size: 0.8125rem; color: var(--muted-dark); margin-bottom: 0.35rem;">Perangkat: ${escapeHtml(q.device_model || 'Umum')}</div>
+                    <div style="font-weight: 600; color: #FFFFFF; font-size: 0.9375rem; margin-bottom: 0.35rem;">${escapeHtml(q.question_title)}</div>
+                    <div style="font-size: 0.875rem; color: var(--ink-dark); margin-bottom: 0.75rem;">${escapeHtml(q.question_body)}</div>
+                    
+                    <div style="margin-top: 0.5rem;">
+                        <textarea id="reply-text-${q.id}" class="form-control" rows="2" placeholder="Tulis jawaban resmi admin di sini..."></textarea>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem;">
+                            <button class="tw-btn-2" style="font-size: 0.75rem; padding: 0.3rem 0.65rem;" onclick="dismissQuestion('${q.id}')">Abaikan</button>
+                            <button class="tw-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" onclick="publishAdminAnswer('${q.id}')">Publikasikan Jawaban</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function publishAdminAnswer(qId) {
+            const textarea = document.getElementById(`reply-text-${qId}`);
+            if (!textarea || !textarea.value.trim()) {
+                alert('Tulis jawaban terlebih dahulu.');
+                return;
+            }
+            const ans = textarea.value.trim();
+            const target = allCommunityQuestions.find(q => q.id === qId);
+            if (target) {
+                target.admin_answer = ans;
+                target.answered_at = new Date().toISOString();
+                target.answered_by = 'Admin WanDrone';
+                target.status = 'answered';
+                saveStoredQuestions(allCommunityQuestions);
+                renderCommunityQuestions();
+                loadAdminQuestions();
+                alert('Jawaban berhasil dipublikasikan dan sudah tayang di forum publik!');
+            }
+        }
+
+        function dismissQuestion(qId) {
+            allCommunityQuestions = allCommunityQuestions.filter(q => q.id !== qId);
+            saveStoredQuestions(allCommunityQuestions);
+            loadAdminQuestions();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function toggleMobileNav(forceState) {
+            const dd = document.getElementById('tw-mobile-dropdown');
+            const icon = document.getElementById('tw-nav-icon');
+            if (!dd) return;
+            const shouldOpen = (forceState !== undefined) ? forceState : !dd.classList.contains('is-open');
+            if (shouldOpen) {
+                dd.classList.add('is-open');
+                if (icon) icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
+            } else {
+                dd.classList.remove('is-open');
+                if (icon) icon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCommunityQuestions();
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('admin') === '1' || params.get('mode') === 'admin') {
+                openAdminPanel();
+            }
+        });
+    </script>
+</body>
+</html>

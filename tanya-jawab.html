@@ -773,10 +773,9 @@
 
                 <ul class="tw-nav-links">
                     <li><a href="index.html" class="tw-nav-link">&larr; Halaman Utama</a></li>
-                    <li><a href="lisensi.html" class="tw-nav-link">Pilihan Lisensi</a></li>
                     <li><a href="#faq-resmi" class="tw-nav-link active">FAQ Resmi</a></li>
                     <li><a href="#forum-komunitas" class="tw-nav-link">Forum Tanya Jawab</a></li>
-                    <li><button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">+ Ajukan Pertanyaan</button></li>
+                    <li><a href="lisensi.html" class="tw-btn tw-nav-btn tw-nav-desktop-only" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">Pilihan Lisensi</a></li>
                 </ul>
 
                 <button class="tw-hamburger" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav()">
@@ -858,13 +857,13 @@
                         <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Panduan Resmi TW-Mapper</h2>
                         <p style="font-size: 0.875rem; color: var(--slate);">Jawaban resmi untuk pertanyaan teknis, ketentuan lisensi, dan operasional lapangan.</p>
                     </div>
-                    <span class="tw-chip">8 Topik Terverifikasi</span>
+                    <span class="tw-chip">9 Topik Terverifikasi</span>
                 </div>
 
                 <div class="faq-list" id="official-faq-container">
 
                     <!-- FAQ 1 -->
-                    <details class="faq-item" data-category="official" data-keywords="lisensi tw-mapper berapa perangkat device unit remote rc 2 pro hp smartphone dua satu hobby pilot perorangan">
+                    <details class="faq-item" data-category="official" data-keywords="lisensi tw-mapper berapa perangkat device unit remote rc 2 pro hp smartphone dua satu hobby pilot perorangan cadangan">
                         <summary class="faq-summary">
                             <span>1. Lisensi TW-Mapper berlaku untuk berapa perangkat (Paket Hobby vs Paket Pro)?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -872,34 +871,33 @@
                         <div class="faq-body">
                             <p><strong>Ketentuan resmi jumlah perangkat aktif:</strong></p>
                             <ul>
-                                <li><strong>Paket Hobby:</strong> Berlaku resmi untuk <strong>1 perangkat</strong> aktif (1 unit remote controller dengan layar terintegrasi atau 1 smartphone Android), ditujukan untuk pilot perorangan.</li>
-                                <li><strong>Paket Pro:</strong> Berlaku resmi untuk <strong>2 perangkat</strong> aktif secara bersamaan (misalnya 1 unit remote controller layar seperti DJI RC 2 / RC Pro dan 1 smartphone Android / remote cadangan), memberikan kelancaran dan fleksibilitas penuh untuk operasional survei di lapangan.</li>
+                                <li><strong>Paket Hobby:</strong> Berlaku resmi untuk 1 perangkat aktif (1 unit remote controller layar atau 1 smartphone Android).</li>
+                                <li><strong>Paket Pro:</strong> Berlaku resmi untuk 2 perangkat aktif bersamaan (misalnya 1 unit remote controller DJI RC 2 / RC Pro dan 1 unit smartphone Android cadangan) untuk fleksibilitas kerja di lapangan.</li>
                             </ul>
                             <div>
                                 <span class="faq-tag-chip">Lisensi</span>
-                                <span class="faq-tag-chip">2 Perangkat</span>
-                                <span class="faq-tag-chip">Hobby &amp; Pro</span>
+                                <span class="faq-tag-chip">Hobby (1 Perangkat)</span>
+                                <span class="faq-tag-chip">Pro (2 Perangkat)</span>
                             </div>
                         </div>
                     </details>
 
                     <!-- FAQ 2 -->
-                    <details class="faq-item" data-category="official" data-keywords="kml kmz import file berkas otomatis generate grid drag drop multi boundaries poligon manual gambar lahan kebun">
+                    <details class="faq-item" data-category="official" data-keywords="kml import file berkas otomatis generate grid drag drop multi boundaries poligon manual gambar lahan kebun parameter penerbangan atur ulang follow terrain">
                         <summary class="faq-summary">
                             <span>2. Apakah TW-Mapper bisa membuat misi otomatis dari berkas KML, atau harus menggambar manual?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </summary>
                         <div class="faq-body">
-                            <p><strong>Bisa otomatis penuh pada Paket Hobby maupun Paket Pro.</strong></p>
-                            <p>Anda tidak perlu menggambar batas poligon secara manual di layar remote. Cukup memindahkan atau mengimpor berkas batas area kerja berformat <strong>KML</strong>:</p>
-                            <ul>
-                                <li><strong>Pada Paket Hobby:</strong> Otomatis menghasilkan kisi jalur terbang (<em>grid flight path</em>), sudut heading kamera, serta persentase overlap standar.</li>
-                                <li><strong>Pada Paket Pro:</strong> Dilengkapi kapabilitas tingkat lanjut untuk menangani <em>multi-boundaries</em> (banyak blok kebun sekaligus dalam satu berkas KML), integrasi <em>Follow Terrain</em> (mengikuti kontur elevasi bukit/lembah berbasis DEM), serta pembagian rute (<em>Split Mission</em>) tanpa batas luas area.</li>
-                            </ul>
+                            <p><strong>Bisa otomatis penuh di Paket Hobby maupun Paket Pro.</strong></p>
+                            <p>Anda tidak perlu menggambar batas lahan manual di layar remote. Cukup impor berkas batas area berformat <strong>KML</strong>, aplikasi akan langsung membuat kisi jalur terbang (<em>flight grid</em>), heading kamera, dan overlap secara otomatis.</p>
+                            <p>Seluruh parameter penerbangan juga bisa diatur ulang di TW-Mapper (seperti ketinggian terbang, kecepatan jelajah, interval foto kamera, dan persentase overlap foto).</p>
+                            <p>Pada Paket Pro, mendukung <em>multi-boundaries</em> banyak blok lahan sekaligus serta kontur elevasi <em>Follow Terrain</em> (mengikuti kontur elevasi bukit/lembah berbasis DEM).</p>
                             <div>
                                 <span class="faq-tag-chip">Berkas KML</span>
                                 <span class="faq-tag-chip">Otomatis Grid</span>
-                                <span class="faq-tag-chip">Multi-Boundaries</span>
+                                <span class="faq-tag-chip">Parameter Terbang</span>
+                                <span class="faq-tag-chip">Follow Terrain</span>
                             </div>
                         </div>
                     </details>
@@ -942,41 +940,87 @@
                     </details>
 
                     <!-- FAQ 5 -->
-                    <details class="faq-item" data-category="official" data-keywords="drone didukung kompatibel armada mini 4 pro mini 5 pro air 3 air 3s mavic 3 series classic mavic 4 pro rc 2 rc pro rc pro 2 rcn hp android">
+                    <details class="faq-item" data-category="official" data-keywords="drone didukung kompatibel armada mini 4 pro mini 5 pro air 3 air 3s mavic 3 series classic mavic 4 pro sensor kamera fotogrametri pemetaan">
                         <summary class="faq-summary">
-                            <span>5. Drone dan Remote Controller apa saja yang didukung oleh TW-Mapper?</span>
+                            <span>5. Drone apa saja yang didukung untuk pemetaan dengan TW-Mapper?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </summary>
                         <div class="faq-body">
-                            <p>TW-Mapper mendukung seluruh jajaran perangkat DJI modern berbasis DJI Fly yang tercantum resmi di situs WanDrone:</p>
-                            <p><strong>Model Drone yang Didukung:</strong></p>
-                            <ul>
-                                <li><strong>DJI Mini 4 Pro:</strong> Sensor 1/1.3", Waypoint Flight mandiri.</li>
-                                <li><strong>DJI Mini 5 Pro:</strong> Sensor Generasi Baru.</li>
-                                <li><strong>DJI Air 3:</strong> Dual Kamera 24mm &amp; 70mm, tahan hembusan angin.</li>
-                                <li><strong>DJI Air 3S:</strong> Sensor Utama 1 Inci + Tele 70mm.</li>
-                                <li><strong>DJI Mavic 3 Series:</strong> Mavic 3, Mavic 3 Classic, Mavic 3 Pro.</li>
-                                <li><strong>DJI Mavic 4 Pro:</strong> Flagship Multi-Kamera.</li>
-                            </ul>
-                            <p><strong>Remote Controller yang Didukung:</strong></p>
-                            <ul>
-                                <li><strong>DJI RC 2:</strong> Remote dengan layar 5.5" FHD terintegrasi.</li>
-                                <li><strong>DJI RC Pro:</strong> Remote profesional dengan layar 5.5" 1000 nit.</li>
-                                <li><strong>DJI RC Pro 2:</strong> Remote generasi flagship dengan layar Ultra Bright.</li>
-                                <li><strong>HP / Tablet Android Seri RC-N:</strong> Smartphone/tablet Android yang terhubung ke remote DJI RC-N1, RC-N2, atau RC-N3.</li>
-                            </ul>
+                            <p>TW-Mapper mendukung seluruh jajaran armada drone DJI modern berbasis sistem operasi DJI Fly yang tercantum resmi di WanDrone:</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; margin: 1rem 0;">
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mini 4 Pro</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Sensor 1/1.3", Waypoint Flight mandiri, transmisi O4.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mini 5 Pro</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Sensor generasi baru, portabel dan presisi tinggi.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Air 3</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Dual kamera 24mm (Wide) &amp; 70mm (Tele), tahan hembusan angin.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Air 3S</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Sensor utama 1 inci + Tele 70mm, LiDAR depan, fotogrametri tajam.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mavic 3 Series</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Mavic 3, Mavic 3 Classic, dan Mavic 3 Pro (sensor Hasselblad 4/3).</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mavic 4 Pro</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Flagship pemetaan mutakhir dengan sistem multi-kamera generasi terbaru.</div>
+                                </div>
+                            </div>
                             <div>
-                                <span class="faq-tag-chip">Kompatibilitas</span>
-                                <span class="faq-tag-chip">Air 3 / Mini 4 / Mavic 3</span>
-                                <span class="faq-tag-chip">RC 2 / RC Pro</span>
+                                <span class="faq-tag-chip">Armada Drone</span>
+                                <span class="faq-tag-chip">Mini 4 / 5 Pro</span>
+                                <span class="faq-tag-chip">Air 3 / 3S</span>
+                                <span class="faq-tag-chip">Mavic 3 / 4 Pro</span>
                             </div>
                         </div>
                     </details>
 
                     <!-- FAQ 6 -->
+                    <details class="faq-item" data-category="official" data-keywords="remote controller didukung kompatibel rc 2 rc pro rc pro 2 rcn rcn1 rcn2 rcn3 hp android smartphone tablet layar terintegrasi dji fly">
+                        <summary class="faq-summary">
+                            <span>6. Remote controller apa saja yang didukung untuk TW-Mapper?</span>
+                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-body">
+                            <p>TW-Mapper mendukung remote controller dengan layar terintegrasi maupun remote standar via smartphone Android:</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; margin: 1rem 0;">
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI RC 2</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Remote layar bawaan 5.5" FHD (700 nit), prosesor baru, transmisi O4.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI RC Pro</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Remote profesional kelas atas, layar 5.5" Ultra-Bright 1000 nit, port HDMI out.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI RC Pro 2</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Remote flagship generasi terbaru dengan pemrosesan grafis tinggi dan visibilitas sinar matahari.</div>
+                                </div>
+                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">HP / Tablet Android Seri RC-N</div>
+                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Smartphone/tablet Android terhubung ke remote DJI RC-N1, RC-N2, atau RC-N3 (didukung via TW Tweaks / DJI Fly Mod atau Shizuku).</div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="faq-tag-chip">Remote Controller</span>
+                                <span class="faq-tag-chip">DJI RC 2</span>
+                                <span class="faq-tag-chip">DJI RC Pro / Pro 2</span>
+                                <span class="faq-tag-chip">Seri RC-N (Android)</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 7 -->
                     <details class="faq-item" data-category="official" data-keywords="internet offline luring kuota sinyal kebun remote area sinyal cache peta satelit tanpa sinyal">
                         <summary class="faq-summary">
-                            <span>6. Apakah aplikasi TW-Mapper membutuhkan koneksi internet saat terbang di lapangan?</span>
+                            <span>7. Apakah aplikasi TW-Mapper membutuhkan koneksi internet saat terbang di lapangan?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </summary>
                         <div class="faq-body">
@@ -990,10 +1034,10 @@
                         </div>
                     </details>
 
-                    <!-- FAQ 7 -->
+                    <!-- FAQ 8 -->
                     <details class="faq-item" data-category="official" data-keywords="root modifikasi fisik bongkar garansi aman standar pabrik kerusakan aman resmi">
                         <summary class="faq-summary">
-                            <span>7. Apakah perlu melakukan modifikasi fisik atau rooting pada drone maupun remote?</span>
+                            <span>8. Apakah perlu melakukan modifikasi fisik atau rooting pada drone maupun remote?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </summary>
                         <div class="faq-body">
@@ -1007,10 +1051,10 @@
                         </div>
                     </details>
 
-                    <!-- FAQ 8 -->
+                    <!-- FAQ 9 -->
                     <details class="faq-item" data-category="official" data-keywords="kecepatan slider speed pelan lambat foto bolong microsd kamera 48mp dynamic speed clamping proteksi">
                         <summary class="faq-summary">
-                            <span>8. Mengapa slider kecepatan drone (speed) dibatasi otomatis dan tidak bisa dinaikkan maksimal?</span>
+                            <span>9. Mengapa slider kecepatan drone (speed) dibatasi otomatis dan tidak bisa dinaikkan maksimal?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </summary>
                         <div class="faq-body">

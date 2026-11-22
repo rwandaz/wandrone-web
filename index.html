@@ -1892,13 +1892,8 @@
                         </div>
                         <h2 class="tw-h2">Pertanyaan umum</h2>
                         <p class="tw-standfirst">
-                            Jawaban ringkas seputar operasional TW-Mapper di lapangan, lisensi perangkat, dan berkas misi.
+                            Jawaban ringkas seputar operasional TW-Mapper di lapangan, lisensi perangkat, dukungan drone &amp; remote, serta berkas misi.
                         </p>
-                        <div style="margin-top: 1.5rem;">
-                            <a href="tanya-jawab.html" class="tw-btn" style="padding: 0.65rem 1.25rem;">
-                                <span>Buka Forum Tanya Jawab &rarr;</span>
-                            </a>
-                        </div>
                     </div>
 
                     <div class="col-lg-8 tw-side-body">
@@ -1907,34 +1902,56 @@
                             <!-- FAQ Item 1 -->
                             <details style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);" ontoggle="this.style.borderColor = this.open ? 'var(--teal-hover)' : 'var(--line)'; this.style.backgroundColor = this.open ? '#FAFBFD' : '#FFFFFF';">
                                 <summary style="padding: 1.1rem 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; font-family: var(--display); font-size: 1.0625rem; font-weight: 600; color: var(--ink); user-select: none;">
-                                    <span>Apakah aplikasi TW-Mapper membutuhkan koneksi internet saat di lapangan?</span>
+                                    <span>Lisensi TW-Mapper berlaku untuk berapa perangkat (Paket Hobby vs Paket Pro)?</span>
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--teal-deep);"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </summary>
                                 <div style="padding: 0 1.25rem 1.25rem 1.25rem; color: var(--slate); font-size: 0.9375rem; line-height: 1.65; border-top: 1px solid var(--line); margin-top: 0.25rem; padding-top: 0.85rem;">
-                                    Tidak. TW-Mapper didesain 100% mandiri untuk operasional luring (<em>offline</em>). Selama Anda telah mengunduh data cache peta satelit area kerja saat di basecamp atau hotel, remote dan drone dapat menjalankan misi pemetaan secara penuh tanpa memerlukan kuota internet maupun sinyal seluler di remote area.
+                                    <p style="margin-bottom: 0.5rem;"><strong style="color: var(--ink);">Paket Hobby:</strong> Berlaku resmi untuk 1 perangkat aktif (1 unit remote controller layar atau 1 smartphone Android).</p>
+                                    <p style="margin-bottom: 0;"><strong style="color: var(--ink);">Paket Pro:</strong> Berlaku resmi untuk 2 perangkat aktif bersamaan (misalnya 1 unit remote controller DJI RC 2 / RC Pro dan 1 unit smartphone Android cadangan) untuk fleksibilitas kerja di lapangan.</p>
                                 </div>
                             </details>
 
                             <!-- FAQ Item 2 -->
                             <details style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);" ontoggle="this.style.borderColor = this.open ? 'var(--teal-hover)' : 'var(--line)'; this.style.backgroundColor = this.open ? '#FAFBFD' : '#FFFFFF';">
                                 <summary style="padding: 1.1rem 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; font-family: var(--display); font-size: 1.0625rem; font-weight: 600; color: var(--ink); user-select: none;">
-                                    <span>Lisensi TW-Mapper berlaku untuk berapa perangkat (Paket Hobby vs Paket Pro)?</span>
+                                    <span>Apakah bisa membuat misi otomatis dari berkas KML, atau harus menggambar manual?</span>
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--teal-deep);"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </summary>
                                 <div style="padding: 0 1.25rem 1.25rem 1.25rem; color: var(--slate); font-size: 0.9375rem; line-height: 1.65; border-top: 1px solid var(--line); margin-top: 0.25rem; padding-top: 0.85rem;">
-                                    <strong style="color: var(--ink);">Paket Hobby:</strong> Berlaku resmi untuk <strong>1 perangkat</strong> aktif (1 unit remote controller layar atau 1 smartphone Android).<br/>
-                                    <strong style="color: var(--ink);">Paket Pro:</strong> Berlaku resmi untuk <strong>2 perangkat</strong> aktif bersamaan (misalnya 1 unit remote controller DJI RC 2 / RC Pro dan 1 unit smartphone Android cadangan) untuk fleksibilitas kerja di lapangan.
+                                    Bisa otomatis penuh di Paket Hobby maupun Paket Pro. Anda tidak perlu menggambar batas lahan manual di layar remote. Cukup impor berkas batas area berformat <strong>KML</strong>, aplikasi akan langsung membuat kisi jalur terbang (<em>flight grid</em>), heading kamera, dan overlap secara otomatis. Seluruh parameter penerbangan juga bisa diatur ulang di TW-Mapper (ketinggian terbang, kecepatan, interval foto, dan persentase overlap). Pada Paket Pro, mendukung <em>multi-boundaries</em> banyak blok lahan sekaligus serta kontur elevasi Follow Terrain.
                                 </div>
                             </details>
 
                             <!-- FAQ Item 3 -->
                             <details style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);" ontoggle="this.style.borderColor = this.open ? 'var(--teal-hover)' : 'var(--line)'; this.style.backgroundColor = this.open ? '#FAFBFD' : '#FFFFFF';">
                                 <summary style="padding: 1.1rem 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; font-family: var(--display); font-size: 1.0625rem; font-weight: 600; color: var(--ink); user-select: none;">
-                                    <span>Apakah bisa membuat misi otomatis dari berkas KML, atau harus menggambar manual?</span>
+                                    <span>Drone apa saja yang didukung untuk pemetaan dengan TW-Mapper?</span>
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--teal-deep);"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </summary>
                                 <div style="padding: 0 1.25rem 1.25rem 1.25rem; color: var(--slate); font-size: 0.9375rem; line-height: 1.65; border-top: 1px solid var(--line); margin-top: 0.25rem; padding-top: 0.85rem;">
-                                    Bisa otomatis penuh di Paket Hobby maupun Paket Pro. Anda tidak perlu menggambar batas lahan manual di layar remote. Cukup impor berkas batas area berformat <strong>KML</strong>, aplikasi akan langsung membuat kisi jalur terbang (<em>flight grid</em>), heading kamera, dan overlap secara otomatis. Pada Paket Pro, mendukung <em>multi-boundaries</em> banyak blok lahan sekaligus serta kontur elevasi Follow Terrain.
+                                    TW-Mapper mendukung armada drone DJI modern berbasis DJI Fly: <strong>DJI Mini 4 Pro</strong>, <strong>DJI Mini 5 Pro</strong>, <strong>DJI Air 3</strong>, <strong>DJI Air 3S</strong>, <strong>DJI Mavic 3 Series</strong> (Mavic 3, Mavic 3 Classic, Mavic 3 Pro), dan <strong>DJI Mavic 4 Pro</strong>.
+                                </div>
+                            </details>
+
+                            <!-- FAQ Item 4 -->
+                            <details style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);" ontoggle="this.style.borderColor = this.open ? 'var(--teal-hover)' : 'var(--line)'; this.style.backgroundColor = this.open ? '#FAFBFD' : '#FFFFFF';">
+                                <summary style="padding: 1.1rem 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; font-family: var(--display); font-size: 1.0625rem; font-weight: 600; color: var(--ink); user-select: none;">
+                                    <span>Remote controller apa saja yang didukung untuk TW-Mapper?</span>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--teal-deep);"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </summary>
+                                <div style="padding: 0 1.25rem 1.25rem 1.25rem; color: var(--slate); font-size: 0.9375rem; line-height: 1.65; border-top: 1px solid var(--line); margin-top: 0.25rem; padding-top: 0.85rem;">
+                                    TW-Mapper mendukung <strong>DJI RC 2</strong> (layar terintegrasi 5.5" FHD), <strong>DJI RC Pro</strong>, <strong>DJI RC Pro 2</strong>, serta smartphone atau tablet Android yang terhubung ke remote DJI seri <strong>RC-N</strong> (RC-N1, RC-N2, RC-N3 via TW Tweaks / DJI Fly Mod atau Shizuku).
+                                </div>
+                            </details>
+
+                            <!-- FAQ Item 5 -->
+                            <details style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);" ontoggle="this.style.borderColor = this.open ? 'var(--teal-hover)' : 'var(--line)'; this.style.backgroundColor = this.open ? '#FAFBFD' : '#FFFFFF';">
+                                <summary style="padding: 1.1rem 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; font-family: var(--display); font-size: 1.0625rem; font-weight: 600; color: var(--ink); user-select: none;">
+                                    <span>Apakah aplikasi TW-Mapper membutuhkan koneksi internet saat di lapangan?</span>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--teal-deep);"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </summary>
+                                <div style="padding: 0 1.25rem 1.25rem 1.25rem; color: var(--slate); font-size: 0.9375rem; line-height: 1.65; border-top: 1px solid var(--line); margin-top: 0.25rem; padding-top: 0.85rem;">
+                                    Tidak. TW-Mapper didesain 100% mandiri untuk operasional luring (<em>offline</em>). Selama Anda telah mengunduh data cache peta satelit area kerja saat di basecamp atau hotel, remote dan drone dapat menjalankan misi pemetaan secara penuh tanpa memerlukan kuota internet maupun sinyal seluler di remote area.
                                 </div>
                             </details>
 
@@ -1953,6 +1970,7 @@
                     </div>
                 </div>
             </div>
+        </section>
         
 
         <!-- SECTION 6: MEDIA SOSIAL & KONTAK WANDRONE (tw-side tw-side-alt) -->

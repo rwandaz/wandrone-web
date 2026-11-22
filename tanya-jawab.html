@@ -639,30 +639,36 @@
 
         .tw-modal.is-open {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
         }
 
         .tw-modal-card {
             background: #FFFFFF;
             border: 1px solid var(--line);
-            border-radius: 12px;
+            border-radius: 14px;
             width: 100%;
             max-width: 600px;
-            padding: 1.75rem;
+            max-height: calc(100dvh - 3rem);
+            max-height: calc(100vh - 3rem);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1.65rem;
             position: relative;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-            margin: 1.5rem auto;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+            margin: auto;
             box-sizing: border-box;
+            overflow: hidden;
         }
 
         .tw-modal-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.15rem;
             padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--line);
+            flex-shrink: 0;
         }
 
         .tw-modal-title {
@@ -677,13 +683,53 @@
             border: none;
             color: var(--slate);
             cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 4px;
+            padding: 0.35rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
         }
 
         .tw-modal-close:hover {
             color: var(--ink);
             background: var(--mist);
+        }
+
+        /* Scrollable Dialog Body & Forms */
+        .tw-modal-card > form,
+        .tw-modal-scrollable-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            padding-right: 6px;
+            padding-left: 2px;
+        }
+
+        /* Subtle modern scrollbar for dialog forms */
+        .tw-modal-card > form::-webkit-scrollbar,
+        .tw-modal-scrollable-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tw-modal-card > form::-webkit-scrollbar-track,
+        .tw-modal-scrollable-body::-webkit-scrollbar-track {
+            background: #F1F5F9;
+            border-radius: 999px;
+        }
+
+        .tw-modal-card > form::-webkit-scrollbar-thumb,
+        .tw-modal-scrollable-body::-webkit-scrollbar-thumb {
+            background: rgba(13, 148, 136, 0.35);
+            border-radius: 999px;
+        }
+
+        .tw-modal-card > form::-webkit-scrollbar-thumb:hover,
+        .tw-modal-scrollable-body::-webkit-scrollbar-thumb:hover {
+            background: var(--teal-deep);
         }
 
         /* FULLSCREEN ADMIN CONSOLE */
@@ -768,12 +814,14 @@
                 padding: 1.5rem 1.15rem;
             }
             .tw-modal {
-                padding: 0.75rem 0.5rem;
+                padding: 0.65rem 0.4rem;
             }
             .tw-modal-card {
-                padding: 1.25rem 0.85rem;
-                margin: 0.75rem auto;
-                border-radius: 10px;
+                max-height: calc(100dvh - 1.25rem);
+                max-height: calc(100vh - 1.25rem);
+                padding: 1.15rem 0.85rem;
+                margin: auto;
+                border-radius: 12px;
             }
             .tw-modal-head {
                 margin-bottom: 0.85rem;
@@ -783,8 +831,8 @@
                 font-size: 1.15rem;
             }
             .tw-check-grid {
-                grid-template-columns: 1fr;
-                gap: 0.4rem;
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 0.35rem;
             }
             .pilot-banner {
                 padding: 1rem;
@@ -1960,7 +2008,7 @@
             </div>
 
             <!-- Tab Switcher: Masuk vs Daftar -->
-            <div style="display: flex; border-bottom: 1px solid var(--line); margin-bottom: 1.25rem;">
+            <div style="display: flex; border-bottom: 1px solid var(--line); margin-bottom: 1.25rem; flex-shrink: 0;">
                 <button type="button" id="tab-btn-login" onclick="switchAuthTab('login')" style="flex: 1; padding: 0.65rem 1rem; border: none; background: none; font-weight: 700; font-size: 0.9375rem; color: var(--teal-deep); border-bottom: 2px solid var(--teal-deep); cursor: pointer;">
                     Masuk Akun
                 </button>
@@ -2804,6 +2852,8 @@
 
             m.classList.add('is-open');
             m.scrollTop = 0;
+            const qForm = m.querySelector('form');
+            if (qForm) qForm.scrollTop = 0;
             const sb = m.querySelector('.tw-admin-scroll-body');
             if (sb) sb.scrollTop = 0;
         }
@@ -2958,6 +3008,8 @@
             if (!m) return;
             m.classList.add('is-open');
             m.scrollTop = 0;
+            const qForm = m.querySelector('form');
+            if (qForm) qForm.scrollTop = 0;
             const sb = m.querySelector('.tw-admin-scroll-body');
             if (sb) sb.scrollTop = 0;
             
@@ -3375,6 +3427,8 @@
             if (modal) {
                 modal.classList.add('is-open');
                 modal.scrollTop = 0;
+                const editForm = modal.querySelector('form');
+                if (editForm) editForm.scrollTop = 0;
             }
         }
 
@@ -4347,6 +4401,8 @@
             switchAuthTab(tab);
             populateChecklistGrid('reg-remotes-grid', AVAILABLE_REMOTES);
             populateChecklistGrid('reg-drones-grid', AVAILABLE_DRONES);
+            const authForms = modal.querySelectorAll('form');
+            authForms.forEach(f => { f.scrollTop = 0; });
         }
 
         function closeUserAuthModal() {
@@ -4899,6 +4955,8 @@
             generateRandomPass();
             modal.classList.add('is-open');
             modal.scrollTop = 0;
+            const resetForm = modal.querySelector('form');
+            if (resetForm) resetForm.scrollTop = 0;
         }
 
         function closeAdminResetPassModal() {
@@ -5005,6 +5063,8 @@
 
             modal.classList.add('is-open');
             modal.scrollTop = 0;
+            const adjForm = modal.querySelector('form');
+            if (adjForm) adjForm.scrollTop = 0;
         }
 
         function closeAdminAdjustPointsModal() {

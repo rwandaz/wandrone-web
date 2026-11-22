@@ -1485,7 +1485,7 @@
 
             <h1>Forum Tanya Jawab Komunitas Pilot</h1>
             <p class="tw-standfirst">
-                Temukan solusi teknis operasional TW-Mapper di lapangan, modul TW Tweaks / WanDrone Tweaks / DJI Fly Mod, berkas KML &amp; kontur elevasi, serta konsultasikan pertanyaan Anda langsung bersama tim teknis WanDrone dan rekan pilot.
+                Temukan solusi teknis operasional TW-Mapper di lapangan, modul TW Tweaks / WanDrone Tweaks / Fly Mod, berkas KML &amp; kontur elevasi, serta konsultasikan pertanyaan Anda langsung bersama tim teknis WanDrone dan rekan pilot.
             </p>
         </div>
     </section>
@@ -1519,7 +1519,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Cari pertanyaan teknis di forum komunitas (contoh: overlap perbukitan, flash inject, dji rc 2, follow terrain)..." oninput="handleSearch(this.value)" autocomplete="off"/>
+                    <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Cari pertanyaan teknis di forum komunitas (contoh: overlap perbukitan, flash inject, rc 2, follow terrain)..." oninput="handleSearch(this.value)" autocomplete="off"/>
                     <button id="faq-search-clear" class="faq-search-clear" aria-label="Bersihkan pencarian" onclick="clearSearch()">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -1611,12 +1611,12 @@
                         <label class="form-label" for="q-drone">Tipe Drone <span style="color: var(--teal-deep);">*</span></label>
                         <select id="q-drone" class="form-control" required>
                             <option value="">-- Pilih Tipe Drone --</option>
-                            <option value="DJI Mini 4 Pro">DJI Mini 4 Pro</option>
-                            <option value="DJI Mini 5 Pro">DJI Mini 5 Pro</option>
-                            <option value="DJI Air 3">DJI Air 3</option>
-                            <option value="DJI Air 3S">DJI Air 3S</option>
-                            <option value="DJI Mavic 3 Series">DJI Mavic 3 Series</option>
-                            <option value="DJI Mavic 4 Pro">DJI Mavic 4 Pro</option>
+                            <option value="Mini 4 Pro">Mini 4 Pro</option>
+                            <option value="Mini 5 Pro">Mini 5 Pro</option>
+                            <option value="Air 3">Air 3</option>
+                            <option value="Air 3S">Air 3S</option>
+                            <option value="Mavic 3 Series">Mavic 3 Series</option>
+                            <option value="Mavic 4 Pro">Mavic 4 Pro</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
                     </div>
@@ -1625,9 +1625,9 @@
                         <label class="form-label" for="q-remote">Tipe Remote <span style="color: var(--teal-deep);">*</span></label>
                         <select id="q-remote" class="form-control" required>
                             <option value="">-- Pilih Tipe Remote --</option>
-                            <option value="DJI RC 2">DJI RC 2</option>
-                            <option value="DJI RC Pro">DJI RC Pro</option>
-                            <option value="DJI RC Pro 2">DJI RC Pro 2</option>
+                            <option value="RC 2">RC 2</option>
+                            <option value="RC Pro">RC Pro</option>
+                            <option value="RC Pro 2">RC Pro 2</option>
                             <option value="HP / Tablet Android (Seri RC-N)">HP / Tablet Android (Seri RC-N)</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
@@ -2106,10 +2106,10 @@
                 id: 'cm-1',
                 created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                 author_name: 'Budi Santoso',
-                device_model: 'DJI Air 3 (DJI RC 2)',
+                device_model: 'Air 3 (RC 2)',
                 question_title: 'Apakah hasil foto geotagging TW-Mapper langsung kompatibel dengan Agisoft dan Pix4D?',
                 question_body: 'Halo tim, mau tanya saat drone selesai terbang otomatis dan foto tersimpan di MicroSD, apakah posisi latitude, longitude, dan ketinggiannya sudah langsung ter-geotag ke EXIF foto untuk olah di Agisoft Metashape atau Pix4D?',
-                admin_answer: 'Halo Pak Budi. Ya, 100% langsung kompatibel. TW-Mapper memerintahkan kamera drone DJI untuk mengambil foto dengan metadata geotagging EXIF asli DJI (koordinat GPS & RTK serta ketinggian elipsoid). Anda bisa langsung memasukkan berkas foto ke Agisoft Metashape, Pix4D, DroneDeploy, maupun WebODM tanpa konversi.',
+                admin_answer: 'Halo Pak Budi. Ya, 100% langsung kompatibel. TW-Mapper memerintahkan kamera drone untuk mengambil foto dengan metadata geotagging EXIF asli kamera (koordinat GPS & RTK serta ketinggian elipsoid). Anda bisa langsung memasukkan berkas foto ke Agisoft Metashape, Pix4D, DroneDeploy, maupun WebODM tanpa konversi.',
                 answered_at: new Date(Date.now() - 86400000).toISOString(),
                 answered_by: 'Admin WanDrone',
                 likes_count: 8,
@@ -2119,10 +2119,10 @@
                 id: 'cm-2',
                 created_at: new Date(Date.now() - 86400000 * 4).toISOString(),
                 author_name: 'Fauzan Pilot Drone',
-                device_model: 'DJI Mini 4 Pro',
+                device_model: 'Mini 4 Pro',
                 question_title: 'Bagaimana cara melanjutkan rute jika baterai habis di tengah blok yang luas?',
                 question_body: 'Kemarin terbang survei 60 Hektar di kebun sawit, baterai tinggal 20% pas waypoint ke-45 dari total 90. Cara lanjutkannya bagaimana biar tidak mengulang dari waypoint 1?',
-                admin_answer: 'Halo Mas Fauzan. Di aplikasi DJI Fly sudah memiliki fitur Resume Waypoint otomatis. Saat baterai menipis, tekan tombol RTH (Return to Home) di remote. Ganti baterai baru, nyalakan kembali drone, lalu di DJI Fly buka kembali misi tersebut dan pilih opsi "Lanjutkan dari Titik Terakhir". Drone akan langsung terbang menuju waypoint ke-45 dan melanjutkan pemetaan.',
+                admin_answer: 'Halo Mas Fauzan. Di aplikasi penerbangan sudah memiliki fitur Resume Waypoint otomatis. Saat baterai menipis, tekan tombol RTH (Return to Home) di remote. Ganti baterai baru, nyalakan kembali drone, lalu buka kembali misi tersebut dan pilih opsi "Lanjutkan dari Titik Terakhir". Drone akan langsung terbang menuju waypoint ke-45 dan melanjutkan pemetaan.',
                 answered_at: new Date(Date.now() - 86400000 * 3).toISOString(),
                 answered_by: 'Admin WanDrone',
                 likes_count: 14,
@@ -2132,7 +2132,7 @@
                 id: '3',
                 created_at: new Date(Date.now() - 86400000 * 1).toISOString(),
                 author_name: 'Fauzan',
-                device_model: 'DJI Air 3 (DJI RC 2)',
+                device_model: 'Air 3 (RC 2)',
                 question_title: 'Cara Mengatur Overlap di Perbukitan',
                 question_body: 'Bagaimana rekomendasi persentase sidelap dan frontlap untuk area berkontur curam?',
                 admin_answer: 'Untuk area berkontur curam, rekomendasi overlap pemetaan drone:\n- Sidelap: 80–85%\n- Frontlap: 85–90%\nPengaturan ideal TW Mapper:\n- Sidelap: 80%\n- Frontlap: 85%\n- Pola terbang: Double Grid (opsional)\nUntuk kontur sangat curam, gunakan 85% sidelap dan 90% frontlap agar kesinambungan foto dan kualitas rekonstruksi 3D lebih terjaga.',
@@ -2145,9 +2145,9 @@
                 id: 'cm-4',
                 created_at: new Date(Date.now() - 86400000 * 0.5).toISOString(),
                 author_name: 'Heru Prasetyo',
-                device_model: 'DJI Air 3S (DJI RC 2)',
+                device_model: 'Air 3S (RC 2)',
                 question_title: 'Rekomendasi interval shutter pada resolusi 48 MP agar MicroSD tidak buffer?',
-                question_body: 'Saat melakukan misi pemetaan dengan DJI Air 3S pada resolusi foto 48 MP, pada kecepatan 12 m/s kartu MicroSD Extreme Pro saya kadang ada jeda penulisan data. Berapa kecepatan terbang dan interval buka rana kamera yang paling aman agar tidak ada foto bolong?',
+                question_body: 'Saat melakukan misi pemetaan dengan Air 3S pada resolusi foto 48 MP, pada kecepatan 12 m/s kartu MicroSD Extreme Pro saya kadang ada jeda penulisan data. Berapa kecepatan terbang dan interval buka rana kamera yang paling aman agar tidak ada foto bolong?',
                 admin_answer: null,
                 answered_at: null,
                 answered_by: null,
@@ -2158,7 +2158,7 @@
                 id: 'cm-5',
                 created_at: new Date(Date.now() - 86400000 * 0.2).toISOString(),
                 author_name: 'Rian Hendrawan',
-                device_model: 'DJI Mavic 3 Enterprise',
+                device_model: 'Mavic 3 Enterprise',
                 question_title: 'Apakah sensor anti-tabrak (APAS) tetap aktif saat terbang misi follow terrain?',
                 question_body: 'Mohon saran dari rekan-rekan pilot dan tim teknis, saat menjalankan misi pemetaan mengikuti kontur tanah (terrain follow) dengan data DSM, apakah proteksi deteksi rintangan aktif mengerem atau menaikkan ketinggian drone jika ada pohon tinggi yang belum terpetakan?',
                 admin_answer: null,
@@ -3601,8 +3601,8 @@
                                         ${(remotes.length > 0 || drones.length > 0) ? `
                                             <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
                                                 <span style="font-size: 0.75rem; color: var(--slate);">Perangkat:</span>
-                                                ${remotes.map(r => `<span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.4rem;">${escapeHtml(r)}</span>`).join('')}
-                                                ${drones.map(d => `<span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.4rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">${escapeHtml(d)}</span>`).join('')}
+                                                ${remotes.map(r => `<span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.4rem;">${escapeHtml(String(r).replace(/^[Dd][Jj][Ii]\s+/, ''))}</span>`).join('')}
+                                                ${drones.map(d => `<span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.4rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">${escapeHtml(String(d).replace(/^[Dd][Jj][Ii]\s+/, ''))}</span>`).join('')}
                                             </div>
                                         ` : ''}
                                     </div>
@@ -4496,20 +4496,20 @@
            KOMUNITAS PILOT & SISTEM GAMIFIKASI REPUTASI (POIN & BINTANG)
            ======================================================== */
         const AVAILABLE_REMOTES = [
-            'DJI RC 2',
-            'DJI RC Pro',
-            'DJI RC Pro 2',
+            'RC 2',
+            'RC Pro',
+            'RC Pro 2',
             'HP / Tablet Android (Seri RC-N)',
             'Lainnya'
         ];
 
         const AVAILABLE_DRONES = [
-            'DJI Mini 4 Pro',
-            'DJI Mini 5 Pro',
-            'DJI Air 3',
-            'DJI Air 3S',
-            'DJI Mavic 3 Series',
-            'DJI Mavic 4 Pro',
+            'Mini 4 Pro',
+            'Mini 5 Pro',
+            'Air 3',
+            'Air 3S',
+            'Mavic 3 Series',
+            'Mavic 4 Pro',
             'Lainnya'
         ];
 
@@ -4965,7 +4965,7 @@
                                                 ${starsHtml}
                                                 <span>${c.total_points || 0} Poin</span>
                                             </span>
-                                            ${devTags.map(t => `<span class="tw-chip" style="font-size: 0.625rem; padding: 0.1rem 0.4rem;">${escapeHtml(t)}</span>`).join('')}
+                                            ${devTags.map(t => `<span class="tw-chip" style="font-size: 0.625rem; padding: 0.1rem 0.4rem;">${escapeHtml(String(t).replace(/^[Dd][Jj][Ii]\s+/, ''))}</span>`).join('')}
                                         </div>
                                         <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
                                     </div>
@@ -6368,7 +6368,7 @@
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="edit-question-device">Model Drone / RC</label>
-                        <input type="text" id="edit-question-device" class="form-control" placeholder="Contoh: DJI Air 3 (RC 2)" style="font-size: 0.875rem;"/>
+                        <input type="text" id="edit-question-device" class="form-control" placeholder="Contoh: Air 3 (RC 2)" style="font-size: 0.875rem;"/>
                     </div>
                 </div>
 

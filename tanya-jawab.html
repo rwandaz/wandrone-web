@@ -755,6 +755,77 @@
             }
         }
 
+        /* ADMIN TWO-TAB NAVIGATION */
+        .admin-tab-bar {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--line);
+            margin-bottom: 1.5rem;
+            align-items: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .admin-tab-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .admin-tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.15rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--slate);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 6px 6px 0 0;
+            user-select: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .admin-tab-btn:hover {
+            color: var(--ink);
+            background: rgba(10, 14, 22, 0.02);
+        }
+
+        .admin-tab-btn.is-active {
+            color: var(--teal-deep);
+            border-bottom-color: var(--teal);
+            background: rgba(10, 14, 22, 0.03);
+            font-weight: 700;
+        }
+
+        .admin-tab-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: var(--mono);
+            line-height: 1;
+            background: #E2E8F0;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+
+        .admin-tab-btn.is-active #admin-pending-tab-badge {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .admin-tab-btn.is-active #admin-approved-tab-badge {
+            background: #DCFCE7;
+            color: #166534;
+        }
+
         /* VOTE LIKE / DISLIKE BUTTONS */
         .btn-vote {
             display: inline-flex;
@@ -1516,16 +1587,30 @@
 
             <!-- VIEW 2: DASHBOARD ADMIN (Spacious Grid / Feed) -->
             <div id="admin-dashboard-view" class="tw-admin-container" style="display: none;">
-                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                     <div>
                         <div style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">Moderasi Pertanyaan Pengguna</div>
-                        <div style="font-size: 0.875rem; color: var(--slate);">Jawab pertanyaan yang masuk untuk mempublikasikannya ke forum web publik atau hapus jika diperlukan.</div>
+                        <div style="font-size: 0.875rem; color: var(--slate);">Jawab pertanyaan yang masuk untuk mempublikasikannya ke forum web publik atau kelola pertanyaan yang sudah tayang.</div>
                     </div>
+                </div>
+
+                <!-- TAB NAVIGASI ADMIN (2 TAB) -->
+                <div class="admin-tab-bar" role="tablist">
+                    <button type="button" id="admin-tab-pending" onclick="switchAdminTab('pending')" class="admin-tab-btn is-active" role="tab" aria-selected="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <span>Menunggu Jawaban</span>
+                        <span class="admin-tab-badge" id="admin-pending-tab-badge">0</span>
+                    </button>
+                    <button type="button" id="admin-tab-approved" onclick="switchAdminTab('approved')" class="admin-tab-btn" role="tab" aria-selected="false">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span>Sudah Diterbitkan</span>
+                        <span class="admin-tab-badge" id="admin-approved-tab-badge">0</span>
+                    </button>
                 </div>
 
                 <!-- Container Pertanyaan -->
                 <div id="admin-questions-list" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <!-- Diisi otomatis oleh JavaScript -->
+                    <!-- Diisi otomatis oleh JavaScript sesuai tab aktif -->
                 </div>
             </div>
         </main>
@@ -2108,6 +2193,23 @@
 
         // ADMIN PANEL INTERAKTIF
         let activeAdminKey = sessionStorage.getItem('wandrone_admin_key') || '';
+        let currentAdminTab = 'pending';
+        let latestAdminQuestions = [];
+
+        function switchAdminTab(tab) {
+            currentAdminTab = tab;
+            const btnPending = document.getElementById('admin-tab-pending');
+            const btnApproved = document.getElementById('admin-tab-approved');
+            if (btnPending) {
+                btnPending.classList.toggle('is-active', tab === 'pending');
+                btnPending.setAttribute('aria-selected', tab === 'pending' ? 'true' : 'false');
+            }
+            if (btnApproved) {
+                btnApproved.classList.toggle('is-active', tab === 'approved');
+                btnApproved.setAttribute('aria-selected', tab === 'approved' ? 'true' : 'false');
+            }
+            renderAdminQuestions(latestAdminQuestions);
+        }
 
         function openAdminPanel() {
             const m = document.getElementById('admin-modal');
@@ -2237,8 +2339,16 @@
         }
 
                 function renderAdminQuestions(questions) {
+            if (Array.isArray(questions)) {
+                latestAdminQuestions = questions;
+            } else {
+                questions = latestAdminQuestions;
+            }
+
             const container = document.getElementById('admin-questions-list');
             const badge = document.getElementById('admin-pending-badge');
+            const pendingTabBadge = document.getElementById('admin-pending-tab-badge');
+            const approvedTabBadge = document.getElementById('admin-approved-tab-badge');
             if (!container) return;
 
             const pending = questions.filter(q => q.status === 'pending');
@@ -2248,23 +2358,26 @@
                 badge.textContent = `${pending.length} Menunggu Jawaban`;
                 badge.style.display = 'inline-block';
             }
-
-            if (questions.length === 0) {
-                container.innerHTML = `
-                    <div style="background: #FFFFFF; border: 1px dashed var(--line); border-radius: 10px; padding: 3rem 1.5rem; text-align: center; color: var(--slate);">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.75rem; color: var(--slate); opacity: 0.6;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.25rem;">Belum Ada Pertanyaan Masuk</div>
-                        <div style="font-size: 0.875rem;">Pertanyaan baru dari pengunjung website akan otomatis muncul di sini.</div>
-                    </div>
-                `;
-                return;
+            if (pendingTabBadge) {
+                pendingTabBadge.textContent = pending.length;
+            }
+            if (approvedTabBadge) {
+                approvedTabBadge.textContent = approved.length;
             }
 
-            let html = '';
+            if (currentAdminTab === 'pending') {
+                if (pending.length === 0) {
+                    container.innerHTML = `
+                        <div style="background: #FFFFFF; border: 1px dashed var(--line); border-radius: 10px; padding: 3rem 1.5rem; text-align: center; color: var(--slate);">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.75rem; color: var(--slate); opacity: 0.6;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.25rem;">Tidak Ada Pertanyaan Menunggu</div>
+                            <div style="font-size: 0.875rem;">Semua pertanyaan baru telah terjawab atau belum ada pertanyaan masuk dari pengunjung.</div>
+                        </div>
+                    `;
+                    return;
+                }
 
-            if (pending.length > 0) {
-                html += `<div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;"><span>Pertanyaan Baru Menunggu Jawaban</span><span class="tw-chip-solid" style="background: #FEF3C7; color: #92400E; font-size: 0.75rem;">${pending.length}</span></div>`;
-                html += pending.map(q => {
+                container.innerHTML = pending.map(q => {
                     const cleanPhone = (q.contact_info || '').replace(/[^0-9]/g, '');
                     const waLink = cleanPhone ? (cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone) : '';
                     return `
@@ -2298,11 +2411,20 @@
                         </div>
                     `;
                 }).join('');
-            }
+            } else {
+                // Tab 'approved' (Sudah Diterbitkan)
+                if (approved.length === 0) {
+                    container.innerHTML = `
+                        <div style="background: #FFFFFF; border: 1px dashed var(--line); border-radius: 10px; padding: 3rem 1.5rem; text-align: center; color: var(--slate);">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.75rem; color: var(--slate); opacity: 0.6;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.25rem;">Belum Ada Pertanyaan yang Diterbitkan</div>
+                            <div style="font-size: 0.875rem;">Pertanyaan yang Anda jawab di tab "Menunggu Jawaban" akan otomatis tampil di sini dan tayang di forum website.</div>
+                        </div>
+                    `;
+                    return;
+                }
 
-            if (approved.length > 0) {
-                html += `<div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-top: 2.25rem; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;"><span>Pertanyaan yang Sudah Diterbitkan di Forum</span><span class="tw-chip-solid" style="background: #DCFCE7; color: #166534; font-size: 0.75rem;">${approved.length} Tayang</span></div>`;
-                html += approved.map(q => `
+                container.innerHTML = approved.map(q => `
                     <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 0.85rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; flex-wrap: wrap;">
                             <div>
@@ -2325,8 +2447,6 @@
                     </div>
                 `).join('');
             }
-
-            container.innerHTML = html;
         }
 
         async function handleAdminSubmitReply(e, qId) {

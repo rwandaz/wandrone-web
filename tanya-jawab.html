@@ -2364,7 +2364,7 @@
                                     <div class="qa-admin-badge" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                         <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                            <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
+                                            <span>${escapeHtml((q.answered_by && !q.answered_by.toLowerCase().includes('akun utama')) ? q.answered_by : 'Admin WanDrone')}</span>
                                         </div>
                                         ${(activeAdminUser && activeAdminPass) ? `
                                             <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
@@ -4736,11 +4736,9 @@
                                         <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
                                             <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(c.full_name || c.username)}</strong>
                                             <span style="font-size: 0.75rem; color: var(--slate);">@${escapeHtml(c.username)}</span>
-                                            ${c.role === 'superadmin' ? `
-                                                <span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; font-weight: 700; padding: 0.1rem 0.45rem;">Akun Utama</span>
-                                            ` : (c.role === 'admin' ? `
-                                                <span class="tw-chip" style="font-size: 0.6875rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700; padding: 0.1rem 0.45rem;">Tim WanDrone</span>
-                                            ` : '')}
+                                            ${(c.role === 'superadmin' || c.role === 'admin') ? `
+                                                <span class="tw-chip" style="font-size: 0.6875rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700; padding: 0.1rem 0.45rem;">Admin</span>
+                                            ` : ''}
                                             <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
                                                 ${starsHtml}
                                                 <span>${c.total_points || 0} Poin</span>

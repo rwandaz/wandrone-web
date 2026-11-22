@@ -620,6 +620,61 @@
             margin-bottom: 0.35rem;
         }
 
+        /* PAGINASI FORUM */
+        .forum-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            user-select: none;
+        }
+
+        .page-nav-btn,
+        .page-num-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 38px;
+            height: 38px;
+            padding: 0 0.65rem;
+            font-family: var(--display);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--ink);
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .page-nav-btn:hover:not(:disabled),
+        .page-num-btn:hover:not(.is-active) {
+            border-color: var(--teal);
+            background: #F0FDFA;
+            color: var(--teal-deep);
+        }
+
+        .page-num-btn.is-active {
+            background: var(--teal-deep);
+            border-color: var(--teal-deep);
+            color: #FFFFFF;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+            cursor: default;
+        }
+
+        .page-nav-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            border-color: var(--line);
+            background: #F8FAFC;
+            color: var(--slate);
+        }
+
         /* MODAL */
         .tw-modal {
             display: none;
@@ -1406,18 +1461,15 @@
                         <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Forum Tanya Jawab Komunitas</h2>
                         <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan dari pilot pengguna dan jawaban resmi yang telah diverifikasi oleh tim WanDrone.</p>
                     </div>
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.45rem;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            <span>Ajukan Pertanyaan</span>
-                        </button>
-                    </div>
                 </div>
 
                 <!-- DAFTAR TOPIK DISKUSI KOMUNITAS -->
                 <div id="community-qa-container">
                     <!-- Injected questions -->
                 </div>
+
+                <!-- PAGINASI FORUM KOMUNITAS -->
+                <div id="community-pagination-container"></div>
             </div>
 
             <!-- SECTION 2: FAQ & PANDUAN RESMI -->
@@ -1783,34 +1835,6 @@
 
                 </div>
             </div>
-
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.45rem;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            <span>Ajukan Pertanyaan</span>
-                        </button>
-                    </div>
-                </div>
-
-
-                        <div>
-                            <div style="font-family: var(--display); font-size: 1.0625rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
-                            <div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.4;" id="banner-pilot-desc">Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.</div>
-                        </div>
-                    </div>
-                    <div id="banner-pilot-action">
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
-                            <span>Masuk / Daftar Akun Pilot</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Forum Items Container -->
-                <div id="community-qa-container">
-                    <!-- Injected questions -->
-                </div>
-            </div>
-
         </div>
     </main>
 
@@ -2432,14 +2456,27 @@
             } catch (e) {}
         }
 
-        // RENDER COMMUNITY QUESTIONS
-        function renderCommunityQuestions(questionsToRender) {
+        // RENDER COMMUNITY QUESTIONS WITH PAGINATION
+        const FORUM_PAGE_SIZE = 10;
+        let forumCurrentPage = 1;
+        let forumFilteredQuestions = null;
+
+        function renderCommunityQuestions(questionsToRender, preservePage = false) {
             const container = document.getElementById('community-qa-container');
             if (!container) return;
 
-            const list = questionsToRender || allCommunityQuestions.filter(q => q.admin_answer);
+            if (questionsToRender !== undefined && questionsToRender !== null) {
+                forumFilteredQuestions = questionsToRender;
+                if (!preservePage) forumCurrentPage = 1;
+            } else if (!preservePage && forumFilteredQuestions === null) {
+                forumCurrentPage = 1;
+            }
 
-            if (list.length === 0) {
+            const sourceList = forumFilteredQuestions !== null 
+                ? forumFilteredQuestions 
+                : allCommunityQuestions.filter(q => q.admin_answer || q.status === 'approved');
+
+            if (sourceList.length === 0) {
                 container.innerHTML = `
                     <div style="background: var(--mist); border: 1px dashed var(--line); border-radius: 8px; padding: 2.5rem; text-align: center; color: var(--slate);">
                         <p style="margin-bottom: 0.5rem; font-size: 1.0625rem; font-weight: 600; color: var(--ink);">Belum ada topik diskusi yang cocok.</p>
@@ -2447,12 +2484,22 @@
                         <button onclick="openQuestionModal()" class="tw-btn" style="margin-top: 1rem; padding: 0.5rem 1.15rem;">+ Ajukan Pertanyaan Sekarang</button>
                     </div>
                 `;
+                renderForumPagination(0);
                 return;
             }
 
+            const totalQuestions = sourceList.length;
+            const totalPages = Math.ceil(totalQuestions / FORUM_PAGE_SIZE) || 1;
+
+            if (forumCurrentPage > totalPages) forumCurrentPage = totalPages;
+            if (forumCurrentPage < 1) forumCurrentPage = 1;
+
+            const startIndex = (forumCurrentPage - 1) * FORUM_PAGE_SIZE;
+            const pageItems = sourceList.slice(startIndex, startIndex + FORUM_PAGE_SIZE);
+
             const forumMap = getForumVoteMap();
 
-            container.innerHTML = list.map(q => {
+            container.innerHTML = pageItems.map(q => {
                 const dateStr = new Date(q.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                 const votedType = forumMap[String(q.id)] || null;
                 const likes = Number(q.likes_count) || 0;
@@ -2534,10 +2581,94 @@
                     </div>
                 `;
             }).join('');
+
+            renderForumPagination(totalPages);
+        }
+
+        function renderForumPagination(totalPages) {
+            const paginationContainer = document.getElementById('community-pagination-container');
+            if (!paginationContainer) return;
+
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                paginationContainer.style.display = 'none';
+                return;
+            }
+
+            paginationContainer.style.display = 'flex';
+
+            const WINDOW_SIZE = 5;
+            let startPage = forumCurrentPage - Math.floor(WINDOW_SIZE / 2);
+            let endPage = forumCurrentPage + Math.floor(WINDOW_SIZE / 2);
+
+            if (startPage < 1) {
+                startPage = 1;
+                endPage = Math.min(totalPages, WINDOW_SIZE);
+            } else if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = Math.max(1, totalPages - WINDOW_SIZE + 1);
+            }
+
+            let buttonsHtml = '';
+
+            // Previous Button "<"
+            buttonsHtml += `
+                <button type="button" class="page-nav-btn" onclick="changeForumPage(${forumCurrentPage - 1})" ${forumCurrentPage <= 1 ? 'disabled' : ''} aria-label="Halaman Sebelumnya" title="Halaman Sebelumnya">
+                    &lt;
+                </button>
+            `;
+
+            // Numbered buttons
+            for (let p = startPage; p <= endPage; p++) {
+                const isActive = p === forumCurrentPage;
+                buttonsHtml += `
+                    <button type="button" class="page-num-btn ${isActive ? 'is-active' : ''}" onclick="changeForumPage(${p})" ${isActive ? 'aria-current="page"' : ''} title="Halaman ${p}">
+                        ${p}
+                    </button>
+                `;
+            }
+
+            // Next Button ">"
+            buttonsHtml += `
+                <button type="button" class="page-nav-btn" onclick="changeForumPage(${forumCurrentPage + 1})" ${forumCurrentPage >= totalPages ? 'disabled' : ''} aria-label="Halaman Berikutnya" title="Halaman Berikutnya">
+                    &gt;
+                </button>
+            `;
+
+            paginationContainer.innerHTML = `
+                <div class="forum-pagination" role="navigation" aria-label="Navigasi Halaman Forum">
+                    ${buttonsHtml}
+                </div>
+            `;
+        }
+
+        function changeForumPage(newPage) {
+            forumCurrentPage = Number(newPage);
+            renderCommunityQuestions(null, true);
+            const forumEl = document.getElementById('forum-komunitas');
+            if (forumEl) {
+                forumEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         async function handleVoteAnswer(event, qId, voteType) {
             if (event) event.stopPropagation();
+
+            const pilotUser = getActivePilotUser();
+            const isAdmin = !!(activeAdminUser && activeAdminPass);
+
+            if (!pilotUser && !isAdmin) {
+                openUserAuthModal('login');
+                const alertBox = document.getElementById('login-alert');
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#EFF6FF';
+                    alertBox.style.border = '1px solid #BFDBFE';
+                    alertBox.style.color = '#1E40AF';
+                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberi tanda membantu pada jawaban ini. Silakan masuk ke akun Anda.</div>';
+                }
+                return;
+            }
             const sQId = String(qId);
             const voteMap = getForumVoteMap();
             const prevVote = voteMap[sQId] || null;
@@ -2601,6 +2732,23 @@
 
         function handleFaqVote(btn, voteType, faqId) {
             if (!btn) return;
+
+            const pilotUser = getActivePilotUser();
+            const isAdmin = !!(activeAdminUser && activeAdminPass);
+
+            if (!pilotUser && !isAdmin) {
+                openUserAuthModal('login');
+                const alertBox = document.getElementById('login-alert');
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#EFF6FF';
+                    alertBox.style.border = '1px solid #BFDBFE';
+                    alertBox.style.color = '#1E40AF';
+                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberi penilaian membantu pada panduan resmi ini. Silakan masuk ke akun Anda.</div>';
+                }
+                return;
+            }
+
             const parentBar = btn.closest('.faq-feedback-bar');
             if (!parentBar) return;
 
@@ -2706,15 +2854,12 @@
                     el.style.display = (currentActiveTab === 'community') ? 'none' : 'block';
                     el.removeAttribute('open');
                 });
-                communityItems.forEach(el => {
-                    el.style.display = (currentActiveTab === 'official') ? 'none' : 'block';
-                });
+                renderCommunityQuestions(null, false);
                 return;
             }
 
             const tokens = raw.split(/\s+/).filter(t => t.length >= 2);
             let matchedOfficial = 0;
-            let matchedCommunity = 0;
 
             // Search in Official FAQ
             officialItems.forEach(el => {
@@ -2738,27 +2883,20 @@
                 }
             });
 
-            // Search in Community Q&A
-            communityItems.forEach(el => {
-                if (currentActiveTab === 'official') {
-                    el.style.display = 'none';
-                    return;
-                }
-                const textToSearch = el.getAttribute('data-keywords') || '';
-                const words = textToSearch.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+            // Search in Community Q&A via data filtering so pagination is preserved & paginated accurately
+            const baseCommunity = allCommunityQuestions.filter(q => q.admin_answer || q.status === 'approved');
+            const matchedCommunityList = baseCommunity.filter(q => {
+                const textToSearch = (q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || '')).toLowerCase();
+                const words = textToSearch.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
                 
                 const score = tokens.reduce((sum, t) => sum + tokenMatchScore(t, words), 0);
                 const hasMatch = tokens.some(t => tokenMatchScore(t, words) > 0);
-
-                if (hasMatch && score >= 0.5) {
-                    el.style.display = 'block';
-                    matchedCommunity++;
-                } else {
-                    el.style.display = 'none';
-                }
+                return hasMatch && score >= 0.5;
             });
 
-            const total = matchedOfficial + matchedCommunity;
+            renderCommunityQuestions(matchedCommunityList, false);
+
+            const total = matchedOfficial + matchedCommunityList.length;
             if (countLabel) {
                 countLabel.textContent = total > 0 ? `${total} topik ditemukan` : 'Tidak ada topik yang cocok';
             }
@@ -4200,6 +4338,7 @@
 
         function renderCommentsListHtml(qId, comments) {
             const activeUser = getActivePilotUser();
+            const isAdmin = !!(activeAdminUser && activeAdminPass);
             let html = '';
 
             if (!comments || comments.length === 0) {
@@ -4270,14 +4409,22 @@
                         </div>
                     </form>
                 `;
+            } else if (isAdmin) {
+                html += `
+                    <div style="background: #F0FDF4; border: 1px dashed #86EFAC; border-radius: 8px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.65rem;">
+                        <div style="font-size: 0.8125rem; color: #166534;">
+                            Anda masuk sebagai <strong>Admin (@${escapeHtml(activeAdminUser)})</strong>. Untuk memperbarui jawaban resmi yang diverifikasi di atas, silakan gunakan tombol <strong>Edit Jawaban</strong>.
+                        </div>
+                    </div>
+                `;
             } else {
                 html += `
-                    <div style="background: #F0FDFA; border: 1px dashed var(--teal-hover); border-radius: 8px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+                    <div style="background: #F0FDFA; border: 1px dashed var(--teal-hover); border-radius: 8px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.65rem;">
                         <div style="font-size: 0.8125rem; color: var(--teal-deep);">
-                            Punya tips atau solusi terkait topik ini? Masuk atau daftar akun untuk berdiskusi & kumpulkan poin reputasi.
+                            Hanya pengguna pilot terdaftar atau admin yang dapat memberi tanggapan atau memberi tanda membantu.
                         </div>
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; white-space: nowrap;">
-                            Masuk / Daftar Akun Pilot
+                            Masuk Akun Pilot
                         </button>
                     </div>
                 `;
@@ -4288,8 +4435,23 @@
 
         async function handleVoteComment(commentId, questionId) {
             const user = getActivePilotUser();
-            if (!user) {
+            const isAdmin = !!(activeAdminUser && activeAdminPass);
+
+            if (!user && !isAdmin) {
                 openUserAuthModal('login');
+                const alertBox = document.getElementById('login-alert');
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#EFF6FF';
+                    alertBox.style.border = '1px solid #BFDBFE';
+                    alertBox.style.color = '#1E40AF';
+                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberi tanda membantu pada tanggapan ini. Silakan masuk ke akun Anda.</div>';
+                }
+                return;
+            }
+
+            if (!user && isAdmin) {
+                alert('Tanda membantu komentar dialokasikan untuk akumulasi reputasi akun pilot. Silakan masuk sebagai pilot untuk membagikan poin bintang ke sesama pilot.');
                 return;
             }
 
@@ -4329,8 +4491,18 @@
         async function handleUserAddComment(event, questionId) {
             event.preventDefault();
             const user = getActivePilotUser();
-            if (!user) {
+            const isAdmin = !!(activeAdminUser && activeAdminPass);
+
+            if (!user && !isAdmin) {
                 openUserAuthModal('login');
+                const alertBox = document.getElementById('login-alert');
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#EFF6FF';
+                    alertBox.style.border = '1px solid #BFDBFE';
+                    alertBox.style.color = '#1E40AF';
+                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberikan tanggapan. Silakan masuk terlebih dahulu.</div>';
+                }
                 return;
             }
 

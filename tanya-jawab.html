@@ -1887,7 +1887,7 @@
                     </div>
                 </div>
 
-                <!-- TAB NAVIGASI ADMIN (PERTANYAAN, PENGGUNA FORUM, & KELOLA ADMIN) -->
+                <!-- TAB NAVIGASI ADMIN (MENUNGGU JAWABAN, SUDAH DITERBITKAN, & KELOLA PENGGUNA) -->
                 <div class="admin-tab-bar" role="tablist">
                     <button type="button" id="admin-tab-pending" onclick="switchAdminTab('pending')" class="admin-tab-btn is-active" role="tab" aria-selected="true">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -1899,14 +1899,9 @@
                         <span>Sudah Diterbitkan</span>
                         <span class="admin-tab-badge" id="admin-approved-tab-badge">0</span>
                     </button>
-                    <button type="button" id="admin-tab-forum-users" onclick="switchAdminTab('forum_users')" class="admin-tab-btn" role="tab" aria-selected="false">
+                    <button type="button" id="admin-tab-users" onclick="switchAdminTab('users')" class="admin-tab-btn" role="tab" aria-selected="false">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        <span>Kelola Pengguna Forum</span>
-                        <span class="admin-tab-badge" id="admin-forum-users-tab-badge">0</span>
-                    </button>
-                    <button type="button" id="admin-tab-users" onclick="switchAdminTab('users')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        <span>Kelola Admin</span>
+                        <span>Kelola Pengguna</span>
                         <span class="admin-tab-badge" id="admin-users-tab-badge">0</span>
                     </button>
                 </div>
@@ -2414,9 +2409,16 @@
                         <div class="qa-card-body">${escapeHtml(q.question_body)}</div>
                         ${q.admin_answer ? `
                             <div class="qa-admin-reply">
-                                <div class="qa-admin-badge">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                    <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
+                                <div class="qa-admin-badge" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                        <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
+                                    </div>
+                                    ${(activeAdminUser && activeAdminPass) ? `
+                                        <button type="button" onclick="openAdminPanel(); setTimeout(() => { switchAdminTab('approved'); openAdminEditAnswerModal(${q.id}); }, 350);" class="tw-btn-2" style="padding: 0.15rem 0.55rem; font-size: 0.6875rem; color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit jawaban resmi sebagai admin">
+                                            Edit Jawaban
+                                        </button>
+                                    ` : ''}
                                 </div>
                                 <div style="line-height: 1.6; color: var(--ink);">${escapeHtml(q.admin_answer)}</div>
                                 <div class="qa-feedback-bar" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(10, 14, 22, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
@@ -2886,34 +2888,39 @@
         let latestAdminUsers = [];
         let latestAdminForumUsers = [];
 
+        let currentUsersSubTab = 'pilots'; // 'pilots' or 'admins'
+
+        function switchUserManagementSubTab(subTab) {
+            currentUsersSubTab = subTab;
+            renderAdminUnifiedUsersView();
+        }
+
+        async function refreshAllUsersData() {
+            await Promise.all([fetchAdminForumUsers(), fetchAdminUsers()]);
+            renderAdminUnifiedUsersView();
+        }
+
         function switchAdminTab(tab) {
-            currentAdminTab = tab;
+            currentAdminTab = (tab === 'forum_users' || tab === 'users') ? 'users' : tab;
             const btnPending = document.getElementById('admin-tab-pending');
             const btnApproved = document.getElementById('admin-tab-approved');
-            const btnForumUsers = document.getElementById('admin-tab-forum-users');
             const btnUsers = document.getElementById('admin-tab-users');
 
             if (btnPending) {
-                btnPending.classList.toggle('is-active', tab === 'pending');
-                btnPending.setAttribute('aria-selected', tab === 'pending' ? 'true' : 'false');
+                btnPending.classList.toggle('is-active', currentAdminTab === 'pending');
+                btnPending.setAttribute('aria-selected', currentAdminTab === 'pending' ? 'true' : 'false');
             }
             if (btnApproved) {
-                btnApproved.classList.toggle('is-active', tab === 'approved');
-                btnApproved.setAttribute('aria-selected', tab === 'approved' ? 'true' : 'false');
-            }
-            if (btnForumUsers) {
-                btnForumUsers.classList.toggle('is-active', tab === 'forum_users');
-                btnForumUsers.setAttribute('aria-selected', tab === 'forum_users' ? 'true' : 'false');
+                btnApproved.classList.toggle('is-active', currentAdminTab === 'approved');
+                btnApproved.setAttribute('aria-selected', currentAdminTab === 'approved' ? 'true' : 'false');
             }
             if (btnUsers) {
-                btnUsers.classList.toggle('is-active', tab === 'users');
-                btnUsers.setAttribute('aria-selected', tab === 'users' ? 'true' : 'false');
+                btnUsers.classList.toggle('is-active', currentAdminTab === 'users');
+                btnUsers.setAttribute('aria-selected', currentAdminTab === 'users' ? 'true' : 'false');
             }
 
-            if (tab === 'users') {
-                renderAdminUsersView();
-            } else if (tab === 'forum_users') {
-                renderAdminForumUsersView();
+            if (currentAdminTab === 'users') {
+                renderAdminUnifiedUsersView();
             } else {
                 renderAdminQuestions(latestAdminQuestions);
             }
@@ -2978,17 +2985,15 @@
             const outBtn = document.getElementById('admin-logout-btn');
             if (outBtn) outBtn.style.display = 'inline-flex';
 
-            // Tab Kelola Admin hanya tampil untuk role superadmin (akun rwandaz)
+            // Tab Kelola Pengguna selalu aktif & tampil untuk seluruh admin
             const tabUsers = document.getElementById('admin-tab-users');
             if (tabUsers) {
-                tabUsers.style.display = (activeAdminRole === 'superadmin') ? 'inline-flex' : 'none';
+                tabUsers.style.display = 'inline-flex';
             }
 
             fetchAdminQuestions();
             fetchAdminForumUsers();
-            if (activeAdminRole === 'superadmin') {
-                fetchAdminUsers();
-            }
+            fetchAdminUsers();
         }
 
         function toggleNativeFullscreen() {
@@ -3103,7 +3108,7 @@
         }
 
         async function fetchAdminUsers() {
-            if (!activeAdminUser || !activeAdminPass || activeAdminRole !== 'superadmin' || !supabaseClient) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
             try {
                 const { data, error } = await supabaseClient.rpc('admin_list_users', {
                     admin_user: activeAdminUser,
@@ -3112,9 +3117,10 @@
                 if (!error && Array.isArray(data)) {
                     latestAdminUsers = data;
                     const uBadge = document.getElementById('admin-users-tab-badge');
-                    if (uBadge) uBadge.textContent = data.length;
+                    const totalU = (latestAdminForumUsers.length || 0) + data.length;
+                    if (uBadge) uBadge.textContent = totalU;
                     if (currentAdminTab === 'users') {
-                        renderAdminUsersView();
+                        renderAdminUnifiedUsersView();
                     }
                 }
             } catch (err) {
@@ -3122,7 +3128,306 @@
             }
         }
 
+
+        function renderAdminUnifiedUsersView(filterText = '') {
+            const container = document.getElementById('admin-questions-list');
+            if (!container) return;
+
+            const q = (filterText || '').toLowerCase().trim();
+            const totalCount = latestAdminForumUsers.length + latestAdminUsers.length;
+            const uBadge = document.getElementById('admin-users-tab-badge');
+            if (uBadge) uBadge.textContent = totalCount;
+
+            const filteredPilots = latestAdminForumUsers.filter(u => {
+                if (!q) return true;
+                const matchName = (u.full_name || '').toLowerCase().includes(q);
+                const matchUser = (u.username || '').toLowerCase().includes(q);
+                const matchContact = (u.contact_info || '').toLowerCase().includes(q);
+                return matchName || matchUser || matchContact;
+            });
+
+            const filteredAdmins = latestAdminUsers.filter(a => {
+                if (!q) return true;
+                const matchUser = (a.username || '').toLowerCase().includes(q);
+                const matchRole = (a.role || '').toLowerCase().includes(q);
+                return matchUser || matchRole;
+            });
+
+            let html = `
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+                        <div>
+                            <div style="font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">
+                                Kelola Pengguna (${totalCount} Terdaftar)
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--slate);">
+                                Pantau data pilot terdaftar, nomor kontak privat, akumulasi reputasi, serta akun tim admin moderasi.
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <input type="text" id="filter-user-input" oninput="renderAdminUnifiedUsersView(this.value)" placeholder="Cari nama, user, kontak..." value="${escapeHtml(filterText)}" class="form-control" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; width: 210px;"/>
+                            <button type="button" onclick="refreshAllUsersData()" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Segarkan</button>
+                        </div>
+                    </div>
+
+                    <!-- SUB-TABS: PILOT TERDAFTAR vs TIM ADMIN -->
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; border-bottom: 2px solid var(--line); padding-bottom: 0.75rem; flex-wrap: wrap;">
+                        <button type="button" onclick="switchUserManagementSubTab('pilots')" class="tw-btn ${currentUsersSubTab === 'pilots' ? '' : 'tw-btn-2'}" style="padding: 0.4rem 1rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <span>Pilot Terdaftar (${latestAdminForumUsers.length})</span>
+                        </button>
+                        <button type="button" onclick="switchUserManagementSubTab('admins')" class="tw-btn ${currentUsersSubTab === 'admins' ? '' : 'tw-btn-2'}" style="padding: 0.4rem 1rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <span>Tim Admin (${latestAdminUsers.length})</span>
+                        </button>
+                    </div>
+            `;
+
+            if (currentUsersSubTab === 'pilots') {
+                html += '<div style="display: flex; flex-direction: column; gap: 0.85rem;">';
+                if (filteredPilots.length === 0) {
+                    html += `
+                        <div style="text-align: center; color: var(--slate); padding: 2rem; background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px;">
+                            ${filterText ? 'Tidak ada akun pilot yang cocok dengan pencarian.' : 'Belum ada pengguna komunitas yang mendaftar.'}
+                        </div>
+                    `;
+                } else {
+                    html += filteredPilots.map(u => {
+                        const dateStr = new Date(u.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                        const remotes = Array.isArray(u.remotes) ? u.remotes : [];
+                        const drones = Array.isArray(u.drones) ? u.drones : [];
+                        const starsHtml = renderStarSvg(u.star_level || 1, 5);
+
+                        return `
+                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
+                                    <div style="display: flex; gap: 0.85rem; align-items: flex-start;">
+                                        <div style="flex-shrink: 0; margin-top: 3px;">
+                                            ${renderUserAvatar(u.avatar_url, u.full_name, u.username, 40)}
+                                        </div>
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.3rem;">
+                                                <strong style="color: var(--ink); font-size: 1rem;">${escapeHtml(u.full_name || u.username)}</strong>
+                                                <span style="font-size: 0.8125rem; color: var(--slate);">@${escapeHtml(u.username)}</span>
+                                                <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
+                                                    ${starsHtml}
+                                                    <span>Level ${u.star_level || 1} • ${u.total_points || 0} Poin</span>
+                                                </span>
+                                            </div>
+                                            <div style="font-size: 0.8125rem; color: var(--ink); margin-bottom: 0.35rem;">
+                                                <span style="font-weight: 600; color: var(--slate);">Kontak Privat:</span>
+                                                <code style="background: #E2E8F0; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.8125rem;">${escapeHtml(u.contact_info)}</code>
+                                            </div>
+                                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+                                                <span style="font-size: 0.75rem; color: var(--slate);">Remote:</span>
+                                                ${remotes.length > 0 ? remotes.map(r => `<span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.4rem;">${escapeHtml(r)}</span>`).join('') : '<span style="font-size: 0.75rem; color: var(--slate); font-style: italic;">Belum diatur</span>'}
+                                            </div>
+                                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+                                                <span style="font-size: 0.75rem; color: var(--slate);">Drone:</span>
+                                                ${drones.length > 0 ? drones.map(d => `<span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.4rem;">${escapeHtml(d)}</span>`).join('') : '<span style="font-size: 0.75rem; color: var(--slate); font-style: italic;">Belum diatur</span>'}
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.4rem;">
+                                                Terdaftar: ${dateStr} • Tanggapan Dibuat: <strong>${u.comments_count || 0}</strong> • Suara Membantu: <strong>${u.helpful_votes_received || 0}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="admin-user-action-btns" style="display: flex; flex-direction: column; gap: 0.45rem; align-items: flex-end;">
+                                        <button type="button" onclick="openAdminResetPassModal('user', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name)}')" class="tw-btn" style="padding: 0.35rem 0.85rem; font-size: 0.75rem;">
+                                            <span>Reset Kata Sandi</span>
+                                        </button>
+                                        <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="padding: 0.32rem 0.85rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover);">
+                                            <span>Ubah Poin (${u.total_points || 0})</span>
+                                        </button>
+                                        <button type="button" onclick="handleDeleteForumUser(${u.id}, '${escapeHtml(u.username)}')" class="tw-btn-2" style="padding: 0.32rem 0.85rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">
+                                            <span>Hapus Akun</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                html += '</div>';
+            } else {
+                // SUB-TAB ADMINS
+                const isSuper = activeAdminRole === 'superadmin';
+                if (isSuper) {
+                    html += `
+                        <div style="background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
+                            <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem; margin-bottom: 0.25rem;">Tambah User Admin Baru</div>
+                            <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 0.85rem;">Berikan kredensial moderasi forum kepada anggota tim tambahan.</div>
+                            <form onsubmit="handleCreateAdminUser(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto; gap: 0.75rem; align-items: flex-end;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" for="new-admin-user">User ID Baru</label>
+                                    <input type="text" id="new-admin-user" class="form-control" placeholder="Contoh: moderator1" required minlength="3" style="font-size: 0.875rem;"/>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" for="new-admin-pass">Kata Sandi</label>
+                                    <input type="password" id="new-admin-pass" class="form-control" placeholder="Minimal 6 karakter" required minlength="6" style="font-size: 0.875rem;"/>
+                                </div>
+                                <button type="submit" id="btn-add-admin" class="tw-btn" style="padding: 0.55rem 1rem; font-size: 0.875rem; white-space: nowrap;">
+                                    <span>+ Daftarkan Admin</span>
+                                </button>
+                            </form>
+                            <div id="create-admin-alert" style="display: none; margin-top: 0.75rem; padding: 0.65rem; border-radius: 6px; font-size: 0.8125rem;"></div>
+                        </div>
+                    `;
+                }
+
+                html += '<div style="display: flex; flex-direction: column; gap: 0.75rem;">';
+                if (filteredAdmins.length === 0) {
+                    html += `
+                        <div style="text-align: center; color: var(--slate); padding: 2rem; background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px;">
+                            ${filterText ? 'Tidak ada akun admin yang cocok dengan pencarian.' : 'Belum ada akun admin terdaftar.'}
+                        </div>
+                    `;
+                } else {
+                    html += filteredAdmins.map(a => {
+                        const isMain = a.role === 'superadmin';
+                        const isSelf = a.username === activeAdminUser;
+                        const dateStr = a.created_at ? new Date(a.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+
+                        return `
+                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: ${isMain ? '#EFF6FF' : '#F1F5F9'}; color: ${isMain ? '#1E40AF' : 'var(--slate)'}; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    </div>
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                            <strong style="color: var(--ink); font-size: 0.95rem;">${escapeHtml(a.username)}</strong>
+                                            ${isSelf ? '<span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Akun Anda</span>' : ''}
+                                            <span class="tw-chip" style="font-size: 0.6875rem; background: ${isMain ? '#EFF6FF' : '#F8FAFC'}; color: ${isMain ? '#1E40AF' : 'var(--slate)'}; border-color: ${isMain ? '#BFDBFE' : 'var(--line)'};">
+                                                ${isMain ? 'Akun Utama (Superadmin)' : 'Admin Moderasi'}
+                                            </span>
+                                        </div>
+                                        <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.2rem;">
+                                            Dibuat: ${dateStr} • Oleh: ${escapeHtml(a.created_by || 'system')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap;">
+                                    <button type="button" onclick="openAdminResetPassModal('admin', ${a.id}, '${escapeHtml(a.username)}')" class="tw-btn" style="padding: 0.35rem 0.85rem; font-size: 0.75rem;">
+                                        <span>Reset Sandi</span>
+                                    </button>
+                                    ${!isMain && !isSelf && isSuper ? `
+                                        <button type="button" onclick="handleDeleteAdminUser(${a.id}, '${escapeHtml(a.username)}')" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">
+                                            <span>Hapus Akses</span>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                html += '</div>';
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // ==========================================
+        // EDIT JAWABAN RESMI ADMIN
+        // ==========================================
+        function openAdminEditAnswerModal(qId) {
+            const q = latestAdminQuestions.find(item => Number(item.id) === Number(qId));
+            if (!q) {
+                alert('Pertanyaan tidak ditemukan.');
+                return;
+            }
+
+            document.getElementById('edit-answer-qid').value = q.id;
+            document.getElementById('edit-answer-author-label').textContent = `Penanya: ${q.author_name} (${q.device_model || 'Umum'})`;
+            document.getElementById('edit-answer-question-title').textContent = q.question_title;
+            document.getElementById('edit-answer-text').value = q.admin_answer || '';
+            document.getElementById('edit-answer-alert').style.display = 'none';
+
+            const modal = document.getElementById('admin-edit-answer-modal');
+            if (modal) {
+                modal.classList.add('is-open');
+                modal.scrollTop = 0;
+            }
+        }
+
+        function closeAdminEditAnswerModal() {
+            const modal = document.getElementById('admin-edit-answer-modal');
+            if (modal) modal.classList.remove('is-open');
+        }
+
+        async function submitAdminEditAnswer(e) {
+            e.preventDefault();
+            const qId = Number(document.getElementById('edit-answer-qid').value);
+            const newAnswer = document.getElementById('edit-answer-text').value.trim();
+            const alertBox = document.getElementById('edit-answer-alert');
+            const submitBtn = document.getElementById('btn-submit-edit-answer');
+
+            if (!qId || !newAnswer || !activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            if (newAnswer.length < 5) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Jawaban resmi minimal 5 karakter.';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan Perubahan...';
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                let res = await supabaseClient.rpc('admin_update_answer', {
+                    q_id: qId,
+                    reply_text: newAnswer,
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass
+                });
+
+                if (res.error) {
+                    res = await supabaseClient.rpc('admin_submit_reply', {
+                        q_id: qId,
+                        reply_text: newAnswer,
+                        admin_user: activeAdminUser,
+                        admin_pass: activeAdminPass
+                    });
+                }
+
+                if (res.error) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Gagal menyimpan jawaban: ' + res.error.message;
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan Perubahan Jawaban';
+                    return;
+                }
+
+                // Update in local lists
+                const qAdmin = latestAdminQuestions.find(item => Number(item.id) === qId);
+                if (qAdmin) qAdmin.admin_answer = newAnswer;
+                const qPublic = allCommunityQuestions.find(item => Number(item.id) === qId);
+                if (qPublic) qPublic.admin_answer = newAnswer;
+
+                renderAdminQuestions();
+                renderCommunityQuestions();
+                closeAdminEditAnswerModal();
+                alert('Jawaban resmi berhasil diperbarui dan telah tayang di forum publik!');
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Kendala: ' + err.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan Perubahan Jawaban';
+            }
+        }
+
         function renderAdminUsersView() {
+            renderAdminUnifiedUsersView();
+            return;
             const container = document.getElementById('admin-questions-list');
             if (!container) return;
 
@@ -3371,7 +3676,11 @@
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>${q.dislikes_count || 0}
                                 </span>
                                 <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang di Forum</span>
-                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus</button>
+                                <button type="button" onclick="openAdminEditAnswerModal(${q.id})" class="tw-btn" style="padding: 0.28rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Edit Jawaban</span>
+                                </button>
+                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.28rem 0.65rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus</button>
                             </div>
                         </div>
                         <div style="font-size: 0.875rem; color: var(--ink); margin-top: 0.75rem; background: #F8FAFC; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--line); line-height: 1.55;">
@@ -4419,10 +4728,11 @@
                 });
                 if (!error && Array.isArray(data)) {
                     latestAdminForumUsers = data;
-                    const badge = document.getElementById('admin-forum-users-tab-badge');
-                    if (badge) badge.textContent = data.length;
-                    if (currentAdminTab === 'forum_users') {
-                        renderAdminForumUsersView();
+                    const uBadge = document.getElementById('admin-users-tab-badge');
+                    const totalU = data.length + (latestAdminUsers.length || 0);
+                    if (uBadge) uBadge.textContent = totalU;
+                    if (currentAdminTab === 'users') {
+                        renderAdminUnifiedUsersView();
                     }
                 }
             } catch (err) {
@@ -4431,6 +4741,8 @@
         }
 
         function renderAdminForumUsersView(filterText = '') {
+            renderAdminUnifiedUsersView(filterText);
+            return;
             const container = document.getElementById('admin-questions-list');
             if (!container) return;
 
@@ -4813,6 +5125,43 @@
                 <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem;">
                     <button type="button" class="tw-btn-2" onclick="closeAdminAdjustPointsModal()">Batal</button>
                     <button type="submit" id="btn-submit-adjust-points" class="tw-btn">Simpan Poin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT JAWABAN RESMI ADMIN -->
+    <div id="admin-edit-answer-modal" class="tw-modal" style="z-index: 100000;">
+        <div class="tw-modal-card" style="max-width: 580px;">
+            <div class="tw-modal-head">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="tw-modal-title">Edit Jawaban Resmi</h3>
+                        <p style="font-size: 0.8125rem; color: var(--slate); margin: 0;" id="edit-answer-modal-subtitle">Perbarui jawaban untuk topik pertanyaan ini.</p>
+                    </div>
+                </div>
+                <button type="button" class="tw-modal-close" onclick="closeAdminEditAnswerModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <form onsubmit="submitAdminEditAnswer(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="hidden" id="edit-answer-qid" value=""/>
+                <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                    <div style="font-size: 0.75rem; color: var(--slate); margin-bottom: 0.2rem;" id="edit-answer-author-label">Penanya: Pilot</div>
+                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;" id="edit-answer-question-title">Judul Topik</div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="edit-answer-text">Rincian Jawaban Resmi WanDrone <span style="color: var(--teal-deep);">*</span></label>
+                    <textarea id="edit-answer-text" class="form-control" rows="5" placeholder="Ketik perbaikan jawaban resmi..." required style="font-size: 0.9375rem; line-height: 1.6;"></textarea>
+                </div>
+                <div id="edit-answer-alert" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeAdminEditAnswerModal()">Batal</button>
+                    <button type="submit" id="btn-submit-edit-answer" class="tw-btn">Simpan Perubahan Jawaban</button>
                 </div>
             </form>
         </div>

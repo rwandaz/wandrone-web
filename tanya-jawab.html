@@ -4634,8 +4634,42 @@
 
         function toggleQuestionDetails(qId) {
             const sQId = String(qId);
-            forumExpandedQuestions[sQId] = !forumExpandedQuestions[sQId];
-            commentsExpanded[sQId] = forumExpandedQuestions[sQId];
+            const willOpen = !forumExpandedQuestions[sQId];
+
+            if (willOpen) {
+                // Sifat Akordion: Tutup seluruh pertanyaan lain yang sedang terbuka
+                Object.keys(forumExpandedQuestions).forEach(otherId => {
+                    if (otherId !== sQId && forumExpandedQuestions[otherId]) {
+                        forumExpandedQuestions[otherId] = false;
+                        commentsExpanded[otherId] = false;
+
+                        const otherDetailsBox = document.getElementById(`qa-details-${otherId}`);
+                        const otherBtnText = document.getElementById(`qa-details-btn-text-${otherId}`);
+                        const otherChevron = document.getElementById(`qa-details-chevron-${otherId}`);
+                        const otherComments = allForumCommentsMap[otherId] || [];
+                        const otherObj = (allCommunityQuestions || []).find(item => String(item.id) === otherId);
+                        const otherHasAdminAnswer = !!(otherObj && otherObj.admin_answer && otherObj.admin_answer.trim());
+
+                        if (otherDetailsBox) otherDetailsBox.style.display = 'none';
+                        if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
+                        if (otherBtnText) {
+                            if (otherHasAdminAnswer) {
+                                otherBtnText.textContent = 'Lihat Jawaban & Diskusi';
+                            } else if (otherComments.length > 0) {
+                                otherBtnText.textContent = `Lihat Diskusi (${otherComments.length})`;
+                            } else {
+                                otherBtnText.textContent = '+ Beri Tanggapan';
+                            }
+                        }
+                    }
+                });
+
+                forumExpandedQuestions[sQId] = true;
+                commentsExpanded[sQId] = true;
+            } else {
+                forumExpandedQuestions[sQId] = false;
+                commentsExpanded[sQId] = false;
+            }
 
             const detailsBox = document.getElementById(`qa-details-${sQId}`);
             const btnText = document.getElementById(`qa-details-btn-text-${sQId}`);
@@ -4819,10 +4853,10 @@
                 const numElem = document.getElementById(`comment-vote-num-${commentId}`);
                 if (numElem) numElem.textContent = data.new_helpful_votes;
 
-                // Reload all comments and refresh
+                // Reload all comments and refresh with accordion exclusivity
                 await loadAllForumComments();
-                forumExpandedQuestions[String(questionId)] = true;
-                commentsExpanded[String(questionId)] = true;
+                forumExpandedQuestions = { [String(questionId)]: true };
+                commentsExpanded = { [String(questionId)]: true };
                 renderCommunityQuestions(null, true);
 
                 // If voter is the author (though backend blocks self vote), update stats
@@ -4899,10 +4933,10 @@
                 saveActivePilotUser(user);
                 updatePilotUserUI();
 
-                // Clear input and reload comments
+                // Clear input and reload comments with accordion exclusivity
                 input.value = '';
-                forumExpandedQuestions[String(questionId)] = true;
-                commentsExpanded[String(questionId)] = true;
+                forumExpandedQuestions = { [String(questionId)]: true };
+                commentsExpanded = { [String(questionId)]: true };
                 await loadAllForumComments();
             } catch (err) {
                 if (alertBox) {

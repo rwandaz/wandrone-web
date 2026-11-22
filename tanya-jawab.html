@@ -3624,8 +3624,12 @@
                                                     <span>Reset Sandi</span>
                                                 </button>
                                                 ${!isSelf ? `
-                                                    <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; justify-content: center;">
+                                                    <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #B45309; border-color: #FDE68A; background: #FFFBEB; justify-content: center;">
                                                         <span>Cabut Akses Admin</span>
+                                                    </button>
+                                                    <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun admin ini dari sistem">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                        <span>Hapus Akun</span>
                                                     </button>
                                                 ` : ''}
                                             ` : `
@@ -3639,6 +3643,10 @@
                                                 </button>
                                                 <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
                                                     <span>Reset Sandi</span>
+                                                </button>
+                                                <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                    <span>Hapus Akun</span>
                                                 </button>
                                             `
                                         )
@@ -4182,6 +4190,49 @@
                 }
             } catch (err) {
                 alert('Kendala: ' + err.message);
+            }
+        }
+
+        async function handleAdminDeleteAccount(targetUsername, targetFullName, isAdminTarget) {
+            ensureAdminSessionFromPilot();
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+            if (activeAdminRole !== 'superadmin' && (activeAdminUser || '').toLowerCase() !== 'rwandaz') {
+                alert('Akses Dibatasi: Hanya Akun Utama yang berhak menghapus akun pengguna.');
+                return;
+            }
+
+            const cleanName = targetFullName || targetUsername;
+            const roleDesc = isAdminTarget ? ' beserta hak akses adminnya' : '';
+            if (!confirm(`Yakin ingin menghapus akun ${cleanName} (@${targetUsername})${roleDesc} dari sistem? Seluruh data akun dan tanggapan milik akun ini akan dihapus dan tidak dapat dipulihkan.`)) {
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_delete_account', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    target_username: targetUsername
+                });
+
+                if (error) {
+                    alert('Gagal menghapus akun: ' + error.message);
+                    return;
+                }
+
+                // Update in-memory lists immediately
+                const lowerTarget = String(targetUsername).toLowerCase();
+                latestAdminForumUsers = (latestAdminForumUsers || []).filter(u => (u.username || '').toLowerCase() !== lowerTarget);
+                latestAdminUsers = (latestAdminUsers || []).filter(u => (u.username || '').toLowerCase() !== lowerTarget);
+
+                renderAdminUnifiedUsersView(document.getElementById('filter-user-input') ? document.getElementById('filter-user-input').value : '');
+                await Promise.all([
+                    fetchAdminForumUsers(),
+                    fetchAdminUsers(),
+                    loadAllForumComments()
+                ]);
+                alert((data && data.message) ? data.message : `Akun @${targetUsername} berhasil dihapus dari sistem.`);
+            } catch (err) {
+                alert('Kendala saat menghapus akun: ' + err.message);
             }
         }
 

@@ -1298,6 +1298,24 @@
     <!-- MAIN CONTENT (CLEAN LIGHT THEME MATCHING REST OF SITE) -->
     <main class="tw-side-light">
         <div class="container">
+            <!-- BANNER AKUN KOMUNITAS PILOT (PROMINENT AT TOP) -->
+            <div class="pilot-banner" id="pilot-community-banner" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.85rem;">
+                    <div id="banner-pilot-avatar-slot" style="width: 44px; height: 44px; border-radius: 50%; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <div>
+                        <div style="font-family: var(--display); font-size: 1.0625rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
+                        <div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.4;" id="banner-pilot-desc">Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.</div>
+                    </div>
+                </div>
+                <div id="banner-pilot-action">
+                    <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
+                        <span>Masuk / Daftar Akun Pilot</span>
+                    </button>
+                </div>
+            </div>
+
 
             <!-- SEARCH BAR (FUZZY & TYPO TOLERANT) -->
             <div class="faq-search-wrapper">
@@ -1333,7 +1351,28 @@
                 </button>
             </div>
 
-            <!-- SECTION 1: FAQ RESMI -->
+            <!-- SECTION 1: FORUM TANYA JAWAB KOMUNITAS -->
+            <div id="forum-komunitas" style="margin-bottom: 3.5rem;">
+                <div class="qa-section-head">
+                    <div>
+                        <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Forum Tanya Jawab Komunitas</h2>
+                        <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan dari pilot pengguna dan jawaban resmi yang telah diverifikasi oleh tim WanDrone.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.45rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span>Ajukan Pertanyaan</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DAFTAR TOPIK DISKUSI KOMUNITAS -->
+                <div id="community-qa-container">
+                    <!-- Injected questions -->
+                </div>
+            </div>
+
+            <!-- SECTION 2: FAQ & PANDUAN RESMI -->
             <div id="faq-resmi" style="margin-bottom: 3.5rem;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
                     <div>
@@ -1697,13 +1736,6 @@
                 </div>
             </div>
 
-            <!-- SECTION 2: FORUM KOMUNITAS -->
-            <div id="forum-komunitas" style="margin-bottom: 3rem;">
-                <div class="qa-section-head">
-                    <div>
-                        <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Forum Tanya Jawab Komunitas</h2>
-                        <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan dari pilot pengguna dan jawaban resmi yang telah diverifikasi oleh tim WanDrone.</p>
-                    </div>
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.45rem;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1712,12 +1744,7 @@
                     </div>
                 </div>
 
-                <!-- Banner Akun Komunitas Pilot -->
-                <div class="pilot-banner" id="pilot-community-banner">
-                    <div style="display: flex; align-items: center; gap: 0.85rem;">
-                        <div id="banner-pilot-avatar-slot" style="width: 44px; height: 44px; border-radius: 50%; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        </div>
+
                         <div>
                             <div style="font-family: var(--display); font-size: 1.0625rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
                             <div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.4;" id="banner-pilot-desc">Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.</div>

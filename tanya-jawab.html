@@ -2164,21 +2164,44 @@
             }
         ];
 
+        const DELETED_QUESTIONS_KEY = 'wandrone_deleted_questions';
+
+        function getDeletedQuestionIds() {
+            try {
+                const stored = localStorage.getItem(DELETED_QUESTIONS_KEY);
+                return new Set(stored ? JSON.parse(stored) : []);
+            } catch (e) {
+                return new Set();
+            }
+        }
+
+        function addDeletedQuestionId(qId) {
+            try {
+                const set = getDeletedQuestionIds();
+                set.add(String(qId));
+                localStorage.setItem(DELETED_QUESTIONS_KEY, JSON.stringify(Array.from(set)));
+            } catch (e) {}
+        }
+
         function getStoredQuestions() {
+            const deleted = getDeletedQuestionIds();
             try {
                 const stored = localStorage.getItem(MOCK_COMMUNITY_KEY);
                 if (stored) {
                     const parsed = JSON.parse(stored);
                     if (Array.isArray(parsed) && parsed.length > 0) {
+                        const filtered = parsed.filter(p => !deleted.has(String(p.id)));
                         DEFAULT_COMMUNITY_QA.forEach(defQ => {
-                            const exists = parsed.some(p => String(p.id) === String(defQ.id) || p.question_title.trim().toLowerCase() === defQ.question_title.trim().toLowerCase());
-                            if (!exists) parsed.push(defQ);
+                            if (!deleted.has(String(defQ.id))) {
+                                const exists = filtered.some(p => String(p.id) === String(defQ.id) || p.question_title.trim().toLowerCase() === defQ.question_title.trim().toLowerCase());
+                                if (!exists) filtered.push(defQ);
+                            }
                         });
-                        return parsed;
+                        return filtered;
                     }
                 }
             } catch (e) {}
-            return DEFAULT_COMMUNITY_QA;
+            return DEFAULT_COMMUNITY_QA.filter(defQ => !deleted.has(String(defQ.id)));
         }
 
         function saveStoredQuestions(questions) {
@@ -2294,6 +2317,18 @@
                             <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
                                 ${statusBadgeHtml}
                                 <span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(q.device_model || 'Umum')}</span>
+                                ${(activeAdminUser && activeAdminPass) ? `
+                                    <div style="display: inline-flex; align-items: center; gap: 0.35rem; margin-left: 0.35rem; padding-left: 0.5rem; border-left: 1px solid var(--line);">
+                                        <button type="button" onclick="openAdminEditQuestionModal(${q.id})" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; font-weight: 600; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; gap: 0.25rem;" title="Edit pertanyaan">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                            <span>Edit Pertanyaan</span>
+                                        </button>
+                                        <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; font-weight: 600; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; gap: 0.25rem;" title="Hapus pertanyaan ini">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>
                         <div class="qa-card-title" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka/menutup jawaban dan diskusi">${escapeHtml(q.question_title)}</div>
@@ -2327,9 +2362,16 @@
                                             <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
                                         </div>
                                         ${(activeAdminUser && activeAdminPass) ? `
-                                            <button type="button" onclick="openAdminPanel(); setTimeout(() => { switchAdminTab('approved'); openAdminEditAnswerModal(${q.id}); }, 350);" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center;" title="Edit jawaban sebagai admin">
-                                                Edit Jawaban
-                                            </button>
+                                            <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                                <button type="button" onclick="openAdminEditAnswerModal(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;" title="Edit rincian jawaban sebagai admin">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                                    <span>Edit Jawaban</span>
+                                                </button>
+                                                <button type="button" onclick="handleAdminDeleteAnswer(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;" title="Hapus jawaban resmi (kembalikan ke antrean belum terjawab)">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                    <span>Hapus Jawaban</span>
+                                                </button>
+                                            </div>
                                         ` : ''}
                                     </div>
                                     <div style="line-height: 1.6; color: var(--ink);">${escapeHtml(q.admin_answer)}</div>
@@ -3349,10 +3391,203 @@
         }
 
         // ==========================================
-        // EDIT JAWABAN ADMIN
+        // EDIT & HAPUS PERTANYAAN & JAWABAN ADMIN
         // ==========================================
+        function openAdminEditQuestionModal(qId) {
+            const q = (latestAdminQuestions && latestAdminQuestions.find(item => Number(item.id) === Number(qId))) || 
+                      (allCommunityQuestions && allCommunityQuestions.find(item => Number(item.id) === Number(qId)));
+            if (!q) {
+                alert('Pertanyaan tidak ditemukan.');
+                return;
+            }
+
+            document.getElementById('edit-question-qid').value = q.id;
+            document.getElementById('edit-question-author').value = q.author_name || '';
+            document.getElementById('edit-question-device').value = q.device_model || '';
+            document.getElementById('edit-question-title').value = q.question_title || '';
+            document.getElementById('edit-question-body').value = q.question_body || '';
+            const alertBox = document.getElementById('edit-question-alert');
+            if (alertBox) alertBox.style.display = 'none';
+
+            const modal = document.getElementById('admin-edit-question-modal');
+            if (modal) {
+                modal.classList.add('is-open');
+                modal.scrollTop = 0;
+            }
+        }
+
+        function closeAdminEditQuestionModal() {
+            const modal = document.getElementById('admin-edit-question-modal');
+            if (modal) modal.classList.remove('is-open');
+        }
+
+        async function submitAdminEditQuestion(e) {
+            e.preventDefault();
+            const qId = Number(document.getElementById('edit-question-qid').value);
+            const author = document.getElementById('edit-question-author').value.trim();
+            const device = document.getElementById('edit-question-device').value.trim();
+            const title = document.getElementById('edit-question-title').value.trim();
+            const body = document.getElementById('edit-question-body').value.trim();
+            const alertBox = document.getElementById('edit-question-alert');
+            const submitBtn = document.getElementById('btn-submit-edit-question');
+
+            if (!qId || !title || !body || !author || !activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            if (title.length < 5) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Judul pertanyaan minimal 5 karakter.';
+                return;
+            }
+
+            if (body.length < 10) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Isi rincian pertanyaan minimal 10 karakter.';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan Perubahan...';
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_update_question', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    q_id: qId,
+                    p_title: title,
+                    p_body: body,
+                    p_device: device,
+                    p_author: author
+                });
+
+                if (error) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Gagal menyimpan perubahan: ' + error.message;
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan Perubahan Pertanyaan';
+                    return;
+                }
+
+                // Update in memory
+                const qAdmin = latestAdminQuestions.find(item => Number(item.id) === qId);
+                if (qAdmin) {
+                    qAdmin.author_name = author;
+                    qAdmin.device_model = device;
+                    qAdmin.question_title = title;
+                    qAdmin.question_body = body;
+                }
+                const qPublic = allCommunityQuestions.find(item => Number(item.id) === qId);
+                if (qPublic) {
+                    qPublic.author_name = author;
+                    qPublic.device_model = device;
+                    qPublic.question_title = title;
+                    qPublic.question_body = body;
+                }
+                saveStoredQuestions(allCommunityQuestions);
+
+                renderAdminQuestions();
+                renderCommunityQuestions();
+                closeAdminEditQuestionModal();
+                alert('Pertanyaan berhasil diperbarui!');
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Kendala: ' + err.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan Perubahan Pertanyaan';
+            }
+        }
+
+        async function handleAdminDeleteAnswer(qId) {
+            if (!confirm('Yakin ingin menghapus jawaban ini? Status pertanyaan akan dikembalikan menjadi "Menunggu Jawaban".')) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_delete_answer', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    q_id: Number(qId)
+                });
+
+                if (error) {
+                    alert('Gagal menghapus jawaban: ' + error.message);
+                    return;
+                }
+
+                // Update in memory
+                const qAdmin = latestAdminQuestions.find(item => Number(item.id) === Number(qId));
+                if (qAdmin) {
+                    qAdmin.admin_answer = null;
+                    qAdmin.answered_by = null;
+                    qAdmin.answered_at = null;
+                    qAdmin.status = 'pending';
+                }
+                const qPublic = allCommunityQuestions.find(item => Number(item.id) === Number(qId));
+                if (qPublic) {
+                    qPublic.admin_answer = null;
+                    qPublic.answered_by = null;
+                    qPublic.answered_at = null;
+                    qPublic.status = 'pending';
+                }
+                saveStoredQuestions(allCommunityQuestions);
+
+                renderAdminQuestions();
+                renderCommunityQuestions();
+                fetchAdminQuestions();
+
+                alert('Jawaban berhasil dihapus. Status pertanyaan kembali menjadi Menunggu Jawaban.');
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            }
+        }
+
+        async function handleAdminDeleteComment(commentId, qId) {
+            if (!confirm('Yakin ingin menghapus tanggapan pilot ini?')) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_delete_comment', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    p_comment_id: Number(commentId)
+                });
+
+                if (error) {
+                    alert('Gagal menghapus tanggapan: ' + error.message);
+                    return;
+                }
+
+                const sQId = String(qId);
+                if (allForumCommentsMap[sQId]) {
+                    allForumCommentsMap[sQId] = allForumCommentsMap[sQId].filter(c => Number(c.id) !== Number(commentId));
+                }
+
+                const commentsBox = document.getElementById(`comments-box-${sQId}`);
+                if (commentsBox) {
+                    commentsBox.innerHTML = renderCommentsListHtml(sQId, allForumCommentsMap[sQId] || []);
+                }
+                const badge = document.getElementById(`comment-badge-${sQId}`);
+                if (badge) {
+                    badge.textContent = (allForumCommentsMap[sQId] || []).length;
+                }
+
+                alert('Tanggapan pilot berhasil dihapus oleh admin.');
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            }
+        }
+
         function openAdminEditAnswerModal(qId) {
-            const q = latestAdminQuestions.find(item => Number(item.id) === Number(qId));
+            const q = (latestAdminQuestions && latestAdminQuestions.find(item => Number(item.id) === Number(qId))) || 
+                      (allCommunityQuestions && allCommunityQuestions.find(item => Number(item.id) === Number(qId)));
             if (!q) {
                 alert('Pertanyaan tidak ditemukan.');
                 return;
@@ -3595,7 +3830,14 @@
                                 <label style="font-size: 0.875rem; font-weight: 600; color: var(--ink);">Tulis Jawaban Tim WanDrone:</label>
                                 <textarea id="reply-text-${q.id}" class="form-control" rows="4" placeholder="Ketik jawaban Anda di sini... Jawaban ini akan langsung tayang di forum publik setelah dipublikasikan." required style="font-size: 0.9375rem; line-height: 1.6;"></textarea>
                                 <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; margin-top: 0.35rem; flex-wrap: wrap;">
-                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; justify-content: center;">Hapus Pertanyaan</button>
+                                    <button type="button" onclick="openAdminEditQuestionModal(${q.id})" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <span>Edit Pertanyaan</span>
+                                    </button>
+                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        <span>Hapus Pertanyaan</span>
+                                    </button>
                                     <button type="submit" id="btn-submit-${q.id}" class="tw-btn" style="height: 36px; padding: 0 1.25rem; font-size: 0.8125rem; justify-content: center;">Publikasikan ke Forum &rarr;</button>
                                 </div>
                             </form>
@@ -3629,11 +3871,21 @@
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>${q.dislikes_count || 0}
                                 </span>
                                 <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang di Forum</span>
-                                <button type="button" onclick="openAdminEditAnswerModal(${q.id})" class="tw-btn" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                                <button type="button" onclick="openAdminEditQuestionModal(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.65rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;" title="Edit pertanyaan">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    <span>Edit Pertanyaan</span>
+                                </button>
+                                <button type="button" onclick="openAdminEditAnswerModal(${q.id})" class="tw-btn" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Edit rincian jawaban">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                     <span>Edit Jawaban</span>
                                 </button>
-                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center;">Hapus</button>
+                                <button type="button" onclick="handleAdminDeleteAnswer(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.65rem; font-size: 0.75rem; color: #B45309; border-color: #FDE68A; background: #FFFBEB; display: inline-flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Hapus jawaban (kembalikan pertanyaan ke antrean belum terjawab)">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg>
+                                    <span>Hapus Jawaban</span>
+                                </button>
+                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.65rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Hapus seluruh pertanyaan">
+                                    <span>Hapus Pertanyaan</span>
+                                </button>
                             </div>
                         </div>
                         <div style="font-size: 0.875rem; color: var(--ink); margin-top: 0.75rem; background: #F8FAFC; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--line); line-height: 1.55;">
@@ -3678,20 +3930,29 @@
         }
 
         async function handleAdminDeleteQuestion(qId) {
-            if (!confirm('Yakin ingin menghapus pertanyaan ini?')) return;
+            if (!confirm('Yakin ingin menghapus pertanyaan ini? Seluruh tanggapan pada topik ini juga akan dihapus.')) return;
             if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
 
             try {
                 const { data, error } = await supabaseClient.rpc('admin_delete_question', {
-                    q_id: qId,
+                    q_id: Number(qId),
                     admin_user: activeAdminUser,
                     admin_pass: activeAdminPass
                 });
-                if (!error) {
-                    fetchAdminQuestions();
-                } else {
-                    alert('Gagal menghapus: ' + error.message);
-                }
+
+                // Track deleted ID so mock cache doesn't resurrect it
+                addDeletedQuestionId(qId);
+
+                // Remove from in-memory lists
+                latestAdminQuestions = latestAdminQuestions.filter(item => Number(item.id) !== Number(qId));
+                allCommunityQuestions = allCommunityQuestions.filter(item => Number(item.id) !== Number(qId));
+                saveStoredQuestions(allCommunityQuestions);
+
+                renderAdminQuestions();
+                renderCommunityQuestions();
+                fetchAdminQuestions();
+
+                alert('Pertanyaan berhasil dihapus.');
             } catch (err) {
                 alert('Kendala: ' + err.message);
             }
@@ -4198,7 +4459,15 @@
                                         <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
                                     </div>
                                     <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap; word-break: break-word;">${escapeHtml(c.comment_text)}</div>
-                                    <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: flex-end;">
+                                    <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                                        <div>
+                                            ${isAdmin ? `
+                                                <button type="button" onclick="handleAdminDeleteComment(${c.id}, '${qId}')" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; gap: 0.25rem;" title="Hapus tanggapan ini sebagai admin">
+                                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                    <span>Hapus Tanggapan</span>
+                                                </button>
+                                            ` : ''}
+                                        </div>
                                         <button type="button" class="comment-helpful-btn" onclick="handleVoteComment(${c.id}, '${qId}')" title="Tandai tanggapan ini membantu">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
                                             <span>Jawaban Ini Membantu</span>
@@ -5551,6 +5820,58 @@
                 <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; margin-top: 0.5rem;">
                     <button type="button" class="tw-btn-2" onclick="closeAdminAdjustPointsModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
                     <button type="submit" id="btn-submit-adjust-points" class="tw-btn" style="height: 38px; min-width: 120px; justify-content: center;">Simpan Poin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT PERTANYAAN ADMIN -->
+    <div id="admin-edit-question-modal" class="tw-modal" style="z-index: 100000;">
+        <div class="tw-modal-card" style="max-width: 620px;">
+            <div class="tw-modal-head">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="tw-modal-title">Edit Pertanyaan</h3>
+                        <p style="font-size: 0.8125rem; color: var(--slate); margin: 0;">Perbarui rincian, judul, atau perangkat pada pertanyaan pengguna.</p>
+                    </div>
+                </div>
+                <button type="button" class="tw-modal-close" onclick="closeAdminEditQuestionModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <form onsubmit="submitAdminEditQuestion(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="hidden" id="edit-question-qid" value=""/>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="edit-question-author">Nama Penanya <span style="color: var(--teal-deep);">*</span></label>
+                        <input type="text" id="edit-question-author" class="form-control" required style="font-size: 0.875rem;"/>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="edit-question-device">Model Drone / RC</label>
+                        <input type="text" id="edit-question-device" class="form-control" placeholder="Contoh: DJI Air 3 (RC 2)" style="font-size: 0.875rem;"/>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="edit-question-title">Judul Pertanyaan <span style="color: var(--teal-deep);">*</span></label>
+                    <input type="text" id="edit-question-title" class="form-control" required style="font-size: 0.9375rem; font-weight: 600;"/>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="edit-question-body">Rincian Pertanyaan / Masalah <span style="color: var(--teal-deep);">*</span></label>
+                    <textarea id="edit-question-body" class="form-control" rows="5" required style="font-size: 0.9375rem; line-height: 1.6;"></textarea>
+                </div>
+
+                <div id="edit-question-alert" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
+
+                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; margin-top: 0.5rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeAdminEditQuestionModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
+                    <button type="submit" id="btn-submit-edit-question" class="tw-btn" style="height: 38px; min-width: 150px; justify-content: center;">Simpan Perubahan Pertanyaan</button>
                 </div>
             </form>
         </div>

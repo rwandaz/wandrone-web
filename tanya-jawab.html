@@ -755,6 +755,70 @@
             }
         }
 
+        /* VOTE LIKE / DISLIKE BUTTONS */
+        .btn-vote {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.28rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--line);
+            background: #FFFFFF;
+            color: var(--slate);
+            transition: all 0.2s ease;
+            user-select: none;
+            line-height: 1;
+        }
+
+        .btn-vote svg {
+            flex-shrink: 0;
+            transition: transform 0.15s ease;
+        }
+
+        .btn-vote:hover {
+            border-color: var(--teal-hover);
+            color: var(--ink);
+            background: #FAFBFD;
+        }
+
+        .btn-vote:hover svg {
+            transform: scale(1.15);
+        }
+
+        .btn-vote.is-active.btn-like {
+            background: #ECFDF5;
+            border-color: #A7F3D0;
+            color: #065F46;
+        }
+
+        .btn-vote.is-active.btn-dislike {
+            background: #FEF2F2;
+            border-color: #FECACA;
+            color: #991B1B;
+        }
+
+        .vote-count {
+            display: inline-block;
+            background: rgba(10, 14, 22, 0.05);
+            padding: 0.1rem 0.35rem;
+            border-radius: 10px;
+            font-size: 0.6875rem;
+            font-family: var(--mono);
+        }
+
+        .btn-vote.is-active.btn-like .vote-count {
+            background: rgba(6, 95, 70, 0.12);
+            color: #065F46;
+        }
+
+        .btn-vote.is-active.btn-dislike .vote-count {
+            background: rgba(153, 27, 27, 0.12);
+            color: #991B1B;
+        }
+
         .form-group {
             margin-bottom: 1rem;
         }
@@ -957,6 +1021,21 @@
                                 <span class="faq-tag-chip">2 Perangkat Aktif</span>
                                 <span class="faq-tag-chip">Hobby &amp; Pro</span>
                             </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-1" onclick="handleFaqVote(this, 'like', 'faq-1')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">18</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-1" onclick="handleFaqVote(this, 'dislike', 'faq-1')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -976,6 +1055,21 @@
                                 <span class="faq-tag-chip">Otomatis Grid</span>
                                 <span class="faq-tag-chip">Parameter Terbang</span>
                                 <span class="faq-tag-chip">Follow Terrain</span>
+                            </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-2" onclick="handleFaqVote(this, 'like', 'faq-2')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">15</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-2" onclick="handleFaqVote(this, 'dislike', 'faq-2')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </details>
@@ -1001,6 +1095,21 @@
                                 <span class="faq-tag-chip">Injeksi Tanpa Dummy</span>
                                 <span class="faq-tag-chip">Semua Lisensi</span>
                             </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-3" onclick="handleFaqVote(this, 'like', 'faq-3')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">21</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-3" onclick="handleFaqVote(this, 'dislike', 'faq-3')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -1021,6 +1130,21 @@
                                 <span class="faq-tag-chip">Flash Inject</span>
                                 <span class="faq-tag-chip">Shizuku Inject</span>
                                 <span class="faq-tag-chip">Seri RC-N</span>
+                            </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-4" onclick="handleFaqVote(this, 'like', 'faq-4')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">12</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-4" onclick="handleFaqVote(this, 'dislike', 'faq-4')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </details>
@@ -1065,6 +1189,21 @@
                                 <span class="faq-tag-chip">Air 3 / 3S</span>
                                 <span class="faq-tag-chip">Mavic 3 / 4 Pro</span>
                             </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-5" onclick="handleFaqVote(this, 'like', 'faq-5')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">19</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-5" onclick="handleFaqVote(this, 'dislike', 'faq-5')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -1100,6 +1239,21 @@
                                 <span class="faq-tag-chip">DJI RC Pro / Pro 2</span>
                                 <span class="faq-tag-chip">Seri RC-N (Android)</span>
                             </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-6" onclick="handleFaqVote(this, 'like', 'faq-6')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">16</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-6" onclick="handleFaqVote(this, 'dislike', 'faq-6')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -1116,6 +1270,21 @@
                                 <span class="faq-tag-chip">100% Offline</span>
                                 <span class="faq-tag-chip">Cache Citra Satelit</span>
                                 <span class="faq-tag-chip">Remote Area</span>
+                            </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-7" onclick="handleFaqVote(this, 'like', 'faq-7')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">11</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-7" onclick="handleFaqVote(this, 'dislike', 'faq-7')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </details>
@@ -1134,6 +1303,21 @@
                                 <span class="faq-tag-chip">Standar Pabrik</span>
                                 <span class="faq-tag-chip">Aman</span>
                             </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-8" onclick="handleFaqVote(this, 'like', 'faq-8')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">14</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-8" onclick="handleFaqVote(this, 'dislike', 'faq-8')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -1150,6 +1334,21 @@
                                 <span class="faq-tag-chip">Speed Clamping</span>
                                 <span class="faq-tag-chip">Anti Foto Bolong</span>
                                 <span class="faq-tag-chip">Proteksi MicroSD</span>
+                            </div>
+                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-9" onclick="handleFaqVote(this, 'like', 'faq-9')" title="Penjelasan membantu" aria-label="Membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                        <span>Membantu</span>
+                                        <span class="vote-count">17</span>
+                                    </button>
+                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-9" onclick="handleFaqVote(this, 'dislike', 'faq-9')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                        <span>Kurang</span>
+                                        <span class="vote-count">0</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </details>
@@ -1417,7 +1616,9 @@
                 question_body: 'Halo tim, mau tanya saat drone selesai terbang otomatis dan foto tersimpan di MicroSD, apakah posisi latitude, longitude, dan ketinggiannya sudah langsung ter-geotag ke EXIF foto untuk olah di Agisoft Metashape atau Pix4D?',
                 admin_answer: 'Halo Pak Budi. Ya, 100% langsung kompatibel. TW-Mapper memerintahkan kamera drone DJI untuk mengambil foto dengan metadata geotagging EXIF asli DJI (koordinat GPS & RTK serta ketinggian elipsoid). Anda bisa langsung memasukkan berkas foto ke Agisoft Metashape, Pix4D, DroneDeploy, maupun WebODM tanpa konversi.',
                 answered_at: new Date(Date.now() - 86400000).toISOString(),
-                answered_by: 'Admin WanDrone'
+                answered_by: 'Admin WanDrone',
+                likes_count: 8,
+                dislikes_count: 0
             },
             {
                 id: 'cm-2',
@@ -1428,7 +1629,9 @@
                 question_body: 'Kemarin terbang survei 60 Hektar di kebun sawit, baterai tinggal 20% pas waypoint ke-45 dari total 90. Cara lanjutkannya bagaimana biar tidak mengulang dari waypoint 1?',
                 admin_answer: 'Halo Mas Fauzan. Di aplikasi DJI Fly sudah memiliki fitur Resume Waypoint otomatis. Saat baterai menipis, tekan tombol RTH (Return to Home) di remote. Ganti baterai baru, nyalakan kembali drone, lalu di DJI Fly buka kembali misi tersebut dan pilih opsi "Lanjutkan dari Titik Terakhir". Drone akan langsung terbang menuju waypoint ke-45 dan melanjutkan pemetaan.',
                 answered_at: new Date(Date.now() - 86400000 * 3).toISOString(),
-                answered_by: 'Admin WanDrone'
+                answered_by: 'Admin WanDrone',
+                likes_count: 14,
+                dislikes_count: 0
             }
         ];
 
@@ -1451,6 +1654,38 @@
 
         let allCommunityQuestions = getStoredQuestions();
 
+        // Storage keys for helpful vote tracking
+        const FORUM_VOTES_STORAGE_KEY = 'wandrone_forum_voted_map';
+        const FAQ_VOTES_STORAGE_KEY = 'wandrone_faq_voted_map';
+
+        function getForumVoteMap() {
+            try {
+                return JSON.parse(localStorage.getItem(FORUM_VOTES_STORAGE_KEY) || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveForumVoteMap(map) {
+            try {
+                localStorage.setItem(FORUM_VOTES_STORAGE_KEY, JSON.stringify(map));
+            } catch (e) {}
+        }
+
+        function getFaqVoteMap() {
+            try {
+                return JSON.parse(localStorage.getItem(FAQ_VOTES_STORAGE_KEY) || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveFaqVoteMap(map) {
+            try {
+                localStorage.setItem(FAQ_VOTES_STORAGE_KEY, JSON.stringify(map));
+            } catch (e) {}
+        }
+
         // RENDER COMMUNITY QUESTIONS
         function renderCommunityQuestions(questionsToRender) {
             const container = document.getElementById('community-qa-container');
@@ -1469,8 +1704,14 @@
                 return;
             }
 
+            const forumMap = getForumVoteMap();
+
             container.innerHTML = list.map(q => {
                 const dateStr = new Date(q.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const votedType = forumMap[String(q.id)] || null;
+                const likes = Number(q.likes_count) || 0;
+                const dislikes = Number(q.dislikes_count) || 0;
+
                 return `
                     <div class="qa-card" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
                         <div class="qa-card-meta">
@@ -1489,11 +1730,143 @@
                                     <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
                                 </div>
                                 <div style="line-height: 1.6; color: var(--ink);">${escapeHtml(q.admin_answer)}</div>
+                                <div class="qa-feedback-bar" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(10, 14, 22, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                    <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah jawaban ini membantu?</span>
+                                    <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                        <button type="button" class="btn-vote btn-like ${votedType === 'like' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'like')" title="Jawaban ini membantu" aria-label="Suka jawaban ini">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                            <span>Membantu</span>
+                                            <span class="vote-count" id="vote-count-like-${q.id}">${likes}</span>
+                                        </button>
+                                        <button type="button" class="btn-vote btn-dislike ${votedType === 'dislike' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'dislike')" title="Jawaban kurang membantu" aria-label="Kurang membantu">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                            <span>Kurang</span>
+                                            <span class="vote-count" id="vote-count-dislike-${q.id}">${dislikes}</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         ` : ''}
                     </div>
                 `;
             }).join('');
+        }
+
+        async function handleVoteAnswer(event, qId, voteType) {
+            if (event) event.stopPropagation();
+            const sQId = String(qId);
+            const voteMap = getForumVoteMap();
+            const prevVote = voteMap[sQId] || null;
+            const newVote = prevVote === voteType ? null : voteType;
+
+            const likeBtn = document.querySelector(`.btn-like[data-qid="${sQId}"]`);
+            const dislikeBtn = document.querySelector(`.btn-dislike[data-qid="${sQId}"]`);
+            const likeCountEl = document.getElementById(`vote-count-like-${sQId}`);
+            const dislikeCountEl = document.getElementById(`vote-count-dislike-${sQId}`);
+
+            let curLikes = parseInt(likeCountEl ? likeCountEl.textContent : '0', 10) || 0;
+            let curDislikes = parseInt(dislikeCountEl ? dislikeCountEl.textContent : '0', 10) || 0;
+
+            if (prevVote === 'like') curLikes = Math.max(0, curLikes - 1);
+            if (prevVote === 'dislike') curDislikes = Math.max(0, curDislikes - 1);
+            if (newVote === 'like') curLikes += 1;
+            if (newVote === 'dislike') curDislikes += 1;
+
+            if (likeCountEl) likeCountEl.textContent = curLikes;
+            if (dislikeCountEl) dislikeCountEl.textContent = curDislikes;
+
+            if (likeBtn) likeBtn.classList.toggle('is-active', newVote === 'like');
+            if (dislikeBtn) dislikeBtn.classList.toggle('is-active', newVote === 'dislike');
+
+            if (newVote) {
+                voteMap[sQId] = newVote;
+            } else {
+                delete voteMap[sQId];
+            }
+            saveForumVoteMap(voteMap);
+
+            const item = allCommunityQuestions.find(q => String(q.id) === sQId);
+            if (item) {
+                item.likes_count = curLikes;
+                item.dislikes_count = curDislikes;
+            }
+
+            const numId = Number(qId);
+            if (!isNaN(numId) && Number.isInteger(numId) && numId > 0 && supabaseClient) {
+                try {
+                    const { data, error } = await supabaseClient.rpc('vote_forum_answer', {
+                        q_id: numId,
+                        vote_type: voteType,
+                        prev_vote: prevVote
+                    });
+                    if (!error && data) {
+                        if (likeCountEl && data.likes !== undefined) likeCountEl.textContent = data.likes;
+                        if (dislikeCountEl && data.dislikes !== undefined) dislikeCountEl.textContent = data.dislikes;
+                        if (item) {
+                            item.likes_count = data.likes;
+                            item.dislikes_count = data.dislikes;
+                        }
+                    }
+                } catch (err) {
+                    console.warn('Vote RPC notice:', err);
+                }
+            } else {
+                saveStoredQuestions(allCommunityQuestions);
+            }
+        }
+
+        function handleFaqVote(btn, voteType, faqId) {
+            if (!btn) return;
+            const parentBar = btn.closest('.faq-feedback-bar');
+            if (!parentBar) return;
+
+            const faqMap = getFaqVoteMap();
+            const prevVote = faqMap[faqId] || null;
+            const newVote = prevVote === voteType ? null : voteType;
+
+            const likeBtn = parentBar.querySelector('.btn-like');
+            const dislikeBtn = parentBar.querySelector('.btn-dislike');
+            const likeCountEl = likeBtn ? likeBtn.querySelector('.vote-count') : null;
+            const dislikeCountEl = dislikeBtn ? dislikeBtn.querySelector('.vote-count') : null;
+
+            let curLikes = parseInt(likeCountEl ? likeCountEl.textContent : '0', 10) || 0;
+            let curDislikes = parseInt(dislikeCountEl ? dislikeCountEl.textContent : '0', 10) || 0;
+
+            if (prevVote === 'like') curLikes = Math.max(0, curLikes - 1);
+            if (prevVote === 'dislike') curDislikes = Math.max(0, curDislikes - 1);
+            if (newVote === 'like') curLikes += 1;
+            if (newVote === 'dislike') curDislikes += 1;
+
+            if (likeCountEl) likeCountEl.textContent = curLikes;
+            if (dislikeCountEl) dislikeCountEl.textContent = curDislikes;
+
+            if (likeBtn) likeBtn.classList.toggle('is-active', newVote === 'like');
+            if (dislikeBtn) dislikeBtn.classList.toggle('is-active', newVote === 'dislike');
+
+            if (newVote) {
+                faqMap[faqId] = newVote;
+            } else {
+                delete faqMap[faqId];
+            }
+            saveFaqVoteMap(faqMap);
+        }
+
+        function restoreFaqVotes() {
+            const faqMap = getFaqVoteMap();
+            document.querySelectorAll('.faq-feedback-bar').forEach(bar => {
+                const likeBtn = bar.querySelector('.btn-like');
+                const dislikeBtn = bar.querySelector('.btn-dislike');
+                if (!likeBtn || !dislikeBtn) return;
+                const faqId = likeBtn.getAttribute('data-faq-id');
+                const voted = faqMap[faqId];
+                if (voted === 'like') {
+                    likeBtn.classList.add('is-active');
+                    dislikeBtn.classList.remove('is-active');
+                } else if (voted === 'dislike') {
+                    dislikeBtn.classList.add('is-active');
+                    likeBtn.classList.remove('is-active');
+                }
+            });
         }
 
         // FUZZY TYPO-TOLERANT SEARCH ALGORITHM
@@ -1936,7 +2309,12 @@
                                 <strong style="color: var(--ink); font-size: 0.95rem;">${escapeHtml(q.question_title)}</strong>
                                 <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Oleh: ${escapeHtml(q.author_name)} • ${escapeHtml(q.device_model || 'Umum')}</div>
                             </div>
-                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                                <span class="tw-chip" style="font-size: 0.6875rem; background: #F8FAFC; color: var(--slate); border-color: var(--line); display: inline-flex; align-items: center; gap: 0.35rem;" title="Jumlah tanggapan pembaca">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>${q.likes_count || 0}
+                                    <span style="opacity: 0.4;">/</span>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>${q.dislikes_count || 0}
+                                </span>
                                 <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang di Forum</span>
                                 <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus</button>
                             </div>
@@ -2031,7 +2409,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('forum_questions')
-                    .select('id, created_at, author_name, device_model, question_title, question_body, admin_answer, answered_by')
+                    .select('id, created_at, author_name, device_model, question_title, question_body, admin_answer, answered_by, likes_count, dislikes_count')
                     .eq('status', 'approved')
                     .order('created_at', { ascending: false });
 
@@ -2047,6 +2425,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             renderCommunityQuestions();
+            restoreFaqVotes();
             loadCommunityQuestionsFromSupabase();
             const params = new URLSearchParams(window.location.search);
             if (params.get('admin') === '1' || params.get('mode') === 'admin') {

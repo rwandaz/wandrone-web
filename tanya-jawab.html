@@ -426,13 +426,20 @@
             border: 1px solid var(--line);
             color: var(--slate);
             font-family: var(--display);
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             font-weight: 600;
-            padding: 0.5rem 1.15rem;
+            padding: 0.45rem 1rem;
             border-radius: 6px;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            height: 36px;
+            box-sizing: border-box;
+            user-select: none;
         }
 
         .faq-tab-btn:hover {
@@ -446,6 +453,27 @@
             color: var(--ink);
             border-color: var(--teal);
             font-weight: 700;
+        }
+
+        .tab-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.25rem;
+            height: 1.25rem;
+            padding: 0 0.35rem;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            background: #E2E8F0;
+            color: var(--ink);
+            line-height: 1;
+            transition: all 0.15s ease;
+        }
+
+        .faq-tab-btn.active .tab-badge {
+            background: rgba(10, 14, 22, 0.15);
+            color: var(--ink);
         }
 
         /* ACCORDION FAQ ITEM (LIGHT THEME) */
@@ -1508,9 +1536,18 @@
             <!-- ACTION & FILTER BAR -->
             <div class="forum-action-bar">
                 <div class="faq-tabs" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
-                    <button class="faq-tab-btn active" id="tab-filter-all" onclick="switchForumFilter('all', this)">Semua Pertanyaan</button>
-                    <button class="faq-tab-btn" id="tab-filter-answered" onclick="switchForumFilter('answered', this)">Sudah Terjawab</button>
-                    <button class="faq-tab-btn" id="tab-filter-unanswered" onclick="switchForumFilter('unanswered', this)">Menunggu Jawaban</button>
+                    <button type="button" class="faq-tab-btn active" id="tab-filter-all" onclick="switchForumFilter('all', this)">
+                        <span>Semua Pertanyaan</span>
+                        <span class="tab-badge" id="badge-all">0</span>
+                    </button>
+                    <button type="button" class="faq-tab-btn" id="tab-filter-answered" onclick="switchForumFilter('answered', this)">
+                        <span>Sudah Terjawab</span>
+                        <span class="tab-badge" id="badge-answered">0</span>
+                    </button>
+                    <button type="button" class="faq-tab-btn" id="tab-filter-unanswered" onclick="switchForumFilter('unanswered', this)">
+                        <span>Menunggu Jawaban</span>
+                        <span class="tab-badge" id="badge-unanswered">0</span>
+                    </button>
                 </div>
                 <button type="button" onclick="openQuestionModal()" class="tw-btn" style="height: 36px; padding: 0 1.15rem; font-size: 0.8125rem; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -2081,6 +2118,45 @@
                 answered_by: 'Admin WanDrone',
                 likes_count: 14,
                 dislikes_count: 0
+            },
+            {
+                id: '3',
+                created_at: new Date(Date.now() - 86400000 * 1).toISOString(),
+                author_name: 'Fauzan',
+                device_model: 'DJI Air 3 (DJI RC 2)',
+                question_title: 'Cara Mengatur Overlap di Perbukitan',
+                question_body: 'Bagaimana rekomendasi persentase sidelap dan frontlap untuk area berkontur curam?',
+                admin_answer: 'Untuk area berkontur curam, rekomendasi overlap pemetaan drone:\n- Sidelap: 80–85%\n- Frontlap: 85–90%\nPengaturan ideal TW Mapper:\n- Sidelap: 80%\n- Frontlap: 85%\n- Pola terbang: Double Grid (opsional)\nUntuk kontur sangat curam, gunakan 85% sidelap dan 90% frontlap agar kesinambungan foto dan kualitas rekonstruksi 3D lebih terjaga.',
+                answered_at: new Date(Date.now() - 86400000 * 1).toISOString(),
+                answered_by: 'Admin WanDrone',
+                likes_count: 12,
+                dislikes_count: 0
+            },
+            {
+                id: 'cm-4',
+                created_at: new Date(Date.now() - 86400000 * 0.5).toISOString(),
+                author_name: 'Heru Prasetyo',
+                device_model: 'DJI Air 3S (DJI RC 2)',
+                question_title: 'Rekomendasi interval shutter pada resolusi 48 MP agar MicroSD tidak buffer?',
+                question_body: 'Saat melakukan misi pemetaan dengan DJI Air 3S pada resolusi foto 48 MP, pada kecepatan 12 m/s kartu MicroSD Extreme Pro saya kadang ada jeda penulisan data. Berapa kecepatan terbang dan interval buka rana kamera yang paling aman agar tidak ada foto bolong?',
+                admin_answer: null,
+                answered_at: null,
+                answered_by: null,
+                likes_count: 5,
+                dislikes_count: 0
+            },
+            {
+                id: 'cm-5',
+                created_at: new Date(Date.now() - 86400000 * 0.2).toISOString(),
+                author_name: 'Rian Hendrawan',
+                device_model: 'DJI Mavic 3 Enterprise',
+                question_title: 'Apakah sensor anti-tabrak (APAS) tetap aktif saat terbang misi follow terrain?',
+                question_body: 'Mohon saran dari rekan-rekan pilot dan tim teknis, saat menjalankan misi pemetaan mengikuti kontur tanah (terrain follow) dengan data DSM, apakah proteksi deteksi rintangan aktif mengerem atau menaikkan ketinggian drone jika ada pohon tinggi yang belum terpetakan?',
+                admin_answer: null,
+                answered_at: null,
+                answered_by: null,
+                likes_count: 3,
+                dislikes_count: 0
             }
         ];
 
@@ -2089,7 +2165,13 @@
                 const stored = localStorage.getItem(MOCK_COMMUNITY_KEY);
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        DEFAULT_COMMUNITY_QA.forEach(defQ => {
+                            const exists = parsed.some(p => String(p.id) === String(defQ.id) || p.question_title.trim().toLowerCase() === defQ.question_title.trim().toLowerCase());
+                            if (!exists) parsed.push(defQ);
+                        });
+                        return parsed;
+                    }
                 }
             } catch (e) {}
             return DEFAULT_COMMUNITY_QA;
@@ -2155,6 +2237,8 @@
             const sourceList = forumFilteredQuestions !== null 
                 ? forumFilteredQuestions 
                 : getFilteredQuestionsByStatus(currentForumFilter);
+
+            updateTabBadgeCounts();
 
             if (sourceList.length === 0) {
                 container.innerHTML = `
@@ -2538,8 +2622,22 @@
 
         let currentForumFilter = 'all';
 
+        function updateTabBadgeCounts() {
+            const all = allCommunityQuestions || [];
+            const answered = all.filter(q => !!(q.admin_answer && q.admin_answer.trim())).length;
+            const unanswered = all.length - answered;
+
+            const bAll = document.getElementById('badge-all');
+            const bAns = document.getElementById('badge-answered');
+            const bUnans = document.getElementById('badge-unanswered');
+
+            if (bAll) bAll.textContent = all.length;
+            if (bAns) bAns.textContent = answered;
+            if (bUnans) bUnans.textContent = unanswered;
+        }
+
         function getFilteredQuestionsByStatus(filter = currentForumFilter) {
-            const base = (allCommunityQuestions || []).filter(q => q.admin_answer || q.status === 'approved');
+            const base = allCommunityQuestions || [];
             if (filter === 'answered') {
                 return base.filter(q => !!(q.admin_answer && q.admin_answer.trim()));
             } else if (filter === 'unanswered') {
@@ -2550,8 +2648,9 @@
 
         function switchForumFilter(filter, btn) {
             currentForumFilter = filter;
-            document.querySelectorAll('.faq-tabs-nav .faq-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
+            document.querySelectorAll('.faq-tab-btn').forEach(b => b.classList.remove('active'));
+            const targetBtn = btn || document.getElementById('tab-filter-' + filter);
+            if (targetBtn) targetBtn.classList.add('active');
 
             const searchInput = document.getElementById('faq-search-input');
             const query = searchInput ? searchInput.value.trim() : '';
@@ -2563,6 +2662,7 @@
                 const countLabel = document.getElementById('search-result-count');
                 if (countLabel) countLabel.textContent = '';
             }
+            updateTabBadgeCounts();
         }
 
         function handleSearch(query) {
@@ -2737,6 +2837,25 @@
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Kirim Pertanyaan';
                 document.getElementById('question-form').reset();
+
+                // Instantly inject newly created question into community forum
+                const newQId = (data && data.question_id) ? String(data.question_id) : 'user-' + Date.now();
+                const newQObj = {
+                    id: newQId,
+                    created_at: new Date().toISOString(),
+                    author_name: author,
+                    device_model: device,
+                    question_title: title,
+                    question_body: body,
+                    admin_answer: null,
+                    answered_by: null,
+                    likes_count: 0,
+                    dislikes_count: 0
+                };
+                allCommunityQuestions.unshift(newQObj);
+                saveStoredQuestions(allCommunityQuestions);
+                renderCommunityQuestions(getFilteredQuestionsByStatus(currentForumFilter), false);
+                updateTabBadgeCounts();
 
                 if (alertBox) {
                     alertBox.style.display = 'block';
@@ -3591,12 +3710,25 @@
                 const { data, error } = await supabaseClient
                     .from('forum_questions')
                     .select('id, created_at, author_name, device_model, question_title, question_body, admin_answer, answered_by, likes_count, dislikes_count')
-                    .eq('status', 'approved')
                     .order('created_at', { ascending: false });
 
                 if (!error && Array.isArray(data) && data.length > 0) {
-                    allCommunityQuestions = data;
+                    const map = new Map();
+                    data.forEach(q => map.set(String(q.id), q));
+                    const currentList = getStoredQuestions();
+                    currentList.forEach(q => {
+                        const existsInSupabase = Array.from(map.values()).some(supaQ => 
+                            String(supaQ.id) === String(q.id) || 
+                            supaQ.question_title.toLowerCase().trim() === q.question_title.toLowerCase().trim()
+                        );
+                        if (!existsInSupabase) {
+                            map.set(String(q.id), q);
+                        }
+                    });
+                    allCommunityQuestions = Array.from(map.values());
+                    saveStoredQuestions(allCommunityQuestions);
                     renderCommunityQuestions();
+                    updateTabBadgeCounts();
                 }
             } catch (e) {
                 console.warn('Supabase fetch notice:', e);

@@ -3507,39 +3507,10 @@
                             </div>
                         </div>
                         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-                            <input type="text" id="filter-user-input" oninput="renderAdminUnifiedUsersView(this.value)" placeholder="Cari nama, user, kontak, role..." value="${escapeHtml(filterText)}" class="form-control" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; width: 220px;"/>
-                            ${isSuper ? `
-                                <button type="button" onclick="toggleAdminCreateForm()" class="tw-btn" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; height: 32px; white-space: nowrap;">
-                                    <span>+ Tambah Admin</span>
-                                </button>
-                            ` : ''}
-                            <button type="button" onclick="refreshAllUsersData()" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; height: 32px;">Segarkan</button>
+                            <input type="text" id="filter-user-input" oninput="renderAdminUnifiedUsersView(this.value)" placeholder="Cari nama, user, kontak, role..." value="${escapeHtml(filterText)}" class="form-control" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; width: 240px; height: 32px;"/>
+                            <button type="button" onclick="refreshAllUsersData()" class="tw-btn-2" style="padding: 0 0.75rem; font-size: 0.75rem; height: 32px; display: inline-flex; align-items: center; justify-content: center;">Segarkan</button>
                         </div>
                     </div>
-
-                    ${isSuper ? `
-                        <div id="admin-create-form-box" style="display: ${showCreateAdminForm ? 'block' : 'none'}; background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                                <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">Daftarkan User Admin Baru</div>
-                                <button type="button" onclick="toggleAdminCreateForm()" class="tw-btn-2" style="height: 24px; padding: 0 0.5rem; font-size: 0.6875rem;">Tutup</button>
-                            </div>
-                            <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 0.85rem;">Berikan kredensial hak akses admin moderasi forum kepada anggota tim tambahan.</div>
-                            <form onsubmit="handleCreateAdminUser(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto; gap: 0.75rem; align-items: flex-end;">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label" for="new-admin-user">Username Admin Baru</label>
-                                    <input type="text" id="new-admin-user" class="form-control" placeholder="Contoh: moderator1" required minlength="3" style="font-size: 0.875rem;"/>
-                                </div>
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label" for="new-admin-pass">Kata Sandi</label>
-                                    <input type="password" id="new-admin-pass" class="form-control" placeholder="Minimal 6 karakter" required minlength="6" style="font-size: 0.875rem;"/>
-                                </div>
-                                <button type="submit" id="btn-add-admin" class="tw-btn" style="padding: 0.55rem 1rem; font-size: 0.875rem; white-space: nowrap; height: 38px;">
-                                    <span>+ Daftarkan Admin</span>
-                                </button>
-                            </form>
-                            <div id="create-admin-alert" style="display: none; margin-top: 0.75rem; padding: 0.65rem; border-radius: 6px; font-size: 0.8125rem;"></div>
-                        </div>
-                    ` : ''}
 
                     <!-- DAFTAR PENGGUNA TERPADU DALAM 1 TAB -->
                     <div style="display: flex; flex-direction: column; gap: 0.85rem;">

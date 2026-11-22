@@ -1607,16 +1607,28 @@
                 document.getElementById('question-form').reset();
                 
                 if (alertBox) {
+                    const waText = encodeURIComponent(`Halo Admin WanDrone, saya baru saja mengajukan pertanyaan di forum web:\n\n*Nama:* ${author}\n*Perangkat:* ${device}\n*Topik:* ${title}\n*Pertanyaan:* ${body}\n\nMohon bantuannya, terima kasih!`);
+                    const waUrl = `https://wa.me/6285175009498?text=${waText}`;
+
                     alertBox.style.display = 'block';
                     alertBox.style.background = '#F0FDF4';
                     alertBox.style.border = '1px solid #BBF7D0';
                     alertBox.style.color = '#166534';
-                    alertBox.innerHTML = `<strong>Terima Kasih, ${escapeHtml(author)}!</strong> Pertanyaan Anda berhasil dikirim dan tersimpan di database. Tim admin WanDrone akan meninjau dan memberikan jawaban resmi secepatnya.`;
+                    alertBox.innerHTML = `
+                        <div style="font-weight: 700; margin-bottom: 0.35rem; font-size: 0.9375rem;">Terima Kasih, ${escapeHtml(author)}!</div>
+                        <div style="margin-bottom: 0.75rem; font-size: 0.875rem; line-height: 1.5;">Pertanyaan Anda berhasil dikirim ke database. Tim admin WanDrone akan meninjau dan menerbitkan jawaban resmi.</div>
+                        <div style="padding-top: 0.65rem; border-top: 1px dashed #BBF7D0; display: flex; flex-direction: column; gap: 0.45rem;">
+                            <span style="font-size: 0.8125rem; font-weight: 600; color: #15803D;">Butuh respon kilat langsung ke admin?</span>
+                            <a href="${waUrl}" target="_blank" rel="noopener" class="tw-btn" style="padding: 0.45rem 0.85rem; font-size: 0.8125rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; text-decoration: none; width: 100%;">
+                                <span>Teruskan Pertanyaan ke WhatsApp Admin &rarr;</span>
+                            </a>
+                        </div>
+                    `;
                 }
 
                 setTimeout(() => {
                     closeQuestionModal();
-                }, 3500);
+                }, 12000);
             }, 600);
         }
 

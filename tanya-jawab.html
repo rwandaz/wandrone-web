@@ -592,13 +592,35 @@
             font-weight: 700;
             color: var(--ink);
             margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+
+        .qa-card-title:hover {
+            color: var(--teal-deep);
         }
 
         .qa-card-body {
             font-size: 0.9375rem;
             color: var(--slate);
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .qa-details-box {
+            animation: qaDetailsFadeIn 0.2s ease-out;
+        }
+
+        @keyframes qaDetailsFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .qa-admin-reply {
@@ -2495,6 +2517,7 @@
         const FORUM_PAGE_SIZE = 10;
         let forumCurrentPage = 1;
         let forumFilteredQuestions = null;
+        let forumExpandedQuestions = {};
 
         function renderCommunityQuestions(questionsToRender, preservePage = false) {
             const container = document.getElementById('community-qa-container');
@@ -2541,11 +2564,12 @@
                 const dislikes = Number(q.dislikes_count) || 0;
                 const sQId = String(q.id);
                 const qComments = allForumCommentsMap[sQId] || [];
-                const isExpanded = !!commentsExpanded[sQId];
+                const isExpanded = !!forumExpandedQuestions[sQId] || !!commentsExpanded[sQId];
                 const authorAvatarHtml = renderUserAvatar(q.avatar_url || null, q.author_name, '', 32);
-                const statusBadgeHtml = q.admin_answer
-                    ? '<span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; font-size:0.6875rem; font-weight:700;">Terjawab Resmi</span>'
-                    : '<span class="tw-chip" style="background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-size:0.6875rem; font-weight:600;">Menunggu Tanggapan</span>';
+                const hasAdminAnswer = !!(q.admin_answer && q.admin_answer.trim());
+                const statusBadgeHtml = hasAdminAnswer
+                    ? '<span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; border:1px solid #BBF7D0; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>Sudah Terjawab</span>'
+                    : '<span class="tw-chip" style="background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Menunggu Jawaban</span>';
 
                 return `
                     <div class="qa-card" id="community-qa-${q.id}" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
@@ -2562,55 +2586,74 @@
                                 <span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(q.device_model || 'Umum')}</span>
                             </div>
                         </div>
-                        <div class="qa-card-title">${escapeHtml(q.question_title)}</div>
-                        <div class="qa-card-body">${escapeHtml(q.question_body)}</div>
-                        ${q.admin_answer ? `
-                            <div class="qa-admin-reply">
-                                <div class="qa-admin-badge" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                    <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                        <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
-                                    </div>
-                                    ${(activeAdminUser && activeAdminPass) ? `
-                                        <button type="button" onclick="openAdminPanel(); setTimeout(() => { switchAdminTab('approved'); openAdminEditAnswerModal(${q.id}); }, 350);" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center;" title="Edit jawaban resmi sebagai admin">
-                                            Edit Jawaban
-                                        </button>
-                                    ` : ''}
-                                </div>
-                                <div style="line-height: 1.6; color: var(--ink);">${escapeHtml(q.admin_answer)}</div>
-                                <div class="qa-feedback-bar" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(10, 14, 22, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                    <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah jawaban ini membantu?</span>
-                                    <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                        <button type="button" class="btn-vote btn-like ${votedType === 'like' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'like')" title="Jawaban ini membantu" aria-label="Suka jawaban ini">
-                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                            <span>Membantu</span>
-                                            <span class="vote-count" id="vote-count-like-${q.id}">${likes}</span>
-                                        </button>
-                                        <button type="button" class="btn-vote btn-dislike ${votedType === 'dislike' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'dislike')" title="Jawaban kurang membantu" aria-label="Kurang membantu">
-                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                            <span>Kurang</span>
-                                            <span class="vote-count" id="vote-count-dislike-${q.id}">${dislikes}</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
+                        <div class="qa-card-title" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka/menutup jawaban dan diskusi">${escapeHtml(q.question_title)}</div>
+                        <div class="qa-card-body" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka/menutup jawaban dan diskusi">${escapeHtml(q.question_body)}</div>
 
-                        <!-- SECTION KOMENTAR KOMUNITAS UNTUK TOPIK INI -->
-                        <div class="qa-comments-section" id="qa-comments-section-${q.id}" style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--line);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                                <div style="font-weight: 700; font-size: 0.875rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem;">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                    <span>Tanggapan & Diskusi Pilot</span>
-                                    <span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.45rem;" id="comment-badge-${q.id}">${qComments.length}</span>
-                                </div>
-                                <button type="button" class="tw-btn-2" onclick="toggleCommentsSection('${q.id}')" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center;">
-                                    <span id="comment-toggle-text-${q.id}">${isExpanded ? 'Tutup Diskusi' : (qComments.length > 0 ? 'Lihat Diskusi (' + qComments.length + ')' : '+ Tambah Diskusi')}</span>
-                                </button>
+                        <!-- Bar status diskusi & tombol buka/tutup -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--line);">
+                            <div style="font-size: 0.8125rem; color: var(--slate); display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                                ${hasAdminAnswer ? `
+                                    <span style="display: inline-flex; align-items: center; gap: 4px; color: #166534; font-weight: 600;">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                        1 Jawaban Resmi
+                                    </span>
+                                    <span style="color: var(--line-dark);">&bull;</span>
+                                ` : ''}
+                                <span>${qComments.length} Tanggapan Pilot</span>
                             </div>
+                            <button type="button" class="tw-btn-2 qa-details-toggle-btn" id="qa-details-btn-${q.id}" onclick="toggleQuestionDetails('${q.id}')" style="height: 32px; padding: 0 0.95rem; font-size: 0.8125rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;">
+                                <span id="qa-details-btn-text-${q.id}">${isExpanded ? 'Tutup Jawaban & Diskusi' : (hasAdminAnswer ? 'Lihat Jawaban & Diskusi' : (qComments.length > 0 ? `Lihat Diskusi (${qComments.length})` : '+ Beri Tanggapan'))}</span>
+                                <svg id="qa-details-chevron-${q.id}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                        </div>
 
-                            <div id="comments-box-${q.id}" style="display: ${isExpanded ? 'block' : 'none'}; margin-top: 0.85rem;">
-                                ${renderCommentsListHtml(q.id, qComments)}
+                        <!-- KOTAK DETAIL JAWABAN & DISKUSI (DITAMPILKAN SETELAH DIKLIK) -->
+                        <div class="qa-details-box" id="qa-details-${q.id}" style="display: ${isExpanded ? 'block' : 'none'}; margin-top: 0.85rem;">
+                            ${hasAdminAnswer ? `
+                                <div class="qa-admin-reply" style="margin-top: 0.25rem;">
+                                    <div class="qa-admin-badge" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                        <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                            <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
+                                        </div>
+                                        ${(activeAdminUser && activeAdminPass) ? `
+                                            <button type="button" onclick="openAdminPanel(); setTimeout(() => { switchAdminTab('approved'); openAdminEditAnswerModal(${q.id}); }, 350);" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center;" title="Edit jawaban resmi sebagai admin">
+                                                Edit Jawaban
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                    <div style="line-height: 1.6; color: var(--ink);">${escapeHtml(q.admin_answer)}</div>
+                                    <div class="qa-feedback-bar" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(10, 14, 22, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah jawaban ini membantu?</span>
+                                        <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                            <button type="button" class="btn-vote btn-like ${votedType === 'like' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'like')" title="Jawaban ini membantu" aria-label="Suka jawaban ini">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                                <span>Membantu</span>
+                                                <span class="vote-count" id="vote-count-like-${q.id}">${likes}</span>
+                                            </button>
+                                            <button type="button" class="btn-vote btn-dislike ${votedType === 'dislike' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'dislike')" title="Jawaban kurang membantu" aria-label="Kurang membantu">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                                <span>Kurang</span>
+                                                <span class="vote-count" id="vote-count-dislike-${q.id}">${dislikes}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <!-- SECTION KOMENTAR KOMUNITAS UNTUK TOPIK INI -->
+                            <div class="qa-comments-section" id="qa-comments-section-${q.id}" style="${hasAdminAnswer ? 'margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed var(--line);' : 'margin-top: 0.5rem;'}">
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                                    <div style="font-weight: 700; font-size: 0.875rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem;">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                        <span>Tanggapan & Diskusi Pilot</span>
+                                        <span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.45rem;" id="comment-badge-${q.id}">${qComments.length}</span>
+                                    </div>
+                                </div>
+
+                                <div id="comments-box-${q.id}">
+                                    ${renderCommentsListHtml(q.id, qComments)}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4351,24 +4394,49 @@
                         if (!allForumCommentsMap[qid]) allForumCommentsMap[qid] = [];
                         allForumCommentsMap[qid].push(c);
                     });
-                    renderCommunityQuestions();
+                    renderCommunityQuestions(null, true);
                 }
             } catch (e) {
                 console.warn('Error loading forum comments:', e);
             }
         }
 
-        function toggleCommentsSection(qId) {
+        function toggleQuestionDetails(qId) {
             const sQId = String(qId);
-            commentsExpanded[sQId] = !commentsExpanded[sQId];
-            const box = document.getElementById(`comments-box-${sQId}`);
-            const btnText = document.getElementById(`comment-toggle-text-${sQId}`);
-            const qComments = allForumCommentsMap[sQId] || [];
+            forumExpandedQuestions[sQId] = !forumExpandedQuestions[sQId];
+            commentsExpanded[sQId] = forumExpandedQuestions[sQId];
 
-            if (box) box.style.display = commentsExpanded[sQId] ? 'block' : 'none';
-            if (btnText) {
-                btnText.textContent = commentsExpanded[sQId] ? 'Tutup Diskusi' : (qComments.length > 0 ? `Lihat Diskusi (${qComments.length})` : '+ Tambah Diskusi');
+            const detailsBox = document.getElementById(`qa-details-${sQId}`);
+            const btnText = document.getElementById(`qa-details-btn-text-${sQId}`);
+            const chevron = document.getElementById(`qa-details-chevron-${sQId}`);
+            const qComments = allForumCommentsMap[sQId] || [];
+            const qObj = (allCommunityQuestions || []).find(item => String(item.id) === sQId);
+            const hasAdminAnswer = !!(qObj && qObj.admin_answer && qObj.admin_answer.trim());
+            const isExp = !!forumExpandedQuestions[sQId];
+
+            if (detailsBox) {
+                detailsBox.style.display = isExp ? 'block' : 'none';
             }
+            if (chevron) {
+                chevron.style.transform = isExp ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            if (btnText) {
+                if (isExp) {
+                    btnText.textContent = 'Tutup Jawaban & Diskusi';
+                } else {
+                    if (hasAdminAnswer) {
+                        btnText.textContent = 'Lihat Jawaban & Diskusi';
+                    } else if (qComments.length > 0) {
+                        btnText.textContent = `Lihat Diskusi (${qComments.length})`;
+                    } else {
+                        btnText.textContent = '+ Beri Tanggapan';
+                    }
+                }
+            }
+        }
+
+        function toggleCommentsSection(qId) {
+            toggleQuestionDetails(qId);
         }
 
         function renderCommentsListHtml(qId, comments) {
@@ -4430,15 +4498,16 @@
             // Comment form or Login prompt
             if (activeUser) {
                 html += `
-                    <form onsubmit="handleUserAddComment(event, '${qId}')" style="margin-top: 0.65rem; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem;">
-                        <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between;">
+                    <form onsubmit="handleUserAddComment(event, '${qId}')" style="margin-top: 0.75rem; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem;">
+                        <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem;">
                             <span>Tulis Tanggapan Teknis sebagai <strong>${escapeHtml(activeUser.full_name || activeUser.username)}</strong></span>
+                            <span style="font-size: 0.75rem; color: var(--slate);">Berikan ulasan atau panduan teknis yang jelas</span>
                         </div>
-                        <textarea id="comment-input-${qId}" class="form-control" rows="2" placeholder="Bagikan solusi teknis, pengaturan parameter, atau pengalaman lapangan Anda..." required style="font-size: 0.875rem; margin-bottom: 0.5rem;"></textarea>
+                        <textarea id="comment-input-${qId}" class="form-control" rows="5" placeholder="Bagikan solusi teknis, pengaturan parameter, langkah pemecahan masalah, atau pengalaman lapangan Anda secara rinci..." required style="font-size: 0.9375rem; min-height: 130px; padding: 0.85rem 1rem; line-height: 1.6; margin-bottom: 0.65rem; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
                         <div id="comment-alert-${qId}" style="display: none; padding: 0.45rem 0.65rem; border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem;"></div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="height: 32px; padding: 0 1rem; font-size: 0.8125rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="height: 38px; min-width: 150px; padding: 0 1.25rem; font-size: 0.8125rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                 <span>Kirim Tanggapan</span>
                             </button>
                         </div>
@@ -4508,8 +4577,9 @@
 
                 // Reload all comments and refresh
                 await loadAllForumComments();
+                forumExpandedQuestions[String(questionId)] = true;
                 commentsExpanded[String(questionId)] = true;
-                renderCommunityQuestions();
+                renderCommunityQuestions(null, true);
 
                 // If voter is the author (though backend blocks self vote), update stats
                 if (user.id === data.author_id) {
@@ -4587,6 +4657,7 @@
 
                 // Clear input and reload comments
                 input.value = '';
+                forumExpandedQuestions[String(questionId)] = true;
                 commentsExpanded[String(questionId)] = true;
                 await loadAllForumComments();
             } catch (err) {
@@ -5041,8 +5112,11 @@
                     card.classList.add('qa-highlight-target');
                     setTimeout(() => card.classList.remove('qa-highlight-target'), 2600);
 
-                    if (!commentsExpanded[sQId]) {
-                        toggleCommentsSection(sQId);
+                    if (!forumExpandedQuestions[sQId]) {
+                        toggleQuestionDetails(sQId);
+                    } else {
+                        const detailsBox = document.getElementById(`qa-details-${sQId}`);
+                        if (detailsBox) detailsBox.style.display = 'block';
                     }
                 } else {
                     const forumSec = document.getElementById('forum-komunitas');

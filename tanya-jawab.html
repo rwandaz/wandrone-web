@@ -1614,9 +1614,28 @@
             }
         }
 
+        async function loadCommunityQuestionsFromSupabase() {
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('forum_questions')
+                    .select('id, created_at, author_name, device_model, question_title, question_body, admin_answer, answered_by')
+                    .eq('status', 'approved')
+                    .order('created_at', { ascending: false });
+
+                if (!error && Array.isArray(data) && data.length > 0) {
+                    allCommunityQuestions = data;
+                    renderCommunityQuestions();
+                }
+            } catch (e) {
+                console.warn('Supabase fetch notice:', e);
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             renderCommunityQuestions();
+            loadCommunityQuestionsFromSupabase();
             const params = new URLSearchParams(window.location.search);
             if (params.get('admin') === '1' || params.get('mode') === 'admin') {
                 openAdminPanel();

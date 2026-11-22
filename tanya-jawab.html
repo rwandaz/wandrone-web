@@ -1720,6 +1720,11 @@
                         <span>Kelola Pengguna</span>
                         <span class="admin-tab-badge" id="admin-users-tab-badge">0</span>
                     </button>
+                    <button type="button" id="admin-tab-logs" onclick="switchAdminTab('logs')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <span>Log Sistem</span>
+                        <span class="admin-tab-badge" id="admin-logs-tab-badge" style="background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">Akun Utama</span>
+                    </button>
                 </div>
 
                 <!-- Container Pertanyaan -->
@@ -3006,10 +3011,17 @@
         }
 
         function switchAdminTab(tab) {
+            if (tab === 'logs' && activeAdminRole !== 'superadmin') {
+                alert('Akses Dibatasi: Tab Log Sistem ini hanya dapat diakses oleh Akun Utama.');
+                switchAdminTab('pending');
+                return;
+            }
+
             currentAdminTab = (tab === 'forum_users' || tab === 'users') ? 'users' : tab;
             const btnPending = document.getElementById('admin-tab-pending');
             const btnApproved = document.getElementById('admin-tab-approved');
             const btnUsers = document.getElementById('admin-tab-users');
+            const btnLogs = document.getElementById('admin-tab-logs');
 
             if (btnPending) {
                 btnPending.classList.toggle('is-active', currentAdminTab === 'pending');
@@ -3023,9 +3035,15 @@
                 btnUsers.classList.toggle('is-active', currentAdminTab === 'users');
                 btnUsers.setAttribute('aria-selected', currentAdminTab === 'users' ? 'true' : 'false');
             }
+            if (btnLogs) {
+                btnLogs.classList.toggle('is-active', currentAdminTab === 'logs');
+                btnLogs.setAttribute('aria-selected', currentAdminTab === 'logs' ? 'true' : 'false');
+            }
 
             if (currentAdminTab === 'users') {
                 renderAdminUnifiedUsersView();
+            } else if (currentAdminTab === 'logs') {
+                fetchAdminSystemLogs();
             } else {
                 renderAdminQuestions(latestAdminQuestions);
             }
@@ -3094,6 +3112,12 @@
             const tabUsers = document.getElementById('admin-tab-users');
             if (tabUsers) {
                 tabUsers.style.display = 'inline-flex';
+            }
+
+            // Tab Log Sistem HANYA ditampilkan untuk Akun Utama (superadmin)
+            const tabLogs = document.getElementById('admin-tab-logs');
+            if (tabLogs) {
+                tabLogs.style.display = (activeAdminRole === 'superadmin') ? 'inline-flex' : 'none';
             }
 
             fetchAdminQuestions();
@@ -3181,6 +3205,239 @@
             }
         }
 
+
+        // ==========================================
+        // LOG SISTEM & AUDIT AKTIVITAS (AKUN UTAMA)
+        // ==========================================
+        let latestAdminSystemLogs = [];
+        let systemLogFilterType = 'all';
+        let systemLogSearchQuery = '';
+
+        async function fetchAdminSystemLogs(typeFilter = systemLogFilterType, searchQuery = systemLogSearchQuery) {
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+            if (activeAdminRole !== 'superadmin') {
+                alert('Akses Dibatasi: Hanya Akun Utama yang berhak mengakses Log Sistem.');
+                return;
+            }
+
+            systemLogFilterType = typeFilter || 'all';
+            systemLogSearchQuery = searchQuery || '';
+
+            const container = document.getElementById('admin-questions-list');
+            if (container && currentAdminTab === 'logs') {
+                container.innerHTML = '<div style="text-align:center; padding: 3rem; color: var(--slate);">Memuat riwayat log sistem...</div>';
+            }
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_get_system_logs', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    p_limit: 150,
+                    p_offset: 0,
+                    p_type_filter: systemLogFilterType
+                });
+
+                if (error) {
+                    if (container && currentAdminTab === 'logs') {
+                        container.innerHTML = `<div style="color: #991B1B; padding: 1.25rem; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px;">Gagal memuat log sistem: ${escapeHtml(error.message)}</div>`;
+                    }
+                    return;
+                }
+
+                if (data && data.success && Array.isArray(data.logs)) {
+                    latestAdminSystemLogs = data.logs;
+                    renderAdminSystemLogsView();
+                }
+            } catch (err) {
+                if (container && currentAdminTab === 'logs') {
+                    container.innerHTML = `<div style="color: #991B1B; padding: 1.25rem; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px;">Kendala jaringan: ${escapeHtml(err.message)}</div>`;
+                }
+            }
+        }
+
+        function renderAdminSystemLogsView() {
+            const container = document.getElementById('admin-questions-list');
+            if (!container) return;
+
+            const q = (systemLogSearchQuery || '').toLowerCase().trim();
+            const filteredLogs = latestAdminSystemLogs.filter(log => {
+                if (!q) return true;
+                const matchDesc = (log.description || '').toLowerCase().includes(q);
+                const matchActor = (log.actor_username || '').toLowerCase().includes(q);
+                const matchTarget = (log.target_identifier || '').toLowerCase().includes(q);
+                const matchName = (log.action_name || '').toLowerCase().includes(q);
+                const matchType = (log.action_type || '').toLowerCase().includes(q);
+                return matchDesc || matchActor || matchTarget || matchName || matchType;
+            });
+
+            const total = latestAdminSystemLogs.length;
+            const logBadge = document.getElementById('admin-logs-tab-badge');
+            if (logBadge) logBadge.textContent = `${total} Log`;
+
+            function getLogActionBadge(actionType) {
+                switch(actionType) {
+                    case 'MODERASI_PERTANYAAN':
+                        return 'background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;';
+                    case 'MODERASI_JAWABAN':
+                        return 'background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover);';
+                    case 'MODERASI_KOMENTAR':
+                        return 'background: #FDF2F8; color: #9D174D; border-color: #FBCFE8;';
+                    case 'KELOLA_POIN':
+                        return 'background: #FEF3C7; color: #92400E; border-color: #FDE68A;';
+                    case 'KELOLA_PENGGUNA':
+                        return 'background: #F3E8FF; color: #6B21A8; border-color: #E9D5FF;';
+                    case 'KEAMANAN_AKUN':
+                        return 'background: #FEF2F2; color: #991B1B; border-color: #FECACA;';
+                    default:
+                        return 'background: #F8FAFC; color: var(--slate); border-color: var(--line);';
+                }
+            }
+
+            let html = `
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                                <div style="font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink);">
+                                    Log Sistem & Riwayat Audit Aktivitas
+                                </div>
+                                <span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; font-weight: 700;">
+                                    Akses Akun Utama
+                                </span>
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--slate);">
+                                Rekam jejak seluruh operasi moderasi pertanyaan, perubahan jawaban, penyesuaian poin, dan keamanan pengguna secara real-time.
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <button type="button" onclick="fetchAdminSystemLogs()" class="tw-btn-2" style="height: 32px; padding: 0 0.85rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                                <span>Segarkan Log</span>
+                            </button>
+                            <button type="button" onclick="handleAdminClearSystemLogs()" class="tw-btn-2" style="height: 32px; padding: 0 0.85rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; gap: 0.35rem;" title="Bersihkan log yang lebih lama dari 30 hari">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                <span>Bersihkan Log Lama</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BAR FILTER & PENCARIAN LOG -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem; align-items: center;">
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 600; color: var(--slate); display: block; margin-bottom: 0.25rem;">Kategori Aktivitas</label>
+                            <select id="filter-log-type" onchange="fetchAdminSystemLogs(this.value, document.getElementById('search-log-input').value)" class="form-control" style="font-size: 0.8125rem; padding: 0.4rem 0.65rem;">
+                                <option value="all" ${systemLogFilterType === 'all' ? 'selected' : ''}>Semua Kategori Aktivitas</option>
+                                <option value="MODERASI_PERTANYAAN" ${systemLogFilterType === 'MODERASI_PERTANYAAN' ? 'selected' : ''}>Moderasi Pertanyaan</option>
+                                <option value="MODERASI_JAWABAN" ${systemLogFilterType === 'MODERASI_JAWABAN' ? 'selected' : ''}>Moderasi Jawaban</option>
+                                <option value="MODERASI_KOMENTAR" ${systemLogFilterType === 'MODERASI_KOMENTAR' ? 'selected' : ''}>Moderasi Tanggapan Pilot</option>
+                                <option value="KELOLA_POIN" ${systemLogFilterType === 'KELOLA_POIN' ? 'selected' : ''}>Penyesuaian Poin</option>
+                                <option value="KELOLA_PENGGUNA" ${systemLogFilterType === 'KELOLA_PENGGUNA' ? 'selected' : ''}>Kelola Pengguna & Peran</option>
+                                <option value="KEAMANAN_AKUN" ${systemLogFilterType === 'KEAMANAN_AKUN' ? 'selected' : ''}>Keamanan Akun & Sandi</option>
+                                <option value="SISTEM" ${systemLogFilterType === 'SISTEM' ? 'selected' : ''}>Sistem & Konfigurasi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 600; color: var(--slate); display: block; margin-bottom: 0.25rem;">Cari Kata Kunci</label>
+                            <input type="text" id="search-log-input" oninput="systemLogSearchQuery = this.value; renderAdminSystemLogsView();" placeholder="Cari pelaku, target, rincian aktivitas..." value="${escapeHtml(systemLogSearchQuery)}" class="form-control" style="font-size: 0.8125rem; padding: 0.4rem 0.75rem;"/>
+                        </div>
+                    </div>
+
+                    <!-- DAFTAR LOG -->
+                    <div id="admin-system-logs-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            `;
+
+            if (filteredLogs.length === 0) {
+                html += `
+                    <div style="text-align: center; color: var(--slate); padding: 3rem 1.5rem; background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px;">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.5rem; opacity: 0.6;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.25rem;">Tidak Ada Catatan Log</div>
+                        <div style="font-size: 0.8125rem;">${systemLogSearchQuery ? 'Tidak ada log aktivitas yang cocok dengan kriteria pencarian.' : 'Belum ada aktivitas yang tercatat pada kategori ini.'}</div>
+                    </div>
+                `;
+            } else {
+                html += filteredLogs.map(log => {
+                    const dateStr = new Date(log.created_at).toLocaleString('id-ID', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+
+                    return `
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-left: 4px solid ${log.severity === 'warning' ? '#F59E0B' : (log.action_type === 'KELOLA_POIN' ? 'var(--teal)' : '#3B82F6')}; border-radius: 8px; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.45rem; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.02);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+                                    <span class="tw-chip" style="font-size: 0.6875rem; font-weight: 700; ${getLogActionBadge(log.action_type)}">
+                                        ${escapeHtml(log.action_name || log.action_type)}
+                                    </span>
+                                    ${log.target_identifier ? `
+                                        <span class="tw-chip" style="font-size: 0.6875rem; background: #F8FAFC; color: var(--slate); border-color: var(--line);">
+                                            Target: ${escapeHtml(log.target_identifier)}
+                                        </span>
+                                    ` : ''}
+                                    ${log.severity === 'warning' ? `
+                                        <span class="tw-chip" style="font-size: 0.625rem; background: #FEF3C7; color: #92400E; border-color: #FDE68A; font-weight: 700;">Perhatian</span>
+                                    ` : ''}
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--slate); display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>${dateStr}</span>
+                                </div>
+                            </div>
+
+                            <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; font-weight: 500;">
+                                ${escapeHtml(log.description)}
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.75rem; color: var(--slate); padding-top: 0.35rem; border-top: 1px dashed var(--line); margin-top: 0.15rem;">
+                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <span>Pelaku:</span>
+                                    <strong style="color: var(--ink);">@${escapeHtml(log.actor_username)}</strong>
+                                    ${log.actor_role === 'superadmin' ? `
+                                        <span class="tw-chip" style="font-size: 0.625rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; font-weight: 700; padding: 0.05rem 0.35rem;">Akun Utama</span>
+                                    ` : (log.actor_role === 'admin' ? `
+                                        <span class="tw-chip" style="font-size: 0.625rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700; padding: 0.05rem 0.35rem;">Admin</span>
+                                    ` : '')}
+                                </div>
+                                <div style="font-size: 0.6875rem; color: var(--slate); opacity: 0.75;">
+                                    ID #${log.id}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        async function handleAdminClearSystemLogs() {
+            if (!confirm('Yakin ingin membersihkan riwayat log sistem yang lebih lama dari 30 hari?')) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_clear_system_logs', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    p_keep_days: 30
+                });
+
+                if (error) {
+                    alert('Gagal membersihkan log: ' + error.message);
+                } else if (data && data.success) {
+                    alert(data.message || 'Log berhasil dibersihkan.');
+                    await fetchAdminSystemLogs();
+                }
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            }
+        }
 
         function renderAdminUnifiedUsersView(filterText = '') {
             const container = document.getElementById('admin-questions-list');

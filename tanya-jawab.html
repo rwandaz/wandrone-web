@@ -1541,8 +1541,12 @@
                     <img src="favicon.png" alt="WanDrone" width="24" height="24" style="border-radius: 6px;"/>
                     <span style="font-family: var(--display); font-size: 1.125rem; font-weight: 700; color: var(--ink);">WanDrone Admin</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
                     <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700; font-size: 0.75rem;">Panel Moderasi</span>
+                    <span id="admin-user-badge" class="tw-chip" style="font-size: 0.75rem; font-weight: 600; background: #F1F5F9; color: var(--ink); display: none; align-items: center; gap: 0.35rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span id="admin-logged-name"></span>
+                    </span>
                     <span id="admin-pending-badge" class="tw-chip" style="font-size: 0.75rem; display: none;">0 Menunggu Jawaban</span>
                 </div>
             </div>
@@ -1570,12 +1574,16 @@
                     <div style="text-align: center; margin-bottom: 1.5rem;">
                         <img src="favicon.png" alt="WanDrone" width="44" height="44" style="border-radius: 10px; margin-bottom: 0.75rem;"/>
                         <h3 style="font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;">Login Moderasi Admin</h3>
-                        <p style="font-size: 0.875rem; color: var(--slate); line-height: 1.5;">Masukkan kata sandi admin untuk mengakses daftar pertanyaan dan menjawab secara resmi.</p>
+                        <p style="font-size: 0.875rem; color: var(--slate); line-height: 1.5;">Masukkan User ID dan kata sandi admin untuk mengakses panel moderasi.</p>
                     </div>
                     <form onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="admin-pass-input">Kata Sandi Admin</label>
-                            <input type="password" id="admin-pass-input" class="form-control" placeholder="Ketik kata sandi admin..." required autocomplete="current-password" autofocus/>
+                            <label class="form-label" for="admin-user-input">User ID Admin</label>
+                            <input type="text" id="admin-user-input" class="form-control" placeholder="Contoh: rwandaz" required autocomplete="username" autofocus/>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="admin-pass-input">Kata Sandi</label>
+                            <input type="password" id="admin-pass-input" class="form-control" placeholder="Ketik kata sandi..." required autocomplete="current-password"/>
                         </div>
                         <div id="admin-login-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
                         <button type="submit" id="admin-login-btn" class="tw-btn" style="padding: 0.75rem; font-size: 0.9375rem; justify-content: center;">
@@ -1594,7 +1602,7 @@
                     </div>
                 </div>
 
-                <!-- TAB NAVIGASI ADMIN (2 TAB) -->
+                <!-- TAB NAVIGASI ADMIN (DENGAN TAB KELOLA ADMIN UNTUK AKUN UTAMA) -->
                 <div class="admin-tab-bar" role="tablist">
                     <button type="button" id="admin-tab-pending" onclick="switchAdminTab('pending')" class="admin-tab-btn is-active" role="tab" aria-selected="true">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -1605,6 +1613,11 @@
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                         <span>Sudah Diterbitkan</span>
                         <span class="admin-tab-badge" id="admin-approved-tab-badge">0</span>
+                    </button>
+                    <button type="button" id="admin-tab-users" onclick="switchAdminTab('users')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span>Kelola Admin</span>
+                        <span class="admin-tab-badge" id="admin-users-tab-badge">0</span>
                     </button>
                 </div>
 
@@ -2191,15 +2204,19 @@
             }, 600);
         }
 
-        // ADMIN PANEL INTERAKTIF
-        let activeAdminKey = sessionStorage.getItem('wandrone_admin_key') || '';
+        // ADMIN PANEL INTERAKTIF & MULTI-USER MANAGEMENT
+        let activeAdminUser = sessionStorage.getItem('wandrone_admin_user') || '';
+        let activeAdminPass = sessionStorage.getItem('wandrone_admin_pass') || '';
+        let activeAdminRole = sessionStorage.getItem('wandrone_admin_role') || '';
         let currentAdminTab = 'pending';
         let latestAdminQuestions = [];
+        let latestAdminUsers = [];
 
         function switchAdminTab(tab) {
             currentAdminTab = tab;
             const btnPending = document.getElementById('admin-tab-pending');
             const btnApproved = document.getElementById('admin-tab-approved');
+            const btnUsers = document.getElementById('admin-tab-users');
             if (btnPending) {
                 btnPending.classList.toggle('is-active', tab === 'pending');
                 btnPending.setAttribute('aria-selected', tab === 'pending' ? 'true' : 'false');
@@ -2208,7 +2225,16 @@
                 btnApproved.classList.toggle('is-active', tab === 'approved');
                 btnApproved.setAttribute('aria-selected', tab === 'approved' ? 'true' : 'false');
             }
-            renderAdminQuestions(latestAdminQuestions);
+            if (btnUsers) {
+                btnUsers.classList.toggle('is-active', tab === 'users');
+                btnUsers.setAttribute('aria-selected', tab === 'users' ? 'true' : 'false');
+            }
+
+            if (tab === 'users') {
+                renderAdminUsersView();
+            } else {
+                renderAdminQuestions(latestAdminQuestions);
+            }
         }
 
         function openAdminPanel() {
@@ -2216,7 +2242,7 @@
             if (!m) return;
             m.classList.add('is-open');
             
-            if (activeAdminKey) {
+            if (activeAdminUser && activeAdminPass) {
                 showAdminDashboard();
             } else {
                 showAdminLogin();
@@ -2237,6 +2263,8 @@
             if (alertBox) alertBox.style.display = 'none';
             const passInput = document.getElementById('admin-pass-input');
             if (passInput) passInput.value = '';
+            const userBadge = document.getElementById('admin-user-badge');
+            if (userBadge) userBadge.style.display = 'none';
             const badge = document.getElementById('admin-pending-badge');
             if (badge) badge.style.display = 'none';
             const refBtn = document.getElementById('admin-refresh-btn');
@@ -2250,13 +2278,31 @@
             const dashView = document.getElementById('admin-dashboard-view');
             if (loginView) loginView.style.display = 'none';
             if (dashView) dashView.style.display = 'block';
+
+            const userBadge = document.getElementById('admin-user-badge');
+            const userNameEl = document.getElementById('admin-logged-name');
+            if (userBadge && userNameEl) {
+                userNameEl.textContent = activeAdminRole === 'superadmin' ? `${activeAdminUser} (Akun Utama)` : activeAdminUser;
+                userBadge.style.display = 'inline-flex';
+            }
+
             const badge = document.getElementById('admin-pending-badge');
             if (badge) badge.style.display = 'inline-block';
             const refBtn = document.getElementById('admin-refresh-btn');
             if (refBtn) refBtn.style.display = 'inline-flex';
             const outBtn = document.getElementById('admin-logout-btn');
             if (outBtn) outBtn.style.display = 'inline-flex';
+
+            // Tab Kelola Admin hanya tampil untuk role superadmin (akun rwandaz)
+            const tabUsers = document.getElementById('admin-tab-users');
+            if (tabUsers) {
+                tabUsers.style.display = (activeAdminRole === 'superadmin') ? 'inline-flex' : 'none';
+            }
+
             fetchAdminQuestions();
+            if (activeAdminRole === 'superadmin') {
+                fetchAdminUsers();
+            }
         }
 
         function toggleNativeFullscreen() {
@@ -2270,43 +2316,56 @@
         }
 
         function handleAdminLogout() {
-            activeAdminKey = '';
-            sessionStorage.removeItem('wandrone_admin_key');
+            activeAdminUser = '';
+            activeAdminPass = '';
+            activeAdminRole = '';
+            sessionStorage.removeItem('wandrone_admin_user');
+            sessionStorage.removeItem('wandrone_admin_pass');
+            sessionStorage.removeItem('wandrone_admin_role');
             showAdminLogin();
         }
 
         async function handleAdminLogin(e) {
             e.preventDefault();
+            const userInput = document.getElementById('admin-user-input');
             const passInput = document.getElementById('admin-pass-input');
             const alertBox = document.getElementById('admin-login-alert');
             const submitBtn = document.getElementById('admin-login-btn');
+            const user = userInput.value.trim();
             const pass = passInput.value.trim();
 
-            if (!pass || !supabaseClient) return;
+            if (!user || !pass || !supabaseClient) return;
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Memverifikasi...';
             alertBox.style.display = 'none';
 
             try {
-                const { data, error } = await supabaseClient.rpc('admin_get_questions', { admin_key: pass });
+                const { data, error } = await supabaseClient.rpc('admin_authenticate', {
+                    p_username: user,
+                    p_password: pass
+                });
+
                 if (error) {
                     alertBox.style.display = 'block';
                     alertBox.style.background = '#FEF2F2';
                     alertBox.style.border = '1px solid #FECACA';
                     alertBox.style.color = '#991B1B';
-                    if (error.code === 'PGRST202' || (error.message && error.message.includes('not find the function'))) {
-                        alertBox.innerHTML = '<strong>Fungsi admin belum dibuat di Supabase:</strong> Silakan salin &amp; jalankan script SQL di Supabase SQL Editor terlebih dahulu agar database mengenali kata sandi admin.';
-                    } else if (error.message && error.message.includes('tidak valid')) {
-                        alertBox.innerHTML = '<strong>Kata sandi salah:</strong> Kata sandi admin yang Anda masukkan tidak sesuai.';
-                    } else {
-                        alertBox.textContent = 'Kendala: ' + error.message;
-                    }
+                    alertBox.textContent = 'Kendala server: ' + error.message;
+                } else if (!data || !data.success) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.border = '1px solid #FECACA';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.innerHTML = `<strong>Akses Ditolak:</strong> ${escapeHtml(data ? data.message : 'User ID atau kata sandi tidak valid')}`;
                 } else {
-                    activeAdminKey = pass;
-                    sessionStorage.setItem('wandrone_admin_key', pass);
+                    activeAdminUser = data.username;
+                    activeAdminPass = pass;
+                    activeAdminRole = data.role;
+                    sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                    sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                    sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
                     showAdminDashboard();
-                    renderAdminQuestions(data || []);
                 }
             } catch (err) {
                 alertBox.style.display = 'block';
@@ -2321,24 +2380,211 @@
         }
 
         async function fetchAdminQuestions() {
-            if (!activeAdminKey || !supabaseClient) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
             const container = document.getElementById('admin-questions-list');
             if (!container) return;
-            container.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--slate);">Memuat daftar pertanyaan...</div>';
+            if (currentAdminTab !== 'users') {
+                container.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--slate);">Memuat daftar pertanyaan...</div>';
+            }
 
             try {
-                const { data, error } = await supabaseClient.rpc('admin_get_questions', { admin_key: activeAdminKey });
+                const { data, error } = await supabaseClient.rpc('admin_get_questions', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass
+                });
                 if (!error && data) {
-                    renderAdminQuestions(data);
-                } else {
+                    latestAdminQuestions = data;
+                    if (currentAdminTab !== 'users') {
+                        renderAdminQuestions(data);
+                    } else {
+                        const pending = data.filter(q => q.status === 'pending');
+                        const approved = data.filter(q => q.status === 'approved');
+                        const pBadge = document.getElementById('admin-pending-tab-badge');
+                        const aBadge = document.getElementById('admin-approved-tab-badge');
+                        const hBadge = document.getElementById('admin-pending-badge');
+                        if (pBadge) pBadge.textContent = pending.length;
+                        if (aBadge) aBadge.textContent = approved.length;
+                        if (hBadge) hBadge.textContent = `${pending.length} Menunggu Jawaban`;
+                    }
+                } else if (currentAdminTab !== 'users') {
                     container.innerHTML = `<div style="color: #991B1B; padding: 1rem; background: #FEF2F2; border-radius: 6px;">Gagal memuat: ${error?.message || 'Error'}</div>`;
                 }
             } catch (e) {
-                container.innerHTML = `<div style="color: #991B1B; padding: 1rem; background: #FEF2F2; border-radius: 6px;">Kendala: ${e.message}</div>`;
+                if (currentAdminTab !== 'users') {
+                    container.innerHTML = `<div style="color: #991B1B; padding: 1rem; background: #FEF2F2; border-radius: 6px;">Kendala: ${e.message}</div>`;
+                }
             }
         }
 
-                function renderAdminQuestions(questions) {
+        async function fetchAdminUsers() {
+            if (!activeAdminUser || !activeAdminPass || activeAdminRole !== 'superadmin' || !supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_list_users', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass
+                });
+                if (!error && Array.isArray(data)) {
+                    latestAdminUsers = data;
+                    const uBadge = document.getElementById('admin-users-tab-badge');
+                    if (uBadge) uBadge.textContent = data.length;
+                    if (currentAdminTab === 'users') {
+                        renderAdminUsersView();
+                    }
+                }
+            } catch (err) {
+                console.warn('Fetch admin users notice:', err);
+            }
+        }
+
+        function renderAdminUsersView() {
+            const container = document.getElementById('admin-questions-list');
+            if (!container) return;
+
+            let html = `
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <div>
+                            <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">Tambah User Admin Baru</div>
+                            <div style="font-size: 0.8125rem; color: var(--slate);">Berikan kredensial login moderasi forum kepada anggota tim tambahan.</div>
+                        </div>
+                        <span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">Akses Akun Utama (${escapeHtml(activeAdminUser)})</span>
+                    </div>
+
+                    <form onsubmit="handleCreateAdminUser(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) auto; gap: 0.85rem; align-items: flex-end;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="new-admin-user">User ID Baru</label>
+                            <input type="text" id="new-admin-user" class="form-control" placeholder="Contoh: moderator1" required minlength="3" style="font-size: 0.875rem;"/>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="new-admin-pass">Kata Sandi</label>
+                            <input type="password" id="new-admin-pass" class="form-control" placeholder="Minimal 6 karakter..." required minlength="6" style="font-size: 0.875rem;"/>
+                        </div>
+                        <button type="submit" id="btn-create-admin" class="tw-btn" style="padding: 0.55rem 1.25rem; font-size: 0.875rem; height: 38px; white-space: nowrap;">
+                            <span>+ Tambah Admin</span>
+                        </button>
+                    </form>
+                    <div id="create-user-alert" style="display: none; margin-top: 0.85rem; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
+                </div>
+
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink);">Daftar Akun Admin Terdaftar (${latestAdminUsers.length})</div>
+                        <button type="button" onclick="fetchAdminUsers()" class="tw-btn-2" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">Segarkan Daftar</button>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            `;
+
+            if (latestAdminUsers.length === 0) {
+                html += '<div style="text-align: center; color: var(--slate); padding: 1.5rem;">Memuat daftar akun admin...</div>';
+            } else {
+                html += latestAdminUsers.map(u => {
+                    const isSuper = (u.role === 'superadmin' || u.username === 'rwandaz');
+                    const dateStr = new Date(u.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    return `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1.15rem; background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; flex-wrap: wrap; gap: 0.75rem;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <strong style="color: var(--ink); font-size: 0.95rem;">${escapeHtml(u.username)}</strong>
+                                    ${isSuper ? '<span class="tw-chip-solid" style="background: #FEF3C7; color: #92400E; font-size: 0.6875rem;">Akun Utama (Super Admin)</span>' : '<span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; font-size: 0.6875rem;">Admin Tambahan</span>'}
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.2rem;">Dibuat: ${dateStr} • Oleh: ${escapeHtml(u.created_by || 'system')}</div>
+                            </div>
+                            <div>
+                                ${isSuper ? '<span style="font-size: 0.75rem; color: var(--slate); font-style: italic;">Akun Utama</span>' : `<button type="button" onclick="handleDeleteAdminUser(${u.id}, '${escapeHtml(u.username)}')" class="tw-btn-2" style="padding: 0.28rem 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus Akses</button>`}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        async function handleCreateAdminUser(e) {
+            e.preventDefault();
+            const userInput = document.getElementById('new-admin-user');
+            const passInput = document.getElementById('new-admin-pass');
+            const alertBox = document.getElementById('create-user-alert');
+            const btn = document.getElementById('btn-create-admin');
+            const newU = userInput.value.trim();
+            const newP = passInput.value.trim();
+
+            if (!newU || !newP || !supabaseClient) return;
+
+            btn.disabled = true;
+            btn.textContent = 'Menyimpan...';
+            alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_create_user', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    new_username: newU,
+                    new_password: newP
+                });
+
+                if (error) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.border = '1px solid #FECACA';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Gagal: ' + error.message;
+                } else if (!data || !data.success) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.border = '1px solid #FECACA';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = data ? data.message : 'Gagal menambahkan user';
+                } else {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#F0FDF4';
+                    alertBox.style.border = '1px solid #BBF7D0';
+                    alertBox.style.color = '#166534';
+                    alertBox.textContent = data.message || 'User admin berhasil ditambahkan';
+                    userInput.value = '';
+                    passInput.value = '';
+                    await fetchAdminUsers();
+                }
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.border = '1px solid #FECACA';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Kendala: ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '+ Tambah Admin';
+            }
+        }
+
+        async function handleDeleteAdminUser(userId, username) {
+            if (!confirm(`Yakin ingin menghapus akses admin untuk "${username}"?`)) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_delete_user', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    target_user_id: userId
+                });
+
+                if (!error && data && data.success) {
+                    await fetchAdminUsers();
+                } else {
+                    alert('Gagal menghapus: ' + (data ? data.message : error.message));
+                }
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            }
+        }
+
+        function renderAdminQuestions(questions) {
             if (Array.isArray(questions)) {
                 latestAdminQuestions = questions;
             } else {
@@ -2455,7 +2701,7 @@
             const submitBtn = document.getElementById(`btn-submit-${qId}`);
             const replyText = replyInput.value.trim();
 
-            if (!replyText || !activeAdminKey || !supabaseClient) return;
+            if (!replyText || !activeAdminUser || !activeAdminPass || !supabaseClient) return;
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Mempublikasikan...';
@@ -2464,7 +2710,8 @@
                 const { data, error } = await supabaseClient.rpc('admin_submit_reply', {
                     q_id: qId,
                     reply_text: replyText,
-                    admin_key: activeAdminKey
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass
                 });
 
                 if (!error) {
@@ -2483,12 +2730,13 @@
 
         async function handleAdminDeleteQuestion(qId) {
             if (!confirm('Yakin ingin menghapus pertanyaan ini?')) return;
-            if (!activeAdminKey || !supabaseClient) return;
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
 
             try {
                 const { data, error } = await supabaseClient.rpc('admin_delete_question', {
                     q_id: qId,
-                    admin_key: activeAdminKey
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass
                 });
                 if (!error) {
                     fetchAdminQuestions();

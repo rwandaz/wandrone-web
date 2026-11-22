@@ -1184,8 +1184,8 @@
                 <p style="margin-bottom: 0.75rem;">Untuk meninjau pertanyaan masuk, melihat kontak penanya (WhatsApp/Email), dan mempublikasikan jawaban resmi:</p>
 
                 <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
-                    <a href="https://supabase.com/dashboard" target="_blank" rel="noopener" class="tw-btn" style="text-align: center; justify-content: center; width: 100%;">
-                        <span>Buka Dashboard Supabase Resmi &nearr;</span>
+                    <a href="https://supabase.com/dashboard/project/vzrlpyzbqiunkmpmjmqn/editor" target="_blank" rel="noopener" class="tw-btn" style="text-align: center; justify-content: center; width: 100%;">
+                        <span>Buka Table Editor Supabase Resmi &nearr;</span>
                     </a>
                     <button type="button" class="tw-btn-2" onclick="closeAdminModal()" style="width: 100%;">Tutup Panel</button>
                 </div>
@@ -1254,12 +1254,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Supabase Configuration
-        const SUPABASE_URL = window.WAN_SUPABASE_URL || 'https://jnvjylwukpxvjtyqubzp.supabase.co';
-        const SUPABASE_ANON_KEY = window.WAN_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy_anon_key_for_wandrone_public';
+        const SUPABASE_URL = window.WAN_SUPABASE_URL || 'https://vzrlpyzbqiunkmpmjmqn.supabase.co';
+        const SUPABASE_ANON_KEY = window.WAN_SUPABASE_ANON_KEY || 'sb_publishable_AxPOTAiZZYuMyiq3_8vieA_FgKUcH1P';
         
         let supabaseClient = null;
         try {
-            if (window.supabase && SUPABASE_URL && !SUPABASE_URL.includes('dummy')) {
+            if (window.supabase && SUPABASE_URL) {
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             }
         } catch (e) {

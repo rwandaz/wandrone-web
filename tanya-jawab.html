@@ -241,14 +241,15 @@
             font-family: var(--display);
             font-weight: 700;
             font-size: 0.875rem;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-            padding: 0.625rem 1.25rem;
+            letter-spacing: 0.02em;
+            padding: 0.55rem 1.15rem;
             border-radius: 6px;
             border: none;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.15s ease;
+            box-sizing: border-box;
+            line-height: 1.25;
         }
 
         .tw-btn:hover {
@@ -267,12 +268,14 @@
             font-weight: 600;
             font-size: 0.875rem;
             letter-spacing: 0.02em;
-            padding: 0.625rem 1.15rem;
+            padding: 0.55rem 1.15rem;
             border-radius: 6px;
             border: 1px solid var(--line);
             cursor: pointer;
             text-decoration: none;
             transition: all 0.15s ease;
+            box-sizing: border-box;
+            line-height: 1.25;
         }
 
         .tw-btn-2:hover {
@@ -983,8 +986,11 @@
         .btn-vote {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 32px;
             gap: 0.35rem;
-            padding: 0.28rem 0.65rem;
+            padding: 0 0.55rem;
             border-radius: 6px;
             font-size: 0.75rem;
             font-weight: 600;
@@ -995,6 +1001,31 @@
             transition: all 0.2s ease;
             user-select: none;
             line-height: 1;
+            box-sizing: border-box;
+        }
+
+        .btn-vote span.vote-count {
+            margin-left: auto;
+        }
+
+        @keyframes qaCardPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.6);
+                border-color: var(--teal);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(13, 148, 136, 0.25);
+                border-color: var(--teal-hover);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+                border-color: var(--line);
+            }
+        }
+
+        .qa-card.qa-highlight-target {
+            animation: qaCardPulse 1.8s ease-in-out 2;
+            border-color: var(--teal) !important;
         }
 
         .btn-vote svg {
@@ -1206,8 +1237,10 @@
         .comment-helpful-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.4rem;
-            padding: 0.35rem 0.65rem;
+            height: 28px;
+            padding: 0 0.75rem;
             border-radius: 6px;
             border: 1px solid var(--line);
             background: #FFFFFF;
@@ -1216,6 +1249,8 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s;
+            box-sizing: border-box;
+            line-height: 1;
         }
         .comment-helpful-btn:hover {
             border-color: var(--teal);
@@ -1413,7 +1448,7 @@
                     </div>
                 </div>
                 <div id="banner-pilot-action">
-                    <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
+                    <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                         <span>Masuk / Daftar Akun Pilot</span>
                     </button>
                 </div>
@@ -1448,7 +1483,7 @@
                     <button class="faq-tab-btn" onclick="switchTab('community', this)">Forum Komunitas Pilot</button>
                     <button class="faq-tab-btn" onclick="switchTab('official', this)">Panduan Resmi (FAQ)</button>
                 </div>
-                <button type="button" onclick="openQuestionModal()" class="tw-btn" style="padding: 0.55rem 1.15rem; font-size: 0.875rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.45rem;">
+                <button type="button" onclick="openQuestionModal()" class="tw-btn" style="height: 36px; padding: 0 1.15rem; font-size: 0.8125rem; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <span>Ajukan Pertanyaan</span>
                 </button>
@@ -1908,9 +1943,9 @@
 
                 <div id="q-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem; margin-bottom: 1rem;"></div>
 
-                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
-                    <button type="button" class="tw-btn-2" onclick="closeQuestionModal()">Batal</button>
-                    <button type="submit" id="q-submit-btn" class="tw-btn">Kirim Pertanyaan</button>
+                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeQuestionModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
+                    <button type="submit" id="q-submit-btn" class="tw-btn" style="height: 38px; min-width: 140px; justify-content: center;">Kirim Pertanyaan</button>
                 </div>
             </form>
         </div>
@@ -2120,10 +2155,10 @@
                 <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700; font-size: 0.75rem;">Profil Saya</span>
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="padding: 0.45rem 0.85rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA;">
+                <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;">
                     Keluar Akun
                 </button>
-                <button type="button" onclick="closeUserDashboardModal()" class="tw-btn" style="padding: 0.45rem 0.85rem; font-size: 0.8125rem;">
+                <button type="button" onclick="closeUserDashboardModal()" class="tw-btn" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;">
                     Tutup Dashboard &times;
                 </button>
             </div>
@@ -2208,11 +2243,11 @@
                                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                     <input type="file" id="edit-avatar-upload" accept="image/*" style="display: none;" onchange="handleAvatarFileSelect(event)">
                                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                        <button type="button" onclick="document.getElementById('edit-avatar-upload').click()" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                                        <button type="button" onclick="document.getElementById('edit-avatar-upload').click()" class="tw-btn" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                                             <span>Unggah Foto Pribadi</span>
                                         </button>
-                                        <button type="button" onclick="resetToInitialAvatar()" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem;">
+                                        <button type="button" onclick="resetToInitialAvatar()" class="tw-btn-2" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; justify-content: center;">
                                             Gunakan Inisial
                                         </button>
                                     </div>
@@ -2277,7 +2312,7 @@
                         <div id="edit-profile-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
 
                         <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
-                            <button type="submit" id="btn-save-profile" class="tw-btn" style="padding: 0.65rem 1.5rem;">
+                            <button type="submit" id="btn-save-profile" class="tw-btn" style="height: 40px; min-width: 180px; padding: 0 1.5rem; font-size: 0.875rem; justify-content: center;">
                                 Simpan Perubahan Profil
                             </button>
                         </div>
@@ -2513,7 +2548,7 @@
                     : '<span class="tw-chip" style="background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-size:0.6875rem; font-weight:600;">Menunggu Tanggapan</span>';
 
                 return `
-                    <div class="qa-card" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
+                    <div class="qa-card" id="community-qa-${q.id}" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
                         <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
                             <div style="display: flex; align-items: center; gap: 0.6rem;">
                                 ${authorAvatarHtml}
@@ -2537,7 +2572,7 @@
                                         <span>${escapeHtml(q.answered_by || 'Admin WanDrone')}</span>
                                     </div>
                                     ${(activeAdminUser && activeAdminPass) ? `
-                                        <button type="button" onclick="openAdminPanel(); setTimeout(() => { switchAdminTab('approved'); openAdminEditAnswerModal(${q.id}); }, 350);" class="tw-btn-2" style="padding: 0.15rem 0.55rem; font-size: 0.6875rem; color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit jawaban resmi sebagai admin">
+                                        <button type="button" onclick="openAdminPanel(); setTimeout(() => { switchAdminTab('approved'); openAdminEditAnswerModal(${q.id}); }, 350);" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center;" title="Edit jawaban resmi sebagai admin">
                                             Edit Jawaban
                                         </button>
                                     ` : ''}
@@ -2569,7 +2604,7 @@
                                     <span>Tanggapan & Diskusi Pilot</span>
                                     <span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.45rem;" id="comment-badge-${q.id}">${qComments.length}</span>
                                 </div>
-                                <button type="button" class="tw-btn-2" onclick="toggleCommentsSection('${q.id}')" style="padding: 0.28rem 0.65rem; font-size: 0.75rem;">
+                                <button type="button" class="tw-btn-2" onclick="toggleCommentsSection('${q.id}')" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center;">
                                     <span id="comment-toggle-text-${q.id}">${isExpanded ? 'Tutup Diskusi' : (qComments.length > 0 ? 'Lihat Diskusi (' + qComments.length + ')' : '+ Tambah Diskusi')}</span>
                                 </button>
                             </div>
@@ -3449,14 +3484,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="admin-user-action-btns" style="display: flex; flex-direction: column; gap: 0.45rem; align-items: flex-end;">
-                                        <button type="button" onclick="openAdminResetPassModal('user', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name)}')" class="tw-btn" style="padding: 0.35rem 0.85rem; font-size: 0.75rem;">
-                                            <span>Reset Kata Sandi</span>
+                                    <div class="admin-user-action-btns" style="display: flex; flex-direction: column; gap: 0.45rem; width: 135px;">
+                                        <button type="button" onclick="openAdminResetPassModal('user', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name)}')" class="tw-btn" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; justify-content: center; width: 100%;">
+                                            <span>Reset Sandi</span>
                                         </button>
-                                        <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="padding: 0.32rem 0.85rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover);">
+                                        <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; width: 100%;">
                                             <span>Ubah Poin (${u.total_points || 0})</span>
                                         </button>
-                                        <button type="button" onclick="handleDeleteForumUser(${u.id}, '${escapeHtml(u.username)}')" class="tw-btn-2" style="padding: 0.32rem 0.85rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">
+                                        <button type="button" onclick="handleDeleteForumUser(${u.id}, '${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; justify-content: center; width: 100%;">
                                             <span>Hapus Akun</span>
                                         </button>
                                     </div>
@@ -3525,11 +3560,11 @@
                                     </div>
                                 </div>
                                 <div style="display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap;">
-                                    <button type="button" onclick="openAdminResetPassModal('admin', ${a.id}, '${escapeHtml(a.username)}')" class="tw-btn" style="padding: 0.35rem 0.85rem; font-size: 0.75rem;">
+                                    <button type="button" onclick="openAdminResetPassModal('admin', ${a.id}, '${escapeHtml(a.username)}')" class="tw-btn" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
                                         <span>Reset Sandi</span>
                                     </button>
                                     ${!isMain && !isSelf && isSuper ? `
-                                        <button type="button" onclick="handleDeleteAdminUser(${a.id}, '${escapeHtml(a.username)}')" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">
+                                        <button type="button" onclick="handleDeleteAdminUser(${a.id}, '${escapeHtml(a.username)}')" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; justify-content: center;">
                                             <span>Hapus Akses</span>
                                         </button>
                                     ` : ''}
@@ -3860,9 +3895,9 @@
                             <form onsubmit="handleAdminSubmitReply(event, ${q.id})" style="display: flex; flex-direction: column; gap: 0.65rem;">
                                 <label style="font-size: 0.875rem; font-weight: 600; color: var(--ink);">Tulis Jawaban Resmi WanDrone:</label>
                                 <textarea id="reply-text-${q.id}" class="form-control" rows="4" placeholder="Ketik jawaban resmi Anda di sini... Jawaban ini akan langsung tayang di forum publik setelah dipublikasikan." required style="font-size: 0.9375rem; line-height: 1.6;"></textarea>
-                                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.35rem; flex-wrap: wrap;">
-                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.5rem 1rem; font-size: 0.875rem; color: #991B1B; border-color: #FECACA;">Hapus Pertanyaan</button>
-                                    <button type="submit" id="btn-submit-${q.id}" class="tw-btn" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Publikasikan ke Forum &rarr;</button>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; justify-content: center;">Hapus Pertanyaan</button>
+                                    <button type="submit" id="btn-submit-${q.id}" class="tw-btn" style="height: 36px; padding: 0 1.25rem; font-size: 0.8125rem; justify-content: center;">Publikasikan ke Forum &rarr;</button>
                                 </div>
                             </form>
                         </div>
@@ -3895,11 +3930,11 @@
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>${q.dislikes_count || 0}
                                 </span>
                                 <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang di Forum</span>
-                                <button type="button" onclick="openAdminEditAnswerModal(${q.id})" class="tw-btn" style="padding: 0.28rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <button type="button" onclick="openAdminEditAnswerModal(${q.id})" class="tw-btn" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                     <span>Edit Jawaban</span>
                                 </button>
-                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.28rem 0.65rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus</button>
+                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center;">Hapus</button>
                             </div>
                         </div>
                         <div style="font-size: 0.875rem; color: var(--ink); margin-top: 0.75rem; background: #F8FAFC; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--line); line-height: 1.55;">
@@ -4242,12 +4277,12 @@
                 `;
                 if (bannerAction) {
                     bannerAction.innerHTML = `
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button type="button" onclick="openUserDashboardModal()" class="tw-btn" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">
-                                <span>Dashboard Akun</span>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <button type="button" onclick="openUserDashboardModal()" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                                <span>Dashboard Profil</span>
                             </button>
-                            <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="padding: 0.45rem 0.75rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA;">
-                                Keluar
+                            <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                                <span>Keluar</span>
                             </button>
                         </div>
                     `;
@@ -4278,7 +4313,7 @@
                 if (bannerDesc) bannerDesc.textContent = 'Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.';
                 if (bannerAction) {
                     bannerAction.innerHTML = `
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                             <span>Masuk / Daftar Akun Pilot</span>
                         </button>
                     `;
@@ -4402,7 +4437,7 @@
                         <textarea id="comment-input-${qId}" class="form-control" rows="2" placeholder="Bagikan solusi teknis, pengaturan parameter, atau pengalaman lapangan Anda..." required style="font-size: 0.875rem; margin-bottom: 0.5rem;"></textarea>
                         <div id="comment-alert-${qId}" style="display: none; padding: 0.45rem 0.65rem; border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem;"></div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="padding: 0.4rem 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="height: 32px; padding: 0 1rem; font-size: 0.8125rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                 <span>Kirim Tanggapan</span>
                             </button>
@@ -4423,7 +4458,7 @@
                         <div style="font-size: 0.8125rem; color: var(--teal-deep);">
                             Hanya pengguna pilot terdaftar atau admin yang dapat memberi tanggapan atau memberi tanda membantu.
                         </div>
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; white-space: nowrap;">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 32px; padding: 0 0.9rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                             Masuk Akun Pilot
                         </button>
                     </div>
@@ -4931,19 +4966,43 @@
 
                 container.innerHTML = data.map(item => {
                     const dateStr = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const foundQ = allCommunityQuestions.find(q => String(q.id) === String(item.question_id));
+                    const qTitle = item.question_title || (foundQ ? foundQ.question_title : 'Topik Diskusi Forum');
+                    const qBody = item.question_body || (foundQ ? foundQ.question_body : '');
+
                     return `
-                        <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
-                                <strong style="color: var(--teal-deep); font-size: 0.875rem;">Topik: ${escapeHtml(item.question_title || 'Pertanyaan Forum')}</strong>
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                                <strong style="color: var(--teal-deep); font-size: 0.9375rem; font-family: var(--display);">Topik: ${escapeHtml(qTitle)}</strong>
                                 <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
                             </div>
-                            <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem;">${escapeHtml(item.comment_text)}</div>
-                            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.75rem; color: var(--slate);">
-                                <span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; display: inline-flex; align-items: center; gap: 4px;">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    ${item.helpful_votes || 0} Pilot Terbantu
-                                </span>
-                                <span>+${5 + (item.helpful_votes || 0) * 10} Poin Didapat</span>
+
+                            <!-- KOTAK PERTANYAAN (DISERTAKAN PERTANYAANNYA) -->
+                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-left: 3px solid var(--teal); border-radius: 6px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
+                                <div style="font-size: 0.6875rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem;">Pertanyaan Pilot:</div>
+                                <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.15rem;">${escapeHtml(qTitle)}</div>
+                                ${qBody ? `<div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.45;">${escapeHtml(qBody)}</div>` : ''}
+                            </div>
+
+                            <!-- KOTAK TANGGAPAN PENGGUNA -->
+                            <div style="background: #F0FDFA; border: 1px solid var(--line); border-radius: 6px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
+                                <div style="font-size: 0.6875rem; font-weight: 700; color: var(--teal-deep); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem;">Tanggapan Anda:</div>
+                                <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap; word-break: break-word;">${escapeHtml(item.comment_text)}</div>
+                            </div>
+
+                            <!-- BAR STATUS POIN & TOMBOL MENUJU PERTANYAAN -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; padding-top: 0.5rem; border-top: 1px dashed var(--line);">
+                                <div style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem; color: var(--slate); flex-wrap: wrap;">
+                                    <span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; display: inline-flex; align-items: center; gap: 4px;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        ${item.helpful_votes || 0} Pilot Terbantu
+                                    </span>
+                                    <span style="font-weight: 600; color: var(--ink);">+${5 + (item.helpful_votes || 0) * 10} Poin Didapat</span>
+                                </div>
+                                <button type="button" onclick="navigateToQuestion(${item.question_id})" class="tw-btn" style="height: 32px; padding: 0 0.85rem; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; white-space: nowrap;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    <span>Buka Pertanyaan &rarr;</span>
+                                </button>
                             </div>
                         </div>
                     `;
@@ -4951,6 +5010,45 @@
             } catch (e) {
                 container.innerHTML = '<div style="color: #991B1B; font-size: 0.8125rem;">Gagal memuat riwayat aktivitas.</div>';
             }
+        }
+
+        function navigateToQuestion(qId) {
+            closeUserDashboardModal();
+            if (forumFilteredQuestions !== null) {
+                clearSearch();
+            }
+            const allTabBtn = document.querySelector('.faq-tab-btn[onclick*="all"]');
+            if (allTabBtn && !allTabBtn.classList.contains('active')) {
+                const commTabBtn = document.querySelector('.faq-tab-btn[onclick*="community"]');
+                if (commTabBtn) switchTab('community', commTabBtn);
+            }
+
+            const sQId = String(qId);
+            const sourceList = allCommunityQuestions.filter(q => q.admin_answer || q.status === 'approved');
+            const targetIndex = sourceList.findIndex(q => String(q.id) === sQId);
+
+            if (targetIndex !== -1) {
+                const targetPage = Math.floor(targetIndex / FORUM_PAGE_SIZE) + 1;
+                if (forumCurrentPage !== targetPage) {
+                    changeForumPage(targetPage);
+                }
+            }
+
+            setTimeout(() => {
+                const card = document.getElementById('community-qa-' + sQId);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('qa-highlight-target');
+                    setTimeout(() => card.classList.remove('qa-highlight-target'), 2600);
+
+                    if (!commentsExpanded[sQId]) {
+                        toggleCommentsSection(sQId);
+                    }
+                } else {
+                    const forumSec = document.getElementById('forum-komunitas');
+                    if (forumSec) forumSec.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 350);
         }
 
         // Initialize on page load
@@ -5347,9 +5445,9 @@
                     </div>
                 </div>
                 <div id="reset-modal-alert" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
-                <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem;">
-                    <button type="button" class="tw-btn-2" onclick="closeAdminResetPassModal()">Batal</button>
-                    <button type="submit" id="btn-submit-reset-pass" class="tw-btn">Simpan Kata Sandi</button>
+                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; margin-top: 0.5rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeAdminResetPassModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
+                    <button type="submit" id="btn-submit-reset-pass" class="tw-btn" style="height: 38px; min-width: 140px; justify-content: center;">Simpan Kata Sandi</button>
                 </div>
             </form>
         </div>
@@ -5381,9 +5479,9 @@
                     <div class="form-hint">Level bintang akan diperbarui otomatis sesuai total poin yang ditentukan.</div>
                 </div>
                 <div id="adjust-points-alert" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
-                <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem;">
-                    <button type="button" class="tw-btn-2" onclick="closeAdminAdjustPointsModal()">Batal</button>
-                    <button type="submit" id="btn-submit-adjust-points" class="tw-btn">Simpan Poin</button>
+                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; margin-top: 0.5rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeAdminAdjustPointsModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
+                    <button type="submit" id="btn-submit-adjust-points" class="tw-btn" style="height: 38px; min-width: 120px; justify-content: center;">Simpan Poin</button>
                 </div>
             </form>
         </div>
@@ -5418,9 +5516,9 @@
                     <textarea id="edit-answer-text" class="form-control" rows="5" placeholder="Ketik perbaikan jawaban resmi..." required style="font-size: 0.9375rem; line-height: 1.6;"></textarea>
                 </div>
                 <div id="edit-answer-alert" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
-                <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem;">
-                    <button type="button" class="tw-btn-2" onclick="closeAdminEditAnswerModal()">Batal</button>
-                    <button type="submit" id="btn-submit-edit-answer" class="tw-btn">Simpan Perubahan Jawaban</button>
+                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; margin-top: 0.5rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeAdminEditAnswerModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
+                    <button type="submit" id="btn-submit-edit-answer" class="tw-btn" style="height: 38px; min-width: 150px; justify-content: center;">Simpan Perubahan Jawaban</button>
                 </div>
             </form>
         </div>

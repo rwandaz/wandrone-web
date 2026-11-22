@@ -1176,32 +1176,56 @@
         </div>
     </div>
 
-    <!-- MODAL: ADMIN CONSOLE (ZERO PLAIN-TEXT SECRETS) -->
+    <!-- MODAL: ADMIN CONSOLE INTERAKTIF (ZERO PLAIN-TEXT SECRETS) -->
     <div id="admin-modal" class="tw-modal">
-        <div class="tw-modal-card" style="max-width: 620px;">
+        <div class="tw-modal-card" style="max-width: 720px; max-height: 90vh; overflow-y: auto;">
             <div class="tw-modal-head">
                 <div>
-                    <h3 class="tw-modal-title">Pusat Moderasi Forum</h3>
-                    <p style="font-size: 0.8125rem; color: var(--slate);">Keamanan Database &amp; Akses Moderasi Resmi.</p>
+                    <h3 class="tw-modal-title">Panel Moderasi Admin</h3>
+                    <p style="font-size: 0.8125rem; color: var(--slate);">Jawab dan publikasikan pertanyaan pengguna langsung ke forum.</p>
                 </div>
                 <button class="tw-modal-close" onclick="closeAdminModal()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
 
-            <div style="font-size: 0.9375rem; color: var(--slate); line-height: 1.6;">
-                <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
-                    <strong style="color: var(--teal-deep); display: block; margin-bottom: 0.25rem;">Keamanan Repositori Publik Terjamin</strong>
-                    Karena repositori ini berstatus publik di GitHub, sistem kami secara sengaja <strong>tidak menyimpan PIN atau kata sandi dalam bentuk teks bebas di file kode JavaScript</strong>. Hal ini mencegah pihak luar membaca kata sandi melalui kode sumber web.
+            <!-- VIEW 1: LOGIN ADMIN (Jika belum login di sesi ini) -->
+            <div id="admin-login-view" style="padding: 0.5rem 0;">
+                <p style="font-size: 0.9375rem; color: var(--slate); margin-bottom: 1.25rem; line-height: 1.6;">
+                    Masukkan kata sandi admin Anda untuk memuat daftar pertanyaan pengguna yang masuk dan membalasnya langsung dari web:
+                </p>
+                <form onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="admin-pass-input">Kata Sandi Admin</label>
+                        <input type="password" id="admin-pass-input" class="form-control" placeholder="Ketik kata sandi admin..." required autocomplete="current-password"/>
+                    </div>
+                    <div id="admin-login-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
+                    <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                        <button type="button" class="tw-btn-2" onclick="closeAdminModal()">Tutup</button>
+                        <button type="submit" id="admin-login-btn" class="tw-btn">Buka Panel Admin &rarr;</button>
+                    </div>
+                </form>
+
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); text-align: center;">
+                    <a href="https://supabase.com/dashboard/project/vzrlpyzbqiunkmpmjmqn/editor" target="_blank" rel="noopener" style="font-size: 0.8125rem; color: var(--teal-deep); text-decoration: none; font-weight: 600;">
+                        Atau buka Supabase Table Editor resmi &nearr;
+                    </a>
+                </div>
+            </div>
+
+            <!-- VIEW 2: DASHBOARD ADMIN (Setelah login) -->
+            <div id="admin-dashboard-view" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); flex-wrap: wrap; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700;">Admin Mode</span>
+                        <span id="admin-pending-badge" class="tw-chip">0 Menunggu Jawaban</span>
+                    </div>
+                    <button type="button" onclick="handleAdminLogout()" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Keluar (Logout)</button>
                 </div>
 
-                <p style="margin-bottom: 0.75rem;">Untuk meninjau pertanyaan masuk, melihat kontak penanya (WhatsApp/Email), dan mempublikasikan jawaban resmi:</p>
-
-                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
-                    <a href="https://supabase.com/dashboard/project/vzrlpyzbqiunkmpmjmqn/editor" target="_blank" rel="noopener" class="tw-btn" style="text-align: center; justify-content: center; width: 100%;">
-                        <span>Buka Table Editor Supabase Resmi &nearr;</span>
-                    </a>
-                    <button type="button" class="tw-btn-2" onclick="closeAdminModal()" style="width: 100%;">Tutup Panel</button>
+                <!-- Container Pertanyaan -->
+                <div id="admin-questions-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Diisi otomatis oleh JavaScript -->
                 </div>
             </div>
         </div>
@@ -1596,15 +1620,233 @@
             }, 600);
         }
 
-        // ADMIN PANEL
+        // ADMIN PANEL INTERAKTIF
+        let activeAdminKey = sessionStorage.getItem('wandrone_admin_key') || '';
+
         function openAdminPanel() {
             const m = document.getElementById('admin-modal');
-            if (m) m.classList.add('is-open');
+            if (!m) return;
+            m.classList.add('is-open');
+            
+            if (activeAdminKey) {
+                showAdminDashboard();
+            } else {
+                showAdminLogin();
+            }
         }
 
         function closeAdminModal() {
             const m = document.getElementById('admin-modal');
             if (m) m.classList.remove('is-open');
+        }
+
+        function showAdminLogin() {
+            const loginView = document.getElementById('admin-login-view');
+            const dashView = document.getElementById('admin-dashboard-view');
+            if (loginView) loginView.style.display = 'block';
+            if (dashView) dashView.style.display = 'none';
+            const alertBox = document.getElementById('admin-login-alert');
+            if (alertBox) alertBox.style.display = 'none';
+            const passInput = document.getElementById('admin-pass-input');
+            if (passInput) passInput.value = '';
+        }
+
+        function showAdminDashboard() {
+            const loginView = document.getElementById('admin-login-view');
+            const dashView = document.getElementById('admin-dashboard-view');
+            if (loginView) loginView.style.display = 'none';
+            if (dashView) dashView.style.display = 'block';
+            fetchAdminQuestions();
+        }
+
+        function handleAdminLogout() {
+            activeAdminKey = '';
+            sessionStorage.removeItem('wandrone_admin_key');
+            showAdminLogin();
+        }
+
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            const passInput = document.getElementById('admin-pass-input');
+            const alertBox = document.getElementById('admin-login-alert');
+            const submitBtn = document.getElementById('admin-login-btn');
+            const pass = passInput.value.trim();
+
+            if (!pass || !supabaseClient) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Memverifikasi...';
+            alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_get_questions', { admin_key: pass });
+                if (error) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.border = '1px solid #FECACA';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Kata sandi salah atau fungsi admin belum dijalankan di SQL Supabase.';
+                } else {
+                    activeAdminKey = pass;
+                    sessionStorage.setItem('wandrone_admin_key', pass);
+                    showAdminDashboard();
+                    renderAdminQuestions(data || []);
+                }
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.border = '1px solid #FECACA';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Terjadi kendala koneksi ke Supabase: ' + err.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Buka Panel Admin →';
+            }
+        }
+
+        async function fetchAdminQuestions() {
+            if (!activeAdminKey || !supabaseClient) return;
+            const container = document.getElementById('admin-questions-list');
+            if (!container) return;
+            container.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--slate);">Memuat daftar pertanyaan...</div>';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_get_questions', { admin_key: activeAdminKey });
+                if (!error && data) {
+                    renderAdminQuestions(data);
+                } else {
+                    container.innerHTML = `<div style="color: #991B1B; padding: 1rem; background: #FEF2F2; border-radius: 6px;">Gagal memuat: ${error?.message || 'Error'}</div>`;
+                }
+            } catch (e) {
+                container.innerHTML = `<div style="color: #991B1B; padding: 1rem; background: #FEF2F2; border-radius: 6px;">Kendala: ${e.message}</div>`;
+            }
+        }
+
+        function renderAdminQuestions(questions) {
+            const container = document.getElementById('admin-questions-list');
+            const badge = document.getElementById('admin-pending-badge');
+            if (!container) return;
+
+            const pending = questions.filter(q => q.status === 'pending');
+            const approved = questions.filter(q => q.status === 'approved');
+
+            if (badge) badge.textContent = `${pending.length} Menunggu Jawaban`;
+
+            if (questions.length === 0) {
+                container.innerHTML = `
+                    <div style="background: var(--mist); border: 1px dashed var(--line); border-radius: 8px; padding: 2rem; text-align: center; color: var(--slate);">
+                        Belum ada pertanyaan masuk di database.
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+
+            if (pending.length > 0) {
+                html += `<div style="font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;">Pertanyaan Baru Menunggu Jawaban (${pending.length})</div>`;
+                html += pending.map(q => {
+                    const cleanPhone = (q.contact_info || '').replace(/[^0-9]/g, '');
+                    const waLink = cleanPhone ? (cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone) : '';
+                    return `
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-left: 4px solid var(--teal); border-radius: 8px; padding: 1.15rem; margin-bottom: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                                <div>
+                                    <strong style="color: var(--ink); font-size: 0.9375rem;">${escapeHtml(q.author_name)}</strong>
+                                    <span style="color: var(--slate); font-size: 0.8125rem;"> • ${escapeHtml(q.device_model || 'Umum')}</span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    ${waLink ? `
+                                        <a href="https://wa.me/${waLink}" target="_blank" rel="noopener" class="tw-btn-2" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #166534; border-color: #BBF7D0; background: #F0FDF4;">
+                                            WhatsApp: ${escapeHtml(q.contact_info)}
+                                        </a>
+                                    ` : `<span style="font-size: 0.75rem; color: var(--slate);">${escapeHtml(q.contact_info)}</span>`}
+                                </div>
+                            </div>
+                            <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9375rem;">${escapeHtml(q.question_title)}</div>
+                            <div style="font-size: 0.875rem; color: var(--slate); line-height: 1.5; margin-bottom: 1rem; background: var(--mist); padding: 0.75rem; border-radius: 6px;">${escapeHtml(q.question_body)}</div>
+                            
+                            <form onsubmit="handleAdminSubmitReply(event, ${q.id})" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label style="font-size: 0.8125rem; font-weight: 600; color: var(--ink);">Tulis Jawaban Resmi WanDrone:</label>
+                                <textarea id="reply-text-${q.id}" class="form-control" rows="3" placeholder="Ketik jawaban resmi Anda di sini..." required></textarea>
+                                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.25rem;">
+                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; color: #991B1B;">Hapus</button>
+                                    <button type="submit" id="btn-submit-${q.id}" class="tw-btn" style="padding: 0.4rem 0.9rem; font-size: 0.8125rem;">Publikasikan ke Forum &rarr;</button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            if (approved.length > 0) {
+                html += `<div style="font-weight: 700; color: var(--ink); margin-top: 1.5rem; margin-bottom: 0.5rem;">Pertanyaan yang Sudah Diterbitkan (${approved.length})</div>`;
+                html += approved.map(q => `
+                    <div style="background: #FAFBFD; border: 1px solid var(--line); border-radius: 8px; padding: 1rem; margin-bottom: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between; gap: 0.5rem;">
+                            <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(q.question_title)}</strong>
+                            <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang</span>
+                        </div>
+                        <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">${escapeHtml(q.author_name)} • ${escapeHtml(q.device_model || '')}</div>
+                        <div style="font-size: 0.8125rem; color: var(--ink); margin-top: 0.5rem; background: #FFFFFF; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--line);">
+                            <strong>Jawaban:</strong> ${escapeHtml(q.admin_answer || '')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            container.innerHTML = html;
+        }
+
+        async function handleAdminSubmitReply(e, qId) {
+            e.preventDefault();
+            const replyInput = document.getElementById(`reply-text-${qId}`);
+            const submitBtn = document.getElementById(`btn-submit-${qId}`);
+            const replyText = replyInput.value.trim();
+
+            if (!replyText || !activeAdminKey || !supabaseClient) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mempublikasikan...';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_submit_reply', {
+                    q_id: qId,
+                    reply_text: replyText,
+                    admin_key: activeAdminKey
+                });
+
+                if (!error) {
+                    fetchAdminQuestions();
+                    loadCommunityQuestionsFromSupabase();
+                } else {
+                    alert('Gagal mempublikasikan: ' + error.message);
+                }
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Publikasikan ke Forum →';
+            }
+        }
+
+        async function handleAdminDeleteQuestion(qId) {
+            if (!confirm('Yakin ingin menghapus pertanyaan ini?')) return;
+            if (!activeAdminKey || !supabaseClient) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_delete_question', {
+                    q_id: qId,
+                    admin_key: activeAdminKey
+                });
+                if (!error) {
+                    fetchAdminQuestions();
+                } else {
+                    alert('Gagal menghapus: ' + error.message);
+                }
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            }
         }
 
         function escapeHtml(text) {

@@ -2527,10 +2527,59 @@
             }
         }
 
-        // MODAL HANDLERS
+        // MODAL HANDLERS (WAJIB MENGGUNAKAN AKUN PILOT)
         function openQuestionModal() {
+            const user = getActivePilotUser();
+            if (!user) {
+                openUserAuthModal('login');
+                const alertBox = document.getElementById('login-alert');
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#EFF6FF';
+                    alertBox.style.border = '1px solid #BFDBFE';
+                    alertBox.style.color = '#1E40AF';
+                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Akun Pilot Diperlukan</div><div>Untuk mengajukan pertanyaan ke forum teknis WanDrone, silakan masuk ke akun pilot Anda atau daftar baru (Dapatkan bonus poin & bintang reputasi).</div>';
+                }
+                return;
+            }
+
             const m = document.getElementById('question-modal');
-            if (m) m.classList.add('is-open');
+            if (!m) return;
+
+            const authorInput = document.getElementById('q-author');
+            const contactInput = document.getElementById('q-contact');
+            const droneSelect = document.getElementById('q-drone');
+            const remoteSelect = document.getElementById('q-remote');
+            const subTitle = document.getElementById('q-modal-subtitle');
+
+            if (subTitle) {
+                subTitle.innerHTML = `Diajukan sebagai pilot terverifikasi: <strong>${escapeHtml(user.full_name || user.username)}</strong> (+10 Poin Reputasi saat terkirim).`;
+            }
+
+            if (authorInput) {
+                authorInput.value = user.full_name || user.username || '';
+                authorInput.readOnly = true;
+                authorInput.style.background = '#F8FAFC';
+            }
+            if (contactInput) {
+                contactInput.value = user.contact_info || '';
+                contactInput.readOnly = true;
+                contactInput.style.background = '#F8FAFC';
+            }
+
+            // Pre-select user's registered drone if available
+            if (droneSelect && Array.isArray(user.drones) && user.drones.length > 0) {
+                const matched = user.drones.find(d => Array.from(droneSelect.options).some(o => o.value === d));
+                if (matched) droneSelect.value = matched;
+            }
+
+            // Pre-select user's registered remote if available
+            if (remoteSelect && Array.isArray(user.remotes) && user.remotes.length > 0) {
+                const matched = user.remotes.find(r => Array.from(remoteSelect.options).some(o => o.value === r));
+                if (matched) remoteSelect.value = matched;
+            }
+
+            m.classList.add('is-open');
         }
 
         function closeQuestionModal() {
@@ -2540,10 +2589,17 @@
             if (alertBox) alertBox.style.display = 'none';
         }
 
-        function submitQuestion(e) {
+        async function submitQuestion(e) {
             e.preventDefault();
-            const author = document.getElementById('q-author').value.trim();
-            const contact = document.getElementById('q-contact').value.trim();
+            const user = getActivePilotUser();
+            if (!user) {
+                closeQuestionModal();
+                openUserAuthModal('login');
+                return;
+            }
+
+            const author = (user.full_name || document.getElementById('q-author').value).trim();
+            const contact = (user.contact_info || document.getElementById('q-contact').value).trim();
             const drone = document.getElementById('q-drone').value;
             const remote = document.getElementById('q-remote').value;
             const title = document.getElementById('q-title').value.trim();
@@ -2557,57 +2613,71 @@
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Mengirim...';
+            if (alertBox) alertBox.style.display = 'none';
 
-            const newQ = {
-                id: 'cm-' + Date.now(),
-                created_at: new Date().toISOString(),
-                author_name: author,
-                contact_info: contact,
-                device_model: device,
-                question_title: title,
-                question_body: body,
-                status: 'pending',
-                admin_answer: null
-            };
+            try {
+                if (supabaseClient) {
+                    const { data, error } = await supabaseClient.rpc('user_submit_question', {
+                        p_user_id: user.id,
+                        p_password_check: user.password_plain,
+                        p_author_name: author,
+                        p_contact_info: contact,
+                        p_device_model: device,
+                        p_question_title: title,
+                        p_question_body: body
+                    });
 
-            // 1. Send to Supabase if configured
-            if (supabaseClient) {
-                supabaseClient.from('forum_questions').insert([{
-                    author_name: author,
-                    contact_info: contact,
-                    device_model: device,
-                    question_title: title,
-                    question_body: body,
-                    status: 'pending'
-                }]).then(({ error }) => {
-                    if (error) console.warn('Supabase insert notice:', error);
-                });
-            }
+                    if (error) {
+                        if (alertBox) {
+                            alertBox.style.display = 'block';
+                            alertBox.style.background = '#FEF2F2';
+                            alertBox.style.color = '#991B1B';
+                            alertBox.textContent = error.message || 'Gagal mengirim pertanyaan.';
+                        }
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Kirim Pertanyaan';
+                        return;
+                    }
 
-            // 2. Save to local storage cache as pending
-            allCommunityQuestions.unshift(newQ);
-            saveStoredQuestions(allCommunityQuestions);
+                    // Update user's points and star level (+10 points!)
+                    if (data && data.total_points !== undefined) {
+                        user.total_points = data.total_points;
+                        user.star_level = data.star_level;
+                        saveActivePilotUser(user);
+                        updatePilotUserUI();
+                    }
+                }
 
-            setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Kirim Pertanyaan';
                 document.getElementById('question-form').reset();
-                
+
                 if (alertBox) {
                     alertBox.style.display = 'block';
                     alertBox.style.background = '#F0FDF4';
                     alertBox.style.border = '1px solid #BBF7D0';
                     alertBox.style.color = '#166534';
                     alertBox.innerHTML = `
-                        <div style="font-weight: 700; margin-bottom: 0.35rem; font-size: 0.9375rem;">Terima Kasih, ${escapeHtml(author)}!</div>
-                        <div style="font-size: 0.875rem; line-height: 1.5;">Pertanyaan Anda telah berhasil dikirim ke database. Tim admin WanDrone akan meninjau dan menerbitkan jawaban resmi di forum ini.</div>
+                        <div style="font-weight: 700; margin-bottom: 0.35rem; font-size: 0.9375rem;">Terima Kasih, Pilot ${escapeHtml(author)}!</div>
+                        <div style="font-size: 0.875rem; line-height: 1.5; margin-bottom: 0.35rem;">Pertanyaan Anda berhasil diajukan dan disimpan di database antrean moderasi tim teknis WanDrone.</div>
+                        <div style="font-size: 0.8125rem; font-weight: 700; color: #15803D;">+10 Poin Reputasi telah ditambahkan ke profil Anda!</div>
                     `;
                 }
 
                 setTimeout(() => {
                     closeQuestionModal();
                 }, 3500);
-            }, 600);
+
+            } catch (err) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                }
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim Pertanyaan';
+            }
         }
 
         // ADMIN PANEL INTERAKTIF, MULTI-USER MANAGEMENT & RESET PASSWORD
@@ -3212,22 +3282,21 @@
            KOMUNITAS PILOT & SISTEM GAMIFIKASI REPUTASI (POIN & BINTANG)
            ======================================================== */
         const AVAILABLE_REMOTES = [
-            'DJI RC (Layar Bawaan)',
-            'DJI RC 2 (Layar Bawaan)',
+            'DJI RC 2',
             'DJI RC Pro',
-            'DJI RC Plus',
-            'DJI Seri RC-N (HP/Tablet)',
-            'DJI Smart Controller'
+            'DJI RC Pro 2',
+            'HP / Tablet Android (Seri RC-N)',
+            'Lainnya'
         ];
 
         const AVAILABLE_DRONES = [
-            'DJI Mini 3 / Mini 4 Pro',
-            'DJI Air 2S / Air 3 / Air 3S',
-            'DJI Mavic 3 Pro / Classic',
-            'DJI Mavic 3 Enterprise / Thermal',
-            'DJI Matrice 30 / 30T',
-            'DJI Matrice 300 / 350 RTK',
-            'Drone Lainnya'
+            'DJI Mini 4 Pro',
+            'DJI Mini 5 Pro',
+            'DJI Air 3',
+            'DJI Air 3S',
+            'DJI Mavic 3 Series',
+            'DJI Mavic 4 Pro',
+            'Lainnya'
         ];
 
         const PILOT_STORAGE_KEY = 'wan_pilot_user_session';
@@ -3972,8 +4041,9 @@
                             </div>
                             <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem;">${escapeHtml(item.comment_text)}</div>
                             <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.75rem; color: var(--slate);">
-                                <span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0;">
-                                    ✓ ${item.helpful_votes || 0} Pilot Terbantu
+                                <span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; display: inline-flex; align-items: center; gap: 4px;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    ${item.helpful_votes || 0} Pilot Terbantu
                                 </span>
                                 <span>+${5 + (item.helpful_votes || 0) * 10} Poin Didapat</span>
                             </div>

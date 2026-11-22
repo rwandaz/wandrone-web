@@ -2934,7 +2934,7 @@
                 if (!userMap.has(lowerU)) {
                     const isSuper = a.role === 'superadmin' || lowerU === 'rwandaz';
                     userMap.set(lowerU, {
-                        id: 'admin-' + a.id,
+                        id: a.id,
                         username: a.username,
                         full_name: a.username === 'rwandaz' ? 'WanDrone Utama' : (a.full_name || a.username.toUpperCase()),
                         contact_info: a.username === 'rwandaz' ? 'admin@wandrone.id' : `${a.username}@wandrone.id`,
@@ -5200,6 +5200,9 @@
             if (!modal) return;
 
             let resolvedId = userId;
+            if (typeof resolvedId === 'string' && resolvedId.startsWith('admin-')) {
+                resolvedId = Number(resolvedId.replace('admin-', ''));
+            }
             if (!resolvedId && curUser && curUser.username === username) {
                 resolvedId = curUser.id;
             }

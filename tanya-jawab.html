@@ -971,6 +971,119 @@
         .tw-list a:hover {
             color: var(--teal);
         }
+
+        /* USER / PILOT COMMUNITY STYLES */
+        .tw-pilot-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.35rem 0.75rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            color: #FFFFFF;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tw-pilot-pill:hover {
+            background: rgba(45, 212, 191, 0.15);
+            border-color: var(--teal);
+        }
+        .pilot-banner {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(10, 14, 22, 0.03);
+        }
+        .tw-check-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.4rem;
+        }
+        .tw-check-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.7rem;
+            background: #F8FAFC;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            color: var(--ink);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        .tw-check-chip:hover {
+            border-color: var(--teal);
+            background: #F0FDFA;
+        }
+        .tw-check-chip input[type="checkbox"] {
+            accent-color: var(--teal-deep);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+        .tw-check-chip.is-checked {
+            background: #E6FBF7;
+            border-color: var(--teal-hover);
+            color: var(--teal-deep);
+            font-weight: 600;
+        }
+        .qa-comment-card {
+            background: #F8FAFC;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.75rem;
+            transition: border-color 0.15s;
+        }
+        .qa-comment-card:hover {
+            border-color: #CBD5E1;
+        }
+        .comment-helpful-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            background: #FFFFFF;
+            color: var(--slate);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .comment-helpful-btn:hover {
+            border-color: var(--teal);
+            color: var(--teal-deep);
+            background: #F0FDFA;
+        }
+        .user-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+        .user-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--teal), #059669);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
     </style>
 </head>
 <body>
@@ -988,6 +1101,12 @@
                     <li><a href="index.html" class="tw-nav-link">&larr; Halaman Utama</a></li>
                     <li><a href="#faq-resmi" class="tw-nav-link active">FAQ Resmi</a></li>
                     <li><a href="#forum-komunitas" class="tw-nav-link">Forum Tanya Jawab</a></li>
+                    <li id="pilot-nav-container">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <span id="pilot-nav-text">Akun Pilot</span>
+                        </button>
+                    </li>
                     <li><a href="lisensi.html" class="tw-btn tw-nav-btn tw-nav-desktop-only" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">Pilihan Lisensi</a></li>
                 </ul>
 
@@ -1009,6 +1128,7 @@
                     <li><a href="lisensi.html" class="tw-mobile-nav-link">Pilihan Lisensi</a></li>
                     <li><a href="#faq-resmi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">FAQ Resmi</a></li>
                     <li><a href="#forum-komunitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">Forum Tanya Jawab</a></li>
+                    <li id="pilot-mobile-item"><a href="javascript:void(0)" onclick="toggleMobileNav(false); handleMobilePilotClick();" class="tw-mobile-nav-link" id="pilot-mobile-link" style="color: var(--teal);">Akun Pilot (Login / Profil)</a></li>
                     <li><a href="javascript:void(0)" onclick="toggleMobileNav(false); openQuestionModal();" class="tw-mobile-nav-link" style="color: var(--teal);">+ Ajukan Pertanyaan Baru</a></li>
                 </ul>
             </div>
@@ -1445,6 +1565,24 @@
                     </div>
                 </div>
 
+                <!-- Banner Akun Komunitas Pilot -->
+                <div class="pilot-banner" id="pilot-community-banner">
+                    <div style="display: flex; align-items: center; gap: 0.85rem;">
+                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <div>
+                            <div style="font-family: var(--display); font-size: 1.0625rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
+                            <div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.4;" id="banner-pilot-desc">Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.</div>
+                        </div>
+                    </div>
+                    <div id="banner-pilot-action">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
+                            <span>Masuk / Daftar Pilot</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Forum Items Container -->
                 <div id="community-qa-container">
                     <!-- Injected questions -->
@@ -1624,6 +1762,257 @@
                 <!-- Container Pertanyaan -->
                 <div id="admin-questions-list" style="display: flex; flex-direction: column; gap: 1rem;">
                     <!-- Diisi otomatis oleh JavaScript sesuai tab aktif -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: LOGIN / DAFTAR AKUN PILOT -->
+    <div id="user-auth-modal" class="tw-modal">
+        <div class="tw-modal-card" style="max-width: 580px;">
+            <div class="tw-modal-head">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <div style="width: 38px; height: 38px; border-radius: 8px; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div>
+                        <h3 class="tw-modal-title" id="auth-modal-title">Akun Pilot Komunitas</h3>
+                        <p style="font-size: 0.8125rem; color: var(--slate); margin: 0;">Berbagi solusi teknis, kumpulkan poin, dan raih bintang reputasi.</p>
+                    </div>
+                </div>
+                <button class="tw-modal-close" onclick="closeUserAuthModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <!-- Tab Switcher: Masuk vs Daftar -->
+            <div style="display: flex; border-bottom: 1px solid var(--line); margin-bottom: 1.25rem;">
+                <button type="button" id="tab-btn-login" onclick="switchAuthTab('login')" style="flex: 1; padding: 0.65rem 1rem; border: none; background: none; font-weight: 700; font-size: 0.9375rem; color: var(--teal-deep); border-bottom: 2px solid var(--teal-deep); cursor: pointer;">
+                    Masuk Akun
+                </button>
+                <button type="button" id="tab-btn-register" onclick="switchAuthTab('register')" style="flex: 1; padding: 0.65rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.9375rem; color: var(--slate); border-bottom: 2px solid transparent; cursor: pointer;">
+                    Daftar Pilot Baru
+                </button>
+            </div>
+
+            <!-- TAB 1: FORM LOGIN -->
+            <form id="form-user-login" onsubmit="handleUserLogin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="login-username">Username</label>
+                    <input type="text" id="login-username" class="form-control" placeholder="Masukkan username Anda..." required autocomplete="username"/>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="login-password">Kata Sandi</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Ketik kata sandi..." required autocomplete="current-password"/>
+                </div>
+                <div id="login-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
+                <button type="submit" id="btn-login-submit" class="tw-btn" style="padding: 0.65rem; justify-content: center; font-size: 0.9375rem; margin-top: 0.5rem;">
+                    <span>Masuk ke Akun Pilot &rarr;</span>
+                </button>
+                <div style="text-align: center; font-size: 0.8125rem; color: var(--slate); margin-top: 0.5rem;">
+                    Belum punya akun? <a href="javascript:void(0)" onclick="switchAuthTab('register')" style="color: var(--teal-deep); font-weight: 600; text-decoration: underline;">Daftar di sini</a> (Bonus 5 poin saat bergabung!)
+                </div>
+            </form>
+
+            <!-- TAB 2: FORM DAFTAR -->
+            <form id="form-user-register" onsubmit="handleUserRegister(event)" style="display: none; flex-direction: column; gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="reg-username">Username <span style="color: var(--teal-deep);">*</span></label>
+                        <input type="text" id="reg-username" class="form-control" placeholder="Contoh: pilot_sulawesi" required minlength="3" autocomplete="username"/>
+                        <div class="form-hint">Huruf, angka, atau garis bawah (minimal 3 karakter).</div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="reg-password">Kata Sandi <span style="color: var(--teal-deep);">*</span></label>
+                        <input type="password" id="reg-password" class="form-control" placeholder="Minimal 6 karakter..." required minlength="6" autocomplete="new-password"/>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="reg-fullname">Nama Lengkap / Panggilan <span style="color: var(--teal-deep);">*</span></label>
+                        <input type="text" id="reg-fullname" class="form-control" placeholder="Contoh: Hendra Pratama" required minlength="2"/>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="reg-contact">
+                            Nomor WhatsApp atau Email <span style="color: var(--teal-deep);">*</span>
+                            <span class="privacy-pill">Privat</span>
+                        </label>
+                        <input type="text" id="reg-contact" class="form-control" placeholder="Contoh: 0812xxxxxxx / email@domain.com" required minlength="5"/>
+                        <div class="form-hint">Hanya tersimpan di sistem privat kami untuk verifikasi & notifikasi. Tidak ditampilkan ke publik.</div>
+                    </div>
+                </div>
+
+                <!-- CHECKLIST REMOTE -->
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Remote yang Dipakai (Pilih yang sesuai):</label>
+                    <div class="tw-check-grid" id="reg-remotes-grid"></div>
+                </div>
+
+                <!-- CHECKLIST DRONE -->
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Drone yang Dipakai (Pilih yang sesuai):</label>
+                    <div class="tw-check-grid" id="reg-drones-grid"></div>
+                </div>
+
+                <div id="register-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
+
+                <button type="submit" id="btn-register-submit" class="tw-btn" style="padding: 0.65rem; justify-content: center; font-size: 0.9375rem; margin-top: 0.5rem;">
+                    <span>Daftar Akun Pilot &rarr;</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN DASHBOARD AKUN PILOT -->
+    <div id="user-dashboard-modal" class="tw-admin-fullscreen-modal">
+        <!-- Top Navigation -->
+        <header class="tw-admin-nav">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="favicon.png" alt="WanDrone" width="24" height="24" style="border-radius: 6px;"/>
+                <span style="font-family: var(--display); font-size: 1.125rem; font-weight: 700; color: var(--ink);">Dashboard Pilot Komunitas</span>
+                <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700; font-size: 0.75rem;">Profil Saya</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="padding: 0.45rem 0.85rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA;">
+                    Keluar Akun
+                </button>
+                <button type="button" onclick="closeUserDashboardModal()" class="tw-btn" style="padding: 0.45rem 0.85rem; font-size: 0.8125rem;">
+                    Tutup Dashboard &times;
+                </button>
+            </div>
+        </header>
+
+        <main class="tw-admin-scroll-body">
+            <div class="tw-admin-container">
+                <!-- User Score Card & Level Header -->
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(10, 14, 22, 0.03);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, #E6FBF7, #CCFBF1); color: var(--teal-deep); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; font-family: var(--display); border: 1px solid var(--teal-hover);">
+                                <span id="dash-avatar-letter">P</span>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                    <h2 style="font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--ink); margin: 0;" id="dash-fullname">Nama Pilot</h2>
+                                    <span style="font-size: 0.875rem; color: var(--slate);" id="dash-username">@username</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                                    <span id="dash-star-badges" style="display: inline-flex; align-items: center; gap: 2px;"></span>
+                                    <span class="tw-chip-solid" id="dash-level-title" style="background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700;">Level 1</span>
+                                    <span class="tw-chip" id="dash-total-points-badge" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; font-size: 0.75rem; font-weight: 700;">5 Poin</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini stats counters -->
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 1rem; text-align: center;">
+                                <div style="font-size: 0.6875rem; color: var(--slate); text-transform: uppercase; font-weight: 600;">Total Poin</div>
+                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--teal-deep); font-family: var(--display);" id="dash-stat-points">5</div>
+                            </div>
+                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 1rem; text-align: center;">
+                                <div style="font-size: 0.6875rem; color: var(--slate); text-transform: uppercase; font-weight: 600;">Tanggapan</div>
+                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); font-family: var(--display);" id="dash-stat-comments">0</div>
+                            </div>
+                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 1rem; text-align: center;">
+                                <div style="font-size: 0.6875rem; color: var(--slate); text-transform: uppercase; font-weight: 600;">Tanda Membantu</div>
+                                <div style="font-size: 1.25rem; font-weight: 800; color: #166534; font-family: var(--display);" id="dash-stat-votes">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar to next level -->
+                    <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line);">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--slate); margin-bottom: 0.35rem;">
+                            <span>Progres Reputasi ke Bintang Berikutnya</span>
+                            <span id="dash-progress-label">5 / 25 Poin (20%)</span>
+                        </div>
+                        <div class="user-progress-track">
+                            <div class="user-progress-fill" id="dash-progress-bar" style="width: 20%;"></div>
+                        </div>
+                        <div style="display: flex; gap: 0.4rem; margin-top: 0.75rem; flex-wrap: wrap;" id="dash-devices-summary"></div>
+                    </div>
+                </div>
+
+                <!-- Tabs: [Edit Profil & Sandi] vs [Riwayat Kontribusi] -->
+                <div class="admin-tab-bar" role="tablist">
+                    <button type="button" id="user-tab-btn-profile" onclick="switchUserDashboardTab('profile')" class="admin-tab-btn is-active" role="tab">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>Edit Profil &amp; Sandi</span>
+                    </button>
+                    <button type="button" id="user-tab-btn-activity" onclick="switchUserDashboardTab('activity')" class="admin-tab-btn" role="tab">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Riwayat Diskusi &amp; Poin</span>
+                    </button>
+                </div>
+
+                <!-- TAB CONTENT 1: EDIT PROFIL -->
+                <div id="user-pane-profile" style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <form onsubmit="handleUpdateUserProfile(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label" for="edit-fullname">Nama Lengkap / Tampilan</label>
+                                <input type="text" id="edit-fullname" class="form-control" required/>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label" for="edit-contact">
+                                    WhatsApp atau Email
+                                    <span class="privacy-pill">Privat</span>
+                                </label>
+                                <input type="text" id="edit-contact" class="form-control" required/>
+                            </div>
+                        </div>
+
+                        <!-- Checklists Edit Remote -->
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Daftar Remote yang Digunakan:</label>
+                            <div class="tw-check-grid" id="edit-remotes-grid"></div>
+                        </div>
+
+                        <!-- Checklists Edit Drone -->
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Daftar Drone yang Digunakan:</label>
+                            <div class="tw-check-grid" id="edit-drones-grid"></div>
+                        </div>
+
+                        <!-- Edit Username & Password -->
+                        <div style="background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px; padding: 1.25rem; margin-top: 0.5rem;">
+                            <div style="font-family: var(--display); font-size: 0.9375rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;">Keamanan Akun &amp; Kredensial</div>
+                            <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 1rem;">Ubah username atau kata sandi jika diperlukan. Wajib memasukkan kata sandi saat ini untuk menyimpan perubahan data apa pun.</div>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" for="edit-username">Username Baru (Opsional)</label>
+                                    <input type="text" id="edit-username" class="form-control" placeholder="Biarkan kosong jika tetap"/>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" for="edit-newpass">Kata Sandi Baru (Opsional)</label>
+                                    <input type="password" id="edit-newpass" class="form-control" placeholder="Minimal 6 karakter baru..."/>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" for="edit-curpass">Kata Sandi Saat Ini <span style="color: var(--teal-deep);">*</span></label>
+                                    <input type="password" id="edit-curpass" class="form-control" placeholder="Ketik sandi saat ini..." required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="edit-profile-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                            <button type="submit" id="btn-save-profile" class="tw-btn" style="padding: 0.65rem 1.5rem;">
+                                Simpan Perubahan Profil
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- TAB CONTENT 2: RIWAYAT KONTRIBUSI -->
+                <div id="user-pane-activity" style="display: none; background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;">Riwayat Jawaban &amp; Diskusi Anda</div>
+                    <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 1.25rem;">Setiap tanggapan teknis yang Anda bagikan menyumbang +5 poin, dan setiap kali pilot lain menandai "Membantu" Anda mendapatkan +10 poin.</div>
+
+                    <div id="user-activity-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                 </div>
             </div>
         </main>
@@ -1809,6 +2198,9 @@
                 const votedType = forumMap[String(q.id)] || null;
                 const likes = Number(q.likes_count) || 0;
                 const dislikes = Number(q.dislikes_count) || 0;
+                const sQId = String(q.id);
+                const qComments = allForumCommentsMap[sQId] || [];
+                const isExpanded = !!commentsExpanded[sQId];
 
                 return `
                     <div class="qa-card" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
@@ -1845,6 +2237,24 @@
                                 </div>
                             </div>
                         ` : ''}
+
+                        <!-- SECTION KOMENTAR KOMUNITAS UNTUK TOPIK INI -->
+                        <div class="qa-comments-section" id="qa-comments-section-${q.id}" style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--line);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                <div style="font-weight: 700; font-size: 0.875rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                    <span>Tanggapan & Diskusi Pilot</span>
+                                    <span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.45rem;" id="comment-badge-${q.id}">${qComments.length}</span>
+                                </div>
+                                <button type="button" class="tw-btn-2" onclick="toggleCommentsSection('${q.id}')" style="padding: 0.28rem 0.65rem; font-size: 0.75rem;">
+                                    <span id="comment-toggle-text-${q.id}">${isExpanded ? 'Tutup Diskusi' : (qComments.length > 0 ? 'Lihat Diskusi (' + qComments.length + ')' : '+ Tambah Diskusi')}</span>
+                                </button>
+                            </div>
+
+                            <div id="comments-box-${q.id}" style="display: ${isExpanded ? 'block' : 'none'}; margin-top: 0.85rem;">
+                                ${renderCommentsListHtml(q.id, qComments)}
+                            </div>
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -2781,16 +3191,801 @@
             }
         }
 
+
+        /* ========================================================
+           KOMUNITAS PILOT & SISTEM GAMIFIKASI REPUTASI (POIN & BINTANG)
+           ======================================================== */
+        const AVAILABLE_REMOTES = [
+            'DJI RC (Layar Bawaan)',
+            'DJI RC 2 (Layar Bawaan)',
+            'DJI RC Pro',
+            'DJI RC Plus',
+            'DJI Seri RC-N (HP/Tablet)',
+            'DJI Smart Controller'
+        ];
+
+        const AVAILABLE_DRONES = [
+            'DJI Mini 3 / Mini 4 Pro',
+            'DJI Air 2S / Air 3 / Air 3S',
+            'DJI Mavic 3 Pro / Classic',
+            'DJI Mavic 3 Enterprise / Thermal',
+            'DJI Matrice 30 / 30T',
+            'DJI Matrice 300 / 350 RTK',
+            'Drone Lainnya'
+        ];
+
+        const PILOT_STORAGE_KEY = 'wan_pilot_user_session';
+        let currentPilotUser = null;
+        let allForumCommentsMap = {};
+        let commentsExpanded = {};
+
+        function getActivePilotUser() {
+            if (currentPilotUser) return currentPilotUser;
+            try {
+                const raw = localStorage.getItem(PILOT_STORAGE_KEY);
+                if (raw) {
+                    currentPilotUser = JSON.parse(raw);
+                    return currentPilotUser;
+                }
+            } catch (e) {
+                console.warn('Error reading pilot storage:', e);
+            }
+            return null;
+        }
+
+        function saveActivePilotUser(userObj) {
+            currentPilotUser = userObj;
+            try {
+                localStorage.setItem(PILOT_STORAGE_KEY, JSON.stringify(userObj));
+            } catch (e) {
+                console.warn('Error saving pilot storage:', e);
+            }
+        }
+
+        function clearActivePilotUser() {
+            currentPilotUser = null;
+            try {
+                localStorage.removeItem(PILOT_STORAGE_KEY);
+            } catch (e) {}
+        }
+
+        function getLevelInfo(points) {
+            const p = Number(points) || 0;
+            if (p >= 300) return { level: 5, title: 'Legenda WanDrone', next: null, min: 300 };
+            if (p >= 150) return { level: 4, title: 'Master Pemetaan', next: 300, min: 150 };
+            if (p >= 75) return { level: 3, title: 'Spesialis Lapangan', next: 150, min: 75 };
+            if (p >= 25) return { level: 2, title: 'Pilot Aktif', next: 75, min: 25 };
+            return { level: 1, title: 'Pilot Pemula', next: 25, min: 0 };
+        }
+
+        function renderStarSvg(count, max = 5) {
+            let out = '<span style="display: inline-flex; align-items: center; gap: 2px;">';
+            for (let i = 1; i <= max; i++) {
+                const fill = i <= count ? '#F59E0B' : '#E2E8F0';
+                const stroke = i <= count ? '#D97706' : '#CBD5E1';
+                out += `<svg width="13" height="13" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+            }
+            out += '</span>';
+            return out;
+        }
+
+        function populateChecklistGrid(gridElementId, items, selectedItems = []) {
+            const container = document.getElementById(gridElementId);
+            if (!container) return;
+            const selSet = new Set(selectedItems || []);
+
+            container.innerHTML = items.map((item, idx) => {
+                const isChecked = selSet.has(item);
+                const inputId = `${gridElementId}-item-${idx}`;
+                return `
+                    <label class="tw-check-chip ${isChecked ? 'is-checked' : ''}" for="${inputId}">
+                        <input type="checkbox" id="${inputId}" value="${escapeHtml(item)}" ${isChecked ? 'checked' : ''} onchange="this.parentElement.classList.toggle('is-checked', this.checked)"/>
+                        <span>${escapeHtml(item)}</span>
+                    </label>
+                `;
+            }).join('');
+        }
+
+        function getSelectedChecklistValues(gridElementId) {
+            const container = document.getElementById(gridElementId);
+            if (!container) return [];
+            const checked = container.querySelectorAll('input[type="checkbox"]:checked');
+            return Array.from(checked).map(c => c.value);
+        }
+
+        function updatePilotUserUI() {
+            const user = getActivePilotUser();
+            const navBtn = document.getElementById('pilot-nav-btn');
+            const navText = document.getElementById('pilot-nav-text');
+            const mobLink = document.getElementById('pilot-mobile-link');
+            const bannerTitle = document.getElementById('banner-pilot-title');
+            const bannerDesc = document.getElementById('banner-pilot-desc');
+            const bannerAction = document.getElementById('banner-pilot-action');
+
+            if (user) {
+                const lvl = getLevelInfo(user.total_points);
+                if (navText) navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#FEF08A;">${user.total_points || 0} Poin</span>`;
+                if (navBtn) {
+                    navBtn.setAttribute('onclick', 'openUserDashboardModal()');
+                    navBtn.title = 'Buka Dashboard Profil Pilot';
+                }
+                if (mobLink) {
+                    mobLink.innerHTML = `Profil Pilot: ${escapeHtml(user.full_name || user.username)} (${user.total_points || 0} Poin)`;
+                    mobLink.setAttribute('onclick', 'toggleMobileNav(false); openUserDashboardModal();');
+                }
+
+                if (bannerTitle) bannerTitle.innerHTML = `Halo, Pilot <strong>${escapeHtml(user.full_name)}</strong> (@${escapeHtml(user.username)})`;
+                if (bannerDesc) bannerDesc.innerHTML = `
+                    <span style="display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                        ${renderStarSvg(lvl.level, 5)}
+                        <span style="font-weight: 700; color: #166534;">${lvl.title}</span>
+                        <span>&bull;</span>
+                        <span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; font-size:0.75rem; font-weight:700;">${user.total_points || 0} Poin Reputasi</span>
+                    </span>
+                `;
+                if (bannerAction) {
+                    bannerAction.innerHTML = `
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button type="button" onclick="openUserDashboardModal()" class="tw-btn" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">
+                                <span>Dashboard Akun</span>
+                            </button>
+                            <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="padding: 0.45rem 0.75rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA;">
+                                Keluar
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Auto pre-fill question modal fields
+                const qAuthor = document.getElementById('q-author');
+                const qContact = document.getElementById('q-contact');
+                if (qAuthor && !qAuthor.value) qAuthor.value = user.full_name || '';
+                if (qContact && !qContact.value) qContact.value = user.contact_info || '';
+            } else {
+                if (navText) navText.textContent = 'Akun Pilot';
+                if (navBtn) {
+                    navBtn.setAttribute('onclick', "openUserAuthModal('login')");
+                    navBtn.title = 'Masuk atau Daftar Akun Pilot';
+                }
+                if (mobLink) {
+                    mobLink.textContent = 'Akun Pilot (Login / Daftar)';
+                    mobLink.setAttribute('onclick', "toggleMobileNav(false); openUserAuthModal('login');");
+                }
+                if (bannerTitle) bannerTitle.textContent = 'Komunitas Pilot WanDrone';
+                if (bannerDesc) bannerDesc.textContent = 'Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.';
+                if (bannerAction) {
+                    bannerAction.innerHTML = `
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
+                            <span>Masuk / Daftar Pilot</span>
+                        </button>
+                    `;
+                }
+            }
+        }
+
+        async function syncPilotUserStats() {
+            const user = getActivePilotUser();
+            if (!user || !user.id || !user.password_plain || !supabaseClient) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('user_login', {
+                    p_username: user.username,
+                    p_password: user.password_plain
+                });
+                if (!error && data) {
+                    data.password_plain = user.password_plain;
+                    saveActivePilotUser(data);
+                    updatePilotUserUI();
+                }
+            } catch (e) {
+                console.warn('Sync pilot notice:', e);
+            }
+        }
+
+        async function loadAllForumComments() {
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient.rpc('get_all_forum_comments');
+                if (!error && Array.isArray(data)) {
+                    allForumCommentsMap = {};
+                    data.forEach(c => {
+                        const qid = String(c.question_id);
+                        if (!allForumCommentsMap[qid]) allForumCommentsMap[qid] = [];
+                        allForumCommentsMap[qid].push(c);
+                    });
+                    renderCommunityQuestions();
+                }
+            } catch (e) {
+                console.warn('Error loading forum comments:', e);
+            }
+        }
+
+        function toggleCommentsSection(qId) {
+            const sQId = String(qId);
+            commentsExpanded[sQId] = !commentsExpanded[sQId];
+            const box = document.getElementById(`comments-box-${sQId}`);
+            const btnText = document.getElementById(`comment-toggle-text-${sQId}`);
+            const qComments = allForumCommentsMap[sQId] || [];
+
+            if (box) box.style.display = commentsExpanded[sQId] ? 'block' : 'none';
+            if (btnText) {
+                btnText.textContent = commentsExpanded[sQId] ? 'Tutup Diskusi' : (qComments.length > 0 ? `Lihat Diskusi (${qComments.length})` : '+ Tambah Diskusi');
+            }
+        }
+
+        function renderCommentsListHtml(qId, comments) {
+            const activeUser = getActivePilotUser();
+            let html = '';
+
+            if (!comments || comments.length === 0) {
+                html += `
+                    <div style="padding: 0.85rem; background: #F8FAFC; border: 1px dashed var(--line); border-radius: 6px; text-align: center; color: var(--slate); font-size: 0.8125rem; margin-bottom: 0.75rem;">
+                        Belum ada tanggapan pilot untuk topik ini. Jadilah yang pertama memberikan solusi teknis!
+                    </div>
+                `;
+            } else {
+                html += '<div style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 0.85rem;">';
+                comments.forEach(c => {
+                    const dateStr = new Date(c.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const starsHtml = renderStarSvg(c.star_level || 1, 5);
+                    const userRemotes = Array.isArray(c.remotes) ? c.remotes : [];
+                    const userDrones = Array.isArray(c.drones) ? c.drones : [];
+                    const devTags = [...userRemotes, ...userDrones].slice(0, 2);
+
+                    html += `
+                        <div class="qa-comment-card">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.4rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                    <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(c.full_name || c.username)}</strong>
+                                    <span style="font-size: 0.75rem; color: var(--slate);">@${escapeHtml(c.username)}</span>
+                                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
+                                        ${starsHtml}
+                                        <span>${c.total_points || 0} Poin</span>
+                                    </span>
+                                    ${devTags.map(t => `<span class="tw-chip" style="font-size: 0.625rem; padding: 0.1rem 0.4rem;">${escapeHtml(t)}</span>`).join('')}
+                                </div>
+                                <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap;">${escapeHtml(c.comment_text)}</div>
+                            <div style="margin-top: 0.6rem; display: flex; align-items: center; justify-content: flex-end;">
+                                <button type="button" class="comment-helpful-btn" onclick="handleVoteComment(${c.id}, '${qId}')" title="Tandai komentar ini membantu (+10 poin untuk penulis)">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                    <span>Jawaban Ini Membantu</span>
+                                    <span style="font-weight: 700; color: #166534;" id="comment-vote-num-${c.id}">${c.helpful_votes || 0}</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            // Comment form or Login prompt
+            if (activeUser) {
+                html += `
+                    <form onsubmit="handleUserAddComment(event, '${qId}')" style="margin-top: 0.5rem; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem;">
+                        <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span>Tulis Tanggapan Teknis sebagai <strong>${escapeHtml(activeUser.full_name)}</strong></span>
+                            <span style="font-size: 0.6875rem; color: var(--teal-deep); font-weight: 700;">+5 Poin Kontribusi</span>
+                        </div>
+                        <textarea id="comment-input-${qId}" class="form-control" rows="2" placeholder="Bagikan solusi teknis, pengaturan parameter, atau pengalaman lapangan Anda..." required style="font-size: 0.875rem; margin-bottom: 0.5rem;"></textarea>
+                        <div id="comment-alert-${qId}" style="display: none; padding: 0.45rem 0.65rem; border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem;"></div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="padding: 0.4rem 0.9rem; font-size: 0.8125rem;">
+                                <span>Kirim Tanggapan (+5 Poin)</span>
+                            </button>
+                        </div>
+                    </form>
+                `;
+            } else {
+                html += `
+                    <div style="background: #F0FDFA; border: 1px dashed var(--teal-hover); border-radius: 8px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+                        <div style="font-size: 0.8125rem; color: var(--teal-deep);">
+                            Punya tips atau solusi terkait topik ini? Masuk atau daftar akun untuk berdiskusi & kumpulkan poin reputasi.
+                        </div>
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; white-space: nowrap;">
+                            Masuk / Daftar Pilot
+                        </button>
+                    </div>
+                `;
+            }
+
+            return html;
+        }
+
+        async function handleVoteComment(commentId, questionId) {
+            const user = getActivePilotUser();
+            if (!user) {
+                openUserAuthModal('login');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient.rpc('user_vote_comment', {
+                    p_user_id: user.id,
+                    p_password_check: user.password_plain,
+                    p_comment_id: commentId
+                });
+
+                if (error) {
+                    alert(error.message || 'Gagal memberikan tanda membantu.');
+                    return;
+                }
+
+                // Update counter on screen
+                const numElem = document.getElementById(`comment-vote-num-${commentId}`);
+                if (numElem) numElem.textContent = data.new_helpful_votes;
+
+                // Reload all comments and refresh
+                await loadAllForumComments();
+                commentsExpanded[String(questionId)] = true;
+                renderCommunityQuestions();
+
+                // If voter is the author (though backend blocks self vote), update stats
+                if (user.id === data.author_id) {
+                    user.total_points = data.author_total_points;
+                    user.star_level = data.author_star_level;
+                    saveActivePilotUser(user);
+                    updatePilotUserUI();
+                }
+            } catch (err) {
+                alert(err.message || 'Terjadi kesalahan sistem.');
+            }
+        }
+
+        async function handleUserAddComment(event, questionId) {
+            event.preventDefault();
+            const user = getActivePilotUser();
+            if (!user) {
+                openUserAuthModal('login');
+                return;
+            }
+
+            const input = document.getElementById(`comment-input-${questionId}`);
+            const btn = document.getElementById(`comment-btn-${questionId}`);
+            const alertBox = document.getElementById(`comment-alert-${questionId}`);
+            const text = input ? input.value.trim() : '';
+
+            if (!text || text.length < 5) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Komentar minimal 5 karakter.';
+                }
+                return;
+            }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Mengirim...'; }
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('user_add_comment', {
+                    p_user_id: user.id,
+                    p_password_check: user.password_plain,
+                    p_question_id: Number(questionId),
+                    p_comment_text: text
+                });
+
+                if (error) {
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = error.message || 'Gagal mengirim komentar.';
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan (+5 Poin)'; }
+                    return;
+                }
+
+                // Update local user points & stars
+                user.total_points = data.total_points;
+                user.star_level = data.star_level;
+                user.comments_count = (user.comments_count || 0) + 1;
+                saveActivePilotUser(user);
+                updatePilotUserUI();
+
+                // Clear input and reload comments
+                input.value = '';
+                commentsExpanded[String(questionId)] = true;
+                await loadAllForumComments();
+            } catch (err) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                }
+                if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan (+5 Poin)'; }
+            }
+        }
+
+        function openUserAuthModal(tab = 'login') {
+            const modal = document.getElementById('user-auth-modal');
+            if (!modal) return;
+            modal.classList.add('is-open');
+            switchAuthTab(tab);
+            populateChecklistGrid('reg-remotes-grid', AVAILABLE_REMOTES);
+            populateChecklistGrid('reg-drones-grid', AVAILABLE_DRONES);
+        }
+
+        function closeUserAuthModal() {
+            const modal = document.getElementById('user-auth-modal');
+            if (modal) modal.classList.remove('is-open');
+        }
+
+        function switchAuthTab(tab) {
+            const btnLogin = document.getElementById('tab-btn-login');
+            const btnReg = document.getElementById('tab-btn-register');
+            const formLogin = document.getElementById('form-user-login');
+            const formReg = document.getElementById('form-user-register');
+
+            if (tab === 'login') {
+                if (btnLogin) { btnLogin.style.color = 'var(--teal-deep)'; btnLogin.style.borderBottomColor = 'var(--teal-deep)'; btnLogin.style.fontWeight = '700'; }
+                if (btnReg) { btnReg.style.color = 'var(--slate)'; btnReg.style.borderBottomColor = 'transparent'; btnReg.style.fontWeight = '600'; }
+                if (formLogin) formLogin.style.display = 'flex';
+                if (formReg) formReg.style.display = 'none';
+            } else {
+                if (btnReg) { btnReg.style.color = 'var(--teal-deep)'; btnReg.style.borderBottomColor = 'var(--teal-deep)'; btnReg.style.fontWeight = '700'; }
+                if (btnLogin) { btnLogin.style.color = 'var(--slate)'; btnLogin.style.borderBottomColor = 'transparent'; btnLogin.style.fontWeight = '600'; }
+                if (formReg) formReg.style.display = 'flex';
+                if (formLogin) formLogin.style.display = 'none';
+            }
+        }
+
+        function handleMobilePilotClick() {
+            const user = getActivePilotUser();
+            if (user) {
+                openUserDashboardModal();
+            } else {
+                openUserAuthModal('login');
+            }
+        }
+
+        async function handleUserLogin(e) {
+            e.preventDefault();
+            const uInput = document.getElementById('login-username');
+            const pInput = document.getElementById('login-password');
+            const alertBox = document.getElementById('login-alert');
+            const btn = document.getElementById('btn-login-submit');
+
+            const username = uInput ? uInput.value.trim() : '';
+            const password = pInput ? pInput.value : '';
+
+            if (!username || !password || !supabaseClient) return;
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Memverifikasi...'; }
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('user_login', {
+                    p_username: username,
+                    p_password: password
+                });
+
+                if (error) {
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = error.message || 'Username atau kata sandi tidak cocok.';
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
+                    return;
+                }
+
+                data.password_plain = password;
+                saveActivePilotUser(data);
+                updatePilotUserUI();
+                closeUserAuthModal();
+                renderCommunityQuestions();
+            } catch (err) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = err.message || 'Terjadi gangguan jaringan.';
+                }
+                if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
+            }
+        }
+
+        async function handleUserRegister(e) {
+            e.preventDefault();
+            const uInput = document.getElementById('reg-username');
+            const pInput = document.getElementById('reg-password');
+            const nameInput = document.getElementById('reg-fullname');
+            const contactInput = document.getElementById('reg-contact');
+            const alertBox = document.getElementById('register-alert');
+            const btn = document.getElementById('btn-register-submit');
+
+            const username = uInput ? uInput.value.trim() : '';
+            const password = pInput ? pInput.value : '';
+            const fullName = nameInput ? nameInput.value.trim() : '';
+            const contact = contactInput ? contactInput.value.trim() : '';
+            const remotes = getSelectedChecklistValues('reg-remotes-grid');
+            const drones = getSelectedChecklistValues('reg-drones-grid');
+
+            if (!username || !password || !fullName || !contact || !supabaseClient) return;
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Mendaftarkan...'; }
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('user_register', {
+                    p_username: username,
+                    p_password: password,
+                    p_name: fullName,
+                    p_contact: contact,
+                    p_remotes: remotes,
+                    p_drones: drones
+                });
+
+                if (error) {
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = error.message || 'Pendaftaran gagal.';
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
+                    return;
+                }
+
+                data.password_plain = password;
+                saveActivePilotUser(data);
+                updatePilotUserUI();
+                closeUserAuthModal();
+                renderCommunityQuestions();
+            } catch (err) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                }
+                if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
+            }
+        }
+
+        function handleUserLogout() {
+            clearActivePilotUser();
+            closeUserDashboardModal();
+            updatePilotUserUI();
+            renderCommunityQuestions();
+        }
+
+        function openUserDashboardModal() {
+            const user = getActivePilotUser();
+            if (!user) {
+                openUserAuthModal('login');
+                return;
+            }
+
+            const modal = document.getElementById('user-dashboard-modal');
+            if (!modal) return;
+
+            const lvl = getLevelInfo(user.total_points);
+            const avatarLetter = (user.full_name || user.username || 'P').charAt(0).toUpperCase();
+
+            document.getElementById('dash-avatar-letter').textContent = avatarLetter;
+            document.getElementById('dash-fullname').textContent = user.full_name || user.username;
+            document.getElementById('dash-username').textContent = '@' + user.username;
+            document.getElementById('dash-star-badges').innerHTML = renderStarSvg(lvl.level, 5);
+            document.getElementById('dash-level-title').textContent = `Level ${lvl.level} - ${lvl.title}`;
+            document.getElementById('dash-total-points-badge').textContent = `${user.total_points || 0} Poin`;
+
+            document.getElementById('dash-stat-points').textContent = user.total_points || 0;
+            document.getElementById('dash-stat-comments').textContent = user.comments_count || 0;
+            document.getElementById('dash-stat-votes').textContent = user.helpful_votes_received || 0;
+
+            // Progress bar calculation
+            const progressLabel = document.getElementById('dash-progress-label');
+            const progressBar = document.getElementById('dash-progress-bar');
+            if (lvl.next) {
+                const span = lvl.next - lvl.min;
+                const currentInLevel = (user.total_points || 0) - lvl.min;
+                const pct = Math.min(100, Math.max(5, Math.round((currentInLevel / span) * 100)));
+                progressLabel.textContent = `${user.total_points || 0} / ${lvl.next} Poin (${pct}%) • Kurang ${lvl.next - (user.total_points || 0)} poin lagi ke Level ${lvl.level + 1}`;
+                progressBar.style.width = pct + '%';
+            } else {
+                progressLabel.textContent = `${user.total_points || 0} Poin • Tingkat Tertinggi Tercapai (Legenda WanDrone)`;
+                progressBar.style.width = '100%';
+            }
+
+            // Devices summary chips
+            const devSummary = document.getElementById('dash-devices-summary');
+            const remotes = Array.isArray(user.remotes) ? user.remotes : [];
+            const drones = Array.isArray(user.drones) ? user.drones : [];
+            const allDevs = [...remotes, ...drones];
+            if (allDevs.length > 0) {
+                devSummary.innerHTML = allDevs.map(d => `<span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(d)}</span>`).join('');
+            } else {
+                devSummary.innerHTML = '<span style="font-size: 0.75rem; color: var(--slate); font-style: italic;">Belum ada perangkat yang dipilih.</span>';
+            }
+
+            // Pre-populate Edit Profil inputs
+            document.getElementById('edit-fullname').value = user.full_name || '';
+            document.getElementById('edit-contact').value = user.contact_info || '';
+            document.getElementById('edit-username').value = '';
+            document.getElementById('edit-newpass').value = '';
+            document.getElementById('edit-curpass').value = '';
+            document.getElementById('edit-profile-alert').style.display = 'none';
+
+            populateChecklistGrid('edit-remotes-grid', AVAILABLE_REMOTES, remotes);
+            populateChecklistGrid('edit-drones-grid', AVAILABLE_DRONES, drones);
+
+            switchUserDashboardTab('profile');
+            modal.classList.add('is-open');
+        }
+
+        function closeUserDashboardModal() {
+            const modal = document.getElementById('user-dashboard-modal');
+            if (modal) modal.classList.remove('is-open');
+        }
+
+        function switchUserDashboardTab(tab) {
+            const btnProfile = document.getElementById('user-tab-btn-profile');
+            const btnActivity = document.getElementById('user-tab-btn-activity');
+            const paneProfile = document.getElementById('user-pane-profile');
+            const paneActivity = document.getElementById('user-pane-activity');
+
+            if (tab === 'profile') {
+                if (btnProfile) { btnProfile.classList.add('is-active'); btnProfile.setAttribute('aria-selected', 'true'); }
+                if (btnActivity) { btnActivity.classList.remove('is-active'); btnActivity.setAttribute('aria-selected', 'false'); }
+                if (paneProfile) paneProfile.style.display = 'block';
+                if (paneActivity) paneActivity.style.display = 'none';
+            } else {
+                if (btnActivity) { btnActivity.classList.add('is-active'); btnActivity.setAttribute('aria-selected', 'true'); }
+                if (btnProfile) { btnProfile.classList.remove('is-active'); btnProfile.setAttribute('aria-selected', 'false'); }
+                if (paneActivity) paneActivity.style.display = 'block';
+                if (paneProfile) paneProfile.style.display = 'none';
+                loadUserActivityList();
+            }
+        }
+
+        async function handleUpdateUserProfile(e) {
+            e.preventDefault();
+            const user = getActivePilotUser();
+            if (!user || !supabaseClient) return;
+
+            const nameInput = document.getElementById('edit-fullname');
+            const contactInput = document.getElementById('edit-contact');
+            const newUserInput = document.getElementById('edit-username');
+            const newPassInput = document.getElementById('edit-newpass');
+            const curPassInput = document.getElementById('edit-curpass');
+            const alertBox = document.getElementById('edit-profile-alert');
+            const btn = document.getElementById('btn-save-profile');
+
+            const fullName = nameInput ? nameInput.value.trim() : '';
+            const contact = contactInput ? contactInput.value.trim() : '';
+            const newU = newUserInput ? newUserInput.value.trim() : null;
+            const newP = newPassInput ? newPassInput.value.trim() : null;
+            const curP = curPassInput ? curPassInput.value : '';
+
+            const remotes = getSelectedChecklistValues('edit-remotes-grid');
+            const drones = getSelectedChecklistValues('edit-drones-grid');
+
+            if (!curP) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = 'Kata sandi saat ini wajib diisi untuk menyimpan perubahan.';
+                return;
+            }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('user_update_profile', {
+                    p_user_id: user.id,
+                    p_password_check: curP,
+                    p_new_username: newU || null,
+                    p_new_password: newP || null,
+                    p_name: fullName,
+                    p_contact: contact,
+                    p_remotes: remotes,
+                    p_drones: drones
+                });
+
+                if (error) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = error.message || 'Gagal menyimpan perubahan.';
+                    if (btn) { btn.disabled = false; btn.textContent = 'Simpan Perubahan Profil'; }
+                    return;
+                }
+
+                data.password_plain = newP || curP;
+                saveActivePilotUser(data);
+                updatePilotUserUI();
+
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#F0FDF4';
+                alertBox.style.border = '1px solid #BBF7D0';
+                alertBox.style.color = '#166534';
+                alertBox.textContent = 'Profil dan data kredensial Anda berhasil diperbarui!';
+
+                curPassInput.value = '';
+                newPassInput.value = '';
+                if (newUserInput) newUserInput.value = '';
+
+                if (btn) { btn.disabled = false; btn.textContent = 'Simpan Perubahan Profil'; }
+
+                openUserDashboardModal();
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#FEF2F2';
+                alertBox.style.color = '#991B1B';
+                alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                if (btn) { btn.disabled = false; btn.textContent = 'Simpan Perubahan Profil'; }
+            }
+        }
+
+        async function loadUserActivityList() {
+            const user = getActivePilotUser();
+            const container = document.getElementById('user-activity-list');
+            if (!container || !user || !supabaseClient) return;
+
+            container.innerHTML = '<div style="color: var(--slate); font-size: 0.875rem; text-align: center; padding: 1.5rem;">Memuat riwayat kontribusi...</div>';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('get_user_contributions', {
+                    p_user_id: user.id
+                });
+
+                if (error || !Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = `
+                        <div style="background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px; padding: 2rem; text-align: center; color: var(--slate);">
+                            <p style="margin-bottom: 0.35rem; font-weight: 600; color: var(--ink);">Belum ada riwayat tanggapan.</p>
+                            <p style="font-size: 0.8125rem;">Mulailah berbagi solusi di topik forum untuk mengumpulkan poin reputasi!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.map(item => {
+                    const dateStr = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    return `
+                        <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+                                <strong style="color: var(--teal-deep); font-size: 0.875rem;">Topik: ${escapeHtml(item.question_title || 'Pertanyaan Forum')}</strong>
+                                <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem;">${escapeHtml(item.comment_text)}</div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.75rem; color: var(--slate);">
+                                <span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0;">
+                                    ✓ ${item.helpful_votes || 0} Pilot Terbantu
+                                </span>
+                                <span>+${5 + (item.helpful_votes || 0) * 10} Poin Didapat</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                container.innerHTML = '<div style="color: #991B1B; font-size: 0.8125rem;">Gagal memuat riwayat aktivitas.</div>';
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
+            initPilotUserUI();
             renderCommunityQuestions();
             restoreFaqVotes();
             loadCommunityQuestionsFromSupabase();
+            loadAllForumComments();
+            syncPilotUserStats();
             const params = new URLSearchParams(window.location.search);
             if (params.get('admin') === '1' || params.get('mode') === 'admin') {
                 openAdminPanel();
             }
         });
+
+        function initPilotUserUI() {
+            updatePilotUserUI();
+        }
     </script>
 </body>
 </html>

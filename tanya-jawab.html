@@ -57,7 +57,7 @@
             scroll-padding-top: calc(var(--nav-height) + 1.25rem);
         }
 
-        #faq-resmi, #forum-komunitas, section[id] {
+        #forum-komunitas, section[id] {
             scroll-margin-top: calc(var(--nav-height) + 1.25rem);
         }
 
@@ -1401,8 +1401,14 @@
 
                 <ul class="tw-nav-links">
                     <li><a href="index.html" class="tw-nav-link">&larr; Halaman Utama</a></li>
-                    <li><a href="#faq-resmi" class="tw-nav-link active">FAQ &amp; Panduan</a></li>
-                    <li><a href="#forum-komunitas" class="tw-nav-link">Forum Tanya Jawab</a></li>
+                    <li><a href="index.html#faq" class="tw-nav-link">Pertanyaan Umum (FAQ)</a></li>
+                    <li><a href="#forum-komunitas" class="tw-nav-link active">Forum Tanya Jawab</a></li>
+                    <li id="admin-nav-item" style="display: none;">
+                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-desktop-only" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border: 1px solid #0A0E16; gap: 0.35rem; display: inline-flex; align-items: center;" title="Buka Dashboard Moderasi &amp; Administrasi">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <span>Dashboard Admin</span>
+                        </button>
+                    </li>
                     <li id="pilot-nav-container">
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn" style="display: inline-flex; align-items: center; gap: 0.5rem;">
                             <span id="pilot-nav-avatar-slot" style="display: inline-flex; align-items: center;">
@@ -1429,9 +1435,10 @@
             <div class="container">
                 <ul class="tw-mobile-nav-list">
                     <li><a href="index.html" class="tw-mobile-nav-link">&larr; Halaman Utama</a></li>
+                    <li><a href="index.html#faq" class="tw-mobile-nav-link">Pertanyaan Umum (FAQ)</a></li>
                     <li><a href="lisensi.html" class="tw-mobile-nav-link">Pilihan Lisensi</a></li>
-                    <li><a href="#faq-resmi" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">FAQ &amp; Panduan</a></li>
                     <li><a href="#forum-komunitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">Forum Tanya Jawab</a></li>
+                    <li id="admin-mobile-item" style="display: none;"><a href="javascript:void(0)" onclick="toggleMobileNav(false); openAdminPanel();" class="tw-mobile-nav-link" style="color: #67E8F9; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Dashboard Admin</a></li>
                     <li id="pilot-mobile-item"><a href="javascript:void(0)" onclick="toggleMobileNav(false); handleMobilePilotClick();" class="tw-mobile-nav-link" id="pilot-mobile-link" style="color: var(--teal);">Akun Pilot (Login / Profil)</a></li>
                     <li><a href="javascript:void(0)" onclick="toggleMobileNav(false); openQuestionModal();" class="tw-mobile-nav-link" style="color: var(--teal);">+ Ajukan Pertanyaan Baru</a></li>
                 </ul>
@@ -1444,13 +1451,13 @@
         <div class="container">
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1.25rem;">
                 <a href="index.html" class="tw-btn-2" style="background: rgba(232, 238, 244, 0.12); color: #FFFFFF; border-color: var(--line-dark); padding: 0.35rem 0.85rem; font-size: 0.8125rem;">&larr; Halaman Utama</a>
-                <span class="tw-chip-solid">Pusat Bantuan &amp; Komunitas</span>
+                <span class="tw-chip-solid">Forum Tanya Jawab Komunitas</span>
                 <span class="tw-chip" style="background: rgba(232, 238, 244, 0.12); border-color: var(--line-dark); color: var(--teal);">Official Support</span>
             </div>
 
-            <h1>Pusat Bantuan &amp; Forum Tanya Jawab</h1>
+            <h1>Forum Tanya Jawab Komunitas Pilot</h1>
             <p class="tw-standfirst">
-                Temukan solusi teknis operasional TW-Mapper, ketentuan lisensi, alur Flash Inject &amp; modul TW Tweaks / DJI Fly Mod, berkas KML, dan konsultasikan pertanyaan Anda langsung bersama tim teknis WanDrone.
+                Temukan solusi teknis operasional TW-Mapper di lapangan, modul TW Tweaks / DJI Fly Mod, berkas KML &amp; kontur elevasi, serta konsultasikan pertanyaan Anda langsung bersama tim teknis WanDrone dan rekan pilot.
             </p>
         </div>
     </section>
@@ -1484,7 +1491,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Ketik pertanyaan atau kata kunci (contoh: injek dumi, lisensi devic, kmz, offline)..." oninput="handleSearch(this.value)" autocomplete="off"/>
+                    <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Cari pertanyaan teknis di forum komunitas (contoh: overlap perbukitan, flash inject, dji rc 2, follow terrain)..." oninput="handleSearch(this.value)" autocomplete="off"/>
                     <button id="faq-search-clear" class="faq-search-clear" aria-label="Bersihkan pencarian" onclick="clearSearch()">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -1501,9 +1508,9 @@
             <!-- ACTION & FILTER BAR -->
             <div class="forum-action-bar">
                 <div class="faq-tabs" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
-                    <button class="faq-tab-btn active" onclick="switchTab('all', this)">Semua Topik</button>
-                    <button class="faq-tab-btn" onclick="switchTab('community', this)">Forum Komunitas Pilot</button>
-                    <button class="faq-tab-btn" onclick="switchTab('official', this)">FAQ &amp; Panduan</button>
+                    <button class="faq-tab-btn active" id="tab-filter-all" onclick="switchForumFilter('all', this)">Semua Pertanyaan</button>
+                    <button class="faq-tab-btn" id="tab-filter-answered" onclick="switchForumFilter('answered', this)">Sudah Terjawab</button>
+                    <button class="faq-tab-btn" id="tab-filter-unanswered" onclick="switchForumFilter('unanswered', this)">Menunggu Jawaban</button>
                 </div>
                 <button type="button" onclick="openQuestionModal()" class="tw-btn" style="height: 36px; padding: 0 1.15rem; font-size: 0.8125rem; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1529,369 +1536,6 @@
                 <div id="community-pagination-container"></div>
             </div>
 
-            <!-- SECTION 2: FAQ & PANDUAN RESMI -->
-            <div id="faq-resmi" style="margin-bottom: 3.5rem;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-                    <div>
-                        <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Panduan TW-Mapper</h2>
-                        <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan teknis seputar lisensi, fitur pemetaan, dan operasional lapangan.</p>
-                    </div>
-                    <span class="tw-chip">9 Topik Terverifikasi</span>
-                </div>
-
-                <div class="faq-list" id="official-faq-container">
-
-                    <!-- FAQ 1 -->
-                    <details class="faq-item" data-category="official" data-keywords="lisensi tw-mapper berapa perangkat device unit remote rc 2 pro hp smartphone dua perangkat aktif hobby pilot perorangan cadangan">
-                        <summary class="faq-summary">
-                            <span>1. Lisensi TW-Mapper berlaku untuk berapa perangkat (Paket Hobby vs Paket Pro)?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p><strong>Ketentuan jumlah perangkat aktif:</strong></p>
-                            <ul>
-                                <li><strong>Paket Hobby:</strong> Berlaku untuk 2 perangkat aktif bersamaan (misalnya 1 unit remote controller layar dan 1 unit smartphone Android cadangan).</li>
-                                <li><strong>Paket Pro:</strong> Berlaku untuk 2 perangkat aktif bersamaan (misalnya 1 unit remote controller DJI RC 2 / RC Pro dan 1 unit smartphone Android cadangan) untuk fleksibilitas kerja di lapangan.</li>
-                            </ul>
-                            <div>
-                                <span class="faq-tag-chip">Lisensi</span>
-                                <span class="faq-tag-chip">2 Perangkat Aktif</span>
-                                <span class="faq-tag-chip">Hobby &amp; Pro</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-1" onclick="handleFaqVote(this, 'like', 'faq-1')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">18</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-1" onclick="handleFaqVote(this, 'dislike', 'faq-1')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 2 -->
-                    <details class="faq-item" data-category="official" data-keywords="kml import file berkas otomatis generate grid drag drop multi boundaries poligon manual gambar lahan kebun parameter penerbangan atur ulang follow terrain">
-                        <summary class="faq-summary">
-                            <span>2. Apakah TW-Mapper bisa membuat misi otomatis dari berkas KML, atau harus menggambar manual?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p><strong>Bisa otomatis penuh di Paket Hobby maupun Paket Pro.</strong></p>
-                            <p>Anda tidak perlu menggambar batas lahan manual di layar remote. Cukup impor berkas batas area berformat <strong>KML</strong>, aplikasi akan langsung membuat kisi jalur terbang (<em>flight grid</em>), heading kamera, dan overlap secara otomatis.</p>
-                            <p>Seluruh parameter penerbangan juga bisa diatur ulang di TW-Mapper (seperti ketinggian terbang, kecepatan jelajah, interval foto kamera, dan persentase overlap foto).</p>
-                            <p>Pada Paket Pro, mendukung <em>multi-boundaries</em> banyak blok lahan sekaligus serta kontur elevasi <em>Follow Terrain</em> (mengikuti kontur elevasi bukit/lembah berbasis DEM).</p>
-                            <div>
-                                <span class="faq-tag-chip">Berkas KML</span>
-                                <span class="faq-tag-chip">Otomatis Grid</span>
-                                <span class="faq-tag-chip">Parameter Terbang</span>
-                                <span class="faq-tag-chip">Follow Terrain</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-2" onclick="handleFaqVote(this, 'like', 'faq-2')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">15</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-2" onclick="handleFaqVote(this, 'dislike', 'faq-2')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 3 -->
-                    <details class="faq-item" data-category="official" data-keywords="injeksi tanpa dummy flash inject mod dji fly mod tw tweaks aktifkan aktivasi setting pengaturan remote rc 2 pro hobby lisensi butuh">
-                        <summary class="faq-summary">
-                            <span>3. Apakah fitur Flash Inject (Injeksi Tanpa Dummy) tersedia di semua lisensi dan mengapa butuh TW Tweaks / DJI Fly Mod?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p><strong>Ya, fitur Flash Inject (Injeksi Tanpa Dummy) didukung di semua lisensi TW-Mapper (Paket Hobby maupun Paket Pro).</strong> Fitur ini mentransfer rute waypoint secara instan langsung ke direktori sistem DJI Fly tanpa perlu repot menyiapkan berkas dummy manual.</p>
-                            <p><strong>Mengapa Flash Inject Membutuhkan Modul TW Tweaks / DJI Fly Mod?</strong></p>
-                            <p>Flash Inject bekerja dengan berkomunikasi langsung ke sistem internal DJI Fly di remote controller atau smartphone. Oleh karena itu, perangkat Anda membutuhkan modul <strong>TW Tweaks / DJI Fly Mod</strong> sebagai jembatan sistem agar injeksi instan (&lt; 1 detik) dapat berjalan mulus.</p>
-                            <ul>
-                                <li><strong>Paket Pro:</strong> Sudah <em>include</em> (termasuk) lisensi TW Tweaks / DJI Fly Mod langsung di dalam paket, sehingga fitur Flash Inject langsung aktif siap pakai.</li>
-                                <li><strong>Paket Hobby:</strong> Fitur Flash Inject didukung oleh aplikasi, namun pada Paket Hobby belum <em>include</em> lisensi TW Tweaks (jika menggunakan metode modul TW Tweaks / DJI Fly Mod, modul tersebut memerlukan lisensi/aktivasi terpisah, atau Anda dapat memanfaatkan opsi injeksi Shizuku di smartphone Android tanpa biaya lisensi tambahan).</li>
-                            </ul>
-                            <p><strong>Cara Mengaktifkan:</strong> Buka menu Pengaturan (<em>Settings</em>) di dalam aplikasi TW-Mapper, lalu pilih opsi koneksi <strong>"DJI Fly MOD"</strong> (atau opsi Shizuku). Seluruh rute waypoint akan langsung terinjeksi otomatis ke sistem remote dalam hitungan 1 detik.</p>
-                            <div>
-                                <span class="faq-tag-chip">Flash Inject</span>
-                                <span class="faq-tag-chip">Butuh TW Tweaks / Fly Mod</span>
-                                <span class="faq-tag-chip">Injeksi Tanpa Dummy</span>
-                                <span class="faq-tag-chip">Semua Lisensi</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-3" onclick="handleFaqVote(this, 'like', 'faq-3')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">21</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-3" onclick="handleFaqVote(this, 'dislike', 'faq-3')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 4 -->
-                    <details class="faq-item" data-category="official" data-keywords="hp android shizuku rcn rcn1 rcn2 rcn3 smartphone remote hp tw tweaks dji fly mod injeksi jalur waypoint flash inject">
-                        <summary class="faq-summary">
-                            <span>4. Bagaimana alur injeksi rute jika menggunakan smartphone Android (Remote Seri RC-N1 / RC-N2 / RC-N3)?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p>Untuk pengguna smartphone atau tablet Android dengan remote DJI seri RC-N, TW-Mapper menyediakan dua pilihan alur injeksi yang sangat fleksibel:</p>
-                            <ol>
-                                <li><strong>Metode Flash Inject (TW Tweaks / DJI Fly Mod):</strong> Membutuhkan instalasi modul DJI Fly Mod (TW Tweaks) pada smartphone Anda. Cukup pilih opsi koneksi "DJI Fly MOD" di pengaturan TW-Mapper, dan rute misi terbang langsung terinjeksi instan kurang dari 1 detik tanpa berkas dummy.</li>
-                                <li><strong>Metode Shizuku Direct Inject:</strong> Memanfaatkan modul pendukung Shizuku (tanpa perlu root). Cukup pastikan layanan Shizuku aktif, tekan tombol "Injeksi Misi KMZ", dan berkas rute WPML langsung ditransfer ke direktori internal DJI Fly dalam hitungan 1 detik.</li>
-                            </ol>
-                            <div>
-                                <span class="faq-tag-chip">Smartphone Android</span>
-                                <span class="faq-tag-chip">Flash Inject</span>
-                                <span class="faq-tag-chip">Shizuku Inject</span>
-                                <span class="faq-tag-chip">Seri RC-N</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-4" onclick="handleFaqVote(this, 'like', 'faq-4')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">12</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-4" onclick="handleFaqVote(this, 'dislike', 'faq-4')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 5 -->
-                    <details class="faq-item" data-category="official" data-keywords="drone didukung kompatibel armada mini 4 pro mini 5 pro air 3 air 3s mavic 3 series classic mavic 4 pro sensor kamera fotogrametri pemetaan">
-                        <summary class="faq-summary">
-                            <span>5. Drone apa saja yang didukung untuk pemetaan dengan TW-Mapper?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p>TW-Mapper mendukung jajaran armada drone DJI modern berbasis sistem operasi DJI Fly yang tercantum di WanDrone:</p>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; margin: 1rem 0;">
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mini 4 Pro</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Sensor 1/1.3", Waypoint Flight mandiri, transmisi O4.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mini 5 Pro</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Sensor generasi baru, portabel dan presisi tinggi.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Air 3</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Dual kamera 24mm (Wide) &amp; 70mm (Tele), tahan hembusan angin.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Air 3S</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Sensor utama 1 inci + Tele 70mm, LiDAR depan, fotogrametri tajam.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mavic 3 Series</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Mavic 3, Mavic 3 Classic, dan Mavic 3 Pro (sensor Hasselblad 4/3).</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI Mavic 4 Pro</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Flagship pemetaan mutakhir dengan sistem multi-kamera generasi terbaru.</div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="faq-tag-chip">Armada Drone</span>
-                                <span class="faq-tag-chip">Mini 4 / 5 Pro</span>
-                                <span class="faq-tag-chip">Air 3 / 3S</span>
-                                <span class="faq-tag-chip">Mavic 3 / 4 Pro</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-5" onclick="handleFaqVote(this, 'like', 'faq-5')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">19</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-5" onclick="handleFaqVote(this, 'dislike', 'faq-5')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 6 -->
-                    <details class="faq-item" data-category="official" data-keywords="remote controller didukung kompatibel rc 2 rc pro rc pro 2 rcn rcn1 rcn2 rcn3 hp android smartphone tablet layar dji fly">
-                        <summary class="faq-summary">
-                            <span>6. Remote controller apa saja yang didukung untuk TW-Mapper?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p>TW-Mapper mendukung remote controller dengan layar terintegrasi maupun remote standar via smartphone Android:</p>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; margin: 1rem 0;">
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI RC 2</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Remote bawaan DJI dengan layar terintegrasi.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI RC Pro</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Remote controller seri DJI RC Pro.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">DJI RC Pro 2</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Remote controller seri DJI RC Pro 2.</div>
-                                </div>
-                                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem;">HP / Tablet Android Seri RC-N</div>
-                                    <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Smartphone atau tablet Android yang terhubung ke remote DJI RC-N1, RC-N2, atau RC-N3.</div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="faq-tag-chip">Remote Controller</span>
-                                <span class="faq-tag-chip">DJI RC 2</span>
-                                <span class="faq-tag-chip">DJI RC Pro / Pro 2</span>
-                                <span class="faq-tag-chip">Seri RC-N (Android)</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-6" onclick="handleFaqVote(this, 'like', 'faq-6')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">16</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-6" onclick="handleFaqVote(this, 'dislike', 'faq-6')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 7 -->
-                    <details class="faq-item" data-category="official" data-keywords="internet offline luring kuota sinyal kebun remote area sinyal cache peta satelit tanpa sinyal">
-                        <summary class="faq-summary">
-                            <span>7. Apakah aplikasi TW-Mapper membutuhkan koneksi internet saat terbang di lapangan?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p><strong>Tidak membutuhkan internet saat di lapangan.</strong></p>
-                            <p>TW-Mapper didesain 100% mandiri untuk penggunaan lapangan secara luring (<em>offline</em>). Selama Anda telah mengunduh data <em>cache</em> citra satelit area kerja sebelumnya saat berada di basecamp atau hotel, remote dan drone dapat menjalankan seluruh proses perencanaan hingga eksekusi misi tanpa memerlukan kuota internet maupun sinyal seluler di remote area.</p>
-                            <div>
-                                <span class="faq-tag-chip">100% Offline</span>
-                                <span class="faq-tag-chip">Cache Citra Satelit</span>
-                                <span class="faq-tag-chip">Remote Area</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-7" onclick="handleFaqVote(this, 'like', 'faq-7')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">11</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-7" onclick="handleFaqVote(this, 'dislike', 'faq-7')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 8 -->
-                    <details class="faq-item" data-category="official" data-keywords="root modifikasi fisik bongkar garansi aman standar pabrik kerusakan aman resmi">
-                        <summary class="faq-summary">
-                            <span>8. Apakah perlu melakukan modifikasi fisik atau rooting pada drone maupun remote?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p><strong>Sama sekali tidak.</strong></p>
-                            <p>Drone dan remote controller Anda tetap 100% berstatus original standar pabrik. Tidak ada pembongkaran perangkat keras (<em>hardware</em>), tidak ada modifikasi firmware yang membahayakan, dan seluruh sistem remote tetap aman.</p>
-                            <div>
-                                <span class="faq-tag-chip">Tanpa Root</span>
-                                <span class="faq-tag-chip">Standar Pabrik</span>
-                                <span class="faq-tag-chip">Aman</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-8" onclick="handleFaqVote(this, 'like', 'faq-8')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">14</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-8" onclick="handleFaqVote(this, 'dislike', 'faq-8')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- FAQ 9 -->
-                    <details class="faq-item" data-category="official" data-keywords="kecepatan slider speed pelan lambat foto bolong microsd kamera 48mp dynamic speed clamping proteksi">
-                        <summary class="faq-summary">
-                            <span>9. Mengapa slider kecepatan drone (speed) dibatasi otomatis dan tidak bisa dinaikkan maksimal?</span>
-                            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </summary>
-                        <div class="faq-body">
-                            <p>Sistem TW-Mapper mengaktifkan proteksi cerdas <strong>Dynamic Speed Clamping</strong>.</p>
-                            <p>Fitur ini menghitung batas kecepatan terbang aman berdasarkan ketinggian terbang, persentase overlap, dan interval buka-tutup rana kamera (terutama pada resolusi 48 MP). Kecepatan disesuaikan otomatis agar kartu memori MicroSD drone sempat memproses dan menyimpan file foto, mencegah risiko foto terlewat atau tidak terekam (<em>anti foto bolong</em>).</p>
-                            <div>
-                                <span class="faq-tag-chip">Speed Clamping</span>
-                                <span class="faq-tag-chip">Anti Foto Bolong</span>
-                                <span class="faq-tag-chip">Proteksi MicroSD</span>
-                            </div>
-                                                    <div class="faq-feedback-bar" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah penjelasan ini membantu Anda?</span>
-                                <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                    <button type="button" class="btn-vote btn-like" data-faq-id="faq-9" onclick="handleFaqVote(this, 'like', 'faq-9')" title="Penjelasan membantu" aria-label="Membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                        <span>Membantu</span>
-                                        <span class="vote-count">17</span>
-                                    </button>
-                                    <button type="button" class="btn-vote btn-dislike" data-faq-id="faq-9" onclick="handleFaqVote(this, 'dislike', 'faq-9')" title="Penjelasan kurang membantu" aria-label="Kurang membantu">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                        <span>Kurang</span>
-                                        <span class="vote-count">0</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-
-                </div>
-            </div>
         </div>
     </main>
 
@@ -2358,16 +2002,10 @@
                     <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Navigasi</h3>
                     <ul class="tw-list">
                         <li><a href="index.html">&larr; Halaman Utama</a></li>
+                        <li><a href="index.html#faq">Pertanyaan Umum (FAQ)</a></li>
                         <li><a href="lisensi.html">Pilihan Lisensi</a></li>
-                        <li><a href="#faq-resmi">FAQ &amp; Panduan</a></li>
                         <li><a href="#forum-komunitas">Forum Tanya Jawab</a></li>
                         <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi &rarr;</a></li>
-                        <li style="margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px dashed var(--line-dark);">
-                            <a href="javascript:void(0)" onclick="openAdminPanel()" style="color: var(--teal); font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600;">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <span>Portal Tim Teknis &amp; Moderasi</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
 
@@ -2516,7 +2154,7 @@
 
             const sourceList = forumFilteredQuestions !== null 
                 ? forumFilteredQuestions 
-                : allCommunityQuestions.filter(q => q.admin_answer || q.status === 'approved');
+                : getFilteredQuestionsByStatus(currentForumFilter);
 
             if (sourceList.length === 0) {
                 container.innerHTML = `
@@ -2898,7 +2536,34 @@
             return bestSim >= 0.55 ? bestSim : 0;
         }
 
-        let currentActiveTab = 'all';
+        let currentForumFilter = 'all';
+
+        function getFilteredQuestionsByStatus(filter = currentForumFilter) {
+            const base = (allCommunityQuestions || []).filter(q => q.admin_answer || q.status === 'approved');
+            if (filter === 'answered') {
+                return base.filter(q => !!(q.admin_answer && q.admin_answer.trim()));
+            } else if (filter === 'unanswered') {
+                return base.filter(q => !(q.admin_answer && q.admin_answer.trim()));
+            }
+            return base;
+        }
+
+        function switchForumFilter(filter, btn) {
+            currentForumFilter = filter;
+            document.querySelectorAll('.faq-tabs-nav .faq-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const searchInput = document.getElementById('faq-search-input');
+            const query = searchInput ? searchInput.value.trim() : '';
+            if (query) {
+                handleSearch(query);
+            } else {
+                forumFilteredQuestions = null;
+                renderCommunityQuestions(getFilteredQuestionsByStatus(currentForumFilter), false);
+                const countLabel = document.getElementById('search-result-count');
+                if (countLabel) countLabel.textContent = '';
+            }
+        }
 
         function handleSearch(query) {
             const clearBtn = document.getElementById('faq-search-clear');
@@ -2907,46 +2572,17 @@
 
             if (clearBtn) clearBtn.style.display = raw.length > 0 ? 'inline-flex' : 'none';
 
-            const officialItems = document.querySelectorAll('#official-faq-container .faq-item');
-            const communityItems = document.querySelectorAll('#community-qa-container .qa-card');
+            const baseCommunity = getFilteredQuestionsByStatus(currentForumFilter);
 
             if (!raw) {
                 if (countLabel) countLabel.textContent = '';
-                officialItems.forEach(el => {
-                    el.style.display = (currentActiveTab === 'community') ? 'none' : 'block';
-                    el.removeAttribute('open');
-                });
-                renderCommunityQuestions(null, false);
+                forumFilteredQuestions = null;
+                renderCommunityQuestions(baseCommunity, false);
                 return;
             }
 
             const tokens = raw.split(/\s+/).filter(t => t.length >= 2);
-            let matchedOfficial = 0;
 
-            // Search in Official FAQ
-            officialItems.forEach(el => {
-                if (currentActiveTab === 'community') {
-                    el.style.display = 'none';
-                    return;
-                }
-                const textToSearch = (el.querySelector('.faq-summary')?.textContent || '') + ' ' + (el.getAttribute('data-keywords') || '');
-                const words = textToSearch.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
-                
-                const score = tokens.reduce((sum, t) => sum + tokenMatchScore(t, words), 0);
-                const hasMatch = tokens.some(t => tokenMatchScore(t, words) > 0);
-
-                if (hasMatch && score >= 0.5) {
-                    el.style.display = 'block';
-                    matchedOfficial++;
-                    if (tokens.length >= 2 || score > 1.2) el.setAttribute('open', '');
-                } else {
-                    el.style.display = 'none';
-                    el.removeAttribute('open');
-                }
-            });
-
-            // Search in Community Q&A via data filtering so pagination is preserved & paginated accurately
-            const baseCommunity = allCommunityQuestions.filter(q => q.admin_answer || q.status === 'approved');
             const matchedCommunityList = baseCommunity.filter(q => {
                 const textToSearch = (q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || '')).toLowerCase();
                 const words = textToSearch.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
@@ -2958,9 +2594,8 @@
 
             renderCommunityQuestions(matchedCommunityList, false);
 
-            const total = matchedOfficial + matchedCommunityList.length;
             if (countLabel) {
-                countLabel.textContent = total > 0 ? `${total} topik ditemukan` : 'Tidak ada topik yang cocok';
+                countLabel.textContent = matchedCommunityList.length > 0 ? `${matchedCommunityList.length} topik ditemukan` : 'Tidak ada topik yang cocok';
             }
         }
 
@@ -2970,31 +2605,6 @@
                 input.value = '';
                 handleSearch('');
                 input.focus();
-            }
-        }
-
-        function switchTab(tab, btn) {
-            currentActiveTab = tab;
-            document.querySelectorAll('.faq-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-
-            const officialSection = document.getElementById('faq-resmi');
-            const communitySection = document.getElementById('forum-komunitas');
-
-            if (tab === 'official') {
-                if (officialSection) officialSection.style.display = 'block';
-                if (communitySection) communitySection.style.display = 'none';
-            } else if (tab === 'community') {
-                if (officialSection) officialSection.style.display = 'none';
-                if (communitySection) communitySection.style.display = 'block';
-            } else {
-                if (officialSection) officialSection.style.display = 'block';
-                if (communitySection) communitySection.style.display = 'block';
-            }
-
-            const input = document.getElementById('faq-search-input');
-            if (input && input.value.trim()) {
-                handleSearch(input.value);
             }
         }
 
@@ -4200,6 +3810,8 @@
             const navText = document.getElementById('pilot-nav-text');
             const navAvatarSlot = document.getElementById('pilot-nav-avatar-slot');
             const mobLink = document.getElementById('pilot-mobile-link');
+            const adminNav = document.getElementById('admin-nav-item');
+            const adminMob = document.getElementById('admin-mobile-item');
             const bannerTitle = document.getElementById('banner-pilot-title');
             const bannerDesc = document.getElementById('banner-pilot-desc');
             const bannerAction = document.getElementById('banner-pilot-action');
@@ -4208,6 +3820,9 @@
             if (user) {
                 const lvl = getLevelInfo(user.total_points);
                 const isAdminRole = user.role === 'admin' || user.role === 'superadmin';
+
+                if (adminNav) adminNav.style.display = isAdminRole ? 'inline-flex' : 'none';
+                if (adminMob) adminMob.style.display = isAdminRole ? 'block' : 'none';
 
                 if (navAvatarSlot) navAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 22);
                 if (navText) {
@@ -4248,9 +3863,9 @@
                     bannerAction.innerHTML = `
                         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
                             ${isAdminRole ? `
-                                <button type="button" onclick="openAdminPanel()" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Buka Panel Moderasi & Administrasi">
+                                <button type="button" onclick="openAdminPanel()" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Buka Dashboard Admin">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                    <span>Panel Admin</span>
+                                    <span>Dashboard Admin</span>
                                 </button>
                             ` : ''}
                             <button type="button" onclick="openUserDashboardModal()" class="${isAdminRole ? 'tw-btn-2' : 'tw-btn'}" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
@@ -4269,6 +3884,9 @@
                 if (qAuthor && !qAuthor.value) qAuthor.value = user.full_name || '';
                 if (qContact && !qContact.value) qContact.value = user.contact_info || '';
             } else {
+                if (adminNav) adminNav.style.display = 'none';
+                if (adminMob) adminMob.style.display = 'none';
+
                 if (navAvatarSlot) {
                     navAvatarSlot.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
                 }
@@ -5130,14 +4748,13 @@
             if (forumFilteredQuestions !== null) {
                 clearSearch();
             }
-            const allTabBtn = document.querySelector('.faq-tab-btn[onclick*="all"]');
+            const allTabBtn = document.getElementById('tab-filter-all');
             if (allTabBtn && !allTabBtn.classList.contains('active')) {
-                const commTabBtn = document.querySelector('.faq-tab-btn[onclick*="community"]');
-                if (commTabBtn) switchTab('community', commTabBtn);
+                switchForumFilter('all', allTabBtn);
             }
 
             const sQId = String(qId);
-            const sourceList = allCommunityQuestions.filter(q => q.admin_answer || q.status === 'approved');
+            const sourceList = getFilteredQuestionsByStatus('all');
             const targetIndex = sourceList.findIndex(q => String(q.id) === sQId);
 
             if (targetIndex !== -1) {
@@ -5171,7 +4788,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             initPilotUserUI();
             renderCommunityQuestions();
-            restoreFaqVotes();
             loadCommunityQuestionsFromSupabase();
             loadAllForumComments();
             syncPilotUserStats();

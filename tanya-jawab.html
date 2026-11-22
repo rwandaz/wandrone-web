@@ -2955,27 +2955,60 @@
         let latestAdminForumUsers = [];
 
         function ensureAdminSessionFromPilot() {
-            if (activeAdminUser && activeAdminPass) return true;
             try {
                 const raw = localStorage.getItem('wan_pilot_user_session');
                 if (raw) {
                     const pUser = JSON.parse(raw);
-                    if (pUser && (pUser.role === 'admin' || pUser.role === 'superadmin') && pUser.username && pUser.password_plain) {
-                        activeAdminUser = pUser.username;
-                        activeAdminPass = pUser.password_plain;
-                        activeAdminRole = pUser.role;
-                        sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
-                        sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
-                        sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
-                        return true;
+                    if (pUser && pUser.username) {
+                        const isMainAccount = (pUser.username || '').toLowerCase() === 'rwandaz' || pUser.role === 'superadmin';
+                        const isAdm = isMainAccount || pUser.role === 'admin';
+                        if (isAdm && pUser.password_plain) {
+                            activeAdminUser = pUser.username;
+                            activeAdminPass = pUser.password_plain;
+                            activeAdminRole = isMainAccount ? 'superadmin' : 'admin';
+                            if (isMainAccount && pUser.role !== 'superadmin') {
+                                pUser.role = 'superadmin';
+                                localStorage.setItem('wan_pilot_user_session', JSON.stringify(pUser));
+                            }
+                            sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                            sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                            sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+                            return true;
+                        }
                     }
                 }
             } catch (e) {}
-            return !!(activeAdminUser && activeAdminPass);
+            if (activeAdminUser && activeAdminPass) {
+                if ((activeAdminUser || '').toLowerCase() === 'rwandaz') {
+                    activeAdminRole = 'superadmin';
+                    sessionStorage.setItem('wandrone_admin_role', 'superadmin');
+                }
+                return true;
+            }
+            return false;
         }
 
         function isAdminActive() {
             return ensureAdminSessionFromPilot();
+        }
+
+        function isSuperAdminActive() {
+            ensureAdminSessionFromPilot();
+            if ((activeAdminUser || '').toLowerCase() === 'rwandaz' || activeAdminRole === 'superadmin') {
+                activeAdminRole = 'superadmin';
+                return true;
+            }
+            try {
+                const raw = localStorage.getItem('wan_pilot_user_session');
+                if (raw) {
+                    const pUser = JSON.parse(raw);
+                    if (pUser && ((pUser.username || '').toLowerCase() === 'rwandaz' || pUser.role === 'superadmin')) {
+                        activeAdminRole = 'superadmin';
+                        return true;
+                    }
+                }
+            } catch (e) {}
+            return false;
         }
         ensureAdminSessionFromPilot();
 
@@ -3045,7 +3078,7 @@
         }
 
         function switchAdminTab(tab) {
-            if (tab === 'logs' && activeAdminRole !== 'superadmin') {
+            if (tab === 'logs' && !isSuperAdminActive()) {
                 alert('Akses Dibatasi: Tab Log Sistem ini hanya dapat diakses oleh Akun Utama.');
                 switchAdminTab('pending');
                 return;
@@ -3085,10 +3118,11 @@
 
         function openAdminPanel() {
             const user = getActivePilotUser();
-            if (user && (user.role === 'admin' || user.role === 'superadmin')) {
+            const isMainAcc = user && ((user.username || '').toLowerCase() === 'rwandaz' || user.role === 'superadmin');
+            if (user && (isMainAcc || user.role === 'admin')) {
                 activeAdminUser = user.username;
                 activeAdminPass = user.password_plain;
-                activeAdminRole = user.role;
+                activeAdminRole = isMainAcc ? 'superadmin' : 'admin';
                 sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
                 sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
                 sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
@@ -3123,13 +3157,14 @@
         }
 
         function showAdminDashboard() {
+            const isSuper = isSuperAdminActive();
             const dashView = document.getElementById('admin-dashboard-view');
             if (dashView) dashView.style.display = 'block';
 
             const userBadge = document.getElementById('admin-user-badge');
             const userNameEl = document.getElementById('admin-logged-name');
             if (userBadge && userNameEl) {
-                userNameEl.textContent = activeAdminRole === 'superadmin' ? `${activeAdminUser} (Akun Utama)` : activeAdminUser;
+                userNameEl.textContent = isSuper ? `${activeAdminUser} (Akun Utama)` : activeAdminUser;
                 userBadge.style.display = 'inline-flex';
             }
 
@@ -3151,7 +3186,7 @@
             // Tab Log Sistem HANYA ditampilkan untuk Akun Utama (superadmin)
             const tabLogs = document.getElementById('admin-tab-logs');
             if (tabLogs) {
-                tabLogs.style.display = (activeAdminRole === 'superadmin') ? 'inline-flex' : 'none';
+                tabLogs.style.display = isSuper ? 'inline-flex' : 'none';
             }
 
             fetchAdminQuestions();
@@ -3249,7 +3284,7 @@
 
         async function fetchAdminSystemLogs(typeFilter = systemLogFilterType, searchQuery = systemLogSearchQuery) {
             if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
-            if (activeAdminRole !== 'superadmin') {
+            if (!isSuperAdminActive()) {
                 alert('Akses Dibatasi: Hanya Akun Utama yang berhak mengakses Log Sistem.');
                 return;
             }
@@ -3493,7 +3528,7 @@
                 return matchName || matchUser || matchContact || matchRole || matchTag;
             });
 
-            const isSuper = activeAdminRole === 'superadmin';
+            const isSuper = isSuperAdminActive();
 
             let html = `
                 <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
@@ -3641,6 +3676,10 @@
                                                 ` : `
                                                     <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
                                                         <span>Reset Sandi</span>
+                                                    </button>
+                                                    <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                        <span>Hapus Akun</span>
                                                     </button>
                                                 `
                                             )
@@ -4167,8 +4206,8 @@
         async function handleAdminDeleteAccount(targetUsername, targetFullName, isAdminTarget) {
             ensureAdminSessionFromPilot();
             if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
-            if (activeAdminRole !== 'superadmin' && (activeAdminUser || '').toLowerCase() !== 'rwandaz') {
-                alert('Akses Dibatasi: Hanya Akun Utama yang berhak menghapus akun pengguna.');
+            if (isAdminTarget && !isSuperAdminActive()) {
+                alert('Akses Dibatasi: Hanya Akun Utama yang berhak menghapus akun Admin.');
                 return;
             }
 
@@ -6070,7 +6109,7 @@
         // PROMOSIKAN PENGGUNA MENJADI ADMIN
         // ==========================================
         function openAdminPromoteModal(userId, username, fullName) {
-            if (activeAdminRole !== 'superadmin') {
+            if (!isSuperAdminActive()) {
                 alert('Akses Ditolak: Hanya akun utama yang dapat mengangkat pengguna menjadi admin.');
                 return;
             }
@@ -6099,7 +6138,7 @@
 
         async function submitAdminPromoteUser(e) {
             e.preventDefault();
-            if (activeAdminRole !== 'superadmin') {
+            if (!isSuperAdminActive()) {
                 alert('Akses Ditolak: Hanya akun utama yang dapat mengangkat pengguna menjadi admin.');
                 return;
             }
@@ -6156,7 +6195,7 @@
         }
 
         async function handleDemoteUserFromAdmin(targetUsername) {
-            if (activeAdminRole !== 'superadmin') {
+            if (!isSuperAdminActive()) {
                 alert('Akses Ditolak: Hanya akun utama yang dapat mencabut akses admin.');
                 return;
             }

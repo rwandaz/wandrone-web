@@ -1134,6 +1134,98 @@
             transition: width 0.4s ease;
         }
 
+
+        /* AVATAR & PILOT IDENTIFIERS */
+        .pilot-avatar-img {
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1.5px solid var(--teal);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .pilot-avatar-initial {
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0D9488, #14B8A6);
+            color: #FFFFFF;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-family: var(--display);
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            user-select: none;
+        }
+        .preset-avatar-btn {
+            border: 2px solid var(--line);
+            border-radius: 50%;
+            padding: 2px;
+            background: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+        }
+        .preset-avatar-btn:hover {
+            border-color: var(--teal);
+            transform: scale(1.08);
+        }
+        .preset-avatar-btn.is-selected {
+            border-color: var(--teal-deep);
+            background: #E6FBF7;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.25);
+        }
+        .preset-avatar-btn svg, .preset-avatar-btn img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: block;
+        }
+        
+        @media (max-width: 640px) {
+            .forum-action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.85rem;
+            }
+            .forum-action-bar .faq-tabs {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+                padding-bottom: 4px;
+            }
+            .forum-action-bar .tw-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .pilot-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .pilot-banner #banner-pilot-action {
+                width: 100%;
+            }
+            .pilot-banner #banner-pilot-action .tw-btn,
+            .pilot-banner #banner-pilot-action .tw-btn-2 {
+                flex: 1;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        .forum-action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+
     </style>
 </head>
 <body>
@@ -1152,8 +1244,10 @@
                     <li><a href="#faq-resmi" class="tw-nav-link active">FAQ Resmi</a></li>
                     <li><a href="#forum-komunitas" class="tw-nav-link">Forum Tanya Jawab</a></li>
                     <li id="pilot-nav-container">
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <span id="pilot-nav-avatar-slot" style="display: inline-flex; align-items: center;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </span>
                             <span id="pilot-nav-text">Akun Pilot</span>
                         </button>
                     </li>
@@ -1226,11 +1320,17 @@
                 </div>
             </div>
 
-            <!-- TABS -->
-            <div class="faq-tabs">
-                <button class="faq-tab-btn active" onclick="switchTab('all', this)">Semua Topik</button>
-                <button class="faq-tab-btn" onclick="switchTab('official', this)">Panduan Resmi (FAQ)</button>
-                <button class="faq-tab-btn" onclick="switchTab('community', this)">Forum Komunitas</button>
+            <!-- ACTION & FILTER BAR -->
+            <div class="forum-action-bar">
+                <div class="faq-tabs" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
+                    <button class="faq-tab-btn active" onclick="switchTab('all', this)">Semua Topik</button>
+                    <button class="faq-tab-btn" onclick="switchTab('community', this)">Forum Komunitas Pilot</button>
+                    <button class="faq-tab-btn" onclick="switchTab('official', this)">Panduan Resmi (FAQ)</button>
+                </div>
+                <button type="button" onclick="openQuestionModal()" class="tw-btn" style="padding: 0.55rem 1.15rem; font-size: 0.875rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.45rem;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Ajukan Pertanyaan</span>
+                </button>
             </div>
 
             <!-- SECTION 1: FAQ RESMI -->
@@ -1602,15 +1702,12 @@
                 <div class="qa-section-head">
                     <div>
                         <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Forum Tanya Jawab Komunitas</h2>
-                        <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan dari pengguna dan jawaban resmi yang telah diverifikasi oleh tim WanDrone.</p>
+                        <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan dari pilot pengguna dan jawaban resmi yang telah diverifikasi oleh tim WanDrone.</p>
                     </div>
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <button onclick="openQuestionModal()" class="tw-btn" style="padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.45rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                             <span>Ajukan Pertanyaan</span>
-                        </button>
-                        <button id="admin-toggle-btn" onclick="openAdminPanel()" class="tw-btn-2" style="padding: 0.5rem 0.85rem;" title="Informasi Moderasi Admin">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                         </button>
                     </div>
                 </div>
@@ -1618,7 +1715,7 @@
                 <!-- Banner Akun Komunitas Pilot -->
                 <div class="pilot-banner" id="pilot-community-banner">
                     <div style="display: flex; align-items: center; gap: 0.85rem;">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <div id="banner-pilot-avatar-slot" style="width: 44px; height: 44px; border-radius: 50%; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                         </div>
                         <div>
@@ -1628,7 +1725,7 @@
                     </div>
                     <div id="banner-pilot-action">
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
-                            <span>Masuk / Daftar Pilot</span>
+                            <span>Masuk / Daftar Akun Pilot</span>
                         </button>
                     </div>
                 </div>
@@ -1648,7 +1745,7 @@
             <div class="tw-modal-head">
                 <div>
                     <h3 class="tw-modal-title">Ajukan Pertanyaan ke Tim</h3>
-                    <p style="font-size: 0.8125rem; color: var(--slate);">Pertanyaan akan dijawab oleh tim teknis resmi WanDrone.</p>
+                    <p style="font-size: 0.8125rem; color: var(--slate);" id="q-modal-subtitle">Pertanyaan akan dijawab oleh tim teknis resmi WanDrone.</p>
                 </div>
                 <button class="tw-modal-close" onclick="closeQuestionModal()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -1944,7 +2041,7 @@
                 <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(10, 14, 22, 0.03);">
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, #E6FBF7, #CCFBF1); color: var(--teal-deep); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; font-family: var(--display); border: 1px solid var(--teal-hover);">
+                            <div id="dash-avatar-main-wrap" style="width: 58px; height: 58px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px solid var(--teal); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
                                 <span id="dash-avatar-letter">P</span>
                             </div>
                             <div>
@@ -2005,6 +2102,37 @@
                 <!-- TAB CONTENT 1: EDIT PROFIL -->
                 <div id="user-pane-profile" style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
                     <form onsubmit="handleUpdateUserProfile(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                        <!-- Avatar & Foto Profil -->
+                        <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1.25rem;">
+                            <div style="font-family: var(--display); font-size: 0.9375rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;">Foto Profil &amp; Avatar Pilot</div>
+                            <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 1rem;">Unggah foto pribadi Anda atau pilih salah satu avatar pilot resmi WanDrone.</div>
+
+                            <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
+                                <div id="edit-avatar-preview-wrap" style="width: 72px; height: 72px; border-radius: 50%; overflow: hidden; border: 2px solid var(--teal); box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-shrink: 0; background: #FFFFFF; display: flex; align-items: center; justify-content: center;">
+                                    <!-- Rendered avatar -->
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <input type="file" id="edit-avatar-upload" accept="image/*" style="display: none;" onchange="handleAvatarFileSelect(event)">
+                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                        <button type="button" onclick="document.getElementById('edit-avatar-upload').click()" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                            <span>Unggah Foto Pribadi</span>
+                                        </button>
+                                        <button type="button" onclick="resetToInitialAvatar()" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem;">
+                                            Gunakan Inisial
+                                        </button>
+                                    </div>
+                                    <div style="font-size: 0.75rem; color: var(--slate);">Format: JPG, PNG, atau WebP. Otomatis disesuaikan ke resolusi avatar optimal.</div>
+                                </div>
+                            </div>
+
+                            <!-- Pilihan Preset Avatar -->
+                            <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed var(--line);">
+                                <div style="font-size: 0.75rem; font-weight: 600; color: var(--slate); margin-bottom: 0.5rem; text-transform: uppercase;">Atau Pilih Karakter Pilot:</div>
+                                <div id="edit-avatar-presets" style="display: flex; gap: 0.65rem; flex-wrap: wrap;"></div>
+                            </div>
+                        </div>
+
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label class="form-label" for="edit-fullname">Nama Lengkap / Tampilan</label>
@@ -2099,6 +2227,12 @@
                         <li><a href="#faq-resmi">FAQ &amp; Panduan Resmi</a></li>
                         <li><a href="#forum-komunitas">Forum Tanya Jawab</a></li>
                         <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi &rarr;</a></li>
+                        <li style="margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px dashed var(--line-dark);">
+                            <a href="javascript:void(0)" onclick="openAdminPanel()" style="color: var(--teal); font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600;">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <span>Portal Tim Teknis &amp; Moderasi</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -2256,15 +2390,25 @@
                 const sQId = String(q.id);
                 const qComments = allForumCommentsMap[sQId] || [];
                 const isExpanded = !!commentsExpanded[sQId];
+                const authorAvatarHtml = renderUserAvatar(q.avatar_url || null, q.author_name, '', 32);
+                const statusBadgeHtml = q.admin_answer
+                    ? '<span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; font-size:0.6875rem; font-weight:700;">Terjawab Resmi</span>'
+                    : '<span class="tw-chip" style="background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-size:0.6875rem; font-weight:600;">Menunggu Tanggapan</span>';
 
                 return `
                     <div class="qa-card" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
-                        <div class="qa-card-meta">
-                            <span style="font-weight: 700; color: var(--ink);">${escapeHtml(q.author_name)}</span>
-                            <span>•</span>
-                            <span>${dateStr}</span>
-                            <span>•</span>
-                            <span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(q.device_model || 'Umum')}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                ${authorAvatarHtml}
+                                <div>
+                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem; line-height: 1.2;">${escapeHtml(q.author_name)}</div>
+                                    <div style="font-size: 0.75rem; color: var(--slate);">${dateStr}</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                                ${statusBadgeHtml}
+                                <span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(q.device_model || 'Umum')}</span>
+                            </div>
                         </div>
                         <div class="qa-card-title">${escapeHtml(q.question_title)}</div>
                         <div class="qa-card-body">${escapeHtml(q.question_body)}</div>
@@ -2603,7 +2747,7 @@
             const subTitle = document.getElementById('q-modal-subtitle');
 
             if (subTitle) {
-                subTitle.innerHTML = `Diajukan sebagai pilot terverifikasi: <strong>${escapeHtml(user.full_name || user.username)}</strong> (+10 Poin Reputasi saat terkirim).`;
+                subTitle.innerHTML = `Diajukan sebagai pilot terverifikasi: <strong>${escapeHtml(user.full_name || user.username)}</strong>.`;
             }
 
             if (authorInput) {
@@ -3434,17 +3578,120 @@
             return Array.from(checked).map(c => c.value);
         }
 
+
+        /* ========================================================
+           AVATAR & PROFILE IMAGE SYSTEM
+           ======================================================== */
+        const PRESET_AVATARS = [
+            { id: 'p0', name: 'Pilot Visor', dataUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIj4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMEQ5NDg4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMTE1RTU5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9InVybCgjZzEpIi8+CiAgPHBhdGggZD0iTTIyIDQ2IEMyMiAyNiA1OCAyNiA1OCA0NiBDNTggNTYgMjIgNTYgMjIgNDYgWiIgZmlsbD0iIzEzNEU0QSIgb3BhY2l0eT0iMC43Ii8+CiAgPHBhdGggZD0iTTI2IDM4IEMyNiAzMyA1NCAzMyA1NCAzOCBDNTQgNDQgMjYgNDQgMjYgMzggWiIgZmlsbD0iIzVFRUFENCIvPgogIDxsaW5lIHgxPSI0MCIgeTE9IjIwIiB4Mj0iNDAiIHkyPSIyOCIgc3Ryb2tlPSIjQ0NGQkYxIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iNDAiIGN5PSIxOCIgcj0iMi41IiBmaWxsPSIjNUVFQUQ0Ii8+CiAgPHBhdGggZD0iTTMwIDQ4IEw0MCA1NCBMNTAgNDgiIHN0cm9rZT0iI0NDRkJGMSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KPC9zdmc+' },
+            { id: 'p1', name: 'Surveyor Grid', dataUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIj4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMDI4NEM3Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDM2OUExIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9InVybCgjZzIpIi8+CiAgPGNpcmNsZSBjeD0iNDAiIGN5PSI0MCIgcj0iMjIiIHN0cm9rZT0iI0JBRTZGRCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBzdHJva2UtZGFzaGFycmF5PSI2LDQiLz4KICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIxNCIgZmlsbD0iIzBDNEE2RSIgc3Ryb2tlPSIjMzhCREY4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI2IiBmaWxsPSIjMzhCREY4Ii8+CiAgPGNpcmNsZSBjeD0iNDIiIGN5PSIzOCIgcj0iMiIgZmlsbD0iI0ZGRkZGRiIvPgogIDxsaW5lIHgxPSI0MCIgeTE9IjEyIiB4Mj0iNDAiIHkyPSIyMiIgc3Ryb2tlPSIjQkFFNkZEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSI0MCIgeTE9IjU4IiB4Mj0iNDAiIHkyPSI2OCIgc3Ryb2tlPSIjQkFFNkZEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIxMiIgeTE9IjQwIiB4Mj0iMjIiIHkyPSI0MCIgc3Ryb2tlPSIjQkFFNkZEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSI1OCIgeTE9IjQwIiB4Mj0iNjgiIHkyPSI0MCIgc3Ryb2tlPSIjQkFFNkZEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=' },
+            { id: 'p2', name: 'Teknisi Rotor', dataUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIj4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRDk3NzA2Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjQjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9InVybCgjZzMpIi8+CiAgPGNpcmNsZSBjeD0iNDAiIGN5PSI0MCIgcj0iMTUiIGZpbGw9IiM3ODM1MEYiIHN0cm9rZT0iI0ZERTY4QSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTQwIDIyIEM0MyAyOCA0MyAzMiA0MCAzNCBDMzcgMzIgMzcgMjggNDAgMjIgWiIgZmlsbD0iI0ZFRjNDNyIvPgogIDxwYXRoIGQ9Ik00MCA1OCBDNDMgNTIgNDMgNDggNDAgNDYgQzM3IDQ4IDM3IDUyIDQwIDU4IFoiIGZpbGw9IiNGRUYzQzciLz4KICA8cGF0aCBkPSJNMjIgNDAgQzI4IDQzIDMyIDQzIDM0IDQwIEMzMiAzNyAyOCAzNyAyMiA0MCBaIiBmaWxsPSIjRkVGM0M3Ii8+CiAgPHBhdGggZD0iTTU4IDQwIEM1MiA0MyA0OCA0MyA0NiA0MCBDNDggMzcgNTIgMzcgNTggNDAgWiIgZmlsbD0iI0ZFRjNDNyIvPgogIDxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjYiIGZpbGw9IiNGREU2OEEiLz4KPC9zdmc+' },
+            { id: 'p3', name: 'Navigator Langit', dataUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIj4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9Imc0IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjN0MzQUVEIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNUIyMUI2Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9InVybCgjZzQpIi8+CiAgPHBhdGggZD0iTTE2IDM2IEMyOCAzNCAzNiA0MiA0MCA0OCBDNDQgNDIgNTIgMzQgNjQgMzYgQzUyIDQ4IDQ0IDU0IDQwIDU2IEMzNiA1NCAyOCA0OCAxNiAzNiBaIiBmaWxsPSIjRURFOUZFIi8+CiAgPHBhdGggZD0iTTI0IDMwIEMzMiAzMCAzOCAzNiA0MCA0MCBDNDIgMzYgNDggMzAgNTYgMzAgQzQ4IDQwIDQyIDQ0IDQwIDQ2IEMzOCA0NCAzMiA0MCAyNCAzMCBaIiBmaWxsPSIjRERENkZFIi8+CiAgPHBvbHlnb24gcG9pbnRzPSI0MCwyMCA0MiwyNiA0OCwyOCA0MiwzMCA0MCwzNiAzOCwzMCAzMiwyOCAzOCwyNiIgZmlsbD0iI0Y1RjNGRiIvPgo8L3N2Zz4=' },
+            { id: 'p4', name: 'Operator Telemetri', dataUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIj4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9Imc1IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMDU5NjY5Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9InVybCgjZzUpIi8+CiAgPGxpbmUgeDE9IjI2IiB5MT0iMjYiIHgyPSI1NCIgeTI9IjU0IiBzdHJva2U9IiNBN0YzRDAiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjU0IiB5MT0iMjYiIHgyPSIyNiIgeTI9IjU0IiBzdHJva2U9IiNBN0YzRDAiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMjYiIGN5PSIyNiIgcj0iNiIgc3Ryb2tlPSIjRUNGREY1IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9IiMwNjVGNDYiLz4KICA8Y2lyY2xlIGN4PSI1NCIgY3k9IjI2IiByPSI2IiBzdHJva2U9IiNFQ0ZERjUiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0iIzA2NUY0NiIvPgogIDxjaXJjbGUgY3g9IjI2IiBjeT0iNTQiIHI9IjYiIHN0cm9rZT0iI0VDRkRGNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSIjMDY1RjQ2Ii8+CiAgPGNpcmNsZSBjeD0iNTQiIGN5PSI1NCIgcj0iNiIgc3Ryb2tlPSIjRUNGREY1IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9IiMwNjVGNDYiLz4KICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI5IiBmaWxsPSIjRUNGREY1Ii8+CiAgPGNpcmNsZSBjeD0iNDAiIGN5PSI0MCIgcj0iNCIgZmlsbD0iIzA0Nzg1NyIvPgo8L3N2Zz4=' }
+        ];
+
+        let pendingAvatarDataUrl = undefined;
+
+        function renderUserAvatar(avatarUrl, fullName, username, size = 36) {
+            const initial = (fullName || username || 'P').charAt(0).toUpperCase();
+            const sz = Math.max(16, size);
+            const fontSz = Math.max(9, Math.round(sz * 0.42));
+
+            if (avatarUrl && typeof avatarUrl === 'string' && (avatarUrl.startsWith('data:image/') || avatarUrl.startsWith('http'))) {
+                return `<img src="${avatarUrl}" alt="${escapeHtml(fullName || username || 'Pilot')}" class="pilot-avatar-img" style="width: ${sz}px; height: ${sz}px;" onerror="this.onerror=null; this.outerHTML='<div class=\'pilot-avatar-initial\' style=\'width: ${sz}px; height: ${sz}px; font-size: ${fontSz}px;\'>${initial}</div>';">`;
+            }
+            return `<div class="pilot-avatar-initial" style="width: ${sz}px; height: ${sz}px; font-size: ${fontSz}px;">${initial}</div>`;
+        }
+
+        function updateAvatarPreview(avatarUrl) {
+            const wrap = document.getElementById('edit-avatar-preview-wrap');
+            if (!wrap) return;
+            const user = getActivePilotUser();
+            const name = user ? (user.full_name || user.username) : 'Pilot';
+            wrap.innerHTML = renderUserAvatar(avatarUrl, name, user ? user.username : '', 68);
+        }
+
+        function renderPresetAvatarButtons() {
+            const container = document.getElementById('edit-avatar-presets');
+            if (!container) return;
+
+            container.innerHTML = PRESET_AVATARS.map((p, idx) => {
+                const isSel = pendingAvatarDataUrl === p.dataUrl;
+                return `
+                    <button type="button" class="preset-avatar-btn ${isSel ? 'is-selected' : ''}" onclick="selectPresetAvatar(${idx})" title="${p.name}">
+                        <img src="${p.dataUrl}" alt="${p.name}">
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectPresetAvatar(index) {
+            if (PRESET_AVATARS[index]) {
+                pendingAvatarDataUrl = PRESET_AVATARS[index].dataUrl;
+                updateAvatarPreview(pendingAvatarDataUrl);
+                renderPresetAvatarButtons();
+            }
+        }
+
+        function resetToInitialAvatar() {
+            pendingAvatarDataUrl = '';
+            updateAvatarPreview('');
+            renderPresetAvatarButtons();
+        }
+
+        function handleAvatarFileSelect(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Silakan pilih file gambar (JPG, PNG, atau WebP).');
+                return;
+            }
+
+            if (file.size > 8 * 1024 * 1024) {
+                alert('Ukuran file maksimal 8MB.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 128;
+                    canvas.height = 128;
+                    const ctx = canvas.getContext('2d');
+
+                    const minDim = Math.min(img.width, img.height);
+                    const sx = (img.width - minDim) / 2;
+                    const sy = (img.height - minDim) / 2;
+
+                    ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, 128, 128);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+                    pendingAvatarDataUrl = dataUrl;
+                    updateAvatarPreview(dataUrl);
+                    renderPresetAvatarButtons();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
         function updatePilotUserUI() {
             const user = getActivePilotUser();
             const navBtn = document.getElementById('pilot-nav-btn');
             const navText = document.getElementById('pilot-nav-text');
+            const navAvatarSlot = document.getElementById('pilot-nav-avatar-slot');
             const mobLink = document.getElementById('pilot-mobile-link');
             const bannerTitle = document.getElementById('banner-pilot-title');
             const bannerDesc = document.getElementById('banner-pilot-desc');
             const bannerAction = document.getElementById('banner-pilot-action');
+            const bannerAvatarSlot = document.getElementById('banner-pilot-avatar-slot');
 
             if (user) {
                 const lvl = getLevelInfo(user.total_points);
+                if (navAvatarSlot) navAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 22);
                 if (navText) navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#FEF08A;">${user.total_points || 0} Poin</span>`;
                 if (navBtn) {
                     navBtn.setAttribute('onclick', 'openUserDashboardModal()');
@@ -3455,6 +3702,7 @@
                     mobLink.setAttribute('onclick', 'toggleMobileNav(false); openUserDashboardModal();');
                 }
 
+                if (bannerAvatarSlot) bannerAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 44);
                 if (bannerTitle) bannerTitle.innerHTML = `Halo, Pilot <strong>${escapeHtml(user.full_name)}</strong> (@${escapeHtml(user.username)})`;
                 if (bannerDesc) bannerDesc.innerHTML = `
                     <span style="display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
@@ -3483,6 +3731,9 @@
                 if (qAuthor && !qAuthor.value) qAuthor.value = user.full_name || '';
                 if (qContact && !qContact.value) qContact.value = user.contact_info || '';
             } else {
+                if (navAvatarSlot) {
+                    navAvatarSlot.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+                }
                 if (navText) navText.textContent = 'Akun Pilot';
                 if (navBtn) {
                     navBtn.setAttribute('onclick', "openUserAuthModal('login')");
@@ -3492,12 +3743,15 @@
                     mobLink.textContent = 'Akun Pilot (Login / Daftar)';
                     mobLink.setAttribute('onclick', "toggleMobileNav(false); openUserAuthModal('login');");
                 }
+                if (bannerAvatarSlot) {
+                    bannerAvatarSlot.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+                }
                 if (bannerTitle) bannerTitle.textContent = 'Komunitas Pilot WanDrone';
                 if (bannerDesc) bannerDesc.textContent = 'Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.';
                 if (bannerAction) {
                     bannerAction.innerHTML = `
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
-                            <span>Masuk / Daftar Pilot</span>
+                            <span>Masuk / Daftar Akun Pilot</span>
                         </button>
                     `;
                 }
@@ -3572,28 +3826,36 @@
                     const userRemotes = Array.isArray(c.remotes) ? c.remotes : [];
                     const userDrones = Array.isArray(c.drones) ? c.drones : [];
                     const devTags = [...userRemotes, ...userDrones].slice(0, 2);
+                    const avatarHtml = renderUserAvatar(c.avatar_url, c.full_name, c.username, 36);
 
                     html += `
                         <div class="qa-comment-card">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.4rem;">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                                    <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(c.full_name || c.username)}</strong>
-                                    <span style="font-size: 0.75rem; color: var(--slate);">@${escapeHtml(c.username)}</span>
-                                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
-                                        ${starsHtml}
-                                        <span>${c.total_points || 0} Poin</span>
-                                    </span>
-                                    ${devTags.map(t => `<span class="tw-chip" style="font-size: 0.625rem; padding: 0.1rem 0.4rem;">${escapeHtml(t)}</span>`).join('')}
+                            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                                <div style="flex-shrink: 0; margin-top: 2px;">
+                                    ${avatarHtml}
                                 </div>
-                                <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
-                            </div>
-                            <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap;">${escapeHtml(c.comment_text)}</div>
-                            <div style="margin-top: 0.6rem; display: flex; align-items: center; justify-content: flex-end;">
-                                <button type="button" class="comment-helpful-btn" onclick="handleVoteComment(${c.id}, '${qId}')" title="Tandai komentar ini membantu (+10 poin untuk penulis)">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                    <span>Jawaban Ini Membantu</span>
-                                    <span style="font-weight: 700; color: #166534;" id="comment-vote-num-${c.id}">${c.helpful_votes || 0}</span>
-                                </button>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+                                        <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+                                            <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(c.full_name || c.username)}</strong>
+                                            <span style="font-size: 0.75rem; color: var(--slate);">@${escapeHtml(c.username)}</span>
+                                            <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
+                                                ${starsHtml}
+                                                <span>${c.total_points || 0} Poin</span>
+                                            </span>
+                                            ${devTags.map(t => `<span class="tw-chip" style="font-size: 0.625rem; padding: 0.1rem 0.4rem;">${escapeHtml(t)}</span>`).join('')}
+                                        </div>
+                                        <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
+                                    </div>
+                                    <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap; word-break: break-word;">${escapeHtml(c.comment_text)}</div>
+                                    <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: flex-end;">
+                                        <button type="button" class="comment-helpful-btn" onclick="handleVoteComment(${c.id}, '${qId}')" title="Tandai tanggapan ini membantu">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                            <span>Jawaban Ini Membantu</span>
+                                            <span style="font-weight: 700; color: #166534;" id="comment-vote-num-${c.id}">${c.helpful_votes || 0}</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -3604,16 +3866,16 @@
             // Comment form or Login prompt
             if (activeUser) {
                 html += `
-                    <form onsubmit="handleUserAddComment(event, '${qId}')" style="margin-top: 0.5rem; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem;">
+                    <form onsubmit="handleUserAddComment(event, '${qId}')" style="margin-top: 0.65rem; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem;">
                         <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between;">
-                            <span>Tulis Tanggapan Teknis sebagai <strong>${escapeHtml(activeUser.full_name)}</strong></span>
-                            <span style="font-size: 0.6875rem; color: var(--teal-deep); font-weight: 700;">+5 Poin Kontribusi</span>
+                            <span>Tulis Tanggapan Teknis sebagai <strong>${escapeHtml(activeUser.full_name || activeUser.username)}</strong></span>
                         </div>
                         <textarea id="comment-input-${qId}" class="form-control" rows="2" placeholder="Bagikan solusi teknis, pengaturan parameter, atau pengalaman lapangan Anda..." required style="font-size: 0.875rem; margin-bottom: 0.5rem;"></textarea>
                         <div id="comment-alert-${qId}" style="display: none; padding: 0.45rem 0.65rem; border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem;"></div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="padding: 0.4rem 0.9rem; font-size: 0.8125rem;">
-                                <span>Kirim Tanggapan (+5 Poin)</span>
+                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="padding: 0.4rem 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                <span>Kirim Tanggapan</span>
                             </button>
                         </div>
                     </form>
@@ -3625,7 +3887,7 @@
                             Punya tips atau solusi terkait topik ini? Masuk atau daftar akun untuk berdiskusi & kumpulkan poin reputasi.
                         </div>
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; white-space: nowrap;">
-                            Masuk / Daftar Pilot
+                            Masuk / Daftar Akun Pilot
                         </button>
                     </div>
                 `;
@@ -3715,7 +3977,7 @@
                         alertBox.style.color = '#991B1B';
                         alertBox.textContent = error.message || 'Gagal mengirim komentar.';
                     }
-                    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan (+5 Poin)'; }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan'; }
                     return;
                 }
 
@@ -3737,7 +3999,7 @@
                     alertBox.style.color = '#991B1B';
                     alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
                 }
-                if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan (+5 Poin)'; }
+                if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan'; }
             }
         }
 
@@ -3908,9 +4170,17 @@
             if (!modal) return;
 
             const lvl = getLevelInfo(user.total_points);
-            const avatarLetter = (user.full_name || user.username || 'P').charAt(0).toUpperCase();
 
-            document.getElementById('dash-avatar-letter').textContent = avatarLetter;
+            // Render main dashboard avatar
+            const mainAvatarSlot = document.getElementById('dash-avatar-main-wrap');
+            if (mainAvatarSlot) {
+                mainAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 58);
+            }
+
+            // Sync edit profile avatar state & presets
+            pendingAvatarDataUrl = user.avatar_url || null;
+            updateAvatarPreview(pendingAvatarDataUrl);
+            renderPresetAvatarButtons();
             document.getElementById('dash-fullname').textContent = user.full_name || user.username;
             document.getElementById('dash-username').textContent = '@' + user.username;
             document.getElementById('dash-star-badges').innerHTML = renderStarSvg(lvl.level, 5);
@@ -4022,6 +4292,8 @@
             if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
             if (alertBox) alertBox.style.display = 'none';
 
+            const avatarToSend = pendingAvatarDataUrl === undefined ? (user.avatar_url || null) : (pendingAvatarDataUrl || null);
+
             try {
                 const { data, error } = await supabaseClient.rpc('user_update_profile', {
                     p_user_id: user.id,
@@ -4031,7 +4303,8 @@
                     p_name: fullName,
                     p_contact: contact,
                     p_remotes: remotes,
-                    p_drones: drones
+                    p_drones: drones,
+                    p_avatar_url: avatarToSend
                 });
 
                 if (error) {
@@ -4046,6 +4319,7 @@
                 data.password_plain = newP || curP;
                 saveActivePilotUser(data);
                 updatePilotUserUI();
+                renderCommunityQuestions();
 
                 alertBox.style.display = 'block';
                 alertBox.style.background = '#F0FDF4';
@@ -4201,10 +4475,14 @@
                     return `
                         <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
-                                <div>
-                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.3rem;">
-                                        <strong style="color: var(--ink); font-size: 1rem;">${escapeHtml(u.full_name || u.username)}</strong>
-                                        <span style="font-size: 0.8125rem; color: var(--slate);">@${escapeHtml(u.username)}</span>
+                                <div style="display: flex; gap: 0.85rem; align-items: flex-start;">
+                                    <div style="flex-shrink: 0; margin-top: 3px;">
+                                        ${renderUserAvatar(u.avatar_url, u.full_name, u.username, 40)}
+                                    </div>
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.3rem;">
+                                            <strong style="color: var(--ink); font-size: 1rem;">${escapeHtml(u.full_name || u.username)}</strong>
+                                            <span style="font-size: 0.8125rem; color: var(--slate);">@${escapeHtml(u.username)}</span>
                                         <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
                                             ${starsHtml}
                                             <span>Level ${u.star_level || 1} • ${u.total_points || 0} Poin</span>
@@ -4224,6 +4502,7 @@
                                     </div>
                                     <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.4rem;">
                                         Terdaftar: ${dateStr} • Tanggapan Dibuat: <strong>${u.comments_count || 0}</strong> • Suara Membantu: <strong>${u.helpful_votes_received || 0}</strong>
+                                    </div>
                                     </div>
                                 </div>
 

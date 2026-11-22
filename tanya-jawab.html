@@ -1992,16 +1992,20 @@
                 </div>
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <button type="button" id="admin-refresh-btn" onclick="fetchAdminQuestions()" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; display: none; align-items: center; gap: 0.35rem;" title="Muat ulang pertanyaan terbaru">
+                <button type="button" id="admin-to-pilot-btn" onclick="closeAdminModal(); openUserDashboardModal();" class="tw-btn-2" style="height: 32px; padding: 0 0.75rem; font-size: 0.8125rem; display: none; align-items: center; gap: 0.35rem;" title="Buka Dashboard Profil Pilot">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span class="tw-hide-mob">Profil Pilot</span>
+                </button>
+                <button type="button" id="admin-refresh-btn" onclick="fetchAdminQuestions()" class="tw-btn-2" style="height: 32px; padding: 0 0.75rem; font-size: 0.8125rem; display: none; align-items: center; gap: 0.35rem;" title="Muat ulang pertanyaan terbaru">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
                     <span class="tw-hide-mob">Segarkan</span>
                 </button>
-                <button type="button" onclick="toggleNativeFullscreen()" class="tw-btn-2" style="padding: 0.4rem 0.65rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Beralih Layar Penuh">
+                <button type="button" onclick="toggleNativeFullscreen()" class="tw-btn-2" style="height: 32px; padding: 0 0.65rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Beralih Layar Penuh">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                     <span class="tw-hide-mob">Layar Penuh</span>
                 </button>
-                <button type="button" id="admin-logout-btn" onclick="handleAdminLogout()" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; display: none; color: #991B1B; border-color: #FECACA;">Keluar</button>
-                <button type="button" onclick="closeAdminModal()" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                <button type="button" id="admin-logout-btn" onclick="handleAdminLogout()" class="tw-btn-2" style="height: 32px; padding: 0 0.75rem; font-size: 0.8125rem; display: none; color: #991B1B; border-color: #FECACA;">Keluar</button>
+                <button type="button" onclick="closeAdminModal()" class="tw-btn" style="height: 32px; padding: 0 0.85rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;">
                     <span>Tutup Panel &times;</span>
                 </button>
             </div>
@@ -2177,6 +2181,10 @@
                 <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700; font-size: 0.75rem;">Profil Saya</span>
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" id="dash-btn-open-admin" onclick="closeUserDashboardModal(); openAdminPanel();" class="tw-btn" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; display: none; align-items: center; justify-content: center; white-space: nowrap; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16; gap: 0.35rem;" title="Buka Panel Moderasi & Administrasi">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Panel Admin</span>
+                </button>
                 <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;">
                     Keluar Akun
                 </button>
@@ -2204,6 +2212,7 @@
                                     <span id="dash-star-badges" style="display: inline-flex; align-items: center; gap: 2px;"></span>
                                     <span class="tw-chip-solid" id="dash-level-title" style="background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700;">Level 1</span>
                                     <span class="tw-chip" id="dash-total-points-badge" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; font-size: 0.75rem; font-weight: 700;">5 Poin</span>
+                                    <span id="dash-role-badge" class="tw-chip-solid" style="display: none; font-size: 0.75rem; font-weight: 700;"></span>
                                 </div>
                             </div>
                         </div>
@@ -3229,6 +3238,19 @@
             const sb = m.querySelector('.tw-admin-scroll-body');
             if (sb) sb.scrollTop = 0;
             
+            // Sync with active pilot user session if they have admin privileges
+            const pilot = getActivePilotUser();
+            if (pilot && (pilot.role === 'admin' || pilot.role === 'superadmin') && pilot.password_plain) {
+                if (!activeAdminUser || !activeAdminPass) {
+                    activeAdminUser = pilot.username;
+                    activeAdminPass = pilot.password_plain;
+                    activeAdminRole = pilot.role;
+                    sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                    sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                    sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+                }
+            }
+
             if (activeAdminUser && activeAdminPass) {
                 showAdminDashboard();
             } else {
@@ -3258,6 +3280,8 @@
             if (refBtn) refBtn.style.display = 'none';
             const outBtn = document.getElementById('admin-logout-btn');
             if (outBtn) outBtn.style.display = 'none';
+            const pilotBtn = document.getElementById('admin-to-pilot-btn');
+            if (pilotBtn) pilotBtn.style.display = 'none';
         }
 
         function showAdminDashboard() {
@@ -3279,6 +3303,8 @@
             if (refBtn) refBtn.style.display = 'inline-flex';
             const outBtn = document.getElementById('admin-logout-btn');
             if (outBtn) outBtn.style.display = 'inline-flex';
+            const pilotBtn = document.getElementById('admin-to-pilot-btn');
+            if (pilotBtn) pilotBtn.style.display = 'inline-flex';
 
             // Tab Kelola Pengguna selalu aktif & tampil untuk seluruh admin
             const tabUsers = document.getElementById('admin-tab-users');
@@ -3308,6 +3334,9 @@
             sessionStorage.removeItem('wandrone_admin_user');
             sessionStorage.removeItem('wandrone_admin_pass');
             sessionStorage.removeItem('wandrone_admin_role');
+            clearActivePilotUser();
+            updatePilotUserUI();
+            renderCommunityQuestions();
             showAdminLogin();
         }
 
@@ -3351,6 +3380,23 @@
                     sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
                     sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
                     sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+
+                    // Single Account Identity: Auto-sync Pilot User session
+                    saveActivePilotUser({
+                        id: data.user_id,
+                        username: data.username,
+                        full_name: data.full_name,
+                        contact_info: data.contact_info,
+                        role: data.role,
+                        password_plain: pass,
+                        remotes: data.remotes || [],
+                        drones: data.drones || [],
+                        avatar_url: data.avatar_url,
+                        total_points: data.total_points || 0,
+                        star_level: data.star_level || 1
+                    });
+                    updatePilotUserUI();
+                    renderCommunityQuestions();
                     showAdminDashboard();
                 }
             } catch (err) {
@@ -3493,7 +3539,7 @@
                         const remotes = Array.isArray(u.remotes) ? u.remotes : [];
                         const drones = Array.isArray(u.drones) ? u.drones : [];
                         const starsHtml = renderStarSvg(u.star_level || 1, 5);
-                        const isAdmin = (latestAdminUsers || []).some(a => (a.username || '').toLowerCase() === (u.username || '').toLowerCase());
+                        const isAdmin = (latestAdminUsers || []).some(a => (a.username || '').toLowerCase() === (u.username || '').toLowerCase()) || u.role === 'admin' || u.role === 'superadmin';
 
                         return `
                             <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem;">
@@ -3510,7 +3556,7 @@
                                                     ${starsHtml}
                                                     <span>Level ${u.star_level || 1} • ${u.total_points || 0} Poin</span>
                                                 </span>
-                                                ${isAdmin ? '<span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">Admin Aktif</span>' : ''}
+                                                ${u.role === 'superadmin' ? '<span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; font-weight: 700;">Akun Utama</span>' : (isAdmin ? '<span class="tw-chip" style="font-size: 0.6875rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700;">Admin Moderasi</span>' : '')}
                                             </div>
                                             <div style="font-size: 0.8125rem; color: var(--ink); margin-bottom: 0.35rem;">
                                                 <span style="font-weight: 600; color: var(--slate);">Kontak Privat:</span>
@@ -3532,25 +3578,33 @@
 
                                     <div class="admin-user-action-btns" style="display: flex; flex-direction: column; gap: 0.45rem; width: 135px;">
                                         ${isSuper ? (
-                                            !isAdmin ? `
-                                                <button type="button" onclick="openAdminPromoteModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; justify-content: center; width: 100%; background: #1E40AF; border-color: #1E40AF; color: #FFFFFF;">
-                                                    <span>Jadikan Admin</span>
-                                                </button>
-                                            ` : `
-                                                <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: #D97706; border-color: #FDE68A; justify-content: center; width: 100%;">
-                                                    <span>Cabut Admin</span>
-                                                </button>
-                                            `
+                                            u.role === 'superadmin' ? '' : (
+                                                !isAdmin ? `
+                                                    <button type="button" onclick="openAdminPromoteModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; justify-content: center; width: 100%; background: #1E40AF; border-color: #1E40AF; color: #FFFFFF;">
+                                                        <span>Jadikan Admin</span>
+                                                    </button>
+                                                ` : `
+                                                    <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: #D97706; border-color: #FDE68A; justify-content: center; width: 100%;">
+                                                        <span>Cabut Admin</span>
+                                                    </button>
+                                                `
+                                            )
                                         ) : ''}
-                                        <button type="button" onclick="openAdminResetPassModal('user', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name)}')" class="tw-btn" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; justify-content: center; width: 100%;">
-                                            <span>Reset Sandi</span>
-                                        </button>
+                                        ${(!isSuper && u.role === 'superadmin') ? `
+                                            <span class="tw-chip" style="font-size: 0.6875rem; justify-content: center; background: #F1F5F9; color: var(--slate); border-color: var(--line);">Terproteksi</span>
+                                        ` : `
+                                            <button type="button" onclick="openAdminResetPassModal('user', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name)}')" class="tw-btn" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; justify-content: center; width: 100%;">
+                                                <span>Reset Sandi</span>
+                                            </button>
+                                        `}
                                         <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; width: 100%;">
                                             <span>Ubah Poin (${u.total_points || 0})</span>
                                         </button>
-                                        <button type="button" onclick="handleDeleteForumUser(${u.id}, '${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; justify-content: center; width: 100%;">
-                                            <span>Hapus Akun</span>
-                                        </button>
+                                        ${u.role === 'superadmin' ? '' : `
+                                            <button type="button" onclick="handleDeleteForumUser(${u.id}, '${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; justify-content: center; width: 100%;">
+                                                <span>Hapus Akun</span>
+                                            </button>
+                                        `}
                                     </div>
                                 </div>
                             </div>
@@ -4268,21 +4322,37 @@
 
             if (user) {
                 const lvl = getLevelInfo(user.total_points);
+                const isAdminRole = user.role === 'admin' || user.role === 'superadmin';
+
                 if (navAvatarSlot) navAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 22);
-                if (navText) navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#FEF08A;">${user.total_points || 0} Poin</span>`;
+                if (navText) {
+                    if (user.role === 'superadmin') {
+                        navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#BFDBFE; font-weight:700;">Akun Utama</span>`;
+                    } else if (user.role === 'admin') {
+                        navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#A7F3D0; font-weight:700;">Admin</span>`;
+                    } else {
+                        navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#FEF08A;">${user.total_points || 0} Poin</span>`;
+                    }
+                }
                 if (navBtn) {
                     navBtn.setAttribute('onclick', 'openUserDashboardModal()');
                     navBtn.title = 'Buka Dashboard Profil Pilot';
                 }
                 if (mobLink) {
-                    mobLink.innerHTML = `Profil Pilot: ${escapeHtml(user.full_name || user.username)} (${user.total_points || 0} Poin)`;
+                    const roleTag = user.role === 'superadmin' ? ' [Akun Utama]' : (user.role === 'admin' ? ' [Admin]' : '');
+                    mobLink.innerHTML = `Profil Pilot${roleTag}: ${escapeHtml(user.full_name || user.username)} (${user.total_points || 0} Poin)`;
                     mobLink.setAttribute('onclick', 'toggleMobileNav(false); openUserDashboardModal();');
                 }
 
                 if (bannerAvatarSlot) bannerAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 44);
-                if (bannerTitle) bannerTitle.innerHTML = `Halo, Pilot <strong>${escapeHtml(user.full_name)}</strong> (@${escapeHtml(user.username)})`;
+                if (bannerTitle) bannerTitle.innerHTML = `Halo, <strong>${escapeHtml(user.full_name)}</strong> (@${escapeHtml(user.username)})`;
                 if (bannerDesc) bannerDesc.innerHTML = `
                     <span style="display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                        ${isAdminRole ? `
+                            <span class="tw-chip-solid" style="background:${user.role === 'superadmin' ? '#EFF6FF' : '#E6FBF7'}; color:${user.role === 'superadmin' ? '#1E40AF' : 'var(--teal-deep)'}; font-size:0.75rem; font-weight:700; border: 1px solid ${user.role === 'superadmin' ? '#BFDBFE' : 'var(--teal-hover)'};">
+                                ${user.role === 'superadmin' ? 'Akun Utama' : 'Admin Moderasi'}
+                            </span>
+                        ` : ''}
                         ${renderStarSvg(lvl.level, 5)}
                         <span style="font-weight: 700; color: #166534;">${lvl.title}</span>
                         <span>&bull;</span>
@@ -4292,7 +4362,13 @@
                 if (bannerAction) {
                     bannerAction.innerHTML = `
                         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-                            <button type="button" onclick="openUserDashboardModal()" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                            ${isAdminRole ? `
+                                <button type="button" onclick="openAdminPanel()" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Buka Panel Moderasi & Administrasi">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    <span>Panel Admin</span>
+                                </button>
+                            ` : ''}
+                            <button type="button" onclick="openUserDashboardModal()" class="${isAdminRole ? 'tw-btn-2' : 'tw-btn'}" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                                 <span>Dashboard Profil</span>
                             </button>
                             <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
@@ -4347,6 +4423,14 @@
                 if (!error && data) {
                     data.password_plain = user.password_plain;
                     saveActivePilotUser(data);
+                    if (data.role === 'admin' || data.role === 'superadmin') {
+                        activeAdminUser = data.username;
+                        activeAdminPass = user.password_plain;
+                        activeAdminRole = data.role;
+                        sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                        sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                        sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+                    }
                     updatePilotUserUI();
                 }
             } catch (e) {
@@ -4442,6 +4526,11 @@
                                         <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
                                             <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(c.full_name || c.username)}</strong>
                                             <span style="font-size: 0.75rem; color: var(--slate);">@${escapeHtml(c.username)}</span>
+                                            ${c.role === 'superadmin' ? `
+                                                <span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; font-weight: 700; padding: 0.1rem 0.45rem;">Akun Utama</span>
+                                            ` : (c.role === 'admin' ? `
+                                                <span class="tw-chip" style="font-size: 0.6875rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700; padding: 0.1rem 0.45rem;">Tim WanDrone</span>
+                                            ` : '')}
                                             <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
                                                 ${starsHtml}
                                                 <span>${c.total_points || 0} Poin</span>
@@ -4721,6 +4810,24 @@
 
                 data.password_plain = password;
                 saveActivePilotUser(data);
+
+                // Single Account Identity: Auto-sync admin session if user is admin or superadmin
+                if (data.role === 'admin' || data.role === 'superadmin') {
+                    activeAdminUser = data.username;
+                    activeAdminPass = password;
+                    activeAdminRole = data.role;
+                    sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                    sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                    sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+                } else {
+                    activeAdminUser = '';
+                    activeAdminPass = '';
+                    activeAdminRole = '';
+                    sessionStorage.removeItem('wandrone_admin_user');
+                    sessionStorage.removeItem('wandrone_admin_pass');
+                    sessionStorage.removeItem('wandrone_admin_role');
+                }
+
                 updatePilotUserUI();
                 closeUserAuthModal();
                 renderCommunityQuestions();
@@ -4779,6 +4886,24 @@
 
                 data.password_plain = password;
                 saveActivePilotUser(data);
+
+                // Single Account Identity: Auto-sync admin session if user is admin or superadmin
+                if (data.role === 'admin' || data.role === 'superadmin') {
+                    activeAdminUser = data.username;
+                    activeAdminPass = password;
+                    activeAdminRole = data.role;
+                    sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                    sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                    sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+                } else {
+                    activeAdminUser = '';
+                    activeAdminPass = '';
+                    activeAdminRole = '';
+                    sessionStorage.removeItem('wandrone_admin_user');
+                    sessionStorage.removeItem('wandrone_admin_pass');
+                    sessionStorage.removeItem('wandrone_admin_role');
+                }
+
                 updatePilotUserUI();
                 closeUserAuthModal();
                 renderCommunityQuestions();
@@ -4795,6 +4920,12 @@
 
         function handleUserLogout() {
             clearActivePilotUser();
+            activeAdminUser = '';
+            activeAdminPass = '';
+            activeAdminRole = '';
+            sessionStorage.removeItem('wandrone_admin_user');
+            sessionStorage.removeItem('wandrone_admin_pass');
+            sessionStorage.removeItem('wandrone_admin_role');
             closeUserDashboardModal();
             updatePilotUserUI();
             renderCommunityQuestions();
@@ -4809,6 +4940,12 @@
 
             const modal = document.getElementById('user-dashboard-modal');
             if (!modal) return;
+
+            // Toggle open admin panel button in dashboard header
+            const dashAdminBtn = document.getElementById('dash-btn-open-admin');
+            if (dashAdminBtn) {
+                dashAdminBtn.style.display = (user.role === 'admin' || user.role === 'superadmin') ? 'inline-flex' : 'none';
+            }
 
             const lvl = getLevelInfo(user.total_points);
 
@@ -4827,6 +4964,30 @@
             document.getElementById('dash-star-badges').innerHTML = renderStarSvg(lvl.level, 5);
             document.getElementById('dash-level-title').textContent = `Level ${lvl.level} - ${lvl.title}`;
             document.getElementById('dash-total-points-badge').textContent = `${user.total_points || 0} Poin`;
+
+            // Status role badge in dashboard
+            const roleBadge = document.getElementById('dash-role-badge');
+            if (roleBadge) {
+                if (user.role === 'superadmin') {
+                    roleBadge.style.display = 'inline-flex';
+                    roleBadge.style.background = '#EFF6FF';
+                    roleBadge.style.color = '#1E40AF';
+                    roleBadge.style.border = '1px solid #BFDBFE';
+                    roleBadge.textContent = 'Status: Akun Utama';
+                } else if (user.role === 'admin') {
+                    roleBadge.style.display = 'inline-flex';
+                    roleBadge.style.background = '#E6FBF7';
+                    roleBadge.style.color = 'var(--teal-deep)';
+                    roleBadge.style.border = '1px solid var(--teal-hover)';
+                    roleBadge.textContent = 'Status: Admin Moderasi';
+                } else {
+                    roleBadge.style.display = 'inline-flex';
+                    roleBadge.style.background = '#F8FAFC';
+                    roleBadge.style.color = 'var(--slate)';
+                    roleBadge.style.border = '1px solid var(--line)';
+                    roleBadge.textContent = 'Status: Pilot Komunitas';
+                }
+            }
 
             document.getElementById('dash-stat-points').textContent = user.total_points || 0;
             document.getElementById('dash-stat-comments').textContent = user.comments_count || 0;
@@ -5111,6 +5272,17 @@
         });
 
         function initPilotUserUI() {
+            const pUser = getActivePilotUser();
+            if (pUser && (pUser.role === 'admin' || pUser.role === 'superadmin') && pUser.password_plain) {
+                if (!activeAdminUser || !activeAdminPass) {
+                    activeAdminUser = pUser.username;
+                    activeAdminPass = pUser.password_plain;
+                    activeAdminRole = pUser.role;
+                    sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                    sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                    sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+                }
+            }
             updatePilotUserUI();
         }
 

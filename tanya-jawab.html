@@ -677,6 +677,84 @@
             background: var(--mist);
         }
 
+        /* FULLSCREEN ADMIN CONSOLE */
+        .tw-admin-fullscreen-modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: #F8FAFC !important;
+            z-index: 9999 !important;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            padding: 0 !important;
+        }
+
+        .tw-admin-fullscreen-modal.is-open {
+            display: flex !important;
+        }
+
+        .tw-admin-nav {
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--line);
+            padding: 0.85rem 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(10, 14, 22, 0.04);
+        }
+
+        .tw-admin-scroll-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.75rem 1.5rem;
+            width: 100%;
+        }
+
+        .tw-admin-container {
+            max-width: 1120px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tw-admin-login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 120px);
+            padding: 1.5rem;
+        }
+
+        .tw-admin-login-card {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            max-width: 480px;
+            width: 100%;
+            padding: 2.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .tw-admin-nav {
+                padding: 0.75rem 1rem;
+            }
+            .tw-admin-scroll-body {
+                padding: 1rem 0.75rem;
+            }
+            .tw-admin-login-card {
+                padding: 1.5rem;
+            }
+        }
+
         .form-group {
             margin-bottom: 1rem;
         }
@@ -1184,45 +1262,66 @@
         </div>
     </div>
 
-    <!-- MODAL: ADMIN CONSOLE INTERAKTIF (ZERO PLAIN-TEXT SECRETS) -->
-    <div id="admin-modal" class="tw-modal">
-        <div class="tw-modal-card" style="max-width: 720px; max-height: 90vh; overflow-y: auto;">
-            <div class="tw-modal-head">
-                <div>
-                    <h3 class="tw-modal-title">Panel Moderasi Admin</h3>
-                    <p style="font-size: 0.8125rem; color: var(--slate);">Jawab dan publikasikan pertanyaan pengguna langsung ke forum.</p>
+    <!-- FULLSCREEN ADMIN CONSOLE (ZERO PLAIN-TEXT SECRETS) -->
+    <div id="admin-modal" class="tw-admin-fullscreen-modal">
+        <!-- Top Navbar -->
+        <header class="tw-admin-nav">
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <img src="favicon.png" alt="WanDrone" width="24" height="24" style="border-radius: 6px;"/>
+                    <span style="font-family: var(--display); font-size: 1.125rem; font-weight: 700; color: var(--ink);">WanDrone Admin</span>
                 </div>
-                <button class="tw-modal-close" onclick="closeAdminModal()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700; font-size: 0.75rem;">Panel Moderasi</span>
+                    <span id="admin-pending-badge" class="tw-chip" style="font-size: 0.75rem; display: none;">0 Menunggu Jawaban</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" id="admin-refresh-btn" onclick="fetchAdminQuestions()" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; display: none; align-items: center; gap: 0.35rem;" title="Muat ulang pertanyaan terbaru">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                    <span class="tw-hide-mob">Segarkan</span>
+                </button>
+                <button type="button" onclick="toggleNativeFullscreen()" class="tw-btn-2" style="padding: 0.4rem 0.65rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Beralih Layar Penuh">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    <span class="tw-hide-mob">Layar Penuh</span>
+                </button>
+                <button type="button" id="admin-logout-btn" onclick="handleAdminLogout()" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; display: none; color: #991B1B; border-color: #FECACA;">Keluar</button>
+                <button type="button" onclick="closeAdminModal()" class="tw-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                    <span>Tutup Panel &times;</span>
                 </button>
             </div>
+        </header>
 
-            <!-- VIEW 1: LOGIN ADMIN (Jika belum login di sesi ini) -->
-            <div id="admin-login-view" style="padding: 0.5rem 0;">
-                <p style="font-size: 0.9375rem; color: var(--slate); margin-bottom: 1.25rem; line-height: 1.6;">
-                    Masukkan kata sandi admin Anda untuk memuat daftar pertanyaan pengguna yang masuk dan membalasnya langsung dari web:
-                </p>
-                <form onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="form-label" for="admin-pass-input">Kata Sandi Admin</label>
-                        <input type="password" id="admin-pass-input" class="form-control" placeholder="Ketik kata sandi admin..." required autocomplete="current-password"/>
+        <!-- Main Body Area -->
+        <main class="tw-admin-scroll-body">
+            <!-- VIEW 1: LOGIN ADMIN (Centered Card) -->
+            <div id="admin-login-view" class="tw-admin-login-wrapper">
+                <div class="tw-admin-login-card">
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <img src="favicon.png" alt="WanDrone" width="44" height="44" style="border-radius: 10px; margin-bottom: 0.75rem;"/>
+                        <h3 style="font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;">Login Moderasi Admin</h3>
+                        <p style="font-size: 0.875rem; color: var(--slate); line-height: 1.5;">Masukkan kata sandi admin untuk mengakses daftar pertanyaan dan menjawab secara resmi.</p>
                     </div>
-                    <div id="admin-login-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
-                    <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
-                        <button type="button" class="tw-btn-2" onclick="closeAdminModal()">Tutup</button>
-                        <button type="submit" id="admin-login-btn" class="tw-btn">Buka Panel Admin &rarr;</button>
-                    </div>
-                </form>
+                    <form onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="admin-pass-input">Kata Sandi Admin</label>
+                            <input type="password" id="admin-pass-input" class="form-control" placeholder="Ketik kata sandi admin..." required autocomplete="current-password" autofocus/>
+                        </div>
+                        <div id="admin-login-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
+                        <button type="submit" id="admin-login-btn" class="tw-btn" style="padding: 0.75rem; font-size: 0.9375rem; justify-content: center;">
+                            <span>Buka Panel Admin &rarr;</span>
+                        </button>
+                    </form>
+                </div>
             </div>
 
-            <!-- VIEW 2: DASHBOARD ADMIN (Setelah login) -->
-            <div id="admin-dashboard-view" style="display: none;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); flex-wrap: wrap; gap: 0.5rem;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span class="tw-chip-solid" style="background: var(--teal); color: #0A0E16; font-weight: 700;">Admin Mode</span>
-                        <span id="admin-pending-badge" class="tw-chip">0 Menunggu Jawaban</span>
+            <!-- VIEW 2: DASHBOARD ADMIN (Spacious Grid / Feed) -->
+            <div id="admin-dashboard-view" class="tw-admin-container" style="display: none;">
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <div>
+                        <div style="font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">Moderasi Pertanyaan Pengguna</div>
+                        <div style="font-size: 0.875rem; color: var(--slate);">Jawab pertanyaan yang masuk untuk mempublikasikannya ke forum web publik atau hapus jika diperlukan.</div>
                     </div>
-                    <button type="button" onclick="handleAdminLogout()" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Keluar (Logout)</button>
                 </div>
 
                 <!-- Container Pertanyaan -->
@@ -1230,7 +1329,7 @@
                     <!-- Diisi otomatis oleh JavaScript -->
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- FOOTER -->
@@ -1657,12 +1756,18 @@
         function showAdminLogin() {
             const loginView = document.getElementById('admin-login-view');
             const dashView = document.getElementById('admin-dashboard-view');
-            if (loginView) loginView.style.display = 'block';
+            if (loginView) loginView.style.display = 'flex';
             if (dashView) dashView.style.display = 'none';
             const alertBox = document.getElementById('admin-login-alert');
             if (alertBox) alertBox.style.display = 'none';
             const passInput = document.getElementById('admin-pass-input');
             if (passInput) passInput.value = '';
+            const badge = document.getElementById('admin-pending-badge');
+            if (badge) badge.style.display = 'none';
+            const refBtn = document.getElementById('admin-refresh-btn');
+            if (refBtn) refBtn.style.display = 'none';
+            const outBtn = document.getElementById('admin-logout-btn');
+            if (outBtn) outBtn.style.display = 'none';
         }
 
         function showAdminDashboard() {
@@ -1670,7 +1775,23 @@
             const dashView = document.getElementById('admin-dashboard-view');
             if (loginView) loginView.style.display = 'none';
             if (dashView) dashView.style.display = 'block';
+            const badge = document.getElementById('admin-pending-badge');
+            if (badge) badge.style.display = 'inline-block';
+            const refBtn = document.getElementById('admin-refresh-btn');
+            if (refBtn) refBtn.style.display = 'inline-flex';
+            const outBtn = document.getElementById('admin-logout-btn');
+            if (outBtn) outBtn.style.display = 'inline-flex';
             fetchAdminQuestions();
+        }
+
+        function toggleNativeFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
         }
 
         function handleAdminLogout() {
@@ -1742,7 +1863,7 @@
             }
         }
 
-        function renderAdminQuestions(questions) {
+                function renderAdminQuestions(questions) {
             const container = document.getElementById('admin-questions-list');
             const badge = document.getElementById('admin-pending-badge');
             if (!container) return;
@@ -1750,12 +1871,17 @@
             const pending = questions.filter(q => q.status === 'pending');
             const approved = questions.filter(q => q.status === 'approved');
 
-            if (badge) badge.textContent = `${pending.length} Menunggu Jawaban`;
+            if (badge) {
+                badge.textContent = `${pending.length} Menunggu Jawaban`;
+                badge.style.display = 'inline-block';
+            }
 
             if (questions.length === 0) {
                 container.innerHTML = `
-                    <div style="background: var(--mist); border: 1px dashed var(--line); border-radius: 8px; padding: 2rem; text-align: center; color: var(--slate);">
-                        Belum ada pertanyaan masuk di database.
+                    <div style="background: #FFFFFF; border: 1px dashed var(--line); border-radius: 10px; padding: 3rem 1.5rem; text-align: center; color: var(--slate);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.75rem; color: var(--slate); opacity: 0.6;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.25rem;">Belum Ada Pertanyaan Masuk</div>
+                        <div style="font-size: 0.875rem;">Pertanyaan baru dari pengunjung website akan otomatis muncul di sini.</div>
                     </div>
                 `;
                 return;
@@ -1764,34 +1890,36 @@
             let html = '';
 
             if (pending.length > 0) {
-                html += `<div style="font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;">Pertanyaan Baru Menunggu Jawaban (${pending.length})</div>`;
+                html += `<div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;"><span>Pertanyaan Baru Menunggu Jawaban</span><span class="tw-chip-solid" style="background: #FEF3C7; color: #92400E; font-size: 0.75rem;">${pending.length}</span></div>`;
                 html += pending.map(q => {
                     const cleanPhone = (q.contact_info || '').replace(/[^0-9]/g, '');
                     const waLink = cleanPhone ? (cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone) : '';
                     return `
-                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-left: 4px solid var(--teal); border-radius: 8px; padding: 1.15rem; margin-bottom: 0.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-left: 5px solid var(--teal); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(10, 14, 22, 0.04);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.85rem;">
                                 <div>
-                                    <strong style="color: var(--ink); font-size: 0.9375rem;">${escapeHtml(q.author_name)}</strong>
-                                    <span style="color: var(--slate); font-size: 0.8125rem;"> • ${escapeHtml(q.device_model || 'Umum')}</span>
+                                    <span style="font-weight: 700; color: var(--ink); font-size: 1.05rem;">${escapeHtml(q.author_name)}</span>
+                                    <span style="color: var(--slate); font-size: 0.875rem;"> • ${escapeHtml(q.device_model || 'Umum')}</span>
+                                    <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.2rem;">Masuk pada: ${new Date(q.created_at).toLocaleString('id-ID')}</div>
                                 </div>
-                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
                                     ${waLink ? `
-                                        <a href="https://wa.me/${waLink}" target="_blank" rel="noopener" class="tw-btn-2" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #166534; border-color: #BBF7D0; background: #F0FDF4;">
-                                            WhatsApp: ${escapeHtml(q.contact_info)}
+                                        <a href="https://wa.me/${waLink}" target="_blank" rel="noopener" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.8125rem; color: #166534; border-color: #BBF7D0; background: #F0FDF4; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                            <span>WhatsApp: ${escapeHtml(q.contact_info)}</span>
                                         </a>
-                                    ` : `<span style="font-size: 0.75rem; color: var(--slate);">${escapeHtml(q.contact_info)}</span>`}
+                                    ` : `<span style="font-size: 0.8125rem; color: var(--slate); background: var(--mist); padding: 0.25rem 0.5rem; border-radius: 4px;">Kontak: ${escapeHtml(q.contact_info)}</span>`}
                                 </div>
                             </div>
-                            <div style="font-weight: 600; color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9375rem;">${escapeHtml(q.question_title)}</div>
-                            <div style="font-size: 0.875rem; color: var(--slate); line-height: 1.5; margin-bottom: 1rem; background: var(--mist); padding: 0.75rem; border-radius: 6px;">${escapeHtml(q.question_body)}</div>
                             
-                            <form onsubmit="handleAdminSubmitReply(event, ${q.id})" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <label style="font-size: 0.8125rem; font-weight: 600; color: var(--ink);">Tulis Jawaban Resmi WanDrone:</label>
-                                <textarea id="reply-text-${q.id}" class="form-control" rows="3" placeholder="Ketik jawaban resmi Anda di sini..." required></textarea>
-                                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.25rem;">
-                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; color: #991B1B;">Hapus</button>
-                                    <button type="submit" id="btn-submit-${q.id}" class="tw-btn" style="padding: 0.4rem 0.9rem; font-size: 0.8125rem;">Publikasikan ke Forum &rarr;</button>
+                            <div style="font-family: var(--display); font-weight: 700; color: var(--ink); margin-bottom: 0.45rem; font-size: 1.0625rem;">${escapeHtml(q.question_title)}</div>
+                            <div style="font-size: 0.9375rem; color: var(--ink); line-height: 1.6; margin-bottom: 1.25rem; background: #F8FAFC; padding: 1rem 1.15rem; border-radius: 8px; border: 1px solid var(--line);">${escapeHtml(q.question_body)}</div>
+
+                            <form onsubmit="handleAdminSubmitReply(event, ${q.id})" style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                <label style="font-size: 0.875rem; font-weight: 600; color: var(--ink);">Tulis Jawaban Resmi WanDrone:</label>
+                                <textarea id="reply-text-${q.id}" class="form-control" rows="4" placeholder="Ketik jawaban resmi Anda di sini... Jawaban ini akan langsung tayang di forum publik setelah dipublikasikan." required style="font-size: 0.9375rem; line-height: 1.6;"></textarea>
+                                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                                    <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.5rem 1rem; font-size: 0.875rem; color: #991B1B; border-color: #FECACA;">Hapus Pertanyaan</button>
+                                    <button type="submit" id="btn-submit-${q.id}" class="tw-btn" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Publikasikan ke Forum &rarr;</button>
                                 </div>
                             </form>
                         </div>
@@ -1800,19 +1928,21 @@
             }
 
             if (approved.length > 0) {
-                html += `<div style="font-weight: 700; color: var(--ink); margin-top: 1.5rem; margin-bottom: 0.5rem;">Pertanyaan yang Sudah Diterbitkan (${approved.length})</div>`;
+                html += `<div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-top: 2.25rem; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;"><span>Pertanyaan yang Sudah Diterbitkan di Forum</span><span class="tw-chip-solid" style="background: #DCFCE7; color: #166534; font-size: 0.75rem;">${approved.length} Tayang</span></div>`;
                 html += approved.map(q => `
-                    <div style="background: #FAFBFD; border: 1px solid var(--line); border-radius: 8px; padding: 1rem; margin-bottom: 0.5rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                            <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(q.question_title)}</strong>
-                            <div style="display: flex; gap: 0.45rem; align-items: center;">
-                                <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang</span>
-                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus</button>
+                    <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 0.85rem; box-shadow: 0 1px 4px rgba(10, 14, 22, 0.02);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; flex-wrap: wrap;">
+                            <div>
+                                <strong style="color: var(--ink); font-size: 0.95rem;">${escapeHtml(q.question_title)}</strong>
+                                <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">Oleh: ${escapeHtml(q.author_name)} • ${escapeHtml(q.device_model || 'Umum')}</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <span class="tw-chip" style="font-size: 0.6875rem; background: #F0FDF4; color: #166534; border-color: #BBF7D0;">Tayang di Forum</span>
+                                <button type="button" onclick="handleAdminDeleteQuestion(${q.id})" class="tw-btn-2" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA;">Hapus</button>
                             </div>
                         </div>
-                        <div style="font-size: 0.8125rem; color: var(--slate); margin-top: 0.25rem;">${escapeHtml(q.author_name)} • ${escapeHtml(q.device_model || '')}</div>
-                        <div style="font-size: 0.8125rem; color: var(--ink); margin-top: 0.5rem; background: #FFFFFF; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--line);">
-                            <strong>Jawaban:</strong> ${escapeHtml(q.admin_answer || '')}
+                        <div style="font-size: 0.875rem; color: var(--ink); margin-top: 0.75rem; background: #F8FAFC; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--line); line-height: 1.55;">
+                            <strong style="color: var(--teal-deep);">Jawaban Resmi WanDrone:</strong> ${escapeHtml(q.admin_answer || '')}
                         </div>
                     </div>
                 `).join('');

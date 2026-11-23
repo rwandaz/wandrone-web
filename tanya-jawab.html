@@ -2866,6 +2866,20 @@
             }
         }
 
+        /* Unified Button Typography & Primary Mobile Tab Pill */
+        .tw-btn, .tw-btn-2 {
+            font-family: var(--body);
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .tw-mob-tab-item.tw-mob-tab-primary {
+            background: var(--teal);
+            border-color: #0F766E;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
     </style>
 </head>
 <body>
@@ -2883,12 +2897,12 @@
                 </a>
 
                 <ul class="tw-nav-links">
-                    <li><a href="index.html" class="tw-nav-link">&larr; Halaman Utama</a></li>
+                    <li><a href="index.html" class="tw-nav-link">&larr; Utama</a></li>
                     <li><a href="index.html#faq" class="tw-nav-link">FAQ</a></li>
-                    <li><a href="#forum-komunitas" class="tw-nav-link active">Forum Pilot</a></li>
+                    <li><a href="#forum-komunitas" class="tw-nav-link active">Forum Tanya Jawab</a></li>
                     <li><a href="lisensi.html" class="tw-nav-link">Lisensi</a></li>
                     <li id="admin-nav-item" style="display: none;">
-                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-desktop-only" style="height: 36px; padding: 0 0.85rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border: 1px solid #0A0E16; border-radius: 999px; gap: 0.35rem; display: inline-flex; align-items: center;" title="Buka Dashboard Moderasi &amp; Administrasi">
+                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-desktop-only" style="height: 36px; padding: 0 0.85rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16 !important; border-radius: 999px; gap: 0.35rem; display: inline-flex; align-items: center;" title="Buka Dashboard Moderasi &amp; Administrasi">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                             <span>Admin</span>
                         </button>
@@ -2901,6 +2915,7 @@
                             <span id="pilot-nav-text">Akun Pilot</span>
                         </button>
                     </li>
+                    <li><a href="index.html#trial-hub" class="tw-btn tw-nav-desktop-only" style="height: 36px; padding: 0 0.9rem; font-size: 0.8125rem; border-radius: 999px;">Coba Gratis</a></li>
                 </ul>
 
                 <div class="tw-nav-actions-mobile">
@@ -2915,14 +2930,14 @@
             </div>
         </div>
 
-        <!-- Sticky Mobile Quick Tab Bar -->
+        <!-- Sticky Mobile Quick Tab Bar (Priority: Coba Gratis & Forum Tanya Jawab first) -->
         <nav class="tw-mob-tabbar" aria-label="Navigasi Tab Cepat">
             <div class="tw-mob-tabbar-track">
+                <a href="index.html#trial-hub" class="tw-mob-tab-item tw-mob-tab-primary">Coba Gratis</a>
+                <a href="#forum-komunitas" class="tw-mob-tab-item is-active">Forum Tanya Jawab</a>
+                <button type="button" onclick="handleMobilePilotClick()" class="tw-mob-tab-item">Akun Pilot</button>
                 <a href="index.html" class="tw-mob-tab-item">&larr; Utama</a>
-                <a href="#forum-komunitas" class="tw-mob-tab-item is-active">Forum Pilot</a>
-                <a href="index.html#faq" class="tw-mob-tab-item">FAQ</a>
                 <a href="lisensi.html" class="tw-mob-tab-item">Lisensi</a>
-                <button type="button" onclick="handleMobilePilotClick()" class="tw-mob-tab-item tw-mob-tab-accent">Akun Pilot</button>
             </div>
         </nav>
 
@@ -3529,10 +3544,11 @@
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
                     <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Navigasi</h3>
                     <ul class="tw-list">
+                        <li><a href="index.html#trial-hub" style="color: var(--teal); font-weight: 600;">Zona Coba Gratis &amp; Panduan</a></li>
+                        <li><a href="#forum-komunitas" style="color: var(--teal); font-weight: 600;">Forum Tanya Jawab Komunitas</a></li>
                         <li><a href="index.html">&larr; Halaman Utama</a></li>
                         <li><a href="index.html#faq">Pertanyaan Umum (FAQ)</a></li>
-                        <li><a href="lisensi.html">Pilihan Lisensi</a></li>
-                        <li><a href="#forum-komunitas">Forum Tanya Jawab</a></li>
+                        <li><a href="lisensi.html">Informasi Lisensi</a></li>
                         <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi &rarr;</a></li>
                     </ul>
                 </div>

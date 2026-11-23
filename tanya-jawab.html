@@ -4717,11 +4717,15 @@
 
             const device = `${drone} (${remote})`;
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Mengirim...';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mengirim...';
+            }
             if (alertBox) alertBox.style.display = 'none';
 
             try {
+                let submittedData = null;
+
                 if (supabaseClient) {
                     const { data, error } = await supabaseClient.rpc('user_submit_question', {
                         p_user_id: user.id,
@@ -4740,26 +4744,33 @@
                             alertBox.style.color = '#991B1B';
                             alertBox.textContent = error.message || 'Gagal mengirim pertanyaan.';
                         }
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Kirim Pertanyaan';
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Kirim Pertanyaan';
+                        }
                         return;
                     }
 
+                    submittedData = data || null;
+
                     // Update user's points and star level (+10 points!)
-                    if (data && data.total_points !== undefined) {
-                        user.total_points = data.total_points;
-                        user.star_level = data.star_level;
+                    if (submittedData && submittedData.total_points !== undefined) {
+                        user.total_points = submittedData.total_points;
+                        if (submittedData.star_level !== undefined) user.star_level = submittedData.star_level;
                         saveActivePilotUser(user);
                         updatePilotUserUI();
                     }
                 }
 
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Kirim Pertanyaan';
-                document.getElementById('question-form').reset();
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Kirim Pertanyaan';
+                }
+                const qForm = document.getElementById('question-form');
+                if (qForm) qForm.reset();
 
                 // Instantly inject newly created question into community forum
-                const newQId = (data && data.question_id) ? String(data.question_id) : 'user-' + Date.now();
+                const newQId = (submittedData && submittedData.question_id) ? String(submittedData.question_id) : 'user-' + Date.now();
                 const newQObj = {
                     id: newQId,
                     created_at: new Date().toISOString(),
@@ -6929,6 +6940,11 @@
                 return;
             }
 
+            if (!supabaseClient) {
+                alert('Koneksi ke server belum siap. Silakan muat ulang halaman.');
+                return;
+            }
+
             try {
                 const { data, error } = await supabaseClient.rpc('user_vote_comment', {
                     p_user_id: user.id,
@@ -6943,7 +6959,9 @@
 
                 // Update counter on screen
                 const numElem = document.getElementById(`comment-vote-num-${commentId}`);
-                if (numElem) numElem.textContent = data.new_helpful_votes;
+                if (numElem && data && data.new_helpful_votes !== undefined) {
+                    numElem.textContent = data.new_helpful_votes;
+                }
 
                 // Reload all comments and refresh with accordion exclusivity
                 await loadAllForumComments();
@@ -6952,9 +6970,9 @@
                 renderCommunityQuestions(null, true);
 
                 // If voter is the author (though backend blocks self vote), update stats
-                if (user.id === data.author_id) {
-                    user.total_points = data.author_total_points;
-                    user.star_level = data.author_star_level;
+                if (data && user.id === data.author_id) {
+                    if (data.author_total_points !== undefined) user.total_points = data.author_total_points;
+                    if (data.author_star_level !== undefined) user.star_level = data.author_star_level;
                     saveActivePilotUser(user);
                     updatePilotUserUI();
                 }
@@ -6968,7 +6986,7 @@
             const user = getActivePilotUser();
             const isAdmin = !!(activeAdminUser && activeAdminPass);
 
-            if (!user && !isAdmin) {
+            if (!user) {
                 openUserAuthModal('login');
                 const alertBox = document.getElementById('login-alert');
                 if (alertBox) {
@@ -6976,7 +6994,9 @@
                     alertBox.style.background = '#EFF6FF';
                     alertBox.style.border = '1px solid #BFDBFE';
                     alertBox.style.color = '#1E40AF';
-                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberikan tanggapan. Silakan masuk terlebih dahulu.</div>';
+                    alertBox.innerHTML = isAdmin
+                        ? '<div style="font-weight: 700; margin-bottom: 0.25rem;">Masuk Akun Pilot Diperlukan</div><div>Silakan masuk menggunakan akun pilot Anda untuk mengirim tanggapan di kolom komentar.</div>'
+                        : '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberikan tanggapan. Silakan masuk terlebih dahulu.</div>';
                 }
                 return;
             }
@@ -6992,6 +7012,16 @@
                     alertBox.style.background = '#FEF2F2';
                     alertBox.style.color = '#991B1B';
                     alertBox.textContent = 'Komentar minimal 5 karakter.';
+                }
+                return;
+            }
+
+            if (!supabaseClient) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Koneksi ke server belum siap. Silakan muat ulang halaman.';
                 }
                 return;
             }
@@ -7018,18 +7048,19 @@
                     return;
                 }
 
-                // Update local user points & stars
-                user.total_points = data.total_points;
-                user.star_level = data.star_level;
+                // Update local user points & stars safely
+                if (data && data.total_points !== undefined) user.total_points = data.total_points;
+                if (data && data.star_level !== undefined) user.star_level = data.star_level;
                 user.comments_count = (user.comments_count || 0) + 1;
                 saveActivePilotUser(user);
                 updatePilotUserUI();
 
                 // Clear input and reload comments with accordion exclusivity
-                input.value = '';
+                if (input) input.value = '';
                 forumExpandedQuestions = { [String(questionId)]: true };
                 commentsExpanded = { [String(questionId)]: true };
                 await loadAllForumComments();
+                if (btn) { btn.disabled = false; btn.textContent = 'Kirim Tanggapan'; }
             } catch (err) {
                 if (alertBox) {
                     alertBox.style.display = 'block';
@@ -7110,12 +7141,12 @@
                     p_password: password
                 });
 
-                if (error) {
+                if (error || !data) {
                     if (alertBox) {
                         alertBox.style.display = 'block';
                         alertBox.style.background = '#FEF2F2';
                         alertBox.style.color = '#991B1B';
-                        alertBox.textContent = error.message || 'Username atau kata sandi tidak cocok.';
+                        alertBox.textContent = (error && error.message) || 'Username atau kata sandi tidak cocok.';
                     }
                     if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
                     return;
@@ -7144,6 +7175,7 @@
                 const wasPendingAdmin = window.pendingAdminRedirect;
                 window.pendingAdminRedirect = false;
 
+                if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
                 updatePilotUserUI();
                 closeUserAuthModal();
                 renderCommunityQuestions();
@@ -7197,12 +7229,12 @@
                     p_drones: drones
                 });
 
-                if (error) {
+                if (error || !data) {
                     if (alertBox) {
                         alertBox.style.display = 'block';
                         alertBox.style.background = '#FEF2F2';
                         alertBox.style.color = '#991B1B';
-                        alertBox.textContent = error.message || 'Pendaftaran gagal.';
+                        alertBox.textContent = (error && error.message) || 'Pendaftaran gagal.';
                     }
                     if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
                     return;
@@ -7231,6 +7263,7 @@
                 const wasPendingAdmin = window.pendingAdminRedirect;
                 window.pendingAdminRedirect = false;
 
+                if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
                 updatePilotUserUI();
                 closeUserAuthModal();
                 renderCommunityQuestions();
@@ -7455,11 +7488,13 @@
                     p_avatar_url: avatarToSend
                 });
 
-                if (error) {
-                    alertBox.style.display = 'block';
-                    alertBox.style.background = '#FEF2F2';
-                    alertBox.style.color = '#991B1B';
-                    alertBox.textContent = error.message || 'Gagal menyimpan perubahan.';
+                if (error || !data) {
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = (error && error.message) || 'Gagal menyimpan perubahan.';
+                    }
                     if (btn) { btn.disabled = false; btn.textContent = 'Simpan Perubahan Profil'; }
                     return;
                 }
@@ -7469,24 +7504,28 @@
                 updatePilotUserUI();
                 renderCommunityQuestions();
 
-                alertBox.style.display = 'block';
-                alertBox.style.background = '#F0FDF4';
-                alertBox.style.border = '1px solid #BBF7D0';
-                alertBox.style.color = '#166534';
-                alertBox.textContent = 'Profil dan data kredensial Anda berhasil diperbarui!';
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#F0FDF4';
+                    alertBox.style.border = '1px solid #BBF7D0';
+                    alertBox.style.color = '#166534';
+                    alertBox.textContent = 'Profil dan data kredensial Anda berhasil diperbarui!';
+                }
 
-                curPassInput.value = '';
-                newPassInput.value = '';
+                if (curPassInput) curPassInput.value = '';
+                if (newPassInput) newPassInput.value = '';
                 if (newUserInput) newUserInput.value = '';
 
                 if (btn) { btn.disabled = false; btn.textContent = 'Simpan Perubahan Profil'; }
 
                 openUserDashboardModal();
             } catch (err) {
-                alertBox.style.display = 'block';
-                alertBox.style.background = '#FEF2F2';
-                alertBox.style.color = '#991B1B';
-                alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                }
                 if (btn) { btn.disabled = false; btn.textContent = 'Simpan Perubahan Profil'; }
             }
         }
@@ -7919,29 +7958,36 @@
                 });
 
                 if (error) {
-                    alertBox.style.display = 'block';
-                    alertBox.style.background = '#FEF2F2';
-                    alertBox.style.color = '#991B1B';
-                    alertBox.textContent = error.message || 'Gagal mengubah poin.';
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = error.message || 'Gagal mengubah poin.';
+                    }
                     if (btn) { btn.disabled = false; btn.textContent = 'Simpan Poin'; }
                     return;
                 }
 
-                alertBox.style.display = 'block';
-                alertBox.style.background = '#F0FDF4';
-                alertBox.style.border = '1px solid #BBF7D0';
-                alertBox.style.color = '#166534';
-                alertBox.textContent = `Poin berhasil diperbarui menjadi ${newPoints} (Level ${data.star_level}).`;
+                const updatedStarLevel = (data && data.star_level !== undefined) ? data.star_level : getLevelInfo(newPoints).stars;
+
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#F0FDF4';
+                    alertBox.style.border = '1px solid #BBF7D0';
+                    alertBox.style.color = '#166534';
+                    alertBox.textContent = `Poin berhasil diperbarui menjadi ${newPoints} (Level ${updatedStarLevel}).`;
+                }
+                if (btn) { btn.disabled = false; btn.textContent = 'Simpan Poin'; }
 
                 setTimeout(() => {
                     closeAdminAdjustPointsModal();
                     fetchAdminForumUsers();
                     fetchAdminUsers();
-                    const curUser = getActivePilotUser();
-                    if (curUser && Number(curUser.id) === Number(userId)) {
-                        curUser.total_points = newPoints;
-                        curUser.star_level = data.star_level;
-                        saveActivePilotUser(curUser);
+                    const activePilot = getActivePilotUser();
+                    if (activePilot && Number(activePilot.id) === Number(userId)) {
+                        activePilot.total_points = newPoints;
+                        activePilot.star_level = updatedStarLevel;
+                        saveActivePilotUser(activePilot);
                         updatePilotUserUI();
                         const pBadge = document.getElementById('dash-total-points-badge');
                         const pStat = document.getElementById('dash-stat-points');
@@ -7951,16 +7997,19 @@
                 }, 1200);
 
             } catch (err) {
-                alertBox.style.display = 'block';
-                alertBox.style.background = '#FEF2F2';
-                alertBox.style.color = '#991B1B';
-                alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
+                }
                 if (btn) { btn.disabled = false; btn.textContent = 'Simpan Poin'; }
             }
         }
 
         async function handleDeleteForumUser(userId, username) {
             if (!confirm(`Apakah Anda yakin ingin menghapus akun pengguna @${username}? Seluruh komentar yang pernah dibuat akan ikut terhapus.`)) return;
+            if (!supabaseClient) return;
 
             try {
                 const { data, error } = await supabaseClient.rpc('admin_delete_forum_user', {
@@ -8037,20 +8086,24 @@
                 });
 
                 if (error || (data && !data.success)) {
-                    alertBox.style.display = 'block';
-                    alertBox.style.background = '#FEF2F2';
-                    alertBox.style.border = '1px solid #FECACA';
-                    alertBox.style.color = '#991B1B';
-                    alertBox.textContent = (data && data.message) || error?.message || 'Gagal menjadikan admin.';
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.border = '1px solid #FECACA';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = (data && data.message) || (error && error.message) || 'Gagal menjadikan admin.';
+                    }
                     if (btn) { btn.disabled = false; btn.textContent = '+ Konfirmasi Jadikan Admin'; }
                     return;
                 }
 
-                alertBox.style.display = 'block';
-                alertBox.style.background = '#F0FDF4';
-                alertBox.style.border = '1px solid #BBF7D0';
-                alertBox.style.color = '#166534';
-                alertBox.innerHTML = `<strong>Berhasil:</strong> ${escapeHtml(data.message || 'Pengguna berhasil dijadikan admin.')}`;
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#F0FDF4';
+                    alertBox.style.border = '1px solid #BBF7D0';
+                    alertBox.style.color = '#166534';
+                    alertBox.innerHTML = `<strong>Berhasil:</strong> ${escapeHtml((data && data.message) || 'Pengguna berhasil dijadikan admin.')}`;
+                }
 
                 if (btn) { btn.disabled = false; btn.textContent = 'Selesai'; }
 

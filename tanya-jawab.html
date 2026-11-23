@@ -4,6 +4,46 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <script>
+        (function () {
+            if (window.location.protocol === 'file:') return;
+            try {
+                var cur = new URL(window.location.href);
+                if (cur.searchParams.has('_t')) {
+                    cur.searchParams.delete('_t');
+                    window.history.replaceState(null, '', cur.pathname + (cur.search || '') + (cur.hash || ''));
+                }
+            } catch (_) {}
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    var u = new URL(window.location.href);
+                    u.searchParams.set('_t', Date.now());
+                    window.location.replace(u.toString());
+                }
+            });
+            document.addEventListener('click', function (e) {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+                if (!a) return;
+                var rawHref = a.getAttribute('href') || '';
+                if (!rawHref || rawHref.charAt(0) === '#' || /^javascript:|^mailto:|^tel:/i.test(rawHref)) return;
+                if ((a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+                try {
+                    var dest = new URL(a.href, window.location.href);
+                    var now = new URL(window.location.href);
+                    if (dest.origin !== now.origin) return;
+                    var norm = function (p) { return p.replace(/\/index\.html$/i, '/'); };
+                    if (norm(dest.pathname) === norm(now.pathname) && dest.hash) return;
+                    e.preventDefault();
+                    dest.searchParams.set('_t', Date.now());
+                    window.location.href = dest.toString();
+                } catch (_) {}
+            });
+        })();
+    </script>
     
     <title>Forum Tanya Jawab — WanDrone APP</title>
     <meta name="description" content="Pusat bantuan, tanya jawab teknis pemetaan TW-Mapper, dan forum diskusi komunitas WanDrone. Cari solusi instan atau ajukan pertanyaan langsung."/>
@@ -3150,7 +3190,7 @@
     <header class="tw-nav" id="top" role="banner">
         <div class="container">
             <div class="tw-nav-inner">
-                <a href="index.html" class="nav-brand" onclick="event.preventDefault(); window.location.href = 'index.html';" title="Kembali ke halaman utama &amp; muat ulang">
+                <a href="index.html" class="nav-brand" onclick="event.preventDefault(); window.location.href = window.location.protocol === 'file:' ? 'index.html' : 'index.html?_t=' + Date.now();" title="Kembali ke halaman utama &amp; muat ulang">
                     <img src="images/twmapper-logo.png" alt="TW Mapper Logo"/>
                     <div class="nav-brand-group">
                         <div class="nav-brand-title">TW Mapper</div>

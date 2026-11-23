@@ -1729,7 +1729,7 @@
     <header id="top" role="banner">
         <div class="container">
             <nav class="nav-wrapper" aria-label="Navigasi Utama">
-                <a href="index.html" class="nav-brand" onclick="event.preventDefault(); window.location.href = window.location.pathname;" title="Muat ulang halaman">
+                <a href="index.html" class="nav-brand" onclick="event.preventDefault(); if ((window.location.pathname.endsWith('/') || /\/index\.html$/i.test(window.location.pathname)) && !window.location.hash && !window.location.search) { window.location.reload(); } else { window.location.href = 'index.html'; }" title="Kembali ke halaman utama &amp; muat ulang">
                     <img src="images/twmapper-logo.png" alt="TW Mapper Logo" style="border-radius: 8px;"/>
                     <div class="nav-brand-group">
                         <div class="nav-brand-title">TW Mapper</div>

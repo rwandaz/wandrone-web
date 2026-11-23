@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     
-    <title>Pusat Bantuan &amp; Forum Tanya Jawab — WanDrone</title>
+    <title>Forum Tanya Jawab — TW Mapper</title>
     <meta name="description" content="Pusat bantuan, tanya jawab teknis pemetaan TW-Mapper, dan forum diskusi komunitas WanDrone. Cari solusi instan atau ajukan pertanyaan langsung."/>
     
     <!-- OpenGraph / Social Meta -->
@@ -2866,11 +2866,38 @@
             }
         }
 
-        /* Unified Button Typography & Primary Mobile Tab Pill */
+        /* Unified Button Typography, Modals, Inputs & Primary Mobile Tab Pill */
         .tw-btn, .tw-btn-2 {
             font-family: var(--body);
             font-weight: 600;
             border-radius: 8px;
+        }
+
+        .tw-modal-card {
+            border-radius: 16px;
+            border: 1px solid #CBD5E1;
+        }
+
+        .tw-modal-close {
+            border: 1.5px solid #CBD5E1;
+            border-radius: 8px;
+        }
+
+        .tw-modal-close:hover {
+            border-color: var(--ink);
+            background: #F1F5F9;
+        }
+
+        .form-control {
+            border: 1.5px solid #94A3B8;
+            border-radius: 10px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            border-color: var(--teal-deep);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.16);
         }
 
         .tw-mob-tab-item.tw-mob-tab-primary {
@@ -2888,7 +2915,7 @@
     <header class="tw-nav" id="top" role="banner">
         <div class="container">
             <div class="tw-nav-inner">
-                <a href="index.html" class="nav-brand">
+                <a href="tanya-jawab.html" class="nav-brand" onclick="event.preventDefault(); window.location.href = window.location.pathname;" title="Muat ulang halaman">
                     <img src="images/twmapper-logo.png" alt="TW Mapper Logo"/>
                     <div class="nav-brand-group">
                         <div class="nav-brand-title">TW Mapper</div>
@@ -2968,7 +2995,7 @@
 
                 <h1>Forum Tanya Jawab Pilot</h1>
                 <p class="tw-standfirst">
-                    Berbagi solusi teknis pemetaan TW-Mapper di lapangan, berkas KML, kontur bukit, dan pengaturan remote langsung bersama tim WanDrone &amp; rekan pilot.
+                    Berbagi solusi teknis pemetaan TW-Mapper di lapangan, berkas KML, kontur bukit, dan pengaturan remote langsung bersama tim teknis &amp; rekan pilot.
                 </p>
             </div>
         </div>
@@ -2985,7 +3012,7 @@
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                         </div>
                         <div>
-                            <div style="font-family: var(--display); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.12rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
+                            <div style="font-family: var(--display); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.12rem;" id="banner-pilot-title">Komunitas Pilot</div>
                             <div style="font-size: 0.8rem; color: var(--slate); line-height: 1.38;" id="banner-pilot-desc">Masuk untuk ikut berdiskusi, mengumpulkan poin reputasi, dan memberi tanda membantu.</div>
                         </div>
                     </div>
@@ -3078,7 +3105,7 @@
             <div class="tw-modal-head">
                 <div>
                     <h3 class="tw-modal-title">Ajukan Pertanyaan ke Tim</h3>
-                    <p style="font-size: 0.8125rem; color: var(--slate);" id="q-modal-subtitle">Pertanyaan akan dijawab oleh tim teknis WanDrone.</p>
+                    <p style="font-size: 0.8125rem; color: var(--slate);" id="q-modal-subtitle">Pertanyaan akan dijawab oleh tim teknis.</p>
                 </div>
                 <button class="tw-modal-close" onclick="closeQuestionModal()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -3427,7 +3454,7 @@
                         <!-- Avatar & Foto Profil -->
                         <div class="tw-profile-subbox">
                             <div style="font-family: var(--display); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">Foto Profil &amp; Avatar Pilot</div>
-                            <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 0.9rem;">Unggah foto pribadi Anda atau pilih salah satu karakter pilot WanDrone.</div>
+                            <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 0.9rem;">Unggah foto pribadi Anda atau pilih salah satu karakter pilot.</div>
 
                             <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                                 <div id="edit-avatar-preview-wrap" style="width: 68px; height: 68px; border-radius: 50%; overflow: hidden; border: 2px solid var(--teal); box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-shrink: 0; background: #FFFFFF; display: flex; align-items: center; justify-content: center;">
@@ -3554,11 +3581,11 @@
                 </div>
 
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
-                    <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Narahubung</h3>
+                    <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Narahubung Resmi</h3>
                     <ul class="tw-list">
-                        <li><span>Informasi Lisensi: <strong>Jejen</strong> (<a href="https://wa.me/6285199391551" target="_blank" rel="noopener">0851-9939-1551</a>)</span></li>
-                        <li><span>Product Knowledge: <strong>Rwanda</strong> (<a href="https://wa.me/6285175009498" target="_blank" rel="noopener">0851-7500-9498</a>)</span></li>
-                        <li><span>Product Knowledge: <strong>Ian</strong> (<a href="https://wa.me/628111969111" target="_blank" rel="noopener">0811-1969-111</a>)</span></li>
+                        <li><span>Informasi Lisensi: <strong>Jejen</strong></span></li>
+                        <li><span>Product Knowledge: <strong>Ian, Upay &amp; Wan</strong></span></li>
+                        <li style="margin-top: 0.5rem;"><a href="index.html#kontak" style="color: var(--teal); font-weight: 600;">Lihat Kontak Resmi &rarr;</a></li>
                     </ul>
                 </div>
             </div>
@@ -3609,7 +3636,7 @@
                 question_body: 'Halo tim, mau tanya saat drone selesai terbang otomatis dan foto tersimpan di MicroSD, apakah posisi latitude, longitude, dan ketinggiannya sudah langsung ter-geotag ke EXIF foto untuk olah di Agisoft Metashape atau Pix4D?',
                 admin_answer: 'Halo Pak Budi. Ya, 100% langsung kompatibel. TW-Mapper memerintahkan kamera drone untuk mengambil foto dengan metadata geotagging EXIF asli kamera (koordinat GPS & RTK serta ketinggian elipsoid). Anda bisa langsung memasukkan berkas foto ke Agisoft Metashape, Pix4D, DroneDeploy, maupun WebODM tanpa konversi.',
                 answered_at: new Date(Date.now() - 86400000).toISOString(),
-                answered_by: 'Admin WanDrone',
+                answered_by: 'Admin',
                 likes_count: 8,
                 dislikes_count: 0
             },
@@ -3622,7 +3649,7 @@
                 question_body: 'Kemarin terbang survei 60 Hektar di kebun sawit, baterai tinggal 20% pas waypoint ke-45 dari total 90. Cara lanjutkannya bagaimana biar tidak mengulang dari waypoint 1?',
                 admin_answer: 'Halo Mas Fauzan. Di aplikasi penerbangan sudah memiliki fitur Resume Waypoint otomatis. Saat baterai menipis, tekan tombol RTH (Return to Home) di remote. Ganti baterai baru, nyalakan kembali drone, lalu buka kembali misi tersebut dan pilih opsi "Lanjutkan dari Titik Terakhir". Drone akan langsung terbang menuju waypoint ke-45 dan melanjutkan pemetaan.',
                 answered_at: new Date(Date.now() - 86400000 * 3).toISOString(),
-                answered_by: 'Admin WanDrone',
+                answered_by: 'Admin',
                 likes_count: 14,
                 dislikes_count: 0
             },
@@ -3635,7 +3662,7 @@
                 question_body: 'Bagaimana rekomendasi persentase sidelap dan frontlap untuk area berkontur curam?',
                 admin_answer: 'Untuk area berkontur curam, rekomendasi overlap pemetaan drone:\n- Sidelap: 80–85%\n- Frontlap: 85–90%\nPengaturan ideal TW Mapper:\n- Sidelap: 80%\n- Frontlap: 85%\n- Pola terbang: Double Grid (opsional)\nUntuk kontur sangat curam, gunakan 85% sidelap dan 90% frontlap agar kesinambungan foto dan kualitas rekonstruksi 3D lebih terjaga.',
                 answered_at: new Date(Date.now() - 86400000 * 1).toISOString(),
-                answered_by: 'Admin WanDrone',
+                answered_by: 'Admin',
                 likes_count: 12,
                 dislikes_count: 0
             },
@@ -3781,7 +3808,7 @@
             url.hash = '';
             const shareUrl = url.toString();
             const qObj = (allCommunityQuestions || []).find(item => String(item.id) === String(qId));
-            const titleText = qObj ? qObj.question_title : 'Diskusi Forum Pilot WanDrone';
+            const titleText = qObj ? qObj.question_title : 'Diskusi Forum Pilot';
 
             if (navigator.share) {
                 try {
@@ -3834,7 +3861,7 @@
                 container.innerHTML = `
                     <div style="background: #FFFFFF; border: 1px dashed #CBD5E1; border-radius: 14px; padding: 2.5rem 1.5rem; text-align: center; color: var(--slate);">
                         <p style="margin-bottom: 0.4rem; font-size: 1.0625rem; font-weight: 700; color: var(--ink);">Belum ada topik diskusi yang cocok.</p>
-                        <p style="font-size: 0.875rem;">Jadilah yang pertama mengajukan pertanyaan di komunitas pilot WanDrone!</p>
+                        <p style="font-size: 0.875rem;">Jadilah yang pertama mengajukan pertanyaan di komunitas pilot!</p>
                         <button onclick="openQuestionModal()" class="tw-btn" style="margin-top: 1rem; padding: 0.55rem 1.25rem; border-radius: 999px;">+ Buat Post Baru</button>
                     </div>
                 `;
@@ -3866,7 +3893,7 @@
                 const authorAvatarHtml = renderUserAvatar(q.avatar_url || null, q.author_name, '', 40);
                 const hasAdminAnswer = !!(q.admin_answer && q.admin_answer.trim());
                 const deviceTagText = (q.device_model || 'Umum').trim();
-                const responderName = (q.answered_by && !q.answered_by.toLowerCase().includes('akun utama')) ? q.answered_by : 'Tim Teknis WanDrone';
+                const responderName = (q.answered_by && !q.answered_by.toLowerCase().includes('akun utama')) ? q.answered_by : 'Tim Teknis';
 
                 const statusBadgeHtml = hasAdminAnswer
                     ? '<span class="tw-status-pill is-answered"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Terjawab</span>'
@@ -4495,7 +4522,7 @@
                     alertBox.style.color = '#166534';
                     alertBox.innerHTML = `
                         <div style="font-weight: 700; margin-bottom: 0.35rem; font-size: 0.9375rem;">Terima Kasih, Pilot ${escapeHtml(author)}!</div>
-                        <div style="font-size: 0.875rem; line-height: 1.5; margin-bottom: 0.35rem;">Pertanyaan Anda berhasil diajukan dan disimpan di database antrean moderasi tim teknis WanDrone.</div>
+                        <div style="font-size: 0.875rem; line-height: 1.5; margin-bottom: 0.35rem;">Pertanyaan Anda berhasil diajukan dan disimpan di database antrean moderasi tim teknis.</div>
                         <div style="font-size: 0.8125rem; font-weight: 700; color: #15803D;">+10 Poin Reputasi telah ditambahkan ke profil Anda!</div>
                     `;
                 }
@@ -4621,7 +4648,7 @@
                     userMap.set(lowerU, {
                         id: a.id,
                         username: a.username,
-                        full_name: a.username === 'rwandaz' ? 'WanDrone Utama' : (a.full_name || a.username.toUpperCase()),
+                        full_name: a.username === 'rwandaz' ? 'Akun Utama' : (a.full_name || a.username.toUpperCase()),
                         contact_info: a.username === 'rwandaz' ? 'admin@wandrone.id' : `${a.username}@wandrone.id`,
                         role: isSuper ? 'superadmin' : 'admin',
                         total_points: isSuper ? 505 : 100,
@@ -5663,13 +5690,13 @@
                 const qAdmin = latestAdminQuestions.find(item => String(item.id) === String(rawQId));
                 if (qAdmin) {
                     qAdmin.admin_answer = newAnswer;
-                    qAdmin.answered_by = 'Admin WanDrone';
+                    qAdmin.answered_by = 'Admin';
                     qAdmin.status = 'approved';
                 }
                 const qPublic = allCommunityQuestions.find(item => String(item.id) === String(rawQId));
                 if (qPublic) {
                     qPublic.admin_answer = newAnswer;
-                    qPublic.answered_by = 'Admin WanDrone';
+                    qPublic.answered_by = 'Admin';
                     qPublic.status = 'approved';
                 }
                 saveStoredQuestions(allCommunityQuestions);
@@ -5877,7 +5904,7 @@
                             <div class="tw-admin-card-body" style="font-size: 0.90625rem; color: #1E293B; line-height: 1.58; margin-bottom: 1rem; background: #F8FAFC; padding: 0.9rem 1rem; border-radius: 10px; border: 1px solid #CBD5E1;">${escapeHtml(q.question_body)}</div>
 
                             <form onsubmit="handleAdminSubmitReply(event, '${q.id}')" style="display: flex; flex-direction: column; gap: 0.6rem;">
-                                <label style="font-size: 0.84375rem; font-weight: 700; color: var(--ink);">Tulis Jawaban Tim WanDrone:</label>
+                                <label style="font-size: 0.84375rem; font-weight: 700; color: var(--ink);">Tulis Jawaban Tim Teknis:</label>
                                 <textarea id="reply-text-${q.id}" class="form-control" rows="4" placeholder="Ketik jawaban resmi di sini... Jawaban akan langsung tayang di forum publik." required style="font-size: 0.90625rem; line-height: 1.55; border: 1.5px solid #94A3B8; border-radius: 10px;"></textarea>
                                 <div class="tw-admin-actions-row" style="margin-top: 0.25rem;">
                                     <button type="button" onclick="openAdminEditQuestionModal('${q.id}')" class="tw-btn-2" style="height: 36px; padding: 0 0.9rem; font-size: 0.8rem; border-radius: 999px; color: var(--teal-deep); border-color: var(--teal-deep); display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
@@ -5925,7 +5952,7 @@
                         </div>
 
                         <div class="tw-admin-card-body" style="font-size: 0.875rem; color: #1E293B; margin-bottom: 0.85rem; background: #F0FDF9; padding: 0.75rem 0.95rem; border-radius: 10px; border: 1px solid rgba(45, 212, 191, 0.4); border-left: 3px solid var(--teal-deep); line-height: 1.55;">
-                            <strong style="color: var(--teal-deep);">Jawaban Tim WanDrone:</strong> ${escapeHtml(q.admin_answer || '')}
+                            <strong style="color: var(--teal-deep);">Jawaban Tim Teknis:</strong> ${escapeHtml(q.admin_answer || '')}
                         </div>
 
                         <div class="tw-admin-actions-row">
@@ -6129,7 +6156,7 @@
 
         function getLevelInfo(points) {
             const p = Number(points) || 0;
-            if (p >= 300) return { level: 5, title: 'Legenda WanDrone', next: null, min: 300 };
+            if (p >= 300) return { level: 5, title: 'Legenda', next: null, min: 300 };
             if (p >= 150) return { level: 4, title: 'Master Pemetaan', next: 300, min: 150 };
             if (p >= 75) return { level: 3, title: 'Spesialis Lapangan', next: 150, min: 75 };
             if (p >= 25) return { level: 2, title: 'Pilot Aktif', next: 75, min: 25 };
@@ -6381,7 +6408,7 @@
                 if (composerAvatarSlot) {
                     composerAvatarSlot.innerHTML = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
                 }
-                if (bannerTitle) bannerTitle.textContent = 'Komunitas Pilot WanDrone';
+                if (bannerTitle) bannerTitle.textContent = 'Komunitas Pilot';
                 if (bannerDesc) bannerDesc.textContent = 'Masuk untuk ikut berdiskusi, mengumpulkan poin reputasi, dan memberi tanda membantu.';
                 if (bannerAction) {
                     bannerAction.innerHTML = `
@@ -7060,7 +7087,7 @@
                 progressLabel.textContent = `${user.total_points || 0} / ${lvl.next} Poin (${pct}%) • Kurang ${lvl.next - (user.total_points || 0)} poin lagi ke Level ${lvl.level + 1}`;
                 progressBar.style.width = pct + '%';
             } else {
-                progressLabel.textContent = `${user.total_points || 0} Poin • Tingkat Tertinggi Tercapai (Legenda WanDrone)`;
+                progressLabel.textContent = `${user.total_points || 0} Poin • Tingkat Tertinggi Tercapai (Legenda)`;
                 progressBar.style.width = '100%';
             }
 

@@ -1413,7 +1413,7 @@
         }
 
         /* ==========================================================================
-           UNIFIED DESIGN SYSTEM (Consistent across index, lisensi & tanya-jawab)
+           UNIFIED DESIGN SYSTEM (100% Consistent across index, lisensi & tanya-jawab)
            ========================================================================== */
 
         html, body {
@@ -1421,13 +1421,73 @@
             overflow-x: clip;
         }
 
-        /* Unified Crisp Buttons */
+        /* Unified Brand Lockup & Nav Links */
+        .nav-brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+        }
+
+        .nav-brand-title {
+            font-size: 1.3rem;
+            line-height: 1.1;
+        }
+
+        .nav-brand-subtitle {
+            font-size: 0.68rem;
+            line-height: 1.2;
+        }
+
+        .nav-menu {
+            gap: 0.35rem;
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--slate);
+            padding: 0.42rem 0.7rem;
+            border-radius: 8px;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+            background: var(--mist);
+        }
+
+        .nav-link.active {
+            color: var(--teal-deep);
+            background: rgba(45, 212, 191, 0.12);
+            font-weight: 600;
+        }
+
+        /* Unified 3-Tier Button Scale */
         .tw-btn, .tw-btn-2, .tw-btn-wa {
             border-radius: 8px;
             font-family: var(--body);
             font-weight: 600;
+            font-size: 0.875rem;
+            line-height: 1.25;
+            letter-spacing: 0;
+            min-height: 42px;
+            padding: 0.55rem 1.15rem;
             border-width: 1.5px !important;
             box-shadow: 0 1px 2px rgba(10, 14, 22, 0.06);
+        }
+
+        .tw-btn-lg {
+            min-height: 48px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .tw-nav-btn {
+            height: 36px !important;
+            min-height: 36px !important;
+            padding: 0 0.95rem !important;
+            font-size: 0.8125rem !important;
+            border-radius: 999px !important;
         }
 
         .tw-btn {
@@ -1487,9 +1547,20 @@
             border-radius: 8px;
             width: 38px;
             height: 38px;
+            padding: 0;
+        }
+
+        .tw-mob-tabbar-track {
+            padding: 0.5rem 1rem;
+            gap: 0.45rem;
         }
 
         .tw-mob-tab-item {
+            min-height: 32px;
+            padding: 0.32rem 0.8rem;
+            font-size: 0.8125rem;
+            line-height: 1.2;
+            border-radius: 999px;
             border: 1.5px solid #CBD5E1;
         }
 
@@ -1529,18 +1600,77 @@
             color: #FFFFFF !important;
         }
 
-        /* Unified Card Radii & Surface Borders */
+        /* Unified Card Radii, Chips & Footer */
         .tw-feature-card,
         #faq details,
         #kompatibilitas .tw-side-body > div > div,
         #lisensi .tw-side-body > div,
-        #faq .tw-side-body > div:last-child {
+        #faq .tw-side-body > div:last-child,
+        #kontak .tw-side-body > div:last-child {
             border-radius: 12px !important;
             border-color: #CBD5E1 !important;
         }
 
         .tw-chip, .tw-chip-solid {
             border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.7rem;
+            line-height: 1.3;
+        }
+
+        footer.tw-band {
+            padding: 3.5rem 0 2rem;
+            border-top: 1px solid var(--line-dark);
+        }
+
+        footer .tw-h2 {
+            font-family: var(--display);
+            font-size: 1.0625rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-brand img {
+                width: 34px;
+                height: 34px;
+            }
+            .nav-brand-title {
+                font-size: 1.15rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.625rem;
+                line-height: 1.15;
+            }
+            .tw-btn-lg {
+                min-height: 44px !important;
+                padding: 0.65rem 1.15rem !important;
+                font-size: 0.875rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-brand img {
+                width: 32px;
+                height: 32px;
+            }
+            .nav-brand-title {
+                font-size: 1.125rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.625rem;
+                line-height: 1.15;
+            }
         }
     </style>
 </head>
@@ -1635,7 +1765,7 @@
                             <span>Panduan cepat &amp; konsultasi:</span>
                             <a href="#tutorial-video" class="tw-hero-link">Tonton Tutorial</a>
                             <span class="tw-hero-link-sep">•</span>
-                            <a href="#kontak" class="tw-hero-link">WhatsApp</a>
+                            <a href="#kontak" class="tw-hero-link">Kontak</a>
                         </div>
                     </div>
 
@@ -2198,7 +2328,7 @@
                                 <div style="font-family: var(--display); font-size: 1.125rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;">Punya Pertanyaan Teknis Lain?</div>
                                 <div style="font-size: 0.875rem; color: var(--slate);">Diskusikan kendala pemetaan di lapangan dan temukan solusi bersama tim teknis di Forum Tanya Jawab Komunitas Pilot.</div>
                             </div>
-                            <a href="tanya-jawab.html" class="tw-btn" style="padding: 0.6rem 1.15rem; font-size: 0.8125rem;">
+                            <a href="tanya-jawab.html" class="tw-btn">
                                 <span>Buka Forum Tanya Jawab Komunitas &rarr;</span>
                             </a>
                         </div>
@@ -2329,25 +2459,25 @@
                                 </p>
                                 <div class="row">
                                     <div class="col-md-4" style="margin-bottom: 0.75rem;">
-                                        <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.6rem;">Ian</div>
-                                            <a href="https://wa.me/6285199391551?text=Halo%20Ian,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.45rem 0.75rem; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none;">
+                                        <div style="background: var(--mist); border: 1px solid #CBD5E1; border-radius: 10px; padding: 0.9rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink); margin-bottom: 0.6rem;">Ian</div>
+                                            <a href="https://wa.me/6285199391551?text=Halo%20Ian,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.45rem 0.75rem; min-height: 38px; display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none;">
                                                 <span>Hubungi Ian &rarr;</span>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="col-md-4" style="margin-bottom: 0.75rem;">
-                                        <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.6rem;">Upay</div>
-                                            <a href="https://wa.me/628111969111?text=Halo%20Upay,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.45rem 0.75rem; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none;">
+                                        <div style="background: var(--mist); border: 1px solid #CBD5E1; border-radius: 10px; padding: 0.9rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink); margin-bottom: 0.6rem;">Upay</div>
+                                            <a href="https://wa.me/628111969111?text=Halo%20Upay,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.45rem 0.75rem; min-height: 38px; display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none;">
                                                 <span>Hubungi Upay &rarr;</span>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="col-md-4" style="margin-bottom: 0.75rem;">
-                                        <div style="background: var(--mist); border: 1px solid var(--line); border-radius: 6px; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.6rem;">Wan</div>
-                                            <a href="https://wa.me/6285175009498?text=Halo%20Wan,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.45rem 0.75rem; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none;">
+                                        <div style="background: var(--mist); border: 1px solid #CBD5E1; border-radius: 10px; padding: 0.9rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                            <div style="font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink); margin-bottom: 0.6rem;">Wan</div>
+                                            <a href="https://wa.me/6285175009498?text=Halo%20Wan,%20saya%20ingin%20konsultasi%20teknis%20TW-Mapper" target="_blank" rel="noopener" class="tw-btn-2" style="font-size: 0.8125rem; padding: 0.45rem 0.75rem; min-height: 38px; display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none;">
                                                 <span>Hubungi Wan &rarr;</span>
                                             </a>
                                         </div>
@@ -2372,7 +2502,7 @@
                     <a href="tanya-jawab.html" class="tw-btn-2 tw-btn-lg">Buka Forum Tanya Jawab</a>
                 </p>
                 <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--muted-dark);">
-                    Butuh respon cepat? <a href="https://wa.me/6285175009498" target="_blank" rel="noopener" class="tw-hero-link">Hubungi via WhatsApp &rarr;</a>
+                    Butuh respon cepat? <a href="https://wa.me/6285175009498" target="_blank" rel="noopener" class="tw-hero-link">Hubungi Kontak &rarr;</a>
                 </div>
             </div>
         </section>
@@ -2398,7 +2528,7 @@
                 </div>
 
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
-                    <h3 class="tw-h2">Navigasi Halaman</h3>
+                    <h3 class="tw-h2">Navigasi</h3>
                     <ul class="tw-list">
                         <li><a href="#trial-hub" style="color: var(--teal); font-weight: 600;">Zona Coba Gratis &amp; Panduan</a></li>
                         <li><a href="tanya-jawab.html" style="color: var(--teal); font-weight: 600;">Forum Tanya Jawab Komunitas</a></li>
@@ -2406,7 +2536,7 @@
                         <li><a href="#fitur">Fitur Unggulan</a></li>
                         <li><a href="#kompatibilitas">Kompatibilitas Perangkat</a></li>
                         <li><a href="lisensi.html">Informasi Lisensi (Hobby &amp; Pro)</a></li>
-                        <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi (fly.arkana.co.id) &rarr;</a></li>
+                        <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi &rarr;</a></li>
                     </ul>
                 </div>
 
@@ -2415,13 +2545,13 @@
                     <ul class="tw-list">
                         <li><span>Informasi Lisensi: <strong>Jejen</strong></span></li>
                         <li><span>Product Knowledge: <strong>Ian, Upay &amp; Wan</strong></span></li>
-                        <li style="margin-top: 0.5rem;"><a href="#kontak" class="tw-foot-link" style="color: var(--teal);">Lihat Kontak Resmi &rarr;</a></li>
+                        <li style="margin-top: 0.5rem;"><a href="#kontak" class="tw-foot-link" style="color: var(--teal); font-weight: 600;">Lihat Kontak Resmi &rarr;</a></li>
                     </ul>
                 </div>
             </div>
 
             <!-- Brand & Ecosystem Logos -->
-            <div class="tw-foot-brands" style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line-dark); display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap;">
+            <div class="tw-foot-brands" style="margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--line-dark); display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap;">
                 <a href="index.html" aria-label="WanDrone" style="display: inline-flex; align-items: center; text-decoration: none; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
                     <img src="images/wandrone-logo-white.png" alt="WanDrone" style="height: 38px; width: auto; max-width: 160px; object-fit: contain; display: block;"/>
                 </a>

@@ -2866,15 +2866,103 @@
             }
         }
 
-        /* Unified Button Typography, Modals, Inputs & Primary Mobile Tab Pill */
-        .tw-btn, .tw-btn-2 {
-            font-family: var(--body);
-            font-weight: 600;
+        /* ==========================================================================
+           UNIFIED DESIGN SYSTEM (100% Consistent with index.html & lisensi.html)
+           ========================================================================== */
+        .nav-brand img {
+            width: 38px;
+            height: 38px;
             border-radius: 8px;
         }
 
+        .nav-brand-title {
+            font-size: 1.3rem;
+            line-height: 1.1;
+        }
+
+        .nav-brand-subtitle {
+            font-size: 0.68rem;
+            line-height: 1.2;
+        }
+
+        .tw-nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.42rem 0.7rem;
+            border-radius: 8px;
+        }
+
+        .tw-hamburger {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border: 1.5px solid #94A3B8;
+            border-radius: 8px;
+        }
+
+        .tw-mob-tabbar-track {
+            padding: 0.5rem 1rem;
+            gap: 0.45rem;
+        }
+
+        .tw-mob-tab-item {
+            min-height: 32px;
+            padding: 0.32rem 0.8rem;
+            font-size: 0.8125rem;
+            line-height: 1.2;
+            border-radius: 999px;
+            border: 1.5px solid #CBD5E1;
+        }
+
+        .tw-mob-tab-item.tw-mob-tab-primary {
+            background: var(--teal);
+            border-color: #0F766E;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        /* Unified Button Typography & Crisp Radii (preserving compact toolbar/admin heights) */
+        .tw-btn, .tw-btn-2 {
+            font-family: var(--body);
+            font-weight: 600;
+            font-size: 0.875rem;
+            line-height: 1.25;
+            letter-spacing: 0;
+            border-radius: 8px;
+        }
+
+        .tw-pilot-pill {
+            height: 36px;
+            min-height: 36px;
+            padding: 0 0.95rem !important;
+            font-family: var(--body);
+            font-size: 0.8125rem !important;
+            font-weight: 600;
+            border-radius: 999px !important;
+        }
+
+        /* Unified Pill Chips */
+        .tw-chip, .tw-chip-solid {
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.7rem;
+            line-height: 1.3;
+        }
+
+        /* Unified Card Radii & Crisp Surface Borders */
+        .qa-card.tw-post-card,
+        .pilot-banner,
+        .tw-social-composer,
+        .tw-profile-section-card,
+        .tw-activity-card {
+            border-radius: 12px;
+            border-color: #CBD5E1;
+        }
+
         .tw-modal-card {
-            border-radius: 16px;
+            border-radius: 14px;
             border: 1px solid #CBD5E1;
         }
 
@@ -2890,7 +2978,7 @@
 
         .form-control {
             border: 1.5px solid #94A3B8;
-            border-radius: 10px;
+            border-radius: 8px;
             max-width: 100%;
             box-sizing: border-box;
         }
@@ -2900,11 +2988,76 @@
             box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.16);
         }
 
-        .tw-mob-tab-item.tw-mob-tab-primary {
-            background: var(--teal);
-            border-color: #0F766E;
-            color: var(--ink);
+        /* Unified Footer Styling */
+        footer.tw-band {
+            padding: 3.5rem 0 2rem;
+            border-top: 1px solid var(--line-dark);
+        }
+
+        footer .tw-h2 {
+            font-family: var(--display);
+            font-size: 1.0625rem;
             font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.75rem;
+        }
+
+        footer .tw-list li {
+            padding: 0.25rem 0;
+            color: var(--muted-dark);
+            font-size: 0.875rem;
+            line-height: 1.55;
+        }
+
+        footer a {
+            color: var(--muted-dark);
+            text-decoration: none;
+            transition: color 120ms;
+        }
+
+        footer a:hover {
+            color: var(--teal);
+            text-decoration: underline;
+        }
+
+        .tw-foot-legal {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-brand img {
+                width: 34px;
+                height: 34px;
+            }
+            .nav-brand-title {
+                font-size: 1.15rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.625rem;
+                line-height: 1.15;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-brand img {
+                width: 32px;
+                height: 32px;
+            }
+            .nav-brand-title {
+                font-size: 1.125rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.625rem;
+                line-height: 1.15;
+            }
         }
 
     </style>
@@ -2942,7 +3095,6 @@
                             <span id="pilot-nav-text">Akun Pilot</span>
                         </button>
                     </li>
-                    <li><a href="index.html#trial-hub" class="tw-btn tw-nav-desktop-only" style="height: 36px; padding: 0 0.9rem; font-size: 0.8125rem; border-radius: 999px;">Coba Gratis</a></li>
                 </ul>
 
                 <div class="tw-nav-actions-mobile">
@@ -2957,11 +3109,11 @@
             </div>
         </div>
 
-        <!-- Sticky Mobile Quick Tab Bar (Priority: Coba Gratis & Forum Tanya Jawab first) -->
+        <!-- Sticky Mobile Quick Tab Bar (Forum-focused navigation) -->
         <nav class="tw-mob-tabbar" aria-label="Navigasi Tab Cepat">
             <div class="tw-mob-tabbar-track">
-                <a href="index.html#trial-hub" class="tw-mob-tab-item tw-mob-tab-primary">Coba Gratis</a>
                 <a href="#forum-komunitas" class="tw-mob-tab-item is-active">Forum Tanya Jawab</a>
+                <button type="button" onclick="openQuestionModal()" class="tw-mob-tab-item tw-mob-tab-primary">+ Buat Pertanyaan</button>
                 <button type="button" onclick="handleMobilePilotClick()" class="tw-mob-tab-item">Akun Pilot</button>
                 <a href="index.html" class="tw-mob-tab-item">&larr; Utama</a>
                 <a href="lisensi.html" class="tw-mob-tab-item">Lisensi</a>
@@ -3120,12 +3272,12 @@
 
                 <div class="form-group">
                     <label class="form-label" for="q-contact">
-                        Nomor WhatsApp atau Email <span style="color: var(--teal-deep);">*</span>
+                        Nomor Kontak atau Email <span style="color: var(--teal-deep);">*</span>
                         <span class="privacy-pill">Dijamin Privat</span>
                     </label>
                     <input type="text" id="q-contact" class="form-control" placeholder="Contoh: 0812xxxxxxx atau nama@gmail.com" required/>
                     <div class="form-hint">
-                        Nomor WhatsApp dan Email Anda hanya tersimpan aman di database privat kami agar tim dapat memberi notifikasi jawaban. Tidak akan pernah ditampilkan ke publik.
+                        Nomor Kontak dan Email Anda hanya tersimpan aman di database privat kami agar tim dapat memberi notifikasi jawaban. Tidak akan pernah ditampilkan ke publik.
                     </div>
                 </div>
 
@@ -3324,7 +3476,7 @@
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="reg-contact">
-                            Nomor WhatsApp atau Email <span style="color: var(--teal-deep);">*</span>
+                            Nomor Kontak atau Email <span style="color: var(--teal-deep);">*</span>
                             <span class="privacy-pill">Privat</span>
                         </label>
                         <input type="text" id="reg-contact" class="form-control" placeholder="Contoh: 0812xxxxxxx / email@domain.com" required minlength="5"/>
@@ -3489,7 +3641,7 @@
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label class="form-label" for="edit-contact">
-                                    WhatsApp atau Email
+                                    Kontak atau Email
                                     <span class="privacy-pill">Privat</span>
                                 </label>
                                 <input type="text" id="edit-contact" class="form-control" required/>
@@ -3569,11 +3721,10 @@
                 </div>
 
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
-                    <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Navigasi</h3>
+                    <h3 class="tw-h2">Navigasi</h3>
                     <ul class="tw-list">
-                        <li><a href="index.html#trial-hub" style="color: var(--teal); font-weight: 600;">Zona Coba Gratis &amp; Panduan</a></li>
-                        <li><a href="#forum-komunitas" style="color: var(--teal); font-weight: 600;">Forum Tanya Jawab Komunitas</a></li>
                         <li><a href="index.html">&larr; Halaman Utama</a></li>
+                        <li><a href="#forum-komunitas">Forum Tanya Jawab Komunitas</a></li>
                         <li><a href="index.html#faq">Pertanyaan Umum (FAQ)</a></li>
                         <li><a href="lisensi.html">Informasi Lisensi</a></li>
                         <li><a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener">Halaman Akun Lisensi &rarr;</a></li>
@@ -3581,7 +3732,7 @@
                 </div>
 
                 <div class="col-md-4" style="margin-bottom: 1.5rem;">
-                    <h3 style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">Narahubung Resmi</h3>
+                    <h3 class="tw-h2">Narahubung Resmi</h3>
                     <ul class="tw-list">
                         <li><span>Informasi Lisensi: <strong>Jejen</strong></span></li>
                         <li><span>Product Knowledge: <strong>Ian, Upay &amp; Wan</strong></span></li>
@@ -5894,7 +6045,7 @@
                                 <div style="display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap; max-width: 100%;">
                                     ${waLink ? `
                                         <a href="https://wa.me/${waLink}" target="_blank" rel="noopener" class="tw-btn-2" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; color: #166534; border-color: #16A34A; background: #F0FDF4; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.35rem; max-width: 100%; overflow-wrap: anywhere;">
-                                            <span>WhatsApp: ${escapeHtml(q.contact_info)}</span>
+                                            <span>Kontak: ${escapeHtml(q.contact_info)}</span>
                                         </a>
                                     ` : `<span style="font-size: 0.78rem; color: var(--slate); background: var(--mist); border: 1px solid #CBD5E1; padding: 0.25rem 0.55rem; border-radius: 6px; overflow-wrap: anywhere;">Kontak: ${escapeHtml(q.contact_info)}</span>`}
                                 </div>

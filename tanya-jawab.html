@@ -1071,7 +1071,6 @@
             background: #DCFCE7;
             color: #166534;
         }
-
         /* VOTE LIKE / DISLIKE BUTTONS */
         .btn-vote {
             display: inline-flex;
@@ -2589,6 +2588,354 @@
             color: #166534;
         }
 
+        .admin-tab-btn.is-active #admin-analytics-tab-badge {
+            background: #E6FBF7;
+            color: var(--teal-deep);
+            border-color: var(--teal-hover);
+        }
+
+        /* WEB ANALYTICS DASHBOARD (SUPER ADMIN & AKUN UTAMA) */
+        .wan-stat-period-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .wan-stat-period-btn {
+            height: 32px;
+            padding: 0 0.75rem;
+            border-radius: 999px;
+            border: 1px solid #CBD5E1;
+            background: #FFFFFF;
+            color: var(--slate);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .wan-stat-period-btn:hover {
+            border-color: var(--teal-deep);
+            color: var(--ink);
+        }
+
+        .wan-stat-period-btn.is-active {
+            background: #0A0E16;
+            color: #FFFFFF;
+            border-color: #0A0E16;
+        }
+
+        .wan-stat-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(175px, 100%), 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .wan-stat-kpi-card {
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            padding: 0.85rem 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .wan-stat-kpi-card.is-accent {
+            background: #0A0E16;
+            border-color: #1E293B;
+            color: #F8FAFC;
+        }
+
+        .wan-stat-kpi-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--slate);
+        }
+
+        .wan-stat-kpi-card.is-accent .wan-stat-kpi-label {
+            color: #94A3B8;
+        }
+
+        .wan-stat-kpi-value {
+            font-family: var(--mono);
+            font-size: 1.55rem;
+            font-weight: 700;
+            line-height: 1.15;
+            font-variant-numeric: tabular-nums;
+            color: var(--ink);
+        }
+
+        .wan-stat-kpi-card.is-accent .wan-stat-kpi-value {
+            color: var(--teal);
+        }
+
+        .wan-stat-kpi-sub {
+            font-size: 0.74rem;
+            color: #64748B;
+            line-height: 1.35;
+        }
+
+        .wan-stat-kpi-card.is-accent .wan-stat-kpi-sub {
+            color: #CBD5E1;
+        }
+
+        .wan-stat-section-title {
+            font-family: var(--display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 0.2rem;
+        }
+
+        .wan-stat-bar-track {
+            width: 100%;
+            height: 7px;
+            border-radius: 999px;
+            background: #E2E8F0;
+            overflow: hidden;
+            margin-top: 0.3rem;
+        }
+
+        .wan-stat-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: var(--teal-deep);
+            transition: width 0.25s ease;
+        }
+
+        .wan-trend-scroll {
+            overflow-x: auto;
+            padding-bottom: 0.35rem;
+        }
+
+        .wan-trend-grid {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.45rem;
+            min-height: 145px;
+            padding: 0.85rem 0.65rem 0.5rem;
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            min-width: max-content;
+        }
+
+        .wan-trend-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            min-width: 40px;
+            flex: 1 0 40px;
+        }
+
+        .wan-trend-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 92px;
+        }
+
+        .wan-trend-bar {
+            width: 12px;
+            border-radius: 4px 4px 0 0;
+            min-height: 3px;
+            transition: height 0.25s ease;
+        }
+
+        .wan-trend-bar.is-vis {
+            background: #0F766E;
+        }
+
+        .wan-trend-bar.is-cta {
+            background: #2DD4BF;
+        }
+
+        .wan-trend-date {
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            color: #64748B;
+            white-space: nowrap;
+        }
+
+        .wan-trend-num {
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            font-weight: 700;
+            color: var(--ink);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Responsive Analytics Data Table (Container Query + Sticky Headers) */
+        .wan-stat-table-wrap {
+            overflow: auto;
+            max-inline-size: 100%;
+            max-block-size: min(460px, 75vh);
+            container-type: inline-size;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            background: #FFFFFF;
+        }
+
+        .wan-stat-table-wrap:focus-visible {
+            outline: 2px solid var(--teal-deep);
+            outline-offset: 2px;
+        }
+
+        .wan-stat-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.82rem;
+            --label-1: "Item";
+            --label-2: "Total Klik";
+            --label-3: "Unik";
+            --label-4: "Rasio";
+        }
+
+        .wan-stat-table caption {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .wan-stat-table thead {
+            position: sticky;
+            inset-block-start: 0;
+            z-index: 2;
+        }
+
+        .wan-stat-table thead th {
+            background: #F1F5F9;
+            color: #334155;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid #CBD5E1;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .wan-stat-table thead th.is-num,
+        .wan-stat-table tbody td.is-num {
+            text-align: right;
+            font-family: var(--mono);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .wan-stat-table tbody th {
+            position: sticky;
+            inset-inline-start: 0;
+            z-index: 1;
+            background: #FFFFFF;
+            text-align: left;
+            font-weight: 600;
+            color: var(--ink);
+            padding: 0.7rem 0.85rem;
+            border-bottom: 1px solid #E2E8F0;
+            vertical-align: middle;
+        }
+
+        .wan-stat-table tbody td {
+            padding: 0.7rem 0.85rem;
+            border-bottom: 1px solid #E2E8F0;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .wan-stat-table tbody tr:last-child th,
+        .wan-stat-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .wan-stat-table tbody tr:hover th,
+        .wan-stat-table tbody tr:hover td {
+            background: #F8FAFC;
+        }
+
+        @container (width < 560px) {
+            .wan-stat-table,
+            .wan-stat-table thead,
+            .wan-stat-table tbody,
+            .wan-stat-table tr,
+            .wan-stat-table th,
+            .wan-stat-table td {
+                display: block;
+            }
+
+            .wan-stat-table thead {
+                display: none;
+            }
+
+            .wan-stat-table tbody tr {
+                margin: 0.6rem;
+                border: 1px solid #CBD5E1;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #FFFFFF;
+            }
+
+            .wan-stat-table tbody th {
+                position: sticky;
+                inset-block-start: 0;
+                z-index: 2;
+                background: #F1F5F9;
+                border-bottom: 1px solid #CBD5E1;
+                padding: 0.55rem 0.75rem;
+            }
+
+            .wan-stat-table tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.45rem 0.75rem;
+                text-align: right;
+            }
+
+            .wan-stat-table tbody td.is-num {
+                text-align: right;
+            }
+
+            .wan-stat-table tbody td:nth-child(2)::before {
+                content: var(--label-2) ": ";
+                font-family: var(--body);
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--slate);
+                text-align: left;
+            }
+
+            .wan-stat-table tbody td:nth-child(3)::before {
+                content: var(--label-3) ": ";
+                font-family: var(--body);
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--slate);
+                text-align: left;
+            }
+
+            .wan-stat-table tbody td:nth-child(4)::before {
+                content: var(--label-4) ": ";
+                font-family: var(--body);
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--slate);
+                text-align: left;
+            }
+        }
+
         /* Admin Moderation & User Cards */
         .tw-admin-card {
             background: #FFFFFF;
@@ -3463,7 +3810,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     <span class="tw-hide-mob">Profil Pilot</span>
                 </button>
-                <button type="button" id="admin-refresh-btn" onclick="fetchAdminQuestions()" class="tw-btn-2" style="height: 34px; padding: 0 0.75rem; font-size: 0.8rem; border-radius: 999px; display: none; align-items: center; gap: 0.35rem;" title="Muat ulang pertanyaan terbaru">
+                <button type="button" id="admin-refresh-btn" onclick="refreshCurrentAdminTab()" class="tw-btn-2" style="height: 34px; padding: 0 0.75rem; font-size: 0.8rem; border-radius: 999px; display: none; align-items: center; gap: 0.35rem;" title="Muat ulang data tab aktif">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
                     <span class="tw-hide-mob">Segarkan</span>
                 </button>
@@ -3504,10 +3851,15 @@
                         <span>Kelola Pengguna</span>
                         <span class="admin-tab-badge" id="admin-users-tab-badge">0</span>
                     </button>
+                    <button type="button" id="admin-tab-analytics" onclick="switchAdminTab('analytics')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        <span>Statistik Web</span>
+                        <span class="admin-tab-badge" id="admin-analytics-tab-badge" style="background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover);">Super Admin</span>
+                    </button>
                     <button type="button" id="admin-tab-logs" onclick="switchAdminTab('logs')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                         <span>Log Sistem</span>
-                        <span class="admin-tab-badge" id="admin-logs-tab-badge" style="background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">Akun Utama</span>
+                        <span class="admin-tab-badge" id="admin-logs-tab-badge" style="background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">Super Admin</span>
                     </button>
                 </div>
 
@@ -4863,9 +5215,26 @@
             return ensureAdminSessionFromPilot();
         }
 
+        function isOwnerUsername(username) {
+            return String(username || '').trim().toLowerCase() === 'rwandaz';
+        }
+
+        function isOwnerAccountActive() {
+            ensureAdminSessionFromPilot();
+            if (isOwnerUsername(activeAdminUser)) return true;
+            try {
+                const raw = localStorage.getItem('wan_pilot_user_session');
+                if (raw) {
+                    const pUser = JSON.parse(raw);
+                    if (pUser && isOwnerUsername(pUser.username)) return true;
+                }
+            } catch (e) {}
+            return false;
+        }
+
         function isSuperAdminActive() {
             ensureAdminSessionFromPilot();
-            if ((activeAdminUser || '').toLowerCase() === 'rwandaz' || activeAdminRole === 'superadmin') {
+            if (isOwnerUsername(activeAdminUser) || activeAdminRole === 'superadmin') {
                 activeAdminRole = 'superadmin';
                 return true;
             }
@@ -4873,7 +5242,7 @@
                 const raw = localStorage.getItem('wan_pilot_user_session');
                 if (raw) {
                     const pUser = JSON.parse(raw);
-                    if (pUser && ((pUser.username || '').toLowerCase() === 'rwandaz' || pUser.role === 'superadmin')) {
+                    if (pUser && (isOwnerUsername(pUser.username) || pUser.role === 'superadmin')) {
                         activeAdminRole = 'superadmin';
                         return true;
                     }
@@ -4882,6 +5251,9 @@
             return false;
         }
         ensureAdminSessionFromPilot();
+
+        let latestAdminAnalytics = null;
+        let analyticsFilterDays = 30;
 
         let showCreateAdminForm = false;
 
@@ -4935,9 +5307,9 @@
             });
 
             return Array.from(userMap.values()).sort((a, b) => {
-                const rank = r => r === 'superadmin' ? 2 : (r === 'admin' ? 1 : 0);
-                if (rank(b.role) !== rank(a.role)) {
-                    return rank(b.role) - rank(a.role);
+                const rank = u => isOwnerUsername(u.username) ? 3 : (u.role === 'superadmin' ? 2 : (u.role === 'admin' ? 1 : 0));
+                if (rank(b) !== rank(a)) {
+                    return rank(b) - rank(a);
                 }
                 return (b.total_points || 0) - (a.total_points || 0);
             });
@@ -4948,9 +5320,21 @@
             renderAdminUnifiedUsersView();
         }
 
+        function refreshCurrentAdminTab() {
+            if (currentAdminTab === 'analytics') {
+                fetchAdminWebAnalytics(analyticsFilterDays);
+            } else if (currentAdminTab === 'logs') {
+                fetchAdminSystemLogs();
+            } else if (currentAdminTab === 'users') {
+                refreshAllUsersData();
+            } else {
+                fetchAdminQuestions();
+            }
+        }
+
         function switchAdminTab(tab) {
-            if (tab === 'logs' && !isSuperAdminActive()) {
-                alert('Akses Dibatasi: Tab Log Sistem ini hanya dapat diakses oleh Akun Utama.');
+            if ((tab === 'logs' || tab === 'analytics') && !isSuperAdminActive()) {
+                alert('Akses Dibatasi: Tab ini hanya dapat diakses oleh Akun Utama dan Super Admin.');
                 switchAdminTab('pending');
                 return;
             }
@@ -4959,6 +5343,7 @@
             const btnPending = document.getElementById('admin-tab-pending');
             const btnApproved = document.getElementById('admin-tab-approved');
             const btnUsers = document.getElementById('admin-tab-users');
+            const btnAnalytics = document.getElementById('admin-tab-analytics');
             const btnLogs = document.getElementById('admin-tab-logs');
 
             if (btnPending) {
@@ -4973,6 +5358,10 @@
                 btnUsers.classList.toggle('is-active', currentAdminTab === 'users');
                 btnUsers.setAttribute('aria-selected', currentAdminTab === 'users' ? 'true' : 'false');
             }
+            if (btnAnalytics) {
+                btnAnalytics.classList.toggle('is-active', currentAdminTab === 'analytics');
+                btnAnalytics.setAttribute('aria-selected', currentAdminTab === 'analytics' ? 'true' : 'false');
+            }
             if (btnLogs) {
                 btnLogs.classList.toggle('is-active', currentAdminTab === 'logs');
                 btnLogs.setAttribute('aria-selected', currentAdminTab === 'logs' ? 'true' : 'false');
@@ -4980,6 +5369,8 @@
 
             if (currentAdminTab === 'users') {
                 renderAdminUnifiedUsersView();
+            } else if (currentAdminTab === 'analytics') {
+                fetchAdminWebAnalytics(analyticsFilterDays);
             } else if (currentAdminTab === 'logs') {
                 fetchAdminSystemLogs();
             } else {
@@ -5028,6 +5419,7 @@
         }
 
         function showAdminDashboard() {
+            const isOwner = isOwnerAccountActive();
             const isSuper = isSuperAdminActive();
             const dashView = document.getElementById('admin-dashboard-view');
             if (dashView) dashView.style.display = 'block';
@@ -5035,7 +5427,8 @@
             const userBadge = document.getElementById('admin-user-badge');
             const userNameEl = document.getElementById('admin-logged-name');
             if (userBadge && userNameEl) {
-                userNameEl.textContent = isSuper ? `${activeAdminUser} (Akun Utama)` : activeAdminUser;
+                const roleLabel = isOwner ? 'Akun Utama' : (isSuper ? 'Super Admin' : 'Admin');
+                userNameEl.textContent = `${activeAdminUser} (${roleLabel})`;
                 userBadge.style.display = 'inline-flex';
             }
 
@@ -5054,15 +5447,31 @@
                 tabUsers.style.display = 'inline-flex';
             }
 
-            // Tab Log Sistem HANYA ditampilkan untuk Akun Utama (superadmin)
+            // Tab Statistik Web & Log Sistem tampil untuk Akun Utama & Super Admin yang ditunjuk
+            const tabAnalytics = document.getElementById('admin-tab-analytics');
+            if (tabAnalytics) {
+                tabAnalytics.style.display = isSuper ? 'inline-flex' : 'none';
+            }
+            const analyticsBadge = document.getElementById('admin-analytics-tab-badge');
+            if (analyticsBadge && !latestAdminAnalytics) {
+                analyticsBadge.textContent = isOwner ? 'Akun Utama' : 'Super Admin';
+            }
+
             const tabLogs = document.getElementById('admin-tab-logs');
             if (tabLogs) {
                 tabLogs.style.display = isSuper ? 'inline-flex' : 'none';
+            }
+            const logsBadge = document.getElementById('admin-logs-tab-badge');
+            if (logsBadge && (!latestAdminSystemLogs || latestAdminSystemLogs.length === 0)) {
+                logsBadge.textContent = isOwner ? 'Akun Utama' : 'Super Admin';
             }
 
             fetchAdminQuestions();
             fetchAdminForumUsers();
             fetchAdminUsers();
+            if (isSuper && currentAdminTab === 'analytics') {
+                fetchAdminWebAnalytics(analyticsFilterDays);
+            }
         }
 
         function toggleNativeFullscreen() {
@@ -5092,7 +5501,7 @@
             if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
             const container = document.getElementById('admin-questions-list');
             if (!container) return;
-            if (currentAdminTab !== 'users') {
+            if (currentAdminTab === 'pending' || currentAdminTab === 'approved') {
                 container.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--slate);">Memuat daftar pertanyaan...</div>';
             }
 
@@ -5103,7 +5512,7 @@
                 });
                 if (!error && data) {
                     latestAdminQuestions = data;
-                    if (currentAdminTab !== 'users') {
+                    if (currentAdminTab === 'pending' || currentAdminTab === 'approved') {
                         renderAdminQuestions(data);
                     } else {
                         const pending = data.filter(q => q.status === 'pending');
@@ -5242,7 +5651,7 @@
                                     Log Sistem &amp; Riwayat Audit
                                 </div>
                                 <span class="tw-chip" style="font-size: 0.6875rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #93C5FD; border-radius: 999px; font-weight: 700;">
-                                    Akses Akun Utama
+                                    ${isOwnerAccountActive() ? 'Akses Akun Utama' : 'Akses Super Admin'}
                                 </span>
                             </div>
                             <div style="font-size: 0.8rem; color: var(--slate);">
@@ -5379,6 +5788,416 @@
             }
         }
 
+        // ==========================================
+        // STATISTIK WEB (AKUN UTAMA & SUPER ADMIN)
+        // ==========================================
+        const WAN_ANALYTICS_LABELS = {
+            page_home: 'Halaman Beranda (index.html)',
+            page_lisensi: 'Halaman Lisensi (lisensi.html)',
+            page_forum: 'Halaman Forum Tanya Jawab',
+            dl_tw_mapper: 'Aplikasi TW-Mapper (Unduh Coba Gratis)',
+            watch_tutorial: 'Video Tutorial Instalasi & Terbang',
+            dl_tw_tweaks: 'TW Tweaks Modul (Unduh Modul)',
+            dl_wandrone_tweaks: 'WanDrone Tweaks (Unduh Modul)',
+            open_docs: 'Buku Panduan Teknis (Docs)',
+            click_nav_lisensi: 'Klik Menu / Tautan ke Halaman Lisensi',
+            click_license_portal: 'Portal Akun Lisensi (fly.arkana.co.id)',
+            wa_paket_hobby: 'Konsultasi Paket Hobby (WA Ian)',
+            wa_paket_pro: 'Konsultasi Paket Pro (WA Ian)',
+            wa_jejen_lisensi: 'Hubungi Jejen (Informasi Lisensi)',
+            wa_ian_teknis: 'Hubungi Ian (Konsultasi Teknis)',
+            wa_upay_teknis: 'Hubungi Upay (Konsultasi Teknis)',
+            wa_wan_teknis: 'Hubungi Wan (Teknis / Respon Cepat)',
+            social_instagram: 'Instagram WanDrone / TW',
+            social_tiktok: 'TikTok WanDrone',
+            social_youtube: 'YouTube WanDrone'
+        };
+
+        async function fetchAdminWebAnalytics(days = analyticsFilterDays) {
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+            if (!isSuperAdminActive()) {
+                alert('Akses Dibatasi: Hanya Akun Utama dan Super Admin yang berhak mengakses Statistik Web.');
+                return;
+            }
+
+            analyticsFilterDays = Number.isFinite(Number(days)) ? Number(days) : 30;
+            const container = document.getElementById('admin-questions-list');
+            if (container && currentAdminTab === 'analytics') {
+                container.innerHTML = '<div style="text-align:center; padding: 3rem; color: var(--slate);">Memuat statistik pengunjung &amp; interaksi web...</div>';
+            }
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_get_web_analytics', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    p_days: analyticsFilterDays
+                });
+
+                if (error) {
+                    const isMissingRpc = /admin_get_web_analytics|404|PGRST202|does not exist/i.test(error.message || '');
+                    if (container && currentAdminTab === 'analytics') {
+                        container.innerHTML = `
+                            <div class="tw-admin-card" style="border-left: 4px solid #D97706;">
+                                <div style="font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;">
+                                    ${isMissingRpc ? 'Aktivasi Tabel Statistik di Supabase Diperlukan' : 'Gagal Memuat Statistik Web'}
+                                </div>
+                                <div style="font-size: 0.84rem; color: var(--slate); line-height: 1.55; margin-bottom: 0.75rem;">
+                                    ${isMissingRpc
+                                        ? 'Skrip SQL <code>supabase_analytics_and_superadmin.sql</code> belum dijalankan pada proyek Supabase Anda. Salin dan jalankan berkas tersebut di <strong>Supabase SQL Editor</strong> sekali saja agar pencatatan pengunjung, klik unduh, dan penunjukan Super Admin langsung aktif.'
+                                        : escapeHtml(error.message || 'Terjadi kesalahan saat membaca data statistik.')}
+                                </div>
+                                <button type="button" onclick="fetchAdminWebAnalytics(${analyticsFilterDays})" class="tw-btn-2" style="height: 34px; padding: 0 0.9rem; font-size: 0.8rem;">Coba Muat Ulang</button>
+                            </div>
+                        `;
+                    }
+                    return;
+                }
+
+                if (data && data.success) {
+                    latestAdminAnalytics = data;
+                    const badge = document.getElementById('admin-analytics-tab-badge');
+                    if (badge && data.summary) {
+                        badge.textContent = `${Number(data.summary.unique_visitors || 0).toLocaleString('id-ID')} Pengunjung`;
+                    }
+                    if (currentAdminTab === 'analytics') {
+                        renderAdminWebAnalyticsView();
+                    }
+                }
+            } catch (err) {
+                if (container && currentAdminTab === 'analytics') {
+                    container.innerHTML = `<div style="color: #991B1B; padding: 1.25rem; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px;">Kendala jaringan: ${escapeHtml(err.message)}</div>`;
+                }
+            }
+        }
+
+        async function handleAdminClearWebAnalytics() {
+            if (!isOwnerAccountActive()) {
+                alert('Akses Dibatasi: Hanya Akun Utama yang berhak membersihkan data statistik lama.');
+                return;
+            }
+            if (!confirm('Bersihkan catatan statistik pengunjung yang lebih lama dari 90 hari? Data 90 hari terakhir tetap disimpan aman.')) {
+                return;
+            }
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_clear_web_analytics', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    p_keep_days: 90
+                });
+                if (error) {
+                    alert('Gagal membersihkan data statistik: ' + error.message);
+                    return;
+                }
+                alert((data && data.message) || 'Data statistik lama berhasil dibersihkan.');
+                fetchAdminWebAnalytics(analyticsFilterDays);
+            } catch (err) {
+                alert('Kendala jaringan: ' + err.message);
+            }
+        }
+
+        function renderAdminWebAnalyticsView() {
+            const container = document.getElementById('admin-questions-list');
+            if (!container) return;
+
+            const data = latestAdminAnalytics || {};
+            const s = data.summary || {};
+            const ev = data.events || {};
+            const daily = Array.isArray(data.daily_trend) ? data.daily_trend : [];
+            const referrers = Array.isArray(data.referrers) ? data.referrers : [];
+            const recent = Array.isArray(data.recent) ? data.recent : [];
+
+            const isOwner = isOwnerAccountActive();
+            const fmt = n => Number(n || 0).toLocaleString('id-ID');
+            const getEv = key => ({
+                total: Number((ev[key] && ev[key].total) || 0),
+                unique: Number((ev[key] && ev[key].unique) || 0)
+            });
+
+            const homeUnique = Math.max(Number(s.home_unique || 0), Number(s.unique_visitors || 0));
+            const pctOf = (num, base) => {
+                if (!base || base <= 0) return '0%';
+                return ((num / base) * 100).toFixed(1).replace(/\.0$/, '') + '%';
+            };
+            const barWidth = (num, base) => {
+                if (!base || base <= 0) return 0;
+                return Math.min(100, Math.max(num > 0 ? 4 : 0, Math.round((num / base) * 100)));
+            };
+
+            const periodButtons = [
+                { days: 1, label: 'Hari Ini' },
+                { days: 7, label: '7 Hari' },
+                { days: 30, label: '30 Hari' },
+                { days: 90, label: '90 Hari' },
+                { days: 0, label: 'Semua Waktu' }
+            ];
+
+            const trialItems = [
+                { key: 'dl_tw_mapper', title: 'Aplikasi TW-Mapper', sub: 'Unduh Coba Gratis (Google Drive)' },
+                { key: 'watch_tutorial', title: 'Video Tutorial Instalasi & Terbang', sub: 'Tonton Tutorial (YouTube)' },
+                { key: 'dl_tw_tweaks', title: 'TW Tweaks Modul', sub: 'Unduh Modul Flash Inject (Google Drive)' },
+                { key: 'dl_wandrone_tweaks', title: 'WanDrone Tweaks', sub: 'Unduh Modul Pendukung (Google Drive)' },
+                { key: 'open_docs', title: 'Buku Panduan Teknis', sub: 'Dokumentasi Resmi TW-Mapper' }
+            ];
+
+            const licenseAndContactItems = [
+                { key: 'page_lisensi', title: 'Kunjungan Halaman Lisensi', sub: 'Pengunjung membuka lisensi.html', group: 'Lisensi' },
+                { key: 'click_license_portal', title: 'Portal Akun Lisensi', sub: 'Klik fly.arkana.co.id/tweaker/', group: 'Lisensi' },
+                { key: 'wa_paket_hobby', title: 'Konsultasi Paket Hobby', sub: 'Tombol WA Paket Hobby (Ian)', group: 'Lisensi' },
+                { key: 'wa_paket_pro', title: 'Konsultasi Paket Pro', sub: 'Tombol WA Paket Pro (Ian)', group: 'Lisensi' },
+                { key: 'wa_jejen_lisensi', title: 'Kontak Jejen (Informasi Lisensi)', sub: 'Tombol WA Aktivasi & Lisensi', group: 'Kontak' },
+                { key: 'wa_ian_teknis', title: 'Kontak Ian (Konsultasi Teknis)', sub: 'Tombol WA Product Knowledge', group: 'Kontak' },
+                { key: 'wa_upay_teknis', title: 'Kontak Upay (Konsultasi Teknis)', sub: 'Tombol WA Product Knowledge', group: 'Kontak' },
+                { key: 'wa_wan_teknis', title: 'Kontak Wan (Teknis / Respon Cepat)', sub: 'Tombol WA Product Knowledge & Cepat', group: 'Kontak' },
+                { key: 'social_instagram', title: 'Instagram (@wan.drone.plg / TW)', sub: 'Klik tautan Instagram di footer', group: 'Sosmed' },
+                { key: 'social_tiktok', title: 'TikTok (@wan.drone)', sub: 'Klik tautan TikTok di footer', group: 'Sosmed' },
+                { key: 'social_youtube', title: 'YouTube (@wandroneapp)', sub: 'Klik saluran YouTube di footer', group: 'Sosmed' }
+            ];
+
+            const maxTrendVal = daily.reduce((mx, d) => Math.max(mx, Number(d.visitors || 0), Number(d.trial_clicks || 0) + Number(d.contact_clicks || 0)), 1);
+            const totalDeviceVis = Number(s.mobile_visitors || 0) + Number(s.desktop_visitors || 0);
+            const mobilePct = pctOf(Number(s.mobile_visitors || 0), totalDeviceVis);
+            const desktopPct = pctOf(Number(s.desktop_visitors || 0), totalDeviceVis);
+
+            const trendHtml = daily.length === 0
+                ? '<div style="text-align:center; padding: 1.75rem 1rem; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 10px; color: var(--slate); font-size: 0.82rem;">Belum ada data tren harian pada rentang waktu ini. Data otomatis masuk saat pengunjung membuka website.</div>'
+                : `
+                    <div class="wan-trend-scroll">
+                        <div class="wan-trend-grid">
+                            ${daily.map(d => {
+                                const vis = Number(d.visitors || 0);
+                                const cta = Number(d.trial_clicks || 0) + Number(d.contact_clicks || 0);
+                                const hVis = Math.max(3, Math.round((vis / maxTrendVal) * 86));
+                                const hCta = Math.max(cta > 0 ? 3 : 0, Math.round((cta / maxTrendVal) * 86));
+                                const shortDate = String(d.day || '').slice(5);
+                                return `
+                                    <div class="wan-trend-col" title="${escapeHtml(d.day)}: ${vis} pengunjung unik, ${d.page_views || 0} views, ${d.trial_clicks || 0} klik unduh/panduan, ${d.contact_clicks || 0} klik WA">
+                                        <div class="wan-trend-num">${vis}</div>
+                                        <div class="wan-trend-bars">
+                                            <div class="wan-trend-bar is-vis" style="height:${hVis}px;"></div>
+                                            <div class="wan-trend-bar is-cta" style="height:${hCta}px;"></div>
+                                        </div>
+                                        <div class="wan-trend-date">${escapeHtml(shortDate)}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; font-size: 0.75rem; color: var(--slate);">
+                        <span style="display: inline-flex; align-items: center; gap: 0.35rem;"><span style="width:10px; height:10px; border-radius:2px; background:#0F766E; display:inline-block;"></span>Pengunjung Unik</span>
+                        <span style="display: inline-flex; align-items: center; gap: 0.35rem;"><span style="width:10px; height:10px; border-radius:2px; background:#2DD4BF; display:inline-block;"></span>Klik Unduh, Panduan &amp; Kontak WA</span>
+                    </div>
+                `;
+
+            const html = `
+                <div class="tw-admin-card" style="margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="min-width: 0; flex: 1 1 250px;">
+                            <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 0.2rem;">
+                                <div style="font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink);">
+                                    Statistik Pengunjung &amp; Konversi Web
+                                </div>
+                                <span class="tw-chip" style="font-size: 0.6875rem; background: #E6FBF7; color: var(--teal-deep); border: 1px solid var(--teal-hover); border-radius: 999px; font-weight: 700;">
+                                    ${isOwner ? 'Akses Akun Utama' : 'Akses Super Admin'}
+                                </span>
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--slate);">
+                                Pantau kunjungan Beranda, Halaman Lisensi, Forum, klik Unduh/Panduan, serta klik Kontak WhatsApp. Kunjungan saat login Admin otomatis dikecualikan.
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center;">
+                            <button type="button" onclick="fetchAdminWebAnalytics(${analyticsFilterDays})" class="tw-btn-2" style="height: 34px; padding: 0 0.85rem; font-size: 0.78rem; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                                <span>Segarkan</span>
+                            </button>
+                            ${isOwner ? `
+                                <button type="button" onclick="handleAdminClearWebAnalytics()" class="tw-btn-2" style="height: 34px; padding: 0 0.85rem; font-size: 0.78rem; border-radius: 999px; color: #991B1B; border-color: #DC2626; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hapus catatan statistik lebih lama dari 90 hari">
+                                    <span>Bersihkan &gt; 90 Hari</span>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="wan-stat-period-bar" style="margin-bottom: 1rem;">
+                        ${periodButtons.map(b => `
+                            <button type="button" onclick="fetchAdminWebAnalytics(${b.days})" class="wan-stat-period-btn ${analyticsFilterDays === b.days ? 'is-active' : ''}">
+                                ${b.label}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <!-- KPI CARDS -->
+                    <div class="wan-stat-kpi-grid">
+                        <div class="wan-stat-kpi-card is-accent">
+                            <div class="wan-stat-kpi-label">Pengunjung Unik</div>
+                            <div class="wan-stat-kpi-value">${fmt(s.unique_visitors)}</div>
+                            <div class="wan-stat-kpi-sub">HP ${mobilePct} &bull; Desktop ${desktopPct}</div>
+                        </div>
+                        <div class="wan-stat-kpi-card">
+                            <div class="wan-stat-kpi-label">Total Kunjungan</div>
+                            <div class="wan-stat-kpi-value">${fmt(s.total_page_views)}</div>
+                            <div class="wan-stat-kpi-sub">Beranda ${fmt(s.home_views)} &bull; Lisensi ${fmt(s.lisensi_views)} &bull; Forum ${fmt(s.forum_views)}</div>
+                        </div>
+                        <div class="wan-stat-kpi-card">
+                            <div class="wan-stat-kpi-label">Klik Unduh &amp; Panduan</div>
+                            <div class="wan-stat-kpi-value">${fmt(s.total_trial_clicks)}</div>
+                            <div class="wan-stat-kpi-sub">${fmt(s.trial_unique)} orang unik (${pctOf(s.trial_unique, homeUnique)} rasio)</div>
+                        </div>
+                        <div class="wan-stat-kpi-card">
+                            <div class="wan-stat-kpi-label">Minat Halaman Lisensi</div>
+                            <div class="wan-stat-kpi-value">${fmt(s.lisensi_views)}</div>
+                            <div class="wan-stat-kpi-sub">${fmt(s.lisensi_unique)} unik &bull; ${fmt(s.total_license_clicks)} klik tautan/paket</div>
+                        </div>
+                        <div class="wan-stat-kpi-card">
+                            <div class="wan-stat-kpi-label">Klik Kontak WA</div>
+                            <div class="wan-stat-kpi-value">${fmt(s.total_contact_clicks)}</div>
+                            <div class="wan-stat-kpi-sub">${fmt(s.contact_unique)} calon pilot menghubungi tim</div>
+                        </div>
+                    </div>
+
+                    <!-- TREN HARIAN -->
+                    <div style="margin-bottom: 1.25rem;">
+                        <h4 class="wan-stat-section-title">Tren Pengunjung &amp; Interaksi Harian (WIB)</h4>
+                        ${trendHtml}
+                    </div>
+
+                    <!-- TABEL 1: ZONA COBA GRATIS & PANDUAN (#trial-hub) -->
+                    <div style="margin-bottom: 1.25rem;">
+                        <h4 class="wan-stat-section-title">Zona Coba Gratis, Modul &amp; Panduan</h4>
+                        <div style="font-size: 0.78rem; color: var(--slate); margin-bottom: 0.5rem;">
+                            Mencatat klik judul maupun tombol unduh/buka pada 5 kartu utama halaman beranda.
+                        </div>
+                        <div tabindex="0" role="region" aria-labelledby="wan-trial-table-caption" class="wan-stat-table-wrap">
+                            <table class="wan-stat-table" style="--label-1:'Item'; --label-2:'Total Klik'; --label-3:'Pengunjung Unik'; --label-4:'Rasio Minat';">
+                                <caption id="wan-trial-table-caption">Statistik klik Zona Coba Gratis, Modul, Video Tutorial, dan Buku Panduan</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Item / Tautan</th>
+                                        <th scope="col" class="is-num">Total Klik</th>
+                                        <th scope="col" class="is-num">Pengunjung Unik</th>
+                                        <th scope="col" class="is-num">Rasio dari Pengunjung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${trialItems.map(item => {
+                                        const st = getEv(item.key);
+                                        const pct = pctOf(st.unique, homeUnique);
+                                        const w = barWidth(st.unique, homeUnique);
+                                        return `
+                                            <tr>
+                                                <th scope="row">
+                                                    <div style="font-weight: 700; color: var(--ink);">${escapeHtml(item.title)}</div>
+                                                    <div style="font-size: 0.73rem; font-weight: 400; color: #64748B;">${escapeHtml(item.sub)}</div>
+                                                </th>
+                                                <td class="is-num"><strong>${fmt(st.total)}</strong></td>
+                                                <td class="is-num">${fmt(st.unique)}</td>
+                                                <td class="is-num">
+                                                    <div style="min-width: 110px;">
+                                                        <span style="font-weight: 700; color: var(--teal-deep);">${pct}</span>
+                                                        <div class="wan-stat-bar-track"><div class="wan-stat-bar-fill" style="width:${w}%;"></div></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- TABEL 2: LISENSI, KONTAK TIM & SOSMED -->
+                    <div style="margin-bottom: 1.25rem;">
+                        <h4 class="wan-stat-section-title">Halaman Lisensi, Kontak WhatsApp &amp; Sosial Media</h4>
+                        <div style="font-size: 0.78rem; color: var(--slate); margin-bottom: 0.5rem;">
+                            Rincian pengunjung halaman lisensi, minat paket Hobby/Pro, dan klik kontak tiap narahubung resmi.
+                        </div>
+                        <div tabindex="0" role="region" aria-labelledby="wan-contact-table-caption" class="wan-stat-table-wrap">
+                            <table class="wan-stat-table" style="--label-1:'Saluran'; --label-2:'Kategori'; --label-3:'Total Klik'; --label-4:'Unik';">
+                                <caption id="wan-contact-table-caption">Statistik halaman lisensi, paket, kontak WhatsApp tim, dan media sosial</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Saluran / Tombol</th>
+                                        <th scope="col">Kategori</th>
+                                        <th scope="col" class="is-num">Total Klik / Views</th>
+                                        <th scope="col" class="is-num">Pengunjung Unik</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${licenseAndContactItems.map(item => {
+                                        const st = getEv(item.key);
+                                        const badgeStyle = item.group === 'Lisensi'
+                                            ? 'background:#EFF6FF; color:#1E40AF; border:1px solid #BFDBFE;'
+                                            : (item.group === 'Kontak'
+                                                ? 'background:#E6FBF7; color:var(--teal-deep); border:1px solid var(--teal-hover);'
+                                                : 'background:#F1F5F9; color:#334155; border:1px solid #CBD5E1;');
+                                        return `
+                                            <tr>
+                                                <th scope="row">
+                                                    <div style="font-weight: 700; color: var(--ink);">${escapeHtml(item.title)}</div>
+                                                    <div style="font-size: 0.73rem; font-weight: 400; color: #64748B;">${escapeHtml(item.sub)}</div>
+                                                </th>
+                                                <td><span class="tw-chip" style="font-size:0.7rem; padding:0.1rem 0.5rem; border-radius:999px; font-weight:700; ${badgeStyle}">${item.group}</span></td>
+                                                <td class="is-num"><strong>${fmt(st.total)}</strong></td>
+                                                <td class="is-num">${fmt(st.unique)}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SUMBER TRAFIK & AKTIVITAS TERBARU -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1rem;">
+                        <div style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px; padding: 0.95rem;">
+                            <h4 class="wan-stat-section-title" style="margin-bottom: 0.65rem;">Sumber Trafik Teratas</h4>
+                            ${referrers.length === 0
+                                ? '<div style="font-size: 0.8rem; color: var(--slate);">Belum ada data sumber trafik.</div>'
+                                : `<div style="display: flex; flex-direction: column; gap: 0.55rem;">
+                                    ${referrers.map(r => {
+                                        const maxRef = Number(referrers[0].visitors || 1);
+                                        const w = barWidth(Number(r.visitors || 0), maxRef);
+                                        return `
+                                            <div>
+                                                <div style="display:flex; justify-content:space-between; font-size:0.8rem; gap:0.5rem;">
+                                                    <strong style="color:var(--ink); text-transform:capitalize;">${escapeHtml(r.source || 'direct')}</strong>
+                                                    <span style="font-family:var(--mono); font-size:0.76rem; color:var(--slate);">${fmt(r.visitors)} unik (${fmt(r.views)} views)</span>
+                                                </div>
+                                                <div class="wan-stat-bar-track"><div class="wan-stat-bar-fill" style="width:${w}%;"></div></div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>`
+                            }
+                        </div>
+
+                        <div style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px; padding: 0.95rem;">
+                            <h4 class="wan-stat-section-title" style="margin-bottom: 0.65rem;">Aktivitas Pengunjung Terbaru</h4>
+                            ${recent.length === 0
+                                ? '<div style="font-size: 0.8rem; color: var(--slate);">Belum ada aktivitas terbaru.</div>'
+                                : `<div style="display: flex; flex-direction: column; gap: 0.45rem; max-height: 260px; overflow-y: auto; padding-right: 0.25rem;">
+                                    ${recent.slice(0, 15).map(evRow => {
+                                        const label = WAN_ANALYTICS_LABELS[evRow.event_key] || evRow.event_key;
+                                        const ts = evRow.created_at ? new Date(evRow.created_at).toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '-';
+                                        return `
+                                            <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:8px; padding:0.45rem 0.65rem; display:flex; justify-content:space-between; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                                                <div style="min-width:0; flex:1 1 160px;">
+                                                    <div style="font-size:0.78rem; font-weight:700; color:var(--ink);">${escapeHtml(label)}</div>
+                                                    <div style="font-size:0.7rem; color:#64748B;">${evRow.device_type === 'mobile' ? 'HP/Mobile' : 'Desktop'} &bull; ${escapeHtml(evRow.referrer || 'direct')} &bull; #${escapeHtml(evRow.visitor_tag || 'anon')}</div>
+                                                </div>
+                                                <div style="font-family:var(--mono); font-size:0.7rem; color:#64748B; white-space:nowrap;">${escapeHtml(ts)}</div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
         function renderAdminUnifiedUsersView(filterText = '') {
             const container = document.getElementById('admin-questions-list');
             if (!container) return;
@@ -5395,10 +6214,11 @@
                 const matchUser = (u.username || '').toLowerCase().includes(q);
                 const matchContact = (u.contact_info || '').toLowerCase().includes(q);
                 const matchRole = (u.role || '').toLowerCase().includes(q);
-                const matchTag = (u.role === 'admin' && q.includes('admin')) || (u.role === 'superadmin' && (q.includes('admin') || q.includes('utama')));
+                const matchTag = (u.role === 'admin' && q.includes('admin')) || (u.role === 'superadmin' && (q.includes('admin') || q.includes('super') || q.includes('utama')));
                 return matchName || matchUser || matchContact || matchRole || matchTag;
             });
 
+            const isOwner = isOwnerAccountActive();
             const isSuper = isSuperAdminActive();
 
             let html = `
@@ -5409,7 +6229,9 @@
                                 Kelola Pengguna (${totalCount} Terdaftar)
                             </div>
                             <div style="font-size: 0.8rem; color: var(--slate);">
-                                Seluruh akun terdaftar dilengkapi tag peran, kontak privat, dan kontrol keamanan.
+                                ${isOwner
+                                    ? 'Kelola peran Pilot, Admin Moderasi, dan tunjuk Super Admin. Akun Utama Anda terlindungi penuh dan tidak dapat dikendalikan Super Admin.'
+                                    : 'Seluruh akun terdaftar dilengkapi tag peran, kontak privat, dan kontrol keamanan.'}
                             </div>
                         </div>
                         <div class="tw-admin-user-search-wrap">
@@ -5435,16 +6257,150 @@
                     const drones = Array.isArray(u.drones) ? u.drones : [];
                     const starsHtml = renderStarSvg(u.star_level || 1, 5);
 
-                    const isUserMain = u.role === 'superadmin' || (u.username || '').toLowerCase() === 'rwandaz';
-                    const isUserAdminRole = isUserMain || u.role === 'admin';
+                    const isTargetOwner = isOwnerUsername(u.username);
+                    const isTargetSuper = !isTargetOwner && u.role === 'superadmin';
+                    const isTargetAdmin = !isTargetOwner && !isTargetSuper && u.role === 'admin';
                     const isSelf = (u.username || '').toLowerCase() === (activeAdminUser || '').toLowerCase();
 
-                    // Tag Admin / Akun Utama / Pilot Komunitas
-                    const roleTagHtml = isUserMain
+                    // Tag Akun Utama / Super Admin / Admin / Pilot Komunitas
+                    const roleTagHtml = isTargetOwner
                         ? '<span class="tw-chip-solid" style="font-size: 0.72rem; font-weight: 700; background: #EFF6FF; color: #1E40AF; border: 1px solid #93C5FD; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span>Akun Utama</span></span>'
-                        : (isUserAdminRole
-                            ? '<span class="tw-chip-solid" style="font-size: 0.72rem; font-weight: 700; background: #E6FBF7; color: var(--teal-deep); border: 1px solid var(--teal-deep); border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Admin</span></span>'
-                            : '<span class="tw-chip" style="font-size: 0.72rem; background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Pilot</span></span>');
+                        : (isTargetSuper
+                            ? '<span class="tw-chip-solid" style="font-size: 0.72rem; font-weight: 700; background: #FEF3C7; color: #92400E; border: 1px solid #F59E0B; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg><span>Super Admin</span></span>'
+                            : (isTargetAdmin
+                                ? '<span class="tw-chip-solid" style="font-size: 0.72rem; font-weight: 700; background: #E6FBF7; color: var(--teal-deep); border: 1px solid var(--teal-deep); border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Admin</span></span>'
+                                : '<span class="tw-chip" style="font-size: 0.72rem; background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Pilot</span></span>'));
+
+                    let actionBtnsHtml = '';
+                    if (isTargetOwner) {
+                        if (isOwner) {
+                            actionBtnsHtml = `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Edit poin reputasi akun Anda">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                </button>
+                                <span class="tw-chip" style="font-size: 0.75rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    <span>Akun Utama Dilindungi</span>
+                                </span>
+                            `;
+                        } else {
+                            // Super Admin yang ditunjuk & Admin biasa TIDAK PERNAH bisa mengendalikan Akun Utama
+                            actionBtnsHtml = `
+                                <span class="tw-chip" style="font-size: 0.75rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Akun Utama dilindungi penuh dan tidak dapat diubah oleh Super Admin maupun Admin">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Akun Utama Dilindungi</span>
+                                </span>
+                            `;
+                        }
+                    } else if (isTargetSuper) {
+                        if (isOwner) {
+                            actionBtnsHtml = `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                </button>
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
+                                    <span>Reset Sandi</span>
+                                </button>
+                                <button type="button" onclick="handleDemoteSuperAdmin('${escapeHtml(u.username)}', 'admin')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #92400E; border-color: #D97706; background: #FFFBEB; justify-content: center;" title="Turunkan dari Super Admin menjadi Admin Moderasi">
+                                    <span>Cabut Super Admin</span>
+                                </button>
+                                <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Hapus Akun</span>
+                                </button>
+                            `;
+                        } else if (isSelf) {
+                            actionBtnsHtml = `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                </button>
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
+                                    <span>Reset Sandi Sendiri</span>
+                                </button>
+                            `;
+                        } else {
+                            actionBtnsHtml = `
+                                <span class="tw-chip" style="font-size: 0.75rem; background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya Akun Utama yang dapat mengelola sesama Super Admin">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Super Admin Rekan</span>
+                                </span>
+                            `;
+                        }
+                    } else if (isTargetAdmin) {
+                        if (isSuper) {
+                            actionBtnsHtml = `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ubah poin akun ini">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                </button>
+                                ${isOwner ? `
+                                    <button type="button" onclick="openAdminPromoteSuperModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #92400E; border-color: #92400E; color: #FFFFFF;" title="Tunjuk menjadi Super Admin dengan akses statistik &amp; log sistem">
+                                        <span>Jadikan Super Admin</span>
+                                    </button>
+                                ` : ''}
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
+                                    <span>Reset Sandi</span>
+                                </button>
+                                ${!isSelf ? `
+                                    <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #B45309; border-color: #D97706; background: #FFFBEB; justify-content: center;">
+                                        <span>Cabut Akses Admin</span>
+                                    </button>
+                                    <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun admin ini dari sistem">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        <span>Hapus Akun</span>
+                                    </button>
+                                ` : ''}
+                            `;
+                        } else if (isSelf) {
+                            actionBtnsHtml = `
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
+                                    <span>Reset Sandi Sendiri</span>
+                                </button>
+                            `;
+                        } else {
+                            actionBtnsHtml = `
+                                <span class="tw-chip" style="font-size: 0.75rem; background: #F8FAFC; color: var(--slate); border: 1px solid var(--line); height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya Akun Utama atau Super Admin yang dapat mengelola admin lain">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Admin Rekan</span>
+                                </span>
+                            `;
+                        }
+                    } else {
+                        // Target adalah Pilot biasa
+                        actionBtnsHtml = isSuper ? `
+                            <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ubah poin pilot">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                <span>Edit Poin (${u.total_points || 0})</span>
+                            </button>
+                            <button type="button" onclick="openAdminPromoteModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #1E40AF; border-color: #1E40AF; color: #FFFFFF;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+                                <span>Jadikan Admin</span>
+                            </button>
+                            ${isOwner ? `
+                                <button type="button" onclick="openAdminPromoteSuperModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #92400E; border-color: #92400E; color: #FFFFFF;" title="Tunjuk langsung menjadi Super Admin">
+                                    <span>Jadikan Super Admin</span>
+                                </button>
+                            ` : ''}
+                            <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
+                                <span>Reset Sandi</span>
+                            </button>
+                            <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                <span>Hapus Akun</span>
+                            </button>
+                        ` : `
+                            <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
+                                <span>Reset Sandi</span>
+                            </button>
+                            <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                <span>Hapus Akun</span>
+                            </button>
+                        `;
+                    }
 
                     return `
                         <div style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 12px; padding: 0.95rem 1rem; max-width: 100%; box-sizing: border-box;">
@@ -5479,81 +6435,7 @@
 
                                 <!-- Action Buttons -->
                                 <div class="tw-admin-actions-row" style="width: auto; justify-content: flex-start;">
-                                    ${isSuper ? (
-                                        isUserMain ? `
-                                            <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Edit poin reputasi akun Anda">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                <span>Edit Poin (${u.total_points || 0})</span>
-                                            </button>
-                                            <span class="tw-chip" style="font-size: 0.75rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                                <span>Akun Utama Dilindungi</span>
-                                            </span>
-                                        ` : (
-                                            isUserAdminRole ? `
-                                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ubah poin akun ini">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                    <span>Edit Poin (${u.total_points || 0})</span>
-                                                </button>
-                                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                                    <span>Reset Sandi</span>
-                                                </button>
-                                                ${!isSelf ? `
-                                                    <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #B45309; border-color: #D97706; background: #FFFBEB; justify-content: center;">
-                                                        <span>Cabut Akses Admin</span>
-                                                    </button>
-                                                    <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun admin ini dari sistem">
-                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                                        <span>Hapus Akun</span>
-                                                    </button>
-                                                ` : ''}
-                                            ` : `
-                                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ubah poin pilot">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                    <span>Edit Poin (${u.total_points || 0})</span>
-                                                </button>
-                                                <button type="button" onclick="openAdminPromoteModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #1E40AF; border-color: #1E40AF; color: #FFFFFF;">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
-                                                    <span>Jadikan Admin</span>
-                                                </button>
-                                                <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                                    <span>Reset Sandi</span>
-                                                </button>
-                                                <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                                    <span>Hapus Akun</span>
-                                                </button>
-                                            `
-                                        )
-                                    ) : (
-                                        isUserMain ? `
-                                            <span class="tw-chip" style="font-size: 0.75rem; background: #F8FAFC; color: var(--slate); border: 1px solid var(--line); height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Akun utama tidak dapat di-reset oleh admin tambahan">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                                <span>Terkunci (Akun Utama)</span>
-                                            </span>
-                                        ` : (
-                                            isSelf ? `
-                                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                                    <span>Reset Sandi Sendiri</span>
-                                                </button>
-                                            ` : (
-                                                isUserAdminRole ? `
-                                                    <span class="tw-chip" style="font-size: 0.75rem; background: #F8FAFC; color: var(--slate); border: 1px solid var(--line); height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya akun utama yang dapat mengelola admin lain">
-                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                                        <span>Admin Rekan</span>
-                                                    </span>
-                                                ` : `
-                                                    <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                                        <span>Reset Sandi</span>
-                                                    </button>
-                                                    <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
-                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                                        <span>Hapus Akun</span>
-                                                    </button>
-                                                `
-                                            )
-                                        )
-                                    )}
+                                    ${actionBtnsHtml}
                                 </div>
                             </div>
                         </div>
@@ -6075,8 +6957,18 @@
         async function handleAdminDeleteAccount(targetUsername, targetFullName, isAdminTarget) {
             ensureAdminSessionFromPilot();
             if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+            if (isOwnerUsername(targetUsername)) {
+                alert('Akses Ditolak: Akun Utama dilindungi penuh dan tidak dapat dihapus oleh siapa pun.');
+                return;
+            }
+            const combinedTarget = (getCombinedUsersList() || []).find(u => (u.username || '').toLowerCase() === String(targetUsername || '').toLowerCase());
+            const isTargetSuper = combinedTarget && combinedTarget.role === 'superadmin';
+            if (isTargetSuper && !isOwnerAccountActive()) {
+                alert('Akses Ditolak: Hanya Akun Utama yang berhak menghapus akun Super Admin.');
+                return;
+            }
             if (isAdminTarget && !isSuperAdminActive()) {
-                alert('Akses Dibatasi: Hanya Akun Utama yang berhak menghapus akun Admin.');
+                alert('Akses Dibatasi: Hanya Akun Utama atau Super Admin yang berhak menghapus akun Admin.');
                 return;
             }
 
@@ -6592,9 +7484,13 @@
                 if (adminMob) adminMob.style.display = isAdminRole ? 'block' : 'none';
 
                 if (navAvatarSlot) navAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 22);
+                const isOwnerUser = isOwnerUsername(user.username);
+                const isSuperUser = isOwnerUser || user.role === 'superadmin';
                 if (navText) {
-                    if (user.role === 'superadmin') {
+                    if (isOwnerUser) {
                         navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#BFDBFE; font-weight:700;">Akun Utama</span>`;
+                    } else if (isSuperUser) {
+                        navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#FDE68A; font-weight:700;">Super Admin</span>`;
                     } else if (user.role === 'admin') {
                         navText.innerHTML = `<strong>${escapeHtml(user.full_name || user.username)}</strong> &bull; <span style="color:#A7F3D0; font-weight:700;">Admin</span>`;
                     } else {
@@ -6606,7 +7502,7 @@
                     navBtn.title = 'Buka Dashboard Profil Pilot';
                 }
                 if (mobLink) {
-                    const roleTag = user.role === 'superadmin' ? ' [Akun Utama]' : (user.role === 'admin' ? ' [Admin]' : '');
+                    const roleTag = isOwnerUser ? ' [Akun Utama]' : (isSuperUser ? ' [Super Admin]' : (user.role === 'admin' ? ' [Admin]' : ''));
                     mobLink.innerHTML = `Profil Pilot${roleTag}: ${escapeHtml(user.full_name || user.username)} (${user.total_points || 0} Poin)`;
                     mobLink.setAttribute('onclick', 'toggleMobileNav(false); openUserDashboardModal();');
                 }
@@ -6618,8 +7514,8 @@
                 if (bannerDesc) bannerDesc.innerHTML = `
                     <span style="display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
                         ${isAdminRole ? `
-                            <span class="tw-chip-solid" style="background:${user.role === 'superadmin' ? '#EFF6FF' : '#E6FBF7'}; color:${user.role === 'superadmin' ? '#1E40AF' : 'var(--teal-deep)'}; font-size:0.75rem; font-weight:700; border: 1px solid ${user.role === 'superadmin' ? '#BFDBFE' : 'var(--teal-hover)'};">
-                                ${user.role === 'superadmin' ? 'Akun Utama' : 'Admin Moderasi'}
+                            <span class="tw-chip-solid" style="background:${isOwnerUser ? '#EFF6FF' : (isSuperUser ? '#FEF3C7' : '#E6FBF7')}; color:${isOwnerUser ? '#1E40AF' : (isSuperUser ? '#92400E' : 'var(--teal-deep)')}; font-size:0.75rem; font-weight:700; border: 1px solid ${isOwnerUser ? '#BFDBFE' : (isSuperUser ? '#F59E0B' : 'var(--teal-hover)')};">
+                                ${isOwnerUser ? 'Akun Utama' : (isSuperUser ? 'Super Admin' : 'Admin Moderasi')}
                             </span>
                         ` : ''}
                         ${renderStarSvg(lvl.level, 5)}
@@ -7347,12 +8243,18 @@
             // Status role badge in dashboard
             const roleBadge = document.getElementById('dash-role-badge');
             if (roleBadge) {
-                if (user.role === 'superadmin') {
+                if (isOwnerUsername(user.username)) {
                     roleBadge.style.display = 'inline-flex';
                     roleBadge.style.background = '#EFF6FF';
                     roleBadge.style.color = '#1E40AF';
                     roleBadge.style.border = '1px solid #BFDBFE';
                     roleBadge.textContent = 'Status: Akun Utama';
+                } else if (user.role === 'superadmin') {
+                    roleBadge.style.display = 'inline-flex';
+                    roleBadge.style.background = '#FEF3C7';
+                    roleBadge.style.color = '#92400E';
+                    roleBadge.style.border = '1px solid #F59E0B';
+                    roleBadge.textContent = 'Status: Super Admin';
                 } else if (user.role === 'admin') {
                     roleBadge.style.display = 'inline-flex';
                     roleBadge.style.background = '#E6FBF7';
@@ -7711,16 +8613,30 @@
             const modal = document.getElementById('admin-reset-pass-modal');
             if (!modal) return;
 
+            const isOwner = isOwnerAccountActive();
+            const isCurrentSuper = isSuperAdminActive();
+
+            // Proteksi mutlak Akun Utama (rwandaz) dari siapa pun kecuali Akun Utama sendiri
+            if (isOwnerUsername(username) && !isOwner) {
+                alert('Akses Ditolak: Akun Utama dilindungi penuh dan tidak dapat di-reset oleh Super Admin maupun Admin.');
+                return;
+            }
+
             if (type === 'admin') {
                 const targetAdmin = (latestAdminUsers || []).find(a => Number(a.id) === Number(targetId) || a.username === username);
-                const isTargetMain = targetAdmin ? targetAdmin.role === 'superadmin' : (username === 'rwandaz');
-                const isCurrentSuper = activeAdminRole === 'superadmin';
+                const isTargetOwner = isOwnerUsername(targetAdmin ? targetAdmin.username : username);
+                const isTargetSuper = !isTargetOwner && targetAdmin && targetAdmin.role === 'superadmin';
+                const isSelfTarget = String(targetAdmin ? targetAdmin.username : username).toLowerCase() === String(activeAdminUser || '').toLowerCase();
 
-                if (isTargetMain && !isCurrentSuper) {
-                    alert('Akses Ditolak: Akun utama tidak dapat di-reset oleh admin tambahan.');
+                if (isTargetOwner && !isOwner) {
+                    alert('Akses Ditolak: Akun Utama dilindungi penuh dan tidak dapat di-reset oleh Super Admin maupun Admin.');
                     return;
                 }
-                if (!isCurrentSuper && targetAdmin && targetAdmin.username !== activeAdminUser) {
+                if (isTargetSuper && !isOwner && !isSelfTarget) {
+                    alert('Akses Ditolak: Hanya Akun Utama yang dapat mereset sandi Super Admin lain.');
+                    return;
+                }
+                if (!isCurrentSuper && targetAdmin && !isSelfTarget) {
                     alert('Akses Ditolak: Admin tambahan hanya dapat mereset sandi akun Anda sendiri.');
                     return;
                 }
@@ -7779,30 +8695,59 @@
 
             if (!targetId || !newPass || newPass.length < 6 || !supabaseClient) return;
 
+            const isOwner = isOwnerAccountActive();
+            const isCurrentSuper = isSuperAdminActive();
+
             if (type === 'admin') {
                 const targetAdmin = (latestAdminUsers || []).find(a => Number(a.id) === Number(targetId));
-                const isTargetMain = targetAdmin ? targetAdmin.role === 'superadmin' : false;
-                const isCurrentSuper = activeAdminRole === 'superadmin';
+                const isTargetOwner = targetAdmin ? isOwnerUsername(targetAdmin.username) : false;
+                const isTargetSuper = !isTargetOwner && targetAdmin && targetAdmin.role === 'superadmin';
+                const isSelfTarget = targetAdmin && String(targetAdmin.username || '').toLowerCase() === String(activeAdminUser || '').toLowerCase();
 
-                if (isTargetMain && !isCurrentSuper) {
+                if (isTargetOwner && !isOwner) {
                     if (alertBox) {
                         alertBox.style.display = 'block';
                         alertBox.style.background = '#FEF2F2';
                         alertBox.style.border = '1px solid #FECACA';
                         alertBox.style.color = '#991B1B';
-                        alertBox.textContent = 'Akses ditolak: Akun utama tidak dapat di-reset oleh admin tambahan.';
+                        alertBox.textContent = 'Akses ditolak: Akun Utama dilindungi penuh dan tidak dapat di-reset.';
                     }
                     if (btn) { btn.disabled = false; btn.textContent = 'Simpan Kata Sandi'; }
                     return;
                 }
 
-                if (!isCurrentSuper && targetAdmin && targetAdmin.username !== activeAdminUser) {
+                if (isTargetSuper && !isOwner && !isSelfTarget) {
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.border = '1px solid #FECACA';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = 'Akses ditolak: Hanya Akun Utama yang dapat mereset sandi Super Admin lain.';
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Simpan Kata Sandi'; }
+                    return;
+                }
+
+                if (!isCurrentSuper && targetAdmin && !isSelfTarget) {
                     if (alertBox) {
                         alertBox.style.display = 'block';
                         alertBox.style.background = '#FEF2F2';
                         alertBox.style.border = '1px solid #FECACA';
                         alertBox.style.color = '#991B1B';
                         alertBox.textContent = 'Akses ditolak: Admin tambahan hanya dapat mereset sandi akun Anda sendiri.';
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Simpan Kata Sandi'; }
+                    return;
+                }
+            } else {
+                const targetPilot = (latestAdminForumUsers || []).find(u => Number(u.id) === Number(targetId));
+                if (targetPilot && isOwnerUsername(targetPilot.username) && !isOwner) {
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.border = '1px solid #FECACA';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = 'Akses ditolak: Akun Utama dilindungi penuh.';
                     }
                     if (btn) { btn.disabled = false; btn.textContent = 'Simpan Kata Sandi'; }
                     return;
@@ -7882,9 +8827,20 @@
         // ==========================================
         function openAdminAdjustPointsModal(userId, username, currentPoints) {
             const curUser = getActivePilotUser();
-            const isSuper = (curUser && curUser.role === 'superadmin') || activeAdminRole === 'superadmin' || (curUser && (curUser.username || '').toLowerCase() === 'rwandaz');
+            const isOwner = isOwnerAccountActive();
+            const isSuper = isSuperAdminActive();
             if (!isSuper) {
-                alert('Akses Ditolak: Hak akses edit poin hanya dimiliki oleh akun utama.');
+                alert('Akses Ditolak: Hak akses edit poin hanya dimiliki oleh Akun Utama dan Super Admin.');
+                return;
+            }
+            if (isOwnerUsername(username) && !isOwner) {
+                alert('Akses Ditolak: Poin Akun Utama dilindungi dan tidak dapat diubah oleh Super Admin.');
+                return;
+            }
+            const combinedTarget = (getCombinedUsersList() || []).find(u => (u.username || '').toLowerCase() === String(username || '').toLowerCase());
+            const isSelfTarget = String(username || '').toLowerCase() === String(activeAdminUser || (curUser && curUser.username) || '').toLowerCase();
+            if (combinedTarget && combinedTarget.role === 'superadmin' && !isOwner && !isSelfTarget) {
+                alert('Akses Ditolak: Hanya Akun Utama yang dapat mengubah poin Super Admin lain.');
                 return;
             }
 
@@ -7945,6 +8901,19 @@
             const newPoints = Number(document.getElementById('adjust-points-input').value);
 
             if (!userId || isNaN(newPoints) || !supabaseClient) return;
+
+            // Proteksi mutlak agar Super Admin tidak bisa mengubah poin Akun Utama
+            const targetUserObj = (getCombinedUsersList() || []).find(u => Number(u.id) === Number(userId));
+            if (targetUserObj && isOwnerUsername(targetUserObj.username) && !isOwnerAccountActive()) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Akses Ditolak: Akun Utama dilindungi penuh.';
+                }
+                if (btn) { btn.disabled = false; btn.textContent = 'Simpan Poin'; }
+                return;
+            }
 
             if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
             if (alertBox) alertBox.style.display = 'none';
@@ -8008,6 +8977,10 @@
         }
 
         async function handleDeleteForumUser(userId, username) {
+            if (isOwnerUsername(username)) {
+                alert('Akses Ditolak: Akun Utama dilindungi penuh dan tidak dapat dihapus.');
+                return;
+            }
             if (!confirm(`Apakah Anda yakin ingin menghapus akun pengguna @${username}? Seluruh komentar yang pernah dibuat akan ikut terhapus.`)) return;
             if (!supabaseClient) return;
 
@@ -8125,8 +9098,20 @@
 
         async function handleDemoteUserFromAdmin(targetUsername) {
             if (!isSuperAdminActive()) {
-                alert('Akses Ditolak: Hanya akun utama yang dapat mencabut akses admin.');
+                alert('Akses Ditolak: Hanya Akun Utama atau Super Admin yang dapat mencabut akses admin.');
                 return;
+            }
+            if (isOwnerUsername(targetUsername)) {
+                alert('Akses Ditolak: Akun Utama dilindungi penuh dan tidak dapat diturunkan.');
+                return;
+            }
+            const combinedTarget = (getCombinedUsersList() || []).find(u => (u.username || '').toLowerCase() === String(targetUsername || '').toLowerCase());
+            if (combinedTarget && combinedTarget.role === 'superadmin') {
+                if (!isOwnerAccountActive()) {
+                    alert('Akses Ditolak: Hanya Akun Utama yang berhak mencabut status Super Admin.');
+                    return;
+                }
+                return handleDemoteSuperAdmin(targetUsername, 'user');
             }
             if (!confirm(`Yakin ingin mencabut akses admin untuk pilot @${targetUsername}? Akun pengguna forum miliknya tetap aman.`)) {
                 return;
@@ -8151,7 +9136,196 @@
             }
         }
 
+        // ==========================================
+        // TUNJUK & CABUT SUPER ADMIN (KHUSUS AKUN UTAMA)
+        // ==========================================
+        function openAdminPromoteSuperModal(userId, username, fullName) {
+            if (!isOwnerAccountActive()) {
+                alert('Akses Ditolak: Hanya Akun Utama yang dapat menunjuk Super Admin.');
+                return;
+            }
+            if (isOwnerUsername(username)) return;
+
+            const modal = document.getElementById('admin-promote-superadmin-modal');
+            if (!modal) return;
+
+            document.getElementById('promote-super-target-user-id').value = userId;
+            document.getElementById('promote-super-pilot-name').textContent = fullName || username;
+            document.getElementById('promote-super-pilot-username').textContent = `@${username}`;
+
+            const alertBox = document.getElementById('promote-super-modal-alert');
+            if (alertBox) alertBox.style.display = 'none';
+            const btn = document.getElementById('btn-submit-promote-super');
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = '+ Konfirmasi Tunjuk Super Admin';
+            }
+
+            modal.classList.add('is-open');
+            modal.scrollTop = 0;
+        }
+
+        function closeAdminPromoteSuperModal() {
+            const modal = document.getElementById('admin-promote-superadmin-modal');
+            if (!modal) return;
+            modal.classList.remove('is-open');
+        }
+
+        async function submitAdminPromoteSuperAdmin(e) {
+            e.preventDefault();
+            if (!isOwnerAccountActive()) {
+                alert('Akses Ditolak: Hanya Akun Utama yang dapat menunjuk Super Admin.');
+                return;
+            }
+
+            const targetUserId = Number(document.getElementById('promote-super-target-user-id').value);
+            const alertBox = document.getElementById('promote-super-modal-alert');
+            const btn = document.getElementById('btn-submit-promote-super');
+
+            if (!targetUserId || !supabaseClient) return;
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Memproses...'; }
+            if (alertBox) alertBox.style.display = 'none';
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_promote_user_to_superadmin', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    target_user_id: targetUserId
+                });
+
+                if (error || (data && !data.success)) {
+                    const msg = (data && data.message) || (error && error.message) || 'Gagal menunjuk Super Admin.';
+                    const isMissingRpc = /admin_promote_user_to_superadmin|404|PGRST202|does not exist/i.test(msg);
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        alertBox.style.background = '#FEF2F2';
+                        alertBox.style.border = '1px solid #FECACA';
+                        alertBox.style.color = '#991B1B';
+                        alertBox.textContent = isMissingRpc
+                            ? 'Fungsi SQL belum terpasang di Supabase. Jalankan berkas supabase_analytics_and_superadmin.sql di Supabase SQL Editor terlebih dahulu.'
+                            : msg;
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = '+ Konfirmasi Tunjuk Super Admin'; }
+                    return;
+                }
+
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#F0FDF4';
+                    alertBox.style.border = '1px solid #BBF7D0';
+                    alertBox.style.color = '#166534';
+                    alertBox.innerHTML = `<strong>Berhasil:</strong> ${escapeHtml((data && data.message) || 'Pengguna berhasil ditunjuk sebagai Super Admin.')}`;
+                }
+
+                if (btn) { btn.disabled = false; btn.textContent = 'Selesai'; }
+
+                await fetchAdminUsers();
+                await fetchAdminForumUsers();
+                renderAdminUnifiedUsersView(document.getElementById('filter-user-input') ? document.getElementById('filter-user-input').value : '');
+
+                setTimeout(() => {
+                    closeAdminPromoteSuperModal();
+                }, 1700);
+            } catch (err) {
+                if (alertBox) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = '#FEF2F2';
+                    alertBox.style.border = '1px solid #FECACA';
+                    alertBox.style.color = '#991B1B';
+                    alertBox.textContent = 'Kendala: ' + err.message;
+                }
+                if (btn) { btn.disabled = false; btn.textContent = '+ Konfirmasi Tunjuk Super Admin'; }
+            }
+        }
+
+        async function handleDemoteSuperAdmin(targetUsername, defaultRole = 'admin') {
+            if (!isOwnerAccountActive()) {
+                alert('Akses Ditolak: Hanya Akun Utama yang dapat mencabut status Super Admin.');
+                return;
+            }
+            if (isOwnerUsername(targetUsername)) {
+                alert('Akses Ditolak: Akun Utama tidak dapat diturunkan.');
+                return;
+            }
+            if (!activeAdminUser || !activeAdminPass || !supabaseClient) return;
+
+            const keepAsAdmin = confirm(
+                `Cabut status Super Admin untuk @${targetUsername}?\n\n` +
+                `Klik OK untuk menurunkan menjadi Admin Moderasi biasa.\n` +
+                `Klik Batal jika tidak jadi mencabut.`
+            );
+            if (!keepAsAdmin) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('admin_demote_superadmin', {
+                    admin_user: activeAdminUser,
+                    admin_pass: activeAdminPass,
+                    target_username: targetUsername,
+                    downgrade_to_role: defaultRole || 'admin'
+                });
+
+                if (!error && data && data.success) {
+                    await fetchAdminUsers();
+                    await fetchAdminForumUsers();
+                    renderAdminUnifiedUsersView(document.getElementById('filter-user-input') ? document.getElementById('filter-user-input').value : '');
+                } else {
+                    alert('Gagal mencabut Super Admin: ' + ((data && data.message) || error?.message || 'Error'));
+                }
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            }
+        }
+
     </script>
+
+    <!-- MODAL TUNJUK SUPER ADMIN (KHUSUS AKUN UTAMA) -->
+    <div id="admin-promote-superadmin-modal" class="tw-modal" style="z-index: 100000;">
+        <div class="tw-modal-card" style="max-width: 470px;">
+            <div class="tw-modal-head">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #FEF3C7; color: #92400E; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                    </div>
+                    <div>
+                        <h3 class="tw-modal-title">Tunjuk Super Admin</h3>
+                        <p style="font-size: 0.8125rem; color: var(--slate); margin: 0;">Berikan akses fitur setara Akun Utama dengan proteksi penuh akun Anda.</p>
+                    </div>
+                </div>
+                <button type="button" class="tw-modal-close" onclick="closeAdminPromoteSuperModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <form onsubmit="submitAdminPromoteSuperAdmin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="hidden" id="promote-super-target-user-id" value=""/>
+
+                <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
+                    <div style="font-size: 0.75rem; color: var(--slate); margin-bottom: 0.2rem;">Akun yang Ditunjuk:</div>
+                    <div style="font-weight: 700; color: var(--ink); font-size: 0.95rem;" id="promote-super-pilot-name">-</div>
+                    <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.15rem;" id="promote-super-pilot-username">-</div>
+                </div>
+
+                <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 0.85rem 1rem; color: #92400E; font-size: 0.8125rem; line-height: 1.55;">
+                    <div style="font-weight: 700; margin-bottom: 0.3rem;">Hak Akses &amp; Batas Keamanan Super Admin:</div>
+                    <ul style="margin: 0; padding-left: 1.15rem; color: #78350F;">
+                        <li>Mendapat fitur penuh: <strong>Statistik Web</strong>, <strong>Log Sistem</strong>, Edit Poin, Kelola Admin &amp; Pilot, serta moderasi penuh.</li>
+                        <li><strong>Tidak dapat mengendalikan Akun Utama Anda</strong> (tidak bisa reset sandi, edit poin, mencabut, atau menghapus Akun Utama).</li>
+                        <li>Tidak dapat menunjuk atau mencabut Super Admin lain (hanya Akun Utama yang berwenang).</li>
+                    </ul>
+                </div>
+
+                <div id="promote-super-modal-alert" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.8125rem;"></div>
+
+                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; margin-top: 0.35rem;">
+                    <button type="button" class="tw-btn-2" onclick="closeAdminPromoteSuperModal()" style="height: 38px; min-width: 90px; justify-content: center;">Batal</button>
+                    <button type="submit" id="btn-submit-promote-super" class="tw-btn" style="height: 38px; min-width: 210px; justify-content: center; background: #92400E; border-color: #92400E;">
+                        <span>+ Konfirmasi Tunjuk Super Admin</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL JADIKAN PENGGUNA SEBAGAI ADMIN -->
     <div id="admin-promote-modal" class="tw-modal" style="z-index: 100000;">
@@ -8395,5 +9569,6 @@
         </div>
     </div>
 
+    <script src="wandrone-analytics.js" defer></script>
 </body>
 </html>

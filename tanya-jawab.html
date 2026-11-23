@@ -2932,6 +2932,130 @@
             border: 1.5px solid #94A3B8;
         }
 
+        /* Unified Admin User Actions & Dropdown Menu */
+        .tw-admin-user-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .tw-admin-user-actions .tw-btn,
+        .tw-admin-user-actions .tw-btn-2,
+        .tw-admin-user-actions .tw-btn-user-dropdown {
+            height: 30px !important;
+            min-height: 30px !important;
+            padding: 0 0.65rem !important;
+            font-size: 0.75rem !important;
+            border-radius: 8px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.3rem !important;
+            flex: 0 0 auto !important;
+            white-space: nowrap !important;
+            box-sizing: border-box !important;
+        }
+
+        .tw-btn-user-dropdown {
+            background: #FFFFFF;
+            color: #334155;
+            border: 1px solid #CBD5E1;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .tw-btn-user-dropdown:hover,
+        .tw-btn-user-dropdown.is-active {
+            background: #F1F5F9;
+            border-color: #94A3B8;
+            color: var(--ink);
+        }
+
+        .user-action-dropdown-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-action-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            min-width: 195px;
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px -5px rgba(10, 14, 22, 0.15), 0 4px 6px -2px rgba(10, 14, 22, 0.05);
+            padding: 0.35rem;
+            z-index: 60;
+            display: none;
+        }
+
+        .user-action-dropdown-menu.is-open {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            animation: userDropdownPop 0.12s ease-out;
+        }
+
+        @keyframes userDropdownPop {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .user-action-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.45rem 0.65rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--ink);
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.15s ease, color 0.15s ease;
+            box-sizing: border-box;
+            line-height: 1.3;
+        }
+
+        .user-action-item:hover {
+            background: #F1F5F9;
+            color: var(--teal-deep);
+        }
+
+        .user-action-item.is-danger {
+            color: #DC2626;
+        }
+
+        .user-action-item.is-danger:hover {
+            background: #FEF2F2;
+            color: #B91C1C;
+        }
+
+        .user-action-item svg {
+            flex-shrink: 0;
+        }
+
+        .user-action-divider {
+            height: 1px;
+            background: #E2E8F0;
+            margin: 0.25rem 0;
+            border: none;
+        }
+
         /* Responsive Mobile Overhaul (Zero Overflow) */
         @media (max-width: 768px) {
             .tw-hide-mob {
@@ -2993,6 +3117,21 @@
             }
             .tw-admin-user-search-wrap {
                 max-width: 100%;
+            }
+            .tw-admin-user-actions {
+                width: 100% !important;
+                justify-content: flex-start !important;
+                gap: 0.35rem !important;
+                margin-top: 0.45rem !important;
+            }
+            .tw-admin-user-actions .tw-btn,
+            .tw-admin-user-actions .tw-btn-2,
+            .tw-admin-user-actions .tw-btn-user-dropdown {
+                flex: 0 0 auto !important;
+                height: 30px !important;
+                min-height: 30px !important;
+                padding: 0 0.6rem !important;
+                font-size: 0.74rem !important;
             }
         }
 
@@ -6226,6 +6365,56 @@
             container.innerHTML = html;
         }
 
+        // ==========================================
+        // UNIFIED ADMIN USER ACTION DROPDOWN LOGIC
+        // ==========================================
+        function closeAllUserActionMenus() {
+            document.querySelectorAll('.user-action-dropdown-menu.is-open').forEach(m => m.classList.remove('is-open'));
+            document.querySelectorAll('.tw-btn-user-dropdown.is-active').forEach(b => b.classList.remove('is-active'));
+        }
+
+        function toggleUserActionMenu(event, menuId) {
+            if (event) {
+                event.stopPropagation();
+            }
+            const target = document.getElementById(menuId);
+            const btn = event && event.currentTarget ? event.currentTarget : null;
+            const wasOpen = target && target.classList.contains('is-open');
+
+            closeAllUserActionMenus();
+
+            if (target && !wasOpen) {
+                target.classList.add('is-open');
+                if (btn) btn.classList.add('is-active');
+
+                // Adjust vertical overflow
+                const rect = target.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight - 15) {
+                    target.style.top = 'auto';
+                    target.style.bottom = 'calc(100% + 4px)';
+                } else {
+                    target.style.top = 'calc(100% + 4px)';
+                    target.style.bottom = 'auto';
+                }
+
+                // Adjust horizontal overflow
+                if (rect.right > window.innerWidth - 10) {
+                    target.style.right = '0';
+                    target.style.left = 'auto';
+                } else if (rect.left < 10) {
+                    target.style.left = '0';
+                    target.style.right = 'auto';
+                }
+            }
+        }
+
+        // Global outside click listener to auto-close user action dropdowns
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-action-dropdown-wrap')) {
+                closeAllUserActionMenus();
+            }
+        });
+
         function renderAdminUnifiedUsersView(filterText = '') {
             const container = document.getElementById('admin-questions-list');
             if (!container) return;
@@ -6299,23 +6488,26 @@
                                 ? '<span class="tw-chip-solid" style="font-size: 0.72rem; font-weight: 700; background: #E6FBF7; color: var(--teal-deep); border: 1px solid var(--teal-deep); border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Admin</span></span>'
                                 : '<span class="tw-chip" style="font-size: 0.72rem; background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.12rem 0.5rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Pilot</span></span>'));
 
-                    let actionBtnsHtml = '';
+                    const menuId = 'u-menu-' + (u.adminId ? 'adm-' + u.adminId : 'usr-' + u.id);
+                    let quickBtnsHtml = '';
+                    const menuItems = [];
+
                     if (isTargetOwner) {
                         if (isOwner) {
-                            actionBtnsHtml = `
-                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Edit poin reputasi akun Anda">
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit poin reputasi akun Anda">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                    <span>Poin (${u.total_points || 0})</span>
                                 </button>
-                                <span class="tw-chip" style="font-size: 0.75rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <span class="tw-chip" style="font-size: 0.72rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                                     <span>Akun Utama Dilindungi</span>
                                 </span>
                             `;
                         } else {
                             // Super Admin yang ditunjuk & Admin biasa TIDAK PERNAH bisa mengendalikan Akun Utama
-                            actionBtnsHtml = `
-                                <span class="tw-chip" style="font-size: 0.75rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Akun Utama dilindungi penuh dan tidak dapat diubah oleh Super Admin maupun Admin">
+                            quickBtnsHtml += `
+                                <span class="tw-chip" style="font-size: 0.72rem; background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; font-weight: 700; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Akun Utama dilindungi penuh dan tidak dapat diubah oleh Super Admin maupun Admin">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                     <span>Akun Utama Dilindungi</span>
                                 </span>
@@ -6323,35 +6515,43 @@
                         }
                     } else if (isTargetSuper) {
                         if (isOwner) {
-                            actionBtnsHtml = `
-                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;">
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit poin">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                    <span>Poin (${u.total_points || 0})</span>
                                 </button>
-                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                    <span>Reset Sandi</span>
-                                </button>
-                                <button type="button" onclick="handleDemoteSuperAdmin('${escapeHtml(u.username)}', 'admin')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #92400E; border-color: #D97706; background: #FFFBEB; justify-content: center;" title="Turunkan dari Super Admin menjadi Admin Moderasi">
-                                    <span>Cabut Super Admin</span>
-                                </button>
-                                <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                    <span>Hapus Akun</span>
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="background: #FFFFFF; color: #334155; border: 1px solid #CBD5E1;" title="Reset kata sandi">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Sandi</span>
                                 </button>
                             `;
-                        } else if (isSelf) {
-                            actionBtnsHtml = `
-                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                    <span>Edit Poin (${u.total_points || 0})</span>
+                            menuItems.push(`
+                                <button type="button" class="user-action-item" onclick="closeAllUserActionMenus(); handleDemoteSuperAdmin('${escapeHtml(u.username)}', 'admin')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D97706;"><path d="M3 12h18"></path><path d="M3 12l6-6"></path><path d="M3 12l6 6"></path></svg>
+                                    <span>Cabut Super Admin</span>
                                 </button>
-                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                    <span>Reset Sandi Sendiri</span>
+                            `);
+                            menuItems.push('<hr class="user-action-divider"/>');
+                            menuItems.push(`
+                                <button type="button" class="user-action-item is-danger" onclick="closeAllUserActionMenus(); handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Hapus Akun</span>
+                                </button>
+                            `);
+                        } else if (isSelf) {
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit poin">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Poin (${u.total_points || 0})</span>
+                                </button>
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="background: #FFFFFF; color: #334155; border: 1px solid #CBD5E1;" title="Reset kata sandi sendiri">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Sandi Sendiri</span>
                                 </button>
                             `;
                         } else {
-                            actionBtnsHtml = `
-                                <span class="tw-chip" style="font-size: 0.75rem; background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya Akun Utama yang dapat mengelola sesama Super Admin">
+                            quickBtnsHtml += `
+                                <span class="tw-chip" style="font-size: 0.72rem; background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya Akun Utama yang dapat mengelola sesama Super Admin">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                     <span>Super Admin Rekan</span>
                                 </span>
@@ -6359,38 +6559,49 @@
                         }
                     } else if (isTargetAdmin) {
                         if (isSuper) {
-                            actionBtnsHtml = `
-                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ubah poin akun ini">
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit poin">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                    <span>Edit Poin (${u.total_points || 0})</span>
+                                    <span>Poin (${u.total_points || 0})</span>
                                 </button>
-                                ${isOwner ? `
-                                    <button type="button" onclick="openAdminPromoteSuperModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #92400E; border-color: #92400E; color: #FFFFFF;" title="Tunjuk menjadi Super Admin dengan akses statistik &amp; log sistem">
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="background: #FFFFFF; color: #334155; border: 1px solid #CBD5E1;" title="Reset kata sandi">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Sandi</span>
+                                </button>
+                            `;
+                            if (isOwner) {
+                                menuItems.push(`
+                                    <button type="button" class="user-action-item" onclick="closeAllUserActionMenus(); openAdminPromoteSuperModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D97706;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                                         <span>Jadikan Super Admin</span>
                                     </button>
-                                ` : ''}
-                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                    <span>Reset Sandi</span>
-                                </button>
-                                ${!isSelf ? `
-                                    <button type="button" onclick="handleDemoteUserFromAdmin('${escapeHtml(u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #B45309; border-color: #D97706; background: #FFFBEB; justify-content: center;">
+                                `);
+                            }
+                            if (!isSelf) {
+                                menuItems.push(`
+                                    <button type="button" class="user-action-item" onclick="closeAllUserActionMenus(); handleDemoteUserFromAdmin('${escapeHtml(u.username)}')">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D97706;"><path d="M3 12h18"></path><path d="M3 12l6-6"></path><path d="M3 12l6 6"></path></svg>
                                         <span>Cabut Akses Admin</span>
                                     </button>
-                                    <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun admin ini dari sistem">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                `);
+                                menuItems.push('<hr class="user-action-divider"/>');
+                                menuItems.push(`
+                                    <button type="button" class="user-action-item is-danger" onclick="closeAllUserActionMenus(); handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', true)">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                         <span>Hapus Akun</span>
                                     </button>
-                                ` : ''}
-                            `;
+                                `);
+                            }
                         } else if (isSelf) {
-                            actionBtnsHtml = `
-                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                    <span>Reset Sandi Sendiri</span>
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminResetPassModal('admin', ${u.adminId || u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="background: #FFFFFF; color: #334155; border: 1px solid #CBD5E1;" title="Reset kata sandi sendiri">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Sandi Sendiri</span>
                                 </button>
                             `;
                         } else {
-                            actionBtnsHtml = `
-                                <span class="tw-chip" style="font-size: 0.75rem; background: #F8FAFC; color: var(--slate); border: 1px solid var(--line); height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya Akun Utama atau Super Admin yang dapat mengelola admin lain">
+                            quickBtnsHtml += `
+                                <span class="tw-chip" style="font-size: 0.72rem; background: #F8FAFC; color: var(--slate); border: 1px solid var(--line); height: 30px; padding: 0 0.65rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Hanya Akun Utama atau Super Admin yang dapat mengelola admin lain">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                     <span>Admin Rekan</span>
                                 </span>
@@ -6398,35 +6609,66 @@
                         }
                     } else {
                         // Target adalah Pilot biasa
-                        actionBtnsHtml = isSuper ? `
-                            <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); justify-content: center; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ubah poin pilot">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                <span>Edit Poin (${u.total_points || 0})</span>
-                            </button>
-                            <button type="button" onclick="openAdminPromoteModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #1E40AF; border-color: #1E40AF; color: #FFFFFF;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
-                                <span>Jadikan Admin</span>
-                            </button>
-                            ${isOwner ? `
-                                <button type="button" onclick="openAdminPromoteSuperModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center; background: #92400E; border-color: #92400E; color: #FFFFFF;" title="Tunjuk langsung menjadi Super Admin">
-                                    <span>Jadikan Super Admin</span>
+                        if (isSuper) {
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" class="tw-btn-2" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit poin pilot">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    <span>Poin (${u.total_points || 0})</span>
                                 </button>
-                            ` : ''}
-                            <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                <span>Reset Sandi</span>
-                            </button>
-                            <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                <span>Hapus Akun</span>
-                            </button>
-                        ` : `
-                            <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; justify-content: center;">
-                                <span>Reset Sandi</span>
-                            </button>
-                            <button type="button" onclick="handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)" class="tw-btn-2" style="height: 30px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #DC2626; background: #FEF2F2; justify-content: center; display: inline-flex; align-items: center; gap: 0.3rem;" title="Hapus akun pilot ini dari sistem">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                <span>Hapus Akun</span>
-                            </button>
+                                <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="background: #FFFFFF; color: #334155; border: 1px solid #CBD5E1;" title="Reset kata sandi pilot">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Sandi</span>
+                                </button>
+                            `;
+                            menuItems.push(`
+                                <button type="button" class="user-action-item" onclick="closeAllUserActionMenus(); openAdminPromoteModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #1E40AF;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+                                    <span>Jadikan Admin</span>
+                                </button>
+                            `);
+                            if (isOwner) {
+                                menuItems.push(`
+                                    <button type="button" class="user-action-item" onclick="closeAllUserActionMenus(); openAdminPromoteSuperModal(${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D97706;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                        <span>Jadikan Super Admin</span>
+                                    </button>
+                                `);
+                            }
+                            menuItems.push('<hr class="user-action-divider"/>');
+                            menuItems.push(`
+                                <button type="button" class="user-action-item is-danger" onclick="closeAllUserActionMenus(); handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Hapus Akun</span>
+                                </button>
+                            `);
+                        } else {
+                            quickBtnsHtml += `
+                                <button type="button" onclick="openAdminResetPassModal('pilot', ${u.id}, '${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}')" class="tw-btn" style="background: #FFFFFF; color: #334155; border: 1px solid #CBD5E1;" title="Reset kata sandi pilot">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Sandi</span>
+                                </button>
+                            `;
+                            menuItems.push(`
+                                <button type="button" class="user-action-item is-danger" onclick="closeAllUserActionMenus(); handleAdminDeleteAccount('${escapeHtml(u.username)}', '${escapeHtml(u.full_name || u.username)}', false)">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Hapus Akun</span>
+                                </button>
+                            `);
+                        }
+                    }
+
+                    let actionBtnsHtml = quickBtnsHtml;
+                    if (menuItems.length > 0) {
+                        actionBtnsHtml += `
+                            <div class="user-action-dropdown-wrap">
+                                <button type="button" class="tw-btn-user-dropdown" onclick="toggleUserActionMenu(event, '${menuId}')" title="Menu opsi akun lainnya">
+                                    <span>Kelola</span>
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                                <div id="${menuId}" class="user-action-dropdown-menu">
+                                    ${menuItems.join('')}
+                                </div>
+                            </div>
                         `;
                     }
 
@@ -6442,7 +6684,7 @@
                                             <strong style="color: var(--ink); font-size: 0.95rem; overflow-wrap: anywhere;">${escapeHtml(u.full_name || u.username)}</strong>
                                             <span style="font-size: 0.78rem; color: #64748B;">@${escapeHtml(u.username)}</span>
                                             ${roleTagHtml}
-                                            <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #FEF3C7; color: #92400E; padding: 0.12rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
+                                            <span ${isSuper ? `onclick="openAdminAdjustPointsModal(${u.id}, '${escapeHtml(u.username)}', ${u.total_points || 0})" style="cursor: pointer;" title="Klik untuk edit poin"` : ''} style="display: inline-flex; align-items: center; gap: 0.3rem; background: #FEF3C7; color: #92400E; padding: 0.12rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700; ${isSuper ? 'cursor: pointer;' : ''}">
                                                 ${starsHtml}
                                                 <span>Lv.${u.star_level || 1} &bull; ${u.total_points || 0} Poin</span>
                                             </span>
@@ -6462,7 +6704,7 @@
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="tw-admin-actions-row" style="width: auto; justify-content: flex-start;">
+                                <div class="tw-admin-user-actions">
                                     ${actionBtnsHtml}
                                 </div>
                             </div>

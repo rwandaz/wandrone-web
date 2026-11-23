@@ -1414,49 +1414,900 @@
             margin-bottom: 1.75rem;
         }
 
+        /* ==========================================================================
+           UNIFIED SITE NAVBAR & SOCIAL MEDIA FORUM FEED UI (Stageshow Standard)
+           ========================================================================== */
+
+        /* Unified White Header matching index.html & lisensi.html */
+        .tw-nav {
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--line);
+            height: auto;
+            min-height: var(--nav-height);
+        }
+
+        .tw-nav-inner {
+            height: var(--nav-height);
+            gap: 0.75rem;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            text-decoration: none;
+            color: var(--ink);
+            flex-shrink: 0;
+        }
+
+        .nav-brand img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .nav-brand-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .nav-brand-title {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-brand-subtitle {
+            font-family: var(--body);
+            font-size: 0.68rem;
+            font-weight: 400;
+            color: var(--slate);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .tw-nav-link {
+            color: var(--slate);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.42rem 0.7rem;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .tw-nav-link:hover {
+            color: var(--ink);
+            background: var(--mist);
+        }
+
+        .tw-nav-link.active {
+            color: var(--teal-deep);
+            background: rgba(45, 212, 191, 0.12);
+            font-weight: 600;
+        }
+
+        /* High-contrast Dark Ink Pilot Pill on white header */
+        .tw-pilot-pill {
+            background: var(--ink) !important;
+            color: #FFFFFF !important;
+            border: 1px solid var(--ink) !important;
+            border-radius: 999px !important;
+            height: 36px;
+            padding: 0 0.9rem !important;
+            font-size: 0.8125rem !important;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .tw-pilot-pill:hover {
+            background: #1E293B !important;
+        }
+
+        .tw-nav-actions-mobile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tw-hamburger {
+            border: 1px solid var(--line);
+            color: var(--ink);
+            background: #FFFFFF;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+        }
+
+        .tw-hamburger:hover {
+            background: var(--mist);
+        }
+
+        /* Sticky Mobile Quick Tab Bar matching index.html & lisensi.html */
+        .tw-mob-tabbar {
+            display: none;
+            width: 100%;
+            background: #FFFFFF;
+            border-top: 1px solid var(--line);
+            overflow: hidden;
+        }
+
+        .tw-mob-tabbar-track {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.45rem 1rem;
+            scrollbar-width: none;
+        }
+
+        .tw-mob-tabbar-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tw-mob-tab-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--slate);
+            background: var(--mist);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.34rem 0.78rem;
+            text-decoration: none;
+            flex-shrink: 0;
+            white-space: nowrap;
+            cursor: pointer;
+            font-family: var(--body);
+        }
+
+        .tw-mob-tab-item.is-active,
+        .tw-mob-tab-item.tw-mob-tab-accent {
+            background: rgba(45, 212, 191, 0.14);
+            border-color: rgba(15, 118, 110, 0.35);
+            color: var(--teal-deep);
+            font-weight: 600;
+        }
+
+        .tw-mobile-dropdown {
+            position: static;
+            background: #FFFFFF;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 0.5rem 0 0.75rem;
+            box-shadow: 0 12px 24px rgba(10, 14, 22, 0.08);
+        }
+
+        .tw-mobile-nav-list {
+            gap: 0;
+        }
+
+        .tw-mobile-nav-list li {
+            border-bottom: 1px solid #EEF2F6;
+        }
+
+        .tw-mobile-nav-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tw-mobile-nav-link {
+            color: var(--ink);
+            padding: 0.72rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .tw-mobile-nav-link:hover {
+            background: var(--mist);
+            color: var(--teal-deep);
+        }
+
+        /* Compact Forum Hero */
+        .tw-band.tw-hero {
+            padding: 1.85rem 0 2rem;
+        }
+
+        .tw-band.tw-hero h1 {
+            font-size: 1.85rem;
+            line-height: 1.15;
+            margin-bottom: 0.45rem;
+        }
+
+        .tw-band.tw-hero .tw-standfirst {
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            max-width: 64ch;
+        }
+
+        /* Social Feed Canvas */
+        main.tw-side-light {
+            background: #F4F6F9;
+            padding: 1.35rem 0 5.5rem;
+            min-height: 70vh;
+        }
+
+        .tw-feed-shell {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Pilot Banner inside Social Feed */
+        .tw-feed-shell .pilot-banner {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 0.9rem 1.1rem;
+            margin-top: 0 !important;
+            margin-bottom: 0.85rem !important;
+            box-shadow: 0 1px 2px rgba(10, 14, 22, 0.03);
+        }
+
+        /* Social "What's on your mind / Ask" Composer Card */
+        .tw-social-composer {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 1px 2px rgba(10, 14, 22, 0.03);
+        }
+
+        .tw-composer-trigger {
+            flex: 1;
+            min-width: 0;
+            text-align: left;
+            background: #F4F6F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 999px;
+            padding: 0.65rem 1.05rem;
+            font-family: var(--body);
+            font-size: 0.875rem;
+            color: #64748B;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .tw-composer-trigger:hover {
+            background: #EEF2F6;
+            border-color: #CBD5E1;
+            color: var(--ink);
+        }
+
+        .tw-composer-post-btn {
+            height: 40px;
+            padding: 0 1.1rem;
+            border-radius: 999px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* Compact Search & Pill Filters */
+        .tw-feed-shell .faq-search-wrapper {
+            margin-bottom: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 1px 2px rgba(10, 14, 22, 0.03);
+        }
+
+        .tw-feed-shell .faq-search-inner {
+            padding: 0.5rem 0.9rem;
+        }
+
+        .tw-feed-shell .faq-search-hint {
+            padding: 0.35rem 0.9rem;
+            font-size: 0.75rem;
+        }
+
+        .tw-feed-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .tw-feed-pills {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 2px 0;
+            width: 100%;
+        }
+
+        .tw-feed-pills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tw-feed-pills .faq-tab-btn {
+            border-radius: 999px;
+            padding: 0.42rem 0.9rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            color: var(--slate);
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-height: 36px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.15s ease;
+        }
+
+        .tw-feed-pills .faq-tab-btn:hover {
+            border-color: #CBD5E1;
+            color: var(--ink);
+            background: #F8FAFC;
+        }
+
+        .tw-feed-pills .faq-tab-btn.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: #FFFFFF;
+        }
+
+        .tw-feed-pills .faq-tab-btn.active .tab-badge {
+            background: rgba(45, 212, 191, 0.22);
+            color: var(--teal);
+        }
+
+        .tw-feed-pills .tab-badge {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            padding: 0.08rem 0.42rem;
+            border-radius: 999px;
+            background: #F1F5F9;
+            color: var(--slate);
+        }
+
+        /* Social Post Card */
+        .qa-card.tw-post-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 1.15rem 1.25rem 0.65rem;
+            margin-bottom: 0.9rem;
+            box-shadow: 0 1px 2px rgba(10, 14, 22, 0.04);
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .qa-card.tw-post-card:hover {
+            border-color: #CBD5E1;
+            box-shadow: 0 4px 14px rgba(10, 14, 22, 0.06);
+        }
+
+        .tw-post-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.65rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tw-post-author {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            min-width: 0;
+        }
+
+        .tw-post-author-info {
+            min-width: 0;
+        }
+
+        .tw-post-author-name {
+            font-weight: 700;
+            color: var(--ink);
+            font-size: 0.9375rem;
+            line-height: 1.25;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .tw-post-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            color: #64748B;
+            margin-top: 0.12rem;
+        }
+
+        .tw-post-hashtag {
+            font-family: var(--mono);
+            font-size: 0.6875rem;
+            font-weight: 500;
+            color: var(--teal-deep);
+            background: rgba(45, 212, 191, 0.1);
+            padding: 0.05rem 0.42rem;
+            border-radius: 999px;
+        }
+
+        .tw-post-head-right {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .tw-status-pill {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .tw-status-pill.is-answered {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+
+        .tw-status-pill.is-pending {
+            background: #FFFBEB;
+            color: #92400E;
+            border: 1px solid #FDE68A;
+        }
+
+        .tw-post-card .qa-card-title {
+            font-family: var(--display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.3;
+            margin-bottom: 0.38rem;
+        }
+
+        .tw-post-card .qa-card-body {
+            font-size: 0.9375rem;
+            line-height: 1.58;
+            color: #334155;
+            margin-bottom: 0.85rem;
+            white-space: pre-line;
+        }
+
+        /* Pinned Official Answer Preview on Collapsed Feed Card */
+        .tw-official-preview {
+            background: #F0FDF9;
+            border: 1px solid rgba(45, 212, 191, 0.32);
+            border-left: 3px solid var(--teal-deep);
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+            margin-bottom: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .tw-official-preview:hover {
+            background: #E6FBF5;
+            border-color: rgba(15, 118, 110, 0.45);
+        }
+
+        .tw-official-preview-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .tw-official-preview-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--teal-deep);
+        }
+
+        .tw-official-preview-more {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--teal-deep);
+        }
+
+        .tw-official-preview-text {
+            font-size: 0.84375rem;
+            color: #1E293B;
+            line-height: 1.48;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Social Action Bar (Bottom of every post) */
+        .tw-post-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.25rem;
+            border-top: 1px solid #F1F5F9;
+            padding-top: 0.45rem;
+        }
+
+        .tw-post-actions-left {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tw-act-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            height: 36px;
+            padding: 0 0.72rem;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #475569;
+            font-family: var(--body);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .tw-act-btn:hover {
+            background: #F1F5F9;
+            color: var(--ink);
+        }
+
+        .tw-act-btn.btn-vote {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 0 0.72rem;
+            height: 36px;
+            border-radius: 10px;
+            color: #475569;
+        }
+
+        .tw-act-btn.btn-vote:hover {
+            background: #F1F5F9;
+            color: var(--ink);
+            border-color: transparent;
+        }
+
+        .tw-act-btn.btn-vote.is-active.btn-like {
+            background: #ECFDF5;
+            color: #065F46;
+            border-color: #A7F3D0;
+        }
+
+        .tw-act-btn.btn-vote.is-active.btn-dislike {
+            background: #FEF2F2;
+            color: #991B1B;
+            border-color: #FECACA;
+        }
+
+        .tw-act-btn.btn-vote .vote-count {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .tw-act-btn.is-open {
+            background: rgba(45, 212, 191, 0.12);
+            color: var(--teal-deep);
+        }
+
+        .tw-act-count {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        /* Expanded Official Answer & Threaded Comments */
+        .tw-post-card .qa-details-box {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .tw-post-card .qa-admin-reply {
+            background: #F0FDF9;
+            border: 1px solid rgba(45, 212, 191, 0.35);
+            border-left: 3.5px solid var(--teal-deep);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            margin-top: 0;
+        }
+
+        .tw-comments-thread {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-bottom: 0.85rem;
+            position: relative;
+            padding-left: 0.75rem;
+            border-left: 2px solid #E2E8F0;
+        }
+
+        .tw-post-card .qa-comment-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 0.8rem 0.95rem;
+        }
+
+        .tw-quick-reply-form {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 0.75rem;
+            margin-top: 0.65rem;
+        }
+
+        .tw-quick-reply-form:focus-within {
+            background: #FFFFFF;
+            border-color: var(--teal-hover);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.12);
+        }
+
+        .tw-quick-reply-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tw-quick-reply-textarea {
+            width: 100%;
+            min-height: 62px;
+            border: none;
+            background: transparent;
+            font-family: var(--body);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: var(--ink);
+            resize: vertical;
+            outline: none;
+            padding: 0.15rem 0;
+        }
+
+        .tw-quick-reply-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: 0.45rem;
+            padding-top: 0.45rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        /* Compact Admin Mini Buttons */
+        .tw-admin-mini-btn {
+            height: 28px;
+            padding: 0 0.55rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: #FFFFFF;
+            cursor: pointer;
+        }
+
+        /* Mobile Floating Action Button (FAB) */
+        .tw-mobile-fab {
+            display: none;
+            position: fixed;
+            right: 1rem;
+            bottom: calc(1.1rem + env(safe-area-inset-bottom));
+            z-index: 900;
+            height: 48px;
+            padding: 0 1.15rem;
+            border-radius: 999px;
+            background: var(--teal);
+            color: var(--ink);
+            border: 1px solid rgba(10, 14, 22, 0.12);
+            box-shadow: 0 10px 26px rgba(10, 14, 22, 0.28);
+            font-family: var(--display);
+            font-size: 0.9375rem;
+            font-weight: 700;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            cursor: pointer;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .tw-mobile-fab:active {
+            transform: scale(0.96);
+            background: var(--teal-hover);
+        }
+
+        /* Toast Notification */
+        .tw-toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(1.5rem + env(safe-area-inset-bottom));
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: #FFFFFF;
+            border: 1px solid rgba(232, 238, 244, 0.16);
+            padding: 0.6rem 1.1rem;
+            border-radius: 999px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .tw-toast.is-visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 991px) {
+            .tw-mob-tabbar {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tw-mobile-fab {
+                display: inline-flex;
+            }
+            .tw-band.tw-hero {
+                padding: 1.35rem 0 1.5rem;
+            }
+            .tw-band.tw-hero h1 {
+                font-size: 1.5rem;
+            }
+            .tw-band.tw-hero .tw-standfirst {
+                font-size: 0.875rem;
+            }
+            main.tw-side-light {
+                padding: 1rem 0 5.5rem;
+            }
+            .qa-card.tw-post-card {
+                padding: 1rem 0.95rem 0.5rem;
+                border-radius: 12px;
+            }
+            .tw-act-btn,
+            .tw-act-btn.btn-vote {
+                height: 42px;
+                padding: 0 0.65rem;
+            }
+            .tw-social-composer {
+                padding: 0.75rem 0.85rem;
+                gap: 0.55rem;
+            }
+            .tw-composer-post-btn {
+                display: none;
+            }
+            .tw-comments-thread {
+                padding-left: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-brand img {
+                width: 32px;
+                height: 32px;
+            }
+            .nav-brand-title {
+                font-size: 1.12rem;
+            }
+            .nav-brand-subtitle {
+                font-size: 0.6rem;
+            }
+            .tw-act-label-hide-xs {
+                display: none;
+            }
+            .tw-post-actions {
+                gap: 0.15rem;
+            }
+            .tw-act-btn,
+            .tw-act-btn.btn-vote {
+                padding: 0 0.55rem;
+                font-size: 0.78rem;
+            }
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="tw-nav" id="top">
+    <!-- NAVBAR (Unified Brand Lockup matching index.html & lisensi.html) -->
+    <header class="tw-nav" id="top" role="banner">
         <div class="container">
             <div class="tw-nav-inner">
-                <a href="index.html" class="tw-brand">
-                    <img src="favicon.png" alt="WanDrone" width="32" height="32"/>
-                    <span class="tw-brand-text">WanDrone</span>
+                <a href="index.html" class="nav-brand">
+                    <img src="images/twmapper-logo.png" alt="TW Mapper Logo"/>
+                    <div class="nav-brand-group">
+                        <div class="nav-brand-title">TW Mapper</div>
+                        <div class="nav-brand-subtitle">mapping profesional<br/>dengan drone consumer</div>
+                    </div>
                 </a>
 
                 <ul class="tw-nav-links">
                     <li><a href="index.html" class="tw-nav-link">&larr; Halaman Utama</a></li>
-                    <li><a href="index.html#faq" class="tw-nav-link">Pertanyaan Umum (FAQ)</a></li>
-                    <li><a href="#forum-komunitas" class="tw-nav-link active">Forum Tanya Jawab</a></li>
+                    <li><a href="index.html#faq" class="tw-nav-link">FAQ</a></li>
+                    <li><a href="#forum-komunitas" class="tw-nav-link active">Forum Pilot</a></li>
+                    <li><a href="lisensi.html" class="tw-nav-link">Lisensi</a></li>
                     <li id="admin-nav-item" style="display: none;">
-                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-desktop-only" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border: 1px solid #0A0E16; gap: 0.35rem; display: inline-flex; align-items: center;" title="Buka Dashboard Moderasi &amp; Administrasi">
+                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-desktop-only" style="height: 36px; padding: 0 0.85rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border: 1px solid #0A0E16; border-radius: 999px; gap: 0.35rem; display: inline-flex; align-items: center;" title="Buka Dashboard Moderasi &amp; Administrasi">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                            <span>Dashboard Admin</span>
+                            <span>Admin</span>
                         </button>
                     </li>
                     <li id="pilot-nav-container">
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn" style="display: inline-flex; align-items: center; gap: 0.45rem;">
                             <span id="pilot-nav-avatar-slot" style="display: inline-flex; align-items: center;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             </span>
                             <span id="pilot-nav-text">Akun Pilot</span>
                         </button>
                     </li>
-                    <li><a href="lisensi.html" class="tw-btn tw-nav-btn tw-nav-desktop-only" style="padding: 0.45rem 0.9rem; font-size: 0.8125rem;">Pilihan Lisensi</a></li>
                 </ul>
 
-                <button class="tw-hamburger" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav()">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="tw-nav-icon">
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
+                <div class="tw-nav-actions-mobile">
+                    <button class="tw-hamburger" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="tw-nav-icon">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
+
+        <!-- Sticky Mobile Quick Tab Bar -->
+        <nav class="tw-mob-tabbar" aria-label="Navigasi Tab Cepat">
+            <div class="tw-mob-tabbar-track">
+                <a href="index.html" class="tw-mob-tab-item">&larr; Utama</a>
+                <a href="#forum-komunitas" class="tw-mob-tab-item is-active">Forum Pilot</a>
+                <a href="index.html#faq" class="tw-mob-tab-item">FAQ</a>
+                <a href="lisensi.html" class="tw-mob-tab-item">Lisensi</a>
+                <button type="button" onclick="handleMobilePilotClick()" class="tw-mob-tab-item tw-mob-tab-accent">Akun Pilot</button>
+            </div>
+        </nav>
 
         <!-- Mobile Dropdown -->
         <div id="tw-mobile-dropdown" class="tw-mobile-dropdown">
@@ -1466,115 +2317,128 @@
                     <li><a href="index.html#faq" class="tw-mobile-nav-link">Pertanyaan Umum (FAQ)</a></li>
                     <li><a href="lisensi.html" class="tw-mobile-nav-link">Pilihan Lisensi</a></li>
                     <li><a href="#forum-komunitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">Forum Tanya Jawab</a></li>
-                    <li id="admin-mobile-item" style="display: none;"><a href="javascript:void(0)" onclick="toggleMobileNav(false); openAdminPanel();" class="tw-mobile-nav-link" style="color: #67E8F9; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Dashboard Admin</a></li>
-                    <li id="pilot-mobile-item"><a href="javascript:void(0)" onclick="toggleMobileNav(false); handleMobilePilotClick();" class="tw-mobile-nav-link" id="pilot-mobile-link" style="color: var(--teal);">Akun Pilot (Login / Profil)</a></li>
-                    <li><a href="javascript:void(0)" onclick="toggleMobileNav(false); openQuestionModal();" class="tw-mobile-nav-link" style="color: var(--teal);">+ Ajukan Pertanyaan Baru</a></li>
+                    <li id="admin-mobile-item" style="display: none;"><a href="javascript:void(0)" onclick="toggleMobileNav(false); openAdminPanel();" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 700; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Dashboard Admin</a></li>
+                    <li id="pilot-mobile-item"><a href="javascript:void(0)" onclick="toggleMobileNav(false); handleMobilePilotClick();" class="tw-mobile-nav-link" id="pilot-mobile-link" style="color: var(--teal-deep); font-weight: 600;">Akun Pilot (Login / Profil)</a></li>
+                    <li><a href="javascript:void(0)" onclick="toggleMobileNav(false); openQuestionModal();" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 700;">+ Buat Pertanyaan Baru</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
-    <!-- HERO SECTION (DARK BAND MATCHING INDEX & LISENSI HERO) -->
+    <!-- COMPACT HERO BAND -->
     <section class="tw-band tw-hero">
         <div class="container">
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1.25rem;">
-                <a href="index.html" class="tw-btn-2" style="background: rgba(232, 238, 244, 0.12); color: #FFFFFF; border-color: var(--line-dark); padding: 0.35rem 0.85rem; font-size: 0.8125rem;">&larr; Halaman Utama</a>
-                <span class="tw-chip-solid">Forum Tanya Jawab Komunitas</span>
-                <span class="tw-chip" style="background: rgba(232, 238, 244, 0.12); border-color: var(--line-dark); color: var(--teal);">Official Support</span>
-            </div>
+            <div class="tw-feed-shell">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-bottom: 0.85rem;">
+                    <span class="tw-chip-solid">Forum Komunitas Pilot</span>
+                    <span class="tw-chip" style="background: rgba(232, 238, 244, 0.1); border-color: var(--line-dark); color: var(--teal);">Official Support</span>
+                </div>
 
-            <h1>Forum Tanya Jawab Komunitas Pilot</h1>
-            <p class="tw-standfirst">
-                Temukan solusi teknis operasional TW-Mapper di lapangan, modul TW Tweaks / WanDrone Tweaks / Fly Mod, berkas KML &amp; kontur elevasi, serta konsultasikan pertanyaan Anda langsung bersama tim teknis WanDrone dan rekan pilot.
-            </p>
+                <h1>Forum Tanya Jawab Pilot</h1>
+                <p class="tw-standfirst">
+                    Berbagi solusi teknis pemetaan TW-Mapper di lapangan, berkas KML, kontur bukit, dan pengaturan remote langsung bersama tim WanDrone &amp; rekan pilot.
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- MAIN CONTENT (CLEAN LIGHT THEME MATCHING REST OF SITE) -->
+    <!-- MAIN SOCIAL MEDIA FEED CONTENT -->
     <main class="tw-side-light">
         <div class="container">
-            <!-- BANNER AKUN KOMUNITAS PILOT (PROMINENT AT TOP) -->
-            <div class="pilot-banner" id="pilot-community-banner" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.85rem;">
-                    <div id="banner-pilot-avatar-slot" style="width: 44px; height: 44px; border-radius: 50%; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <div class="tw-feed-shell">
+                <!-- BANNER AKUN KOMUNITAS PILOT -->
+                <div class="pilot-banner" id="pilot-community-banner">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div id="banner-pilot-avatar-slot" style="width: 42px; height: 42px; border-radius: 50%; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <div>
+                            <div style="font-family: var(--display); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.12rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
+                            <div style="font-size: 0.8rem; color: var(--slate); line-height: 1.38;" id="banner-pilot-desc">Masuk untuk ikut berdiskusi, mengumpulkan poin reputasi, dan memberi tanda membantu.</div>
+                        </div>
                     </div>
-                    <div>
-                        <div style="font-family: var(--display); font-size: 1.0625rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;" id="banner-pilot-title">Komunitas Pilot WanDrone</div>
-                        <div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.4;" id="banner-pilot-desc">Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.</div>
+                    <div id="banner-pilot-action">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                            <span>Masuk / Daftar</span>
+                        </button>
                     </div>
                 </div>
-                <div id="banner-pilot-action">
-                    <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
-                        <span>Masuk / Daftar Akun Pilot</span>
+
+                <!-- SOCIAL COMPOSER CARD -->
+                <div class="tw-social-composer">
+                    <div id="composer-pilot-avatar-slot" style="width: 40px; height: 40px; border-radius: 50%; background: #E6FBF7; color: var(--teal-deep); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <button type="button" class="tw-composer-trigger" onclick="openQuestionModal()">
+                        Ada kendala pemetaan, KML, atau setting remote? Tanyakan di sini...
+                    </button>
+                    <button type="button" onclick="openQuestionModal()" class="tw-btn tw-composer-post-btn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Buat Post</span>
                     </button>
                 </div>
-            </div>
 
-
-            <!-- SEARCH BAR (FUZZY & TYPO TOLERANT) -->
-            <div class="faq-search-wrapper">
-                <div class="faq-search-inner">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-deep); flex-shrink: 0;">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Cari pertanyaan teknis di forum komunitas (contoh: overlap perbukitan, flash inject, rc 2, follow terrain)..." oninput="handleSearch(this.value)" autocomplete="off"/>
-                    <button id="faq-search-clear" class="faq-search-clear" aria-label="Bersihkan pencarian" onclick="clearSearch()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                <!-- SEARCH BAR (FUZZY & TYPO TOLERANT) -->
+                <div class="faq-search-wrapper">
+                    <div class="faq-search-inner">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-deep); flex-shrink: 0;">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
-                    </button>
-                </div>
-                <div class="faq-search-hint">
-                    <span>*Pencarian pintar: toleran terhadap singkatan, sinonim &amp; salah ketik (typo).</span>
-                    <span id="search-result-count" style="color: var(--teal-deep); font-weight: 600;"></span>
-                </div>
-            </div>
-
-            <!-- ACTION & FILTER BAR -->
-            <div class="forum-action-bar">
-                <div class="faq-tabs" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
-                    <button type="button" class="faq-tab-btn active" id="tab-filter-all" onclick="switchForumFilter('all', this)">
-                        <span>Semua Pertanyaan</span>
-                        <span class="tab-badge" id="badge-all">0</span>
-                    </button>
-                    <button type="button" class="faq-tab-btn" id="tab-filter-answered" onclick="switchForumFilter('answered', this)">
-                        <span>Sudah Terjawab</span>
-                        <span class="tab-badge" id="badge-answered">0</span>
-                    </button>
-                    <button type="button" class="faq-tab-btn" id="tab-filter-unanswered" onclick="switchForumFilter('unanswered', this)">
-                        <span>Menunggu Jawaban</span>
-                        <span class="tab-badge" id="badge-unanswered">0</span>
-                    </button>
-                </div>
-                <button type="button" onclick="openQuestionModal()" class="tw-btn" style="height: 36px; padding: 0 1.15rem; font-size: 0.8125rem; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Ajukan Pertanyaan</span>
-                </button>
-            </div>
-
-            <!-- SECTION 1: FORUM TANYA JAWAB KOMUNITAS -->
-            <div id="forum-komunitas" style="margin-bottom: 3.5rem;">
-                <div class="qa-section-head">
-                    <div>
-                        <h2 style="font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--ink);">Forum Tanya Jawab Komunitas</h2>
-                        <p style="font-size: 0.875rem; color: var(--slate);">Pertanyaan dari pilot pengguna dan solusi jawaban dari tim WanDrone.</p>
+                        <input type="text" id="faq-search-input" class="faq-search-input" placeholder="Cari topik diskusi (contoh: overlap bukit, flash inject, rc 2, follow terrain)..." oninput="handleSearch(this.value)" autocomplete="off"/>
+                        <button id="faq-search-clear" class="faq-search-clear" aria-label="Bersihkan pencarian" onclick="clearSearch()">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-search-hint">
+                        <span>Pencarian pintar: toleran terhadap singkatan &amp; salah ketik.</span>
+                        <span id="search-result-count" style="color: var(--teal-deep); font-weight: 600;"></span>
                     </div>
                 </div>
 
-                <!-- DAFTAR TOPIK DISKUSI KOMUNITAS -->
-                <div id="community-qa-container">
-                    <!-- Injected questions -->
+                <!-- HORIZONTAL PILL FILTER TABS -->
+                <div class="tw-feed-controls">
+                    <div class="tw-feed-pills">
+                        <button type="button" class="faq-tab-btn active" id="tab-filter-all" onclick="switchForumFilter('all', this)">
+                            <span>Semua</span>
+                            <span class="tab-badge" id="badge-all">0</span>
+                        </button>
+                        <button type="button" class="faq-tab-btn" id="tab-filter-answered" onclick="switchForumFilter('answered', this)">
+                            <span>Terjawab</span>
+                            <span class="tab-badge" id="badge-answered">0</span>
+                        </button>
+                        <button type="button" class="faq-tab-btn" id="tab-filter-unanswered" onclick="switchForumFilter('unanswered', this)">
+                            <span>Menunggu</span>
+                            <span class="tab-badge" id="badge-unanswered">0</span>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- PAGINASI FORUM KOMUNITAS -->
-                <div id="community-pagination-container"></div>
-            </div>
+                <!-- SECTION 1: LINIMASA FORUM KOMUNITAS -->
+                <div id="forum-komunitas">
+                    <!-- DAFTAR POSTINGAN DISKUSI KOMUNITAS -->
+                    <div id="community-qa-container">
+                        <!-- Injected social feed posts -->
+                    </div>
 
+                    <!-- PAGINASI FORUM KOMUNITAS -->
+                    <div id="community-pagination-container"></div>
+                </div>
+            </div>
         </div>
     </main>
+
+    <!-- MOBILE FLOATING ACTION BUTTON -->
+    <button type="button" class="tw-mobile-fab" onclick="openQuestionModal()" aria-label="Buat Pertanyaan Baru">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Tanya</span>
+    </button>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="tw-toast" class="tw-toast" role="status" aria-live="polite"></div>
 
     <!-- MODAL: AJUKAN PERTANYAAN -->
     <div id="question-modal" class="tw-modal">
@@ -2249,7 +3113,67 @@
             } catch (e) {}
         }
 
-        // RENDER COMMUNITY QUESTIONS WITH PAGINATION
+        // SOCIAL MEDIA FEED HELPERS (Relative Time, Toast, Share)
+        function formatRelativeTime(dateInput) {
+            const d = new Date(dateInput);
+            if (isNaN(d.getTime())) return '';
+            const now = Date.now();
+            const diffSec = Math.floor((now - d.getTime()) / 1000);
+            if (diffSec < 60) return 'Baru saja';
+            const diffMin = Math.floor(diffSec / 60);
+            if (diffMin < 60) return `${diffMin} mnt lalu`;
+            const diffHr = Math.floor(diffMin / 60);
+            if (diffHr < 24) return `${diffHr} jam lalu`;
+            const diffDay = Math.floor(diffHr / 24);
+            if (diffDay === 1) return 'Kemarin';
+            if (diffDay < 7) return `${diffDay} hari lalu`;
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        let _twToastTimer = null;
+        function showForumToast(msg) {
+            const toast = document.getElementById('tw-toast');
+            if (!toast) return;
+            toast.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>${escapeHtml(msg)}</span>`;
+            toast.classList.add('is-visible');
+            if (_twToastTimer) clearTimeout(_twToastTimer);
+            _twToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2400);
+        }
+
+        async function shareForumPost(event, qId) {
+            if (event) event.stopPropagation();
+            const url = new URL(window.location.href);
+            url.searchParams.set('post', String(qId));
+            url.hash = '';
+            const shareUrl = url.toString();
+            const qObj = (allCommunityQuestions || []).find(item => String(item.id) === String(qId));
+            const titleText = qObj ? qObj.question_title : 'Diskusi Forum Pilot WanDrone';
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: titleText, url: shareUrl });
+                    return;
+                } catch (e) {
+                    if (e && e.name === 'AbortError') return;
+                }
+            }
+            try {
+                await navigator.clipboard.writeText(shareUrl);
+                showForumToast('Tautan topik berhasil disalin!');
+            } catch (e) {
+                const ta = document.createElement('textarea');
+                ta.value = shareUrl;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showForumToast('Tautan topik berhasil disalin!');
+            }
+        }
+
+        // RENDER COMMUNITY QUESTIONS WITH PAGINATION (SOCIAL MEDIA FEED UI)
         const FORUM_PAGE_SIZE = 10;
         let forumCurrentPage = 1;
         let forumFilteredQuestions = null;
@@ -2274,10 +3198,10 @@
 
             if (sourceList.length === 0) {
                 container.innerHTML = `
-                    <div style="background: var(--mist); border: 1px dashed var(--line); border-radius: 8px; padding: 2.5rem; text-align: center; color: var(--slate);">
-                        <p style="margin-bottom: 0.5rem; font-size: 1.0625rem; font-weight: 600; color: var(--ink);">Belum ada topik diskusi yang cocok.</p>
-                        <p style="font-size: 0.875rem;">Jadilah yang pertama mengajukan pertanyaan kepada tim teknis WanDrone!</p>
-                        <button onclick="openQuestionModal()" class="tw-btn" style="margin-top: 1rem; padding: 0.5rem 1.15rem;">+ Ajukan Pertanyaan Sekarang</button>
+                    <div style="background: #FFFFFF; border: 1px dashed #CBD5E1; border-radius: 14px; padding: 2.5rem 1.5rem; text-align: center; color: var(--slate);">
+                        <p style="margin-bottom: 0.4rem; font-size: 1.0625rem; font-weight: 700; color: var(--ink);">Belum ada topik diskusi yang cocok.</p>
+                        <p style="font-size: 0.875rem;">Jadilah yang pertama mengajukan pertanyaan di komunitas pilot WanDrone!</p>
+                        <button onclick="openQuestionModal()" class="tw-btn" style="margin-top: 1rem; padding: 0.55rem 1.25rem; border-radius: 999px;">+ Buat Post Baru</button>
                     </div>
                 `;
                 renderForumPagination(0);
@@ -2297,110 +3221,124 @@
             const isAdmin = isAdminActive();
 
             container.innerHTML = pageItems.map(q => {
-                const dateStr = new Date(q.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const fullDateStr = new Date(q.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const relTimeStr = formatRelativeTime(q.created_at) || fullDateStr;
                 const votedType = forumMap[String(q.id)] || null;
                 const likes = Number(q.likes_count) || 0;
                 const dislikes = Number(q.dislikes_count) || 0;
                 const sQId = String(q.id);
                 const qComments = allForumCommentsMap[sQId] || [];
                 const isExpanded = !!forumExpandedQuestions[sQId] || !!commentsExpanded[sQId];
-                const authorAvatarHtml = renderUserAvatar(q.avatar_url || null, q.author_name, '', 32);
+                const authorAvatarHtml = renderUserAvatar(q.avatar_url || null, q.author_name, '', 40);
                 const hasAdminAnswer = !!(q.admin_answer && q.admin_answer.trim());
+                const deviceTagText = (q.device_model || 'Umum').trim();
+                const responderName = (q.answered_by && !q.answered_by.toLowerCase().includes('akun utama')) ? q.answered_by : 'Tim Teknis WanDrone';
+
                 const statusBadgeHtml = hasAdminAnswer
-                    ? '<span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; border:1px solid #BBF7D0; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>Terjawab</span>'
-                    : '<span class="tw-chip" style="background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Belum Terjawab</span>';
+                    ? '<span class="tw-status-pill is-answered"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Terjawab</span>'
+                    : '<span class="tw-status-pill is-pending"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Menunggu</span>';
 
                 return `
-                    <div class="qa-card" id="community-qa-${q.id}" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + (q.device_model || ''))}">
-                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <article class="qa-card tw-post-card" id="community-qa-${q.id}" data-category="community" data-keywords="${escapeHtml(q.question_title + ' ' + q.question_body + ' ' + (q.admin_answer || '') + ' ' + q.author_name + ' ' + deviceTagText)}">
+                        <!-- SOCIAL POST HEADER -->
+                        <div class="tw-post-head">
+                            <div class="tw-post-author">
                                 ${authorAvatarHtml}
-                                <div>
-                                    <div style="font-weight: 700; color: var(--ink); font-size: 0.9375rem; line-height: 1.2;">${escapeHtml(q.author_name)}</div>
-                                    <div style="font-size: 0.75rem; color: var(--slate);">${dateStr}</div>
+                                <div class="tw-post-author-info">
+                                    <div class="tw-post-author-name">${escapeHtml(q.author_name)}</div>
+                                    <div class="tw-post-meta-row">
+                                        <span title="${fullDateStr}">${relTimeStr}</span>
+                                        <span>&bull;</span>
+                                        <span class="tw-post-hashtag">#${escapeHtml(deviceTagText.replace(/\s+/g, ''))}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                            <div class="tw-post-head-right">
                                 ${statusBadgeHtml}
-                                <span class="tw-chip" style="font-size: 0.6875rem;">${escapeHtml(q.device_model || 'Umum')}</span>
                                 ${isAdmin ? `
-                                    <div style="display: inline-flex; align-items: center; gap: 0.35rem; margin-left: 0.35rem; padding-left: 0.5rem; border-left: 1px solid var(--line);">
-                                        <button type="button" onclick="openAdminEditQuestionModal('${q.id}')" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; font-weight: 600; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; gap: 0.25rem;" title="Edit pertanyaan">
-                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                            <span>Edit Pertanyaan</span>
-                                        </button>
-                                        <button type="button" onclick="handleAdminDeleteQuestion('${q.id}')" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; font-weight: 600; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; gap: 0.25rem;" title="Hapus pertanyaan ini">
-                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                            <span>Hapus</span>
-                                        </button>
-                                    </div>
+                                    <button type="button" onclick="openAdminEditQuestionModal('${q.id}')" class="tw-btn-2 tw-admin-mini-btn" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit pertanyaan">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <span class="tw-act-label-hide-xs">Edit</span>
+                                    </button>
+                                    <button type="button" onclick="handleAdminDeleteQuestion('${q.id}')" class="tw-btn-2 tw-admin-mini-btn" style="color: #991B1B; border-color: #FECACA;" title="Hapus pertanyaan ini">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
                                 ` : ''}
                             </div>
                         </div>
-                        <div class="qa-card-title" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka/menutup jawaban dan diskusi">${escapeHtml(q.question_title)}</div>
-                        <div class="qa-card-body" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka/menutup jawaban dan diskusi">${escapeHtml(q.question_body)}</div>
 
-                        <!-- Bar status diskusi & tombol buka/tutup -->
-                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--line);">
-                            <div style="font-size: 0.8125rem; color: var(--slate); display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-                                ${hasAdminAnswer ? `
-                                    <span style="display: inline-flex; align-items: center; gap: 4px; color: #166534; font-weight: 600;">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                        1 Jawaban
+                        <!-- SOCIAL POST BODY -->
+                        <div class="qa-card-title" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka jawaban &amp; diskusi">${escapeHtml(q.question_title)}</div>
+                        <div class="qa-card-body" onclick="toggleQuestionDetails('${q.id}')" title="Klik untuk membuka jawaban &amp; diskusi">${escapeHtml(q.question_body)}</div>
+
+                        <!-- PINNED OFFICIAL ANSWER PREVIEW (Visible on feed when collapsed) -->
+                        ${hasAdminAnswer ? `
+                            <div class="tw-official-preview" id="qa-official-preview-${q.id}" onclick="toggleQuestionDetails('${q.id}')" style="display: ${isExpanded ? 'none' : 'block'};">
+                                <div class="tw-official-preview-head">
+                                    <span class="tw-official-preview-badge">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                                        <span>${escapeHtml(responderName)}</span>
                                     </span>
-                                    <span style="color: var(--line-dark);">&bull;</span>
-                                ` : ''}
-                                <span>${qComments.length} Tanggapan Pilot</span>
+                                    <span class="tw-official-preview-more">Baca selengkapnya &rsaquo;</span>
+                                </div>
+                                <div class="tw-official-preview-text">${escapeHtml(q.admin_answer)}</div>
                             </div>
-                            <button type="button" class="tw-btn-2 qa-details-toggle-btn" id="qa-details-btn-${q.id}" onclick="toggleQuestionDetails('${q.id}')" style="height: 32px; padding: 0 0.95rem; font-size: 0.8125rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;">
-                                <span id="qa-details-btn-text-${q.id}">${isExpanded ? 'Tutup Jawaban & Diskusi' : (hasAdminAnswer ? 'Lihat Jawaban & Diskusi' : (qComments.length > 0 ? `Lihat Diskusi (${qComments.length})` : '+ Beri Tanggapan'))}</span>
-                                <svg id="qa-details-chevron-${q.id}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        ` : ''}
+
+                        <!-- SOCIAL ACTION BAR (Efficient on Desktop & Mobile) -->
+                        <div class="tw-post-actions">
+                            <div class="tw-post-actions-left">
+                                <button type="button" class="tw-act-btn btn-vote btn-like ${votedType === 'like' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'like')" title="Tandai membantu" aria-label="Suka atau membantu">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                    <span class="vote-count" id="vote-count-like-${q.id}">${likes}</span>
+                                    <span class="tw-act-label-hide-xs">Membantu</span>
+                                </button>
+                                <button type="button" class="tw-act-btn btn-vote btn-dislike ${votedType === 'dislike' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'dislike')" title="Kurang membantu" aria-label="Kurang membantu">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                    <span class="vote-count" id="vote-count-dislike-${q.id}">${dislikes}</span>
+                                </button>
+                                <button type="button" class="tw-act-btn qa-details-toggle-btn ${isExpanded ? 'is-open' : ''}" id="qa-details-btn-${q.id}" onclick="toggleQuestionDetails('${q.id}')" aria-expanded="${isExpanded ? 'true' : 'false'}" title="Buka jawaban &amp; komentar">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                    <span class="tw-act-count">${qComments.length}</span>
+                                    <span class="tw-act-label-hide-xs" id="qa-details-btn-text-${q.id}">${isExpanded ? 'Tutup' : 'Diskusi'}</span>
+                                    <svg id="qa-details-chevron-${q.id}" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                            </div>
+                            <button type="button" class="tw-act-btn" onclick="shareForumPost(event, '${q.id}')" title="Salin tautan topik" aria-label="Bagikan topik">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                                <span class="tw-act-label-hide-xs">Bagikan</span>
                             </button>
                         </div>
 
-                        <!-- KOTAK DETAIL JAWABAN & DISKUSI (DITAMPILKAN SETELAH DIKLIK) -->
-                        <div class="qa-details-box" id="qa-details-${q.id}" style="display: ${isExpanded ? 'block' : 'none'}; margin-top: 0.85rem;">
+                        <!-- KOTAK DETAIL JAWABAN RESMI & UTAS KOMENTAR -->
+                        <div class="qa-details-box" id="qa-details-${q.id}" style="display: ${isExpanded ? 'block' : 'none'};">
                             ${hasAdminAnswer ? `
-                                <div class="qa-admin-reply" style="margin-top: 0.25rem;">
-                                    <div class="qa-admin-badge" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
+                                <div class="qa-admin-reply">
+                                    <div class="qa-admin-badge" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.55rem;">
                                         <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                            <span>${escapeHtml((q.answered_by && !q.answered_by.toLowerCase().includes('akun utama')) ? q.answered_by : 'Admin WanDrone')}</span>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                                            <span>${escapeHtml(responderName)}</span>
+                                            <span style="font-size: 0.65rem; font-weight: 700; background: rgba(15, 118, 110, 0.14); color: var(--teal-deep); padding: 0.1rem 0.45rem; border-radius: 999px;">Jawaban Resmi</span>
                                         </div>
                                         ${isAdmin ? `
-                                            <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                                <button type="button" onclick="openAdminEditAnswerModal('${q.id}')" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;" title="Edit rincian jawaban sebagai admin">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                    <span>Edit Jawaban</span>
+                                            <div style="display: inline-flex; align-items: center; gap: 0.35rem;">
+                                                <button type="button" onclick="openAdminEditAnswerModal('${q.id}')" class="tw-btn-2 tw-admin-mini-btn" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit rincian jawaban sebagai admin">
+                                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                                    <span>Edit</span>
                                                 </button>
-                                                <button type="button" onclick="handleAdminDeleteAnswer('${q.id}')" class="tw-btn-2" style="height: 28px; padding: 0 0.75rem; font-size: 0.75rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;" title="Hapus jawaban resmi (kembalikan ke antrean belum terjawab)">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                                    <span>Hapus Jawaban</span>
+                                                <button type="button" onclick="handleAdminDeleteAnswer('${q.id}')" class="tw-btn-2 tw-admin-mini-btn" style="color: #991B1B; border-color: #FECACA;" title="Hapus jawaban resmi">
+                                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                    <span>Hapus</span>
                                                 </button>
                                             </div>
                                         ` : ''}
                                     </div>
-                                    <div style="line-height: 1.6; color: var(--ink);">${escapeHtml(q.admin_answer)}</div>
-                                    <div class="qa-feedback-bar" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(10, 14, 22, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                        <span style="font-size: 0.75rem; color: var(--slate); font-weight: 500;">Apakah jawaban ini membantu?</span>
-                                        <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-                                            <button type="button" class="btn-vote btn-like ${votedType === 'like' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'like')" title="Jawaban ini membantu" aria-label="Suka jawaban ini">
-                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                                <span>Membantu</span>
-                                                <span class="vote-count" id="vote-count-like-${q.id}">${likes}</span>
-                                            </button>
-                                            <button type="button" class="btn-vote btn-dislike ${votedType === 'dislike' ? 'is-active' : ''}" data-qid="${q.id}" onclick="handleVoteAnswer(event, '${q.id}', 'dislike')" title="Jawaban kurang membantu" aria-label="Kurang membantu">
-                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                                <span>Kurang</span>
-                                                <span class="vote-count" id="vote-count-dislike-${q.id}">${dislikes}</span>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <div style="line-height: 1.6; color: var(--ink); font-size: 0.90625rem; white-space: pre-line;">${escapeHtml(q.admin_answer)}</div>
                                 </div>
                             ` : (isAdmin ? `
-                                <div style="margin-top: 0.25rem; margin-bottom: 0.75rem; background: #F0FDF4; border: 1px dashed #86EFAC; border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
-                                    <span style="font-size: 0.8125rem; color: #166534; font-weight: 600;">Pertanyaan ini belum memiliki jawaban resmi dari Admin.</span>
-                                    <button type="button" onclick="openAdminEditAnswerModal('${q.id}')" class="tw-btn" style="height: 32px; padding: 0 0.85rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Tulis jawaban resmi untuk topik ini">
+                                <div style="margin-bottom: 0.75rem; background: #F0FDF4; border: 1px dashed #86EFAC; border-radius: 10px; padding: 0.75rem 0.95rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.8125rem; color: #166534; font-weight: 600;">Topik ini belum memiliki jawaban resmi.</span>
+                                    <button type="button" onclick="openAdminEditAnswerModal('${q.id}')" class="tw-btn" style="height: 32px; padding: 0 0.85rem; font-size: 0.75rem; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.35rem;" title="Tulis jawaban resmi untuk topik ini">
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                         <span>Tulis Jawaban Resmi</span>
                                     </button>
@@ -2408,12 +3346,11 @@
                             ` : '')}
 
                             <!-- SECTION KOMENTAR KOMUNITAS UNTUK TOPIK INI -->
-                            <div class="qa-comments-section" id="qa-comments-section-${q.id}" style="${hasAdminAnswer ? 'margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed var(--line);' : 'margin-top: 0.5rem;'}">
-                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
-                                    <div style="font-weight: 700; font-size: 0.875rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem;">
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                        <span>Tanggapan & Diskusi Pilot</span>
-                                        <span class="tw-chip" style="font-size: 0.6875rem; padding: 0.1rem 0.45rem;" id="comment-badge-${q.id}">${qComments.length}</span>
+                            <div class="qa-comments-section" id="qa-comments-section-${q.id}" style="${hasAdminAnswer ? 'margin-top: 0.9rem;' : 'margin-top: 0.25rem;'}">
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem;">
+                                    <div style="font-weight: 700; font-size: 0.8125rem; color: #475569; display: flex; align-items: center; gap: 0.4rem;">
+                                        <span>Tanggapan Pilot</span>
+                                        <span class="tw-chip" style="font-family: var(--mono); font-size: 0.6875rem; padding: 0.05rem 0.45rem; border-radius: 999px;" id="comment-badge-${q.id}">${qComments.length}</span>
                                     </div>
                                 </div>
 
@@ -2422,7 +3359,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `;
             }).join('');
 
@@ -4485,6 +5422,13 @@
                     saveStoredQuestions(allCommunityQuestions);
                     renderCommunityQuestions(null, true);
                     updateTabBadgeCounts();
+                    if (window._pendingPostDeepLink) {
+                        const targetId = window._pendingPostDeepLink;
+                        if (allCommunityQuestions.some(item => String(item.id) === String(targetId))) {
+                            window._pendingPostDeepLink = null;
+                            navigateToQuestion(targetId);
+                        }
+                    }
                 }
             } catch (e) {
                 console.warn('Supabase fetch notice:', e);
@@ -4732,7 +5676,9 @@
                     mobLink.setAttribute('onclick', 'toggleMobileNav(false); openUserDashboardModal();');
                 }
 
-                if (bannerAvatarSlot) bannerAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 44);
+                const composerAvatarSlot = document.getElementById('composer-pilot-avatar-slot');
+                if (bannerAvatarSlot) bannerAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 42);
+                if (composerAvatarSlot) composerAvatarSlot.innerHTML = renderUserAvatar(user.avatar_url, user.full_name, user.username, 40);
                 if (bannerTitle) bannerTitle.innerHTML = `Halo, <strong>${escapeHtml(user.full_name)}</strong> (@${escapeHtml(user.username)})`;
                 if (bannerDesc) bannerDesc.innerHTML = `
                     <span style="display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
@@ -4744,9 +5690,9 @@
                         ${renderStarSvg(lvl.level, 5)}
                         <span style="font-weight: 700; color: #166534;">${lvl.title}</span>
                         <span>&bull;</span>
-                        <span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; font-size:0.75rem; font-weight:700;">${user.total_points || 0} Poin Reputasi</span>
+                        <span class="tw-chip-solid" style="background:#F0FDF4; color:#166534; font-size:0.75rem; font-weight:700;">${user.total_points || 0} Poin</span>
                         ${(user.role === 'superadmin' || (user.username || '').toLowerCase() === 'rwandaz') ? `
-                            <button type="button" onclick="openAdminAdjustPointsModal(${user.id}, '${escapeHtml(user.username)}', ${user.total_points || 0})" class="tw-btn-2" style="height: 24px; padding: 0 0.55rem; font-size: 0.6875rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; gap: 0.25rem;" title="Edit poin reputasi akun utama">
+                            <button type="button" onclick="openAdminAdjustPointsModal(${user.id}, '${escapeHtml(user.username)}', ${user.total_points || 0})" class="tw-btn-2" style="height: 24px; padding: 0 0.55rem; font-size: 0.6875rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; gap: 0.25rem; border-radius: 999px;" title="Edit poin reputasi akun utama">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                 <span>Edit Poin</span>
                             </button>
@@ -4755,17 +5701,17 @@
                 `;
                 if (bannerAction) {
                     bannerAction.innerHTML = `
-                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap;">
                             ${isAdminRole ? `
-                                <button type="button" onclick="openAdminPanel()" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Buka Dashboard Admin">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                    <span>Dashboard Admin</span>
+                                <button type="button" onclick="openAdminPanel()" class="tw-btn" style="height: 34px; padding: 0 0.9rem; font-size: 0.8rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;" title="Buka Dashboard Admin">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    <span>Admin</span>
                                 </button>
                             ` : ''}
-                            <button type="button" onclick="openUserDashboardModal()" class="${isAdminRole ? 'tw-btn-2' : 'tw-btn'}" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
-                                <span>Dashboard Profil</span>
+                            <button type="button" onclick="openUserDashboardModal()" class="${isAdminRole ? 'tw-btn-2' : 'tw-btn'}" style="height: 34px; padding: 0 0.9rem; font-size: 0.8rem; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                                <span>Profil</span>
                             </button>
-                            <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; color: #991B1B; border-color: #FECACA; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                            <button type="button" onclick="handleUserLogout()" class="tw-btn-2" style="height: 34px; padding: 0 0.85rem; font-size: 0.8rem; color: #991B1B; border-color: #FECACA; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                                 <span>Keluar</span>
                             </button>
                         </div>
@@ -4778,6 +5724,7 @@
                 if (qAuthor && !qAuthor.value) qAuthor.value = user.full_name || '';
                 if (qContact && !qContact.value) qContact.value = user.contact_info || '';
             } else {
+                const composerAvatarSlot = document.getElementById('composer-pilot-avatar-slot');
                 if (adminNav) adminNav.style.display = 'none';
                 if (adminMob) adminMob.style.display = 'none';
 
@@ -4794,13 +5741,16 @@
                     mobLink.setAttribute('onclick', "toggleMobileNav(false); openUserAuthModal('login');");
                 }
                 if (bannerAvatarSlot) {
-                    bannerAvatarSlot.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+                    bannerAvatarSlot.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+                }
+                if (composerAvatarSlot) {
+                    composerAvatarSlot.innerHTML = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
                 }
                 if (bannerTitle) bannerTitle.textContent = 'Komunitas Pilot WanDrone';
-                if (bannerDesc) bannerDesc.textContent = 'Bergabunglah dengan forum pilot, kumpulkan poin reputasi, dan raih bintang dengan saling berbagi solusi teknis di lapangan.';
+                if (bannerDesc) bannerDesc.textContent = 'Masuk untuk ikut berdiskusi, mengumpulkan poin reputasi, dan memberi tanda membantu.';
                 if (bannerAction) {
                     bannerAction.innerHTML = `
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                             <span>Masuk / Daftar Akun Pilot</span>
                         </button>
                     `;
@@ -4859,30 +5809,26 @@
             const willOpen = !forumExpandedQuestions[sQId];
 
             if (willOpen) {
-                // Sifat Akordion: Tutup seluruh pertanyaan lain yang sedang terbuka
+                // Tutup thread lain agar fokus membaca di feed tetap rapi
                 Object.keys(forumExpandedQuestions).forEach(otherId => {
                     if (otherId !== sQId && forumExpandedQuestions[otherId]) {
                         forumExpandedQuestions[otherId] = false;
                         commentsExpanded[otherId] = false;
 
                         const otherDetailsBox = document.getElementById(`qa-details-${otherId}`);
+                        const otherPreview = document.getElementById(`qa-official-preview-${otherId}`);
+                        const otherBtn = document.getElementById(`qa-details-btn-${otherId}`);
                         const otherBtnText = document.getElementById(`qa-details-btn-text-${otherId}`);
                         const otherChevron = document.getElementById(`qa-details-chevron-${otherId}`);
-                        const otherComments = allForumCommentsMap[otherId] || [];
-                        const otherObj = (allCommunityQuestions || []).find(item => String(item.id) === otherId);
-                        const otherHasAdminAnswer = !!(otherObj && otherObj.admin_answer && otherObj.admin_answer.trim());
 
                         if (otherDetailsBox) otherDetailsBox.style.display = 'none';
-                        if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
-                        if (otherBtnText) {
-                            if (otherHasAdminAnswer) {
-                                otherBtnText.textContent = 'Lihat Jawaban & Diskusi';
-                            } else if (otherComments.length > 0) {
-                                otherBtnText.textContent = `Lihat Diskusi (${otherComments.length})`;
-                            } else {
-                                otherBtnText.textContent = '+ Beri Tanggapan';
-                            }
+                        if (otherPreview) otherPreview.style.display = 'block';
+                        if (otherBtn) {
+                            otherBtn.classList.remove('is-open');
+                            otherBtn.setAttribute('aria-expanded', 'false');
                         }
+                        if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
+                        if (otherBtnText) otherBtnText.textContent = 'Diskusi';
                     }
                 });
 
@@ -4894,31 +5840,27 @@
             }
 
             const detailsBox = document.getElementById(`qa-details-${sQId}`);
+            const previewBox = document.getElementById(`qa-official-preview-${sQId}`);
+            const btn = document.getElementById(`qa-details-btn-${sQId}`);
             const btnText = document.getElementById(`qa-details-btn-text-${sQId}`);
             const chevron = document.getElementById(`qa-details-chevron-${sQId}`);
-            const qComments = allForumCommentsMap[sQId] || [];
-            const qObj = (allCommunityQuestions || []).find(item => String(item.id) === sQId);
-            const hasAdminAnswer = !!(qObj && qObj.admin_answer && qObj.admin_answer.trim());
             const isExp = !!forumExpandedQuestions[sQId];
 
             if (detailsBox) {
                 detailsBox.style.display = isExp ? 'block' : 'none';
             }
+            if (previewBox) {
+                previewBox.style.display = isExp ? 'none' : 'block';
+            }
+            if (btn) {
+                btn.classList.toggle('is-open', isExp);
+                btn.setAttribute('aria-expanded', isExp ? 'true' : 'false');
+            }
             if (chevron) {
                 chevron.style.transform = isExp ? 'rotate(180deg)' : 'rotate(0deg)';
             }
             if (btnText) {
-                if (isExp) {
-                    btnText.textContent = 'Tutup Jawaban & Diskusi';
-                } else {
-                    if (hasAdminAnswer) {
-                        btnText.textContent = 'Lihat Jawaban & Diskusi';
-                    } else if (qComments.length > 0) {
-                        btnText.textContent = `Lihat Diskusi (${qComments.length})`;
-                    } else {
-                        btnText.textContent = '+ Beri Tanggapan';
-                    }
-                }
+                btnText.textContent = isExp ? 'Tutup' : 'Diskusi';
             }
         }
 
@@ -4933,60 +5875,61 @@
 
             if (!comments || comments.length === 0) {
                 html += `
-                    <div style="padding: 0.85rem; background: #F8FAFC; border: 1px dashed var(--line); border-radius: 6px; text-align: center; color: var(--slate); font-size: 0.8125rem; margin-bottom: 0.75rem;">
-                        Belum ada tanggapan pilot untuk topik ini. Jadilah yang pertama memberikan solusi teknis!
+                    <div style="padding: 0.75rem 0.9rem; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 10px; text-align: center; color: #64748B; font-size: 0.8125rem; margin-bottom: 0.65rem;">
+                        Belum ada tanggapan pilot. Jadilah yang pertama ikut berdiskusi!
                     </div>
                 `;
             } else {
-                html += '<div style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 0.85rem;">';
+                html += '<div class="tw-comments-thread">';
                 comments.forEach(c => {
-                    const dateStr = new Date(c.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const fullDateStr = new Date(c.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const relDateStr = formatRelativeTime(c.created_at) || fullDateStr;
                     const starsHtml = renderStarSvg(c.star_level || 1, 5);
                     const userRemotes = Array.isArray(c.remotes) ? c.remotes : [];
                     const userDrones = Array.isArray(c.drones) ? c.drones : [];
                     const devTags = [...userRemotes, ...userDrones].slice(0, 2);
-                    const avatarHtml = renderUserAvatar(c.avatar_url, c.full_name, c.username, 36);
+                    const avatarHtml = renderUserAvatar(c.avatar_url, c.full_name, c.username, 34);
 
                     html += `
                         <div class="qa-comment-card">
-                            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                            <div style="display: flex; gap: 0.65rem; align-items: flex-start;">
                                 <div style="flex-shrink: 0; margin-top: 2px;">
                                     ${avatarHtml}
                                 </div>
                                 <div style="flex: 1; min-width: 0;">
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
-                                        <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 0.3rem;">
+                                        <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
                                             <strong style="color: var(--ink); font-size: 0.875rem;">${escapeHtml(c.full_name || c.username)}</strong>
-                                            <span style="font-size: 0.75rem; color: var(--slate);">@${escapeHtml(c.username)}</span>
+                                            <span style="font-size: 0.75rem; color: #64748B;">@${escapeHtml(c.username)}</span>
                                             ${(c.role === 'superadmin' || c.role === 'admin') ? `
-                                                <span class="tw-chip" style="font-size: 0.6875rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700; padding: 0.1rem 0.45rem;">Admin</span>
+                                                <span class="tw-chip" style="font-size: 0.65rem; background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover); font-weight: 700; padding: 0.08rem 0.42rem; border-radius: 999px;">Admin</span>
                                             ` : ''}
-                                            <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #FEF3C7; color: #92400E; padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;">
+                                            <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: #FEF3C7; color: #92400E; padding: 0.1rem 0.42rem; border-radius: 999px; font-size: 0.65rem; font-weight: 700;">
                                                 ${starsHtml}
-                                                <span>${c.total_points || 0} Poin</span>
+                                                <span>${c.total_points || 0}</span>
                                             </span>
-                                            ${devTags.map(t => `<span class="tw-chip" style="font-size: 0.625rem; padding: 0.1rem 0.4rem;">${escapeHtml(String(t).replace(/^[Dd][Jj][Ii]\s+/, ''))}</span>`).join('')}
+                                            ${devTags.map(t => `<span class="tw-post-hashtag" style="font-size: 0.625rem;">#${escapeHtml(String(t).replace(/^[Dd][Jj][Ii]\s+/, '').replace(/\s+/g, ''))}</span>`).join('')}
                                         </div>
-                                        <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
+                                        <span style="font-size: 0.72rem; color: #64748B;" title="${fullDateStr}">${relDateStr}</span>
                                     </div>
-                                    <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap; word-break: break-word;">${escapeHtml(c.comment_text)}</div>
-                                    <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
-                                        <div style="display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                                    <div style="font-size: 0.875rem; color: #1E293B; line-height: 1.52; white-space: pre-wrap; word-break: break-word;">${escapeHtml(c.comment_text)}</div>
+                                    <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.45rem; flex-wrap: wrap;">
+                                        <div style="display: inline-flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
                                             ${isAdmin ? `
-                                                <button type="button" onclick="openAdminEditCommentModal('${c.id}', '${qId}')" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; color: var(--teal-deep); border-color: var(--teal-hover); display: inline-flex; align-items: center; gap: 0.25rem;" title="Edit isi tanggapan ini sebagai admin">
+                                                <button type="button" onclick="openAdminEditCommentModal('${c.id}', '${qId}')" class="tw-btn-2 tw-admin-mini-btn" style="color: var(--teal-deep); border-color: var(--teal-hover);" title="Edit tanggapan">
                                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                                    <span>Edit Tanggapan</span>
+                                                    <span>Edit</span>
                                                 </button>
-                                                <button type="button" onclick="handleAdminDeleteComment('${c.id}', '${qId}')" class="tw-btn-2" style="height: 26px; padding: 0 0.55rem; font-size: 0.6875rem; color: #991B1B; border-color: #FECACA; display: inline-flex; align-items: center; gap: 0.25rem;" title="Hapus tanggapan ini sebagai admin">
+                                                <button type="button" onclick="handleAdminDeleteComment('${c.id}', '${qId}')" class="tw-btn-2 tw-admin-mini-btn" style="color: #991B1B; border-color: #FECACA;" title="Hapus tanggapan">
                                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                                    <span>Hapus Tanggapan</span>
+                                                    <span>Hapus</span>
                                                 </button>
                                             ` : ''}
                                         </div>
-                                        <button type="button" class="comment-helpful-btn" onclick="handleVoteComment(${c.id}, '${qId}')" title="Tandai tanggapan ini membantu">
+                                        <button type="button" class="comment-helpful-btn" onclick="handleVoteComment(${c.id}, '${qId}')" title="Tandai tanggapan ini membantu" style="border-radius: 999px;">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                            <span>Jawaban Ini Membantu</span>
-                                            <span style="font-weight: 700; color: #166534;" id="comment-vote-num-${c.id}">${c.helpful_votes || 0}</span>
+                                            <span>Membantu</span>
+                                            <span style="font-family: var(--mono); font-weight: 700; color: #166534;" id="comment-vote-num-${c.id}">${c.helpful_votes || 0}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -4997,21 +5940,22 @@
                 html += '</div>';
             }
 
-            // Comment form or Login prompt
+            // Inline Social Quick Reply Composer or Login prompt
             if (activeUser) {
+                const meAvatarHtml = renderUserAvatar(activeUser.avatar_url, activeUser.full_name, activeUser.username, 34);
                 html += `
-                    <form onsubmit="handleUserAddComment(event, '${qId}')" style="margin-top: 0.75rem; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem;">
-                        <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem;">
-                            <span>Tulis Tanggapan Teknis sebagai <strong>${escapeHtml(activeUser.full_name || activeUser.username)}</strong></span>
-                            <span style="font-size: 0.75rem; color: var(--slate);">Berikan ulasan atau panduan teknis yang jelas</span>
-                        </div>
-                        <textarea id="comment-input-${qId}" class="form-control" rows="5" placeholder="Bagikan solusi teknis, pengaturan parameter, langkah pemecahan masalah, atau pengalaman lapangan Anda secara rinci..." required style="font-size: 0.9375rem; min-height: 130px; padding: 0.85rem 1rem; line-height: 1.6; margin-bottom: 0.65rem; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
-                        <div id="comment-alert-${qId}" style="display: none; padding: 0.45rem 0.65rem; border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem;"></div>
-                        <div style="display: flex; justify-content: flex-end;">
-                            <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="height: 38px; min-width: 150px; padding: 0 1.25rem; font-size: 0.8125rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                <span>Kirim Tanggapan</span>
-                            </button>
+                    <form onsubmit="handleUserAddComment(event, '${qId}')" class="tw-quick-reply-form">
+                        <div style="flex-shrink: 0; margin-top: 2px;">${meAvatarHtml}</div>
+                        <div class="tw-quick-reply-body">
+                            <textarea id="comment-input-${qId}" class="tw-quick-reply-textarea" rows="2" placeholder="Tulis balasan atau pengalaman lapangan Anda sebagai ${escapeHtml(activeUser.full_name || activeUser.username)}..." required></textarea>
+                            <div id="comment-alert-${qId}" style="display: none; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.75rem; margin-bottom: 0.45rem;"></div>
+                            <div class="tw-quick-reply-footer">
+                                <span style="font-size: 0.72rem; color: #64748B;">Balas sebagai <strong>@${escapeHtml(activeUser.username)}</strong></span>
+                                <button type="submit" id="comment-btn-${qId}" class="tw-btn" style="height: 34px; padding: 0 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                    <span>Kirim</span>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 `;
@@ -5736,14 +6680,23 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const postParam = params.get('post');
+            if (postParam) {
+                window._pendingPostDeepLink = postParam;
+            }
             initPilotUserUI();
             renderCommunityQuestions();
             loadCommunityQuestionsFromSupabase();
             loadAllForumComments();
             syncPilotUserStats();
-            const params = new URLSearchParams(window.location.search);
             if (params.get('admin') === '1' || params.get('mode') === 'admin') {
                 openAdminPanel();
+            }
+            if (window._pendingPostDeepLink && (allCommunityQuestions || []).some(item => String(item.id) === String(window._pendingPostDeepLink))) {
+                const targetId = window._pendingPostDeepLink;
+                window._pendingPostDeepLink = null;
+                navigateToQuestion(targetId);
             }
         });
 

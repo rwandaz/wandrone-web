@@ -2651,6 +2651,202 @@
             }
         }
 
+        /* ==========================================================================
+           SOCIAL MEDIA PROFILE DASHBOARD (#user-dashboard-modal)
+           ========================================================================== */
+
+        .tw-profile-hero-card {
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1.15rem;
+            box-shadow: 0 2px 10px rgba(10, 14, 22, 0.04);
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .tw-profile-cover {
+            height: 54px;
+            background: linear-gradient(135deg, #0A0E16 0%, #112A2E 100%);
+            border-bottom: 2px solid var(--teal);
+        }
+
+        .tw-profile-hero-body {
+            padding: 0 1.35rem 1.25rem;
+            margin-top: -28px;
+        }
+
+        .tw-profile-identity-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tw-profile-identity-left {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.9rem;
+            min-width: 0;
+            flex: 1 1 240px;
+        }
+
+        .tw-profile-avatar-ring {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 0 0 2px var(--teal), 0 4px 12px rgba(10, 14, 22, 0.14);
+            flex-shrink: 0;
+            background: #FFFFFF;
+        }
+
+        .tw-profile-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.65rem;
+            margin-top: 1.05rem;
+            width: 100%;
+        }
+
+        .tw-profile-stat-box {
+            background: #F8FAFC;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 12px;
+            padding: 0.65rem 0.5rem;
+            text-align: center;
+            min-width: 0;
+        }
+
+        .tw-profile-stat-num {
+            font-family: var(--mono);
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .tw-profile-stat-lbl {
+            font-size: 0.6875rem;
+            color: #475569;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            margin-top: 0.15rem;
+        }
+
+        .tw-profile-section-card {
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 14px;
+            padding: 1.35rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 1px 3px rgba(10, 14, 22, 0.04);
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .tw-profile-subbox {
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            border-radius: 12px;
+            padding: 1.1rem;
+        }
+
+        .tw-profile-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+            gap: 0.9rem;
+        }
+
+        .tw-profile-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: 0.9rem;
+        }
+
+        #user-dashboard-modal .form-control,
+        #user-auth-modal .form-control {
+            border: 1.5px solid #94A3B8;
+            border-radius: 10px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        #user-dashboard-modal .form-control:focus,
+        #user-auth-modal .form-control:focus {
+            border-color: var(--teal-deep);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.16);
+        }
+
+        #user-dashboard-modal .tw-check-item,
+        #user-auth-modal .tw-check-item {
+            border: 1.5px solid #CBD5E1;
+            border-radius: 10px;
+        }
+
+        .tw-profile-save-wrap {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.65rem;
+        }
+
+        .tw-activity-card {
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            box-shadow: 0 1px 2px rgba(10, 14, 22, 0.03);
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 640px) {
+            .tw-profile-cover {
+                height: 44px;
+            }
+            .tw-profile-hero-body {
+                padding: 0 0.95rem 1rem;
+                margin-top: -24px;
+            }
+            .tw-profile-avatar-ring {
+                width: 58px;
+                height: 58px;
+            }
+            .tw-profile-stats-grid {
+                gap: 0.45rem;
+            }
+            .tw-profile-stat-box {
+                padding: 0.55rem 0.35rem;
+            }
+            .tw-profile-stat-num {
+                font-size: 1.05rem;
+            }
+            .tw-profile-stat-lbl {
+                font-size: 0.625rem;
+            }
+            .tw-profile-section-card {
+                padding: 1rem 0.9rem;
+                border-radius: 12px;
+            }
+            .tw-profile-subbox {
+                padding: 0.9rem;
+            }
+            .tw-profile-save-wrap {
+                justify-content: stretch;
+            }
+            .tw-profile-save-wrap .tw-btn {
+                width: 100%;
+                min-width: 0 !important;
+                height: 44px !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -2872,7 +3068,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.15rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1rem; margin-bottom: 1.15rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="q-drone">Tipe Drone <span style="color: var(--teal-deep);">*</span></label>
                         <select id="q-drone" class="form-control" required>
@@ -3048,7 +3244,7 @@
 
             <!-- TAB 2: FORM DAFTAR -->
             <form id="form-user-register" onsubmit="handleUserRegister(event)" style="display: none; flex-direction: column; gap: 1rem;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="reg-username">Username <span style="color: var(--teal-deep);">*</span></label>
                         <input type="text" id="reg-username" class="form-control" placeholder="Contoh: pilot_sulawesi" required minlength="3" autocomplete="username"/>
@@ -3060,7 +3256,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="reg-fullname">Nama Lengkap / Panggilan <span style="color: var(--teal-deep);">*</span></label>
                         <input type="text" id="reg-fullname" class="form-control" placeholder="Contoh: Hendra Pratama" required minlength="2"/>
@@ -3120,59 +3316,62 @@
         </header>
 
         <main class="tw-admin-scroll-body">
-            <div class="tw-admin-container">
-                <!-- User Score Card & Level Header -->
-                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(10, 14, 22, 0.03);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div id="dash-avatar-main-wrap" style="width: 58px; height: 58px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px solid var(--teal); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
-                                <span id="dash-avatar-letter">P</span>
-                            </div>
-                            <div>
-                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                                    <h2 style="font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--ink); margin: 0;" id="dash-fullname">Nama Pilot</h2>
-                                    <span style="font-size: 0.875rem; color: var(--slate);" id="dash-username">@username</span>
+            <div class="tw-admin-container" style="max-width: 760px;">
+                <!-- Social Profile Hero Card -->
+                <div class="tw-profile-hero-card">
+                    <div class="tw-profile-cover"></div>
+                    <div class="tw-profile-hero-body">
+                        <div class="tw-profile-identity-row">
+                            <div class="tw-profile-identity-left">
+                                <div id="dash-avatar-main-wrap" class="tw-profile-avatar-ring">
+                                    <span id="dash-avatar-letter">P</span>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.35rem; flex-wrap: wrap;">
-                                    <span id="dash-star-badges" style="display: inline-flex; align-items: center; gap: 2px;"></span>
-                                    <span class="tw-chip-solid" id="dash-level-title" style="background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700;">Level 1</span>
-                                    <span class="tw-chip" id="dash-total-points-badge" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; font-size: 0.75rem; font-weight: 700;">5 Poin</span>
-                                    <span id="dash-role-badge" class="tw-chip-solid" style="display: none; font-size: 0.75rem; font-weight: 700;"></span>
-                                    <button type="button" id="dash-btn-edit-points" onclick="handleDashboardEditPoints()" class="tw-btn-2" style="height: 26px; padding: 0 0.65rem; font-size: 0.6875rem; color: var(--teal-deep); border-color: var(--teal-hover); display: none; align-items: center; gap: 0.3rem;" title="Edit poin reputasi akun Anda">
-                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                        <span>Edit Poin Saya</span>
-                                    </button>
+                                <div style="min-width: 0; padding-top: 1.9rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+                                        <h2 style="font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: var(--ink); margin: 0; line-height: 1.15; overflow-wrap: anywhere;" id="dash-fullname">Nama Pilot</h2>
+                                        <span style="font-size: 0.84375rem; color: #64748B;" id="dash-username">@username</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                                        <span id="dash-star-badges" style="display: inline-flex; align-items: center; gap: 2px;"></span>
+                                        <span class="tw-chip-solid" id="dash-level-title" style="background: #FEF3C7; color: #92400E; font-size: 0.72rem; font-weight: 700; border-radius: 999px;">Level 1</span>
+                                        <span class="tw-chip" id="dash-total-points-badge" style="background: #ECFDF5; color: #166534; border: 1px solid #16A34A; font-size: 0.72rem; font-weight: 700; border-radius: 999px;">5 Poin</span>
+                                        <span id="dash-role-badge" class="tw-chip-solid" style="display: none; font-size: 0.72rem; font-weight: 700; border-radius: 999px;"></span>
+                                        <button type="button" id="dash-btn-edit-points" onclick="handleDashboardEditPoints()" class="tw-btn-2" style="height: 26px; padding: 0 0.7rem; font-size: 0.7rem; border-radius: 999px; color: var(--teal-deep); border-color: var(--teal-deep); display: none; align-items: center; gap: 0.3rem;" title="Edit poin reputasi akun Anda">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                            <span>Edit Poin</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Mini stats counters -->
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 1rem; text-align: center;">
-                                <div style="font-size: 0.6875rem; color: var(--slate); text-transform: uppercase; font-weight: 600;">Total Poin</div>
-                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--teal-deep); font-family: var(--display);" id="dash-stat-points">5</div>
+                        <!-- Symmetrical 3-Column Social Stats Grid -->
+                        <div class="tw-profile-stats-grid">
+                            <div class="tw-profile-stat-box">
+                                <div class="tw-profile-stat-num" style="color: var(--teal-deep);" id="dash-stat-points">5</div>
+                                <div class="tw-profile-stat-lbl">Poin</div>
                             </div>
-                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 1rem; text-align: center;">
-                                <div style="font-size: 0.6875rem; color: var(--slate); text-transform: uppercase; font-weight: 600;">Tanggapan</div>
-                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); font-family: var(--display);" id="dash-stat-comments">0</div>
+                            <div class="tw-profile-stat-box">
+                                <div class="tw-profile-stat-num" style="color: var(--ink);" id="dash-stat-comments">0</div>
+                                <div class="tw-profile-stat-lbl">Balasan</div>
                             </div>
-                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 1rem; text-align: center;">
-                                <div style="font-size: 0.6875rem; color: var(--slate); text-transform: uppercase; font-weight: 600;">Tanda Membantu</div>
-                                <div style="font-size: 1.25rem; font-weight: 800; color: #166534; font-family: var(--display);" id="dash-stat-votes">0</div>
+                            <div class="tw-profile-stat-box">
+                                <div class="tw-profile-stat-num" style="color: #166534;" id="dash-stat-votes">0</div>
+                                <div class="tw-profile-stat-lbl">Membantu</div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Progress bar to next level -->
-                    <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line);">
-                        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--slate); margin-bottom: 0.35rem;">
-                            <span>Progres Reputasi ke Bintang Berikutnya</span>
-                            <span id="dash-progress-label">5 / 25 Poin (20%)</span>
+                        <!-- Progress bar to next level -->
+                        <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid #E2E8F0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-size: 0.78rem; color: #475569; margin-bottom: 0.35rem;">
+                                <span style="font-weight: 600;">Progres ke Bintang Berikutnya</span>
+                                <span style="font-family: var(--mono); font-weight: 600; color: var(--ink);" id="dash-progress-label">5 / 25 Poin (20%)</span>
+                            </div>
+                            <div class="user-progress-track">
+                                <div class="user-progress-fill" id="dash-progress-bar" style="width: 20%;"></div>
+                            </div>
+                            <div style="display: flex; gap: 0.4rem; margin-top: 0.7rem; flex-wrap: wrap;" id="dash-devices-summary"></div>
                         </div>
-                        <div class="user-progress-track">
-                            <div class="user-progress-fill" id="dash-progress-bar" style="width: 20%;"></div>
-                        </div>
-                        <div style="display: flex; gap: 0.4rem; margin-top: 0.75rem; flex-wrap: wrap;" id="dash-devices-summary"></div>
                     </div>
                 </div>
 
@@ -3189,40 +3388,40 @@
                 </div>
 
                 <!-- TAB CONTENT 1: EDIT PROFIL -->
-                <div id="user-pane-profile" style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                    <form onsubmit="handleUpdateUserProfile(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <div id="user-pane-profile" class="tw-profile-section-card">
+                    <form onsubmit="handleUpdateUserProfile(event)" style="display: flex; flex-direction: column; gap: 1.15rem;">
                         <!-- Avatar & Foto Profil -->
-                        <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 1.25rem;">
-                            <div style="font-family: var(--display); font-size: 0.9375rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;">Foto Profil &amp; Avatar Pilot</div>
-                            <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 1rem;">Unggah foto pribadi Anda atau pilih salah satu avatar pilot WanDrone.</div>
+                        <div class="tw-profile-subbox">
+                            <div style="font-family: var(--display); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">Foto Profil &amp; Avatar Pilot</div>
+                            <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 0.9rem;">Unggah foto pribadi Anda atau pilih salah satu karakter pilot WanDrone.</div>
 
-                            <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
-                                <div id="edit-avatar-preview-wrap" style="width: 72px; height: 72px; border-radius: 50%; overflow: hidden; border: 2px solid var(--teal); box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-shrink: 0; background: #FFFFFF; display: flex; align-items: center; justify-content: center;">
+                            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                                <div id="edit-avatar-preview-wrap" style="width: 68px; height: 68px; border-radius: 50%; overflow: hidden; border: 2px solid var(--teal); box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-shrink: 0; background: #FFFFFF; display: flex; align-items: center; justify-content: center;">
                                     <!-- Rendered avatar -->
                                 </div>
-                                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div style="display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; flex: 1 1 200px;">
                                     <input type="file" id="edit-avatar-upload" accept="image/*" style="display: none;" onchange="handleAvatarFileSelect(event)">
-                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                        <button type="button" onclick="document.getElementById('edit-avatar-upload').click()" class="tw-btn" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                                    <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+                                        <button type="button" onclick="document.getElementById('edit-avatar-upload').click()" class="tw-btn" style="height: 36px; padding: 0 0.95rem; font-size: 0.8rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                                            <span>Unggah Foto Pribadi</span>
+                                            <span>Unggah Foto</span>
                                         </button>
-                                        <button type="button" onclick="resetToInitialAvatar()" class="tw-btn-2" style="height: 34px; padding: 0 0.9rem; font-size: 0.8125rem; display: inline-flex; align-items: center; justify-content: center;">
+                                        <button type="button" onclick="resetToInitialAvatar()" class="tw-btn-2" style="height: 36px; padding: 0 0.95rem; font-size: 0.8rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;">
                                             Gunakan Inisial
                                         </button>
                                     </div>
-                                    <div style="font-size: 0.75rem; color: var(--slate);">Format: JPG, PNG, atau WebP. Otomatis disesuaikan ke resolusi avatar optimal.</div>
+                                    <div style="font-size: 0.72rem; color: #64748B;">Format JPG, PNG, atau WebP. Otomatis disesuaikan ke resolusi avatar.</div>
                                 </div>
                             </div>
 
                             <!-- Pilihan Preset Avatar -->
-                            <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed var(--line);">
-                                <div style="font-size: 0.75rem; font-weight: 600; color: var(--slate); margin-bottom: 0.5rem; text-transform: uppercase;">Atau Pilih Karakter Pilot:</div>
-                                <div id="edit-avatar-presets" style="display: flex; gap: 0.65rem; flex-wrap: wrap;"></div>
+                            <div style="margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px dashed #CBD5E1;">
+                                <div style="font-size: 0.72rem; font-weight: 700; color: #475569; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.03em;">Atau Pilih Karakter Pilot:</div>
+                                <div id="edit-avatar-presets" style="display: flex; gap: 0.55rem; flex-wrap: wrap;"></div>
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+                        <div class="tw-profile-grid-2">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label class="form-label" for="edit-fullname">Nama Lengkap / Tampilan</label>
                                 <input type="text" id="edit-fullname" class="form-control" required/>
@@ -3249,18 +3448,18 @@
                         </div>
 
                         <!-- Edit Username & Password -->
-                        <div style="background: #F8FAFC; border: 1px dashed var(--line); border-radius: 8px; padding: 1.25rem; margin-top: 0.5rem;">
-                            <div style="font-family: var(--display); font-size: 0.9375rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;">Keamanan Akun &amp; Kredensial</div>
-                            <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 1rem;">Ubah username atau kata sandi jika diperlukan. Wajib memasukkan kata sandi saat ini untuk menyimpan perubahan data apa pun.</div>
+                        <div class="tw-profile-subbox" style="border-style: dashed;">
+                            <div style="font-family: var(--display); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem;">Keamanan Akun &amp; Kredensial</div>
+                            <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 0.9rem;">Ubah username atau kata sandi jika diperlukan. Wajib memasukkan kata sandi saat ini untuk menyimpan perubahan.</div>
 
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                            <div class="tw-profile-grid-3">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="form-label" for="edit-username">Username Baru (Opsional)</label>
                                     <input type="text" id="edit-username" class="form-control" placeholder="Biarkan kosong jika tetap"/>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="form-label" for="edit-newpass">Kata Sandi Baru (Opsional)</label>
-                                    <input type="password" id="edit-newpass" class="form-control" placeholder="Minimal 6 karakter baru..."/>
+                                    <input type="password" id="edit-newpass" class="form-control" placeholder="Minimal 6 karakter..."/>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="form-label" for="edit-curpass">Kata Sandi Saat Ini <span style="color: var(--teal-deep);">*</span></label>
@@ -3269,10 +3468,10 @@
                             </div>
                         </div>
 
-                        <div id="edit-profile-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
+                        <div id="edit-profile-alert" style="display: none; padding: 0.75rem; border-radius: 10px; font-size: 0.84375rem;"></div>
 
-                        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
-                            <button type="submit" id="btn-save-profile" class="tw-btn" style="height: 40px; min-width: 180px; padding: 0 1.5rem; font-size: 0.875rem; justify-content: center;">
+                        <div class="tw-profile-save-wrap">
+                            <button type="submit" id="btn-save-profile" class="tw-btn" style="height: 42px; min-width: 195px; padding: 0 1.5rem; font-size: 0.875rem; border-radius: 999px; justify-content: center;">
                                 Simpan Perubahan Profil
                             </button>
                         </div>
@@ -3280,9 +3479,9 @@
                 </div>
 
                 <!-- TAB CONTENT 2: RIWAYAT KONTRIBUSI -->
-                <div id="user-pane-activity" style="display: none; background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                    <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;">Riwayat Jawaban &amp; Diskusi Anda</div>
-                    <div style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 1.25rem;">Setiap tanggapan teknis yang Anda bagikan menyumbang +5 poin, dan setiap kali pilot lain menandai "Membantu" Anda mendapatkan +10 poin.</div>
+                <div id="user-pane-activity" class="tw-profile-section-card" style="display: none;">
+                    <div style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem;">Riwayat Diskusi &amp; Poin</div>
+                    <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 1rem;">Setiap tanggapan teknis memberi <strong>+5 poin</strong>, dan setiap tanda "Membantu" dari pilot lain menambah <strong>+10 poin</strong>.</div>
 
                     <div id="user-activity-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                 </div>
@@ -6991,43 +7190,42 @@
                 }
 
                 container.innerHTML = data.map(item => {
-                    const dateStr = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const fullDateStr = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const relDateStr = formatRelativeTime(item.created_at) || fullDateStr;
                     const foundQ = allCommunityQuestions.find(q => String(q.id) === String(item.question_id));
                     const qTitle = item.question_title || (foundQ ? foundQ.question_title : 'Topik Diskusi Forum');
                     const qBody = item.question_body || (foundQ ? foundQ.question_body : '');
 
                     return `
-                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(10, 14, 22, 0.03);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
-                                <strong style="color: var(--teal-deep); font-size: 0.9375rem; font-family: var(--display);">Topik: ${escapeHtml(qTitle)}</strong>
-                                <span style="font-size: 0.75rem; color: var(--slate);">${dateStr}</span>
+                        <div class="tw-activity-card">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.55rem;">
+                                <strong style="color: var(--ink); font-size: 0.95rem; font-family: var(--display); line-height: 1.3; overflow-wrap: anywhere;">${escapeHtml(qTitle)}</strong>
+                                <span style="font-size: 0.72rem; color: #64748B; white-space: nowrap;" title="${fullDateStr}">${relDateStr}</span>
                             </div>
 
-                            <!-- KOTAK PERTANYAAN (DISERTAKAN PERTANYAANNYA) -->
-                            <div style="background: #F8FAFC; border: 1px solid var(--line); border-left: 3px solid var(--teal); border-radius: 6px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
-                                <div style="font-size: 0.6875rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem;">Pertanyaan Pilot:</div>
-                                <div style="font-size: 0.8125rem; font-weight: 600; color: var(--ink); margin-bottom: 0.15rem;">${escapeHtml(qTitle)}</div>
-                                ${qBody ? `<div style="font-size: 0.8125rem; color: var(--slate); line-height: 1.45;">${escapeHtml(qBody)}</div>` : ''}
-                            </div>
+                            ${qBody ? `
+                                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 3px solid #94A3B8; border-radius: 8px; padding: 0.55rem 0.8rem; margin-bottom: 0.6rem; font-size: 0.8rem; color: #475569; line-height: 1.45; overflow-wrap: anywhere;">
+                                    ${escapeHtml(qBody)}
+                                </div>
+                            ` : ''}
 
-                            <!-- KOTAK TANGGAPAN PENGGUNA -->
-                            <div style="background: #F0FDFA; border: 1px solid var(--line); border-radius: 6px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
-                                <div style="font-size: 0.6875rem; font-weight: 700; color: var(--teal-deep); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem;">Tanggapan Anda:</div>
+                            <!-- BALASAN PENGGUNA -->
+                            <div style="background: #F0FDF9; border: 1px solid rgba(45, 212, 191, 0.4); border-left: 3px solid var(--teal-deep); border-radius: 10px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
+                                <div style="font-size: 0.6875rem; font-weight: 700; color: var(--teal-deep); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem;">Balasan Anda</div>
                                 <div style="font-size: 0.875rem; color: var(--ink); line-height: 1.5; white-space: pre-wrap; word-break: break-word;">${escapeHtml(item.comment_text)}</div>
                             </div>
 
-                            <!-- BAR STATUS POIN & TOMBOL MENUJU PERTANYAAN -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; padding-top: 0.5rem; border-top: 1px dashed var(--line);">
-                                <div style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem; color: var(--slate); flex-wrap: wrap;">
-                                    <span class="tw-chip" style="background: #F0FDF4; color: #166534; border-color: #BBF7D0; display: inline-flex; align-items: center; gap: 4px;">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        ${item.helpful_votes || 0} Pilot Terbantu
+                            <!-- BAR STATUS POIN & TOMBOL MENUJU POST -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.55rem; flex-wrap: wrap; padding-top: 0.55rem; border-top: 1px solid #E2E8F0;">
+                                <div style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.75rem; color: #475569; flex-wrap: wrap;">
+                                    <span class="tw-chip" style="background: #ECFDF5; color: #166534; border: 1px solid #16A34A; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem;">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        ${item.helpful_votes || 0} Terbantu
                                     </span>
-                                    <span style="font-weight: 600; color: var(--ink);">+${5 + (item.helpful_votes || 0) * 10} Poin Didapat</span>
+                                    <span style="font-family: var(--mono); font-weight: 700; color: var(--teal-deep); font-size: 0.75rem;">+${5 + (item.helpful_votes || 0) * 10} Poin</span>
                                 </div>
-                                <button type="button" onclick="navigateToQuestion(${item.question_id})" class="tw-btn" style="height: 32px; padding: 0 0.85rem; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; white-space: nowrap;">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                    <span>Buka Pertanyaan &rarr;</span>
+                                <button type="button" onclick="navigateToQuestion(${item.question_id})" class="tw-btn" style="height: 32px; padding: 0 0.9rem; font-size: 0.75rem; font-weight: 700; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; white-space: nowrap;">
+                                    <span>Lihat Post &rarr;</span>
                                 </button>
                             </div>
                         </div>

@@ -1183,16 +1183,25 @@
             line-height: 1.2;
         }
 
+        .nav-wrapper {
+            gap: 1rem;
+        }
+
         .nav-menu {
-            gap: 0.35rem;
+            gap: 0.3rem;
         }
 
         .nav-link {
+            display: inline-flex;
+            align-items: center;
+            height: 36px;
+            padding: 0 0.75rem;
             font-size: 0.875rem;
             font-weight: 500;
+            line-height: 1;
             color: var(--slate);
-            padding: 0.42rem 0.7rem;
             border-radius: 8px;
+            white-space: nowrap;
             transition: background-color 0.15s ease, color 0.15s ease;
         }
 
@@ -1205,6 +1214,13 @@
             color: var(--teal-deep);
             background: rgba(45, 212, 191, 0.12);
             font-weight: 600;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
         }
 
         /* Unified 3-Tier Button Scale */
@@ -1231,8 +1247,18 @@
             height: 36px !important;
             min-height: 36px !important;
             padding: 0 0.95rem !important;
+            font-family: var(--body) !important;
             font-size: 0.8125rem !important;
+            font-weight: 600 !important;
+            line-height: 1 !important;
             border-radius: 999px !important;
+            border-width: 1.5px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            box-sizing: border-box;
         }
 
         .tw-btn {
@@ -1315,39 +1341,59 @@
         }
 
         .tw-nav-toggle {
-            border: 1.5px solid #94A3B8;
-            border-radius: 8px;
-            width: 38px;
-            height: 38px;
-            padding: 0;
+            border: 1.5px solid #94A3B8 !important;
+            border-radius: 8px !important;
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            min-height: 38px !important;
+            padding: 0 !important;
+            background: #FFFFFF !important;
+            color: var(--ink) !important;
         }
 
         .tw-mob-tabbar-track {
-            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            height: 48px;
+            padding: 0 1rem;
             gap: 0.45rem;
+            box-sizing: border-box;
         }
 
         .tw-mob-tab-item {
-            min-height: 32px;
-            padding: 0.32rem 0.8rem;
-            font-size: 0.8125rem;
-            line-height: 1.2;
-            border-radius: 999px;
-            border: 1.5px solid #CBD5E1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            height: 34px !important;
+            min-height: 34px !important;
+            padding: 0 0.85rem !important;
+            font-family: var(--body) !important;
+            font-size: 0.8125rem !important;
+            font-weight: 600 !important;
+            line-height: 1 !important;
+            letter-spacing: 0 !important;
+            border-radius: 999px !important;
+            border: 1.5px solid #CBD5E1 !important;
+            box-sizing: border-box;
+            margin: 0;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .tw-mob-tab-item.tw-mob-tab-primary {
             background: var(--teal);
-            border-color: #0F766E;
+            border-color: #0F766E !important;
             color: var(--ink);
-            font-weight: 700;
+            font-weight: 700 !important;
         }
 
         .tw-mob-tab-item.tw-mob-tab-accent {
             background: rgba(45, 212, 191, 0.14);
-            border-color: var(--teal-deep);
+            border-color: var(--teal-deep) !important;
             color: var(--teal-deep);
-            font-weight: 600;
+            font-weight: 600 !important;
         }
 
         /* Unified Card Radii, Chips & Footer */
@@ -1442,7 +1488,7 @@
                     <li role="none"><a role="menuitem" href="tanya-jawab.html" class="nav-link">Forum Tanya Jawab</a></li>
                 </ul>
 
-                <div class="nav-actions" style="display: flex; align-items: center; gap: 0.45rem;">
+                <div class="nav-actions">
                     <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-btn tw-nav-btn tw-nav-desktop-only">
                         Akun Lisensi &nearr;
                     </a>
@@ -1464,7 +1510,7 @@
                 <a href="https://fly.arkana.co.id/tweaker/" target="_blank" rel="noopener" class="tw-mob-tab-item tw-mob-tab-primary">Akun Lisensi &nearr;</a>
                 <a href="#alur-aktivasi" class="tw-mob-tab-item">Alur Aktivasi</a>
                 <a href="#kontak-resmi" class="tw-mob-tab-item">Kontak</a>
-                <a href="tanya-jawab.html" class="tw-mob-tab-item">Forum</a>
+                <a href="tanya-jawab.html" class="tw-mob-tab-item">Forum Tanya Jawab</a>
                 <a href="index.html" class="tw-mob-tab-item">&larr; Utama</a>
             </div>
         </nav>

@@ -2869,6 +2869,14 @@
         /* ==========================================================================
            UNIFIED DESIGN SYSTEM (100% Consistent with index.html & lisensi.html)
            ========================================================================== */
+        .tw-nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: var(--nav-height);
+            gap: 1rem;
+        }
+
         .nav-brand img {
             width: 38px;
             height: 38px;
@@ -2885,40 +2893,110 @@
             line-height: 1.2;
         }
 
+        .tw-nav-links {
+            align-items: center;
+            gap: 0.3rem;
+        }
+
         .tw-nav-link {
+            display: inline-flex;
+            align-items: center;
+            height: 36px;
+            padding: 0 0.75rem;
             font-size: 0.875rem;
             font-weight: 500;
-            padding: 0.42rem 0.7rem;
+            line-height: 1;
             border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
         }
 
         .tw-hamburger {
-            width: 38px;
-            height: 38px;
-            padding: 0;
-            border: 1.5px solid #94A3B8;
-            border-radius: 8px;
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            min-height: 38px !important;
+            padding: 0 !important;
+            border: 1.5px solid #94A3B8 !important;
+            border-radius: 8px !important;
+            background: #FFFFFF !important;
+            color: var(--ink) !important;
+        }
+
+        @media (max-width: 991px) {
+            .tw-nav-links,
+            .tw-nav-desktop-only,
+            #admin-nav-item,
+            #pilot-nav-container {
+                display: none !important;
+            }
+            .tw-hamburger {
+                display: inline-flex !important;
+            }
+            .tw-mob-tabbar {
+                display: block !important;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .tw-nav-links {
+                display: flex !important;
+            }
+            .tw-hamburger,
+            .tw-mob-tabbar {
+                display: none !important;
+            }
         }
 
         .tw-mob-tabbar-track {
-            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            height: 48px;
+            padding: 0 1rem;
             gap: 0.45rem;
+            box-sizing: border-box;
         }
 
         .tw-mob-tab-item {
-            min-height: 32px;
-            padding: 0.32rem 0.8rem;
-            font-size: 0.8125rem;
-            line-height: 1.2;
-            border-radius: 999px;
-            border: 1.5px solid #CBD5E1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            height: 34px !important;
+            min-height: 34px !important;
+            padding: 0 0.85rem !important;
+            font-family: var(--body) !important;
+            font-size: 0.8125rem !important;
+            font-weight: 600 !important;
+            line-height: 1 !important;
+            letter-spacing: 0 !important;
+            border-radius: 999px !important;
+            border: 1.5px solid #CBD5E1 !important;
+            box-sizing: border-box;
+            margin: 0;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .tw-mob-tab-item.tw-mob-tab-primary {
             background: var(--teal);
-            border-color: #0F766E;
+            border-color: #0F766E !important;
             color: var(--ink);
-            font-weight: 700;
+            font-weight: 700 !important;
+        }
+
+        .tw-mob-tab-item.is-active,
+        .tw-mob-tab-item.tw-mob-tab-accent {
+            background: rgba(45, 212, 191, 0.14);
+            border-color: var(--teal-deep) !important;
+            color: var(--teal-deep);
+            font-weight: 600 !important;
         }
 
         /* Unified Button Typography & Crisp Radii (preserving compact toolbar/admin heights) */
@@ -2931,14 +3009,56 @@
             border-radius: 8px;
         }
 
+        .tw-nav-btn,
         .tw-pilot-pill {
-            height: 36px;
-            min-height: 36px;
+            height: 36px !important;
+            min-height: 36px !important;
             padding: 0 0.95rem !important;
-            font-family: var(--body);
+            font-family: var(--body) !important;
             font-size: 0.8125rem !important;
-            font-weight: 600;
+            font-weight: 600 !important;
+            line-height: 1 !important;
             border-radius: 999px !important;
+            border-width: 1.5px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+
+        /* Unified Modal Title Bar Buttons (Admin Console & Pilot Dashboard) */
+        .tw-admin-nav {
+            min-height: var(--nav-height);
+        }
+
+        .tw-admin-nav-actions .tw-btn,
+        .tw-admin-nav-actions .tw-btn-2 {
+            height: 36px !important;
+            min-height: 36px !important;
+            padding: 0 0.9rem !important;
+            font-size: 0.8125rem !important;
+            font-weight: 600 !important;
+            line-height: 1 !important;
+            border-radius: 999px !important;
+            border-width: 1.5px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 640px) {
+            .tw-admin-nav-actions .tw-btn,
+            .tw-admin-nav-actions .tw-btn-2 {
+                height: 34px !important;
+                min-height: 34px !important;
+                padding: 0 0.75rem !important;
+                font-size: 0.78rem !important;
+            }
         }
 
         /* Unified Pill Chips */
@@ -3081,23 +3201,23 @@
                     <li><a href="index.html#faq" class="tw-nav-link">FAQ</a></li>
                     <li><a href="#forum-komunitas" class="tw-nav-link active">Forum Tanya Jawab</a></li>
                     <li><a href="lisensi.html" class="tw-nav-link">Lisensi</a></li>
-                    <li id="admin-nav-item" style="display: none;">
-                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-desktop-only" style="height: 36px; padding: 0 0.85rem; font-size: 0.8125rem; background: #0A0E16; color: #FFFFFF; border-color: #0A0E16 !important; border-radius: 999px; gap: 0.35rem; display: inline-flex; align-items: center;" title="Buka Dashboard Moderasi &amp; Administrasi">
+                </ul>
+
+                <div class="nav-actions">
+                    <span id="admin-nav-item" style="display: none;">
+                        <button type="button" onclick="openAdminPanel()" class="tw-btn tw-nav-btn tw-nav-desktop-only" style="background: #0A0E16; color: #FFFFFF; border-color: #0A0E16 !important;" title="Buka Dashboard Moderasi &amp; Administrasi">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                             <span>Admin</span>
                         </button>
-                    </li>
-                    <li id="pilot-nav-container">
-                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn" style="display: inline-flex; align-items: center; gap: 0.45rem;">
+                    </span>
+                    <span id="pilot-nav-container" style="display: inline-flex;">
+                        <button type="button" onclick="openUserAuthModal('login')" class="tw-pilot-pill tw-nav-desktop-only" id="pilot-nav-btn">
                             <span id="pilot-nav-avatar-slot" style="display: inline-flex; align-items: center;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             </span>
                             <span id="pilot-nav-text">Akun Pilot</span>
                         </button>
-                    </li>
-                </ul>
-
-                <div class="tw-nav-actions-mobile">
+                    </span>
                     <button class="tw-hamburger" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="tw-nav-icon">
                             <line x1="3" y1="6" x2="21" y2="6"></line>

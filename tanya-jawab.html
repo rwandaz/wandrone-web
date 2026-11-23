@@ -1001,76 +1001,6 @@
             }
         }
 
-        /* ADMIN TWO-TAB NAVIGATION */
-        .admin-tab-bar {
-            display: flex;
-            gap: 0.5rem;
-            border-bottom: 2px solid var(--line);
-            margin-bottom: 1.5rem;
-            align-items: center;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .admin-tab-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .admin-tab-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.65rem 1.15rem;
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: var(--slate);
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-radius: 6px 6px 0 0;
-            user-select: none;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .admin-tab-btn:hover {
-            color: var(--ink);
-            background: rgba(10, 14, 22, 0.02);
-        }
-
-        .admin-tab-btn.is-active {
-            color: var(--teal-deep);
-            border-bottom-color: var(--teal);
-            background: rgba(10, 14, 22, 0.03);
-            font-weight: 700;
-        }
-
-        .admin-tab-badge {
-            display: inline-block;
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            font-family: var(--mono);
-            line-height: 1;
-            background: #E2E8F0;
-            color: #475569;
-            transition: all 0.2s ease;
-        }
-
-        .admin-tab-btn.is-active #admin-pending-tab-badge {
-            background: #FEF3C7;
-            color: #92400E;
-        }
-
-        .admin-tab-btn.is-active #admin-approved-tab-badge {
-            background: #DCFCE7;
-            color: #166534;
-        }
         /* VOTE LIKE / DISLIKE BUTTONS */
         .btn-vote {
             display: inline-flex;
@@ -2537,28 +2467,32 @@
         /* Crisp Pill Tab Bar for Admin & Pilot Dashboard */
         .admin-tab-bar {
             display: flex;
+            flex-wrap: wrap;
             gap: 0.45rem;
             border-bottom: 1px solid #E2E8F0;
             padding: 0.15rem 0 0.85rem;
             margin-bottom: 1.15rem;
             align-items: center;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
             max-width: 100%;
         }
 
         .admin-tab-btn {
             border-radius: 999px;
-            padding: 0.48rem 0.95rem;
-            font-size: 0.84375rem;
+            padding: 0.42rem 0.85rem;
+            font-size: 0.8125rem;
             font-weight: 600;
             color: #334155;
             background: #FFFFFF;
             border: 1.5px solid #94A3B8;
             margin-bottom: 0;
             box-shadow: 0 1px 2px rgba(10, 14, 22, 0.04);
-            min-height: 38px;
+            min-height: 36px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
         }
 
         .admin-tab-btn:hover {
@@ -2573,9 +2507,26 @@
             color: #FFFFFF;
         }
 
+        .admin-tab-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 0.45rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: var(--mono);
+            line-height: 1;
+            background: #E2E8F0;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+
         .admin-tab-btn.is-active .admin-tab-badge {
             background: rgba(45, 212, 191, 0.22);
-            color: var(--teal);
+            color: #2DD4BF;
         }
 
         .admin-tab-btn.is-active #admin-pending-tab-badge {
@@ -2592,6 +2543,12 @@
             background: #E6FBF7;
             color: var(--teal-deep);
             border-color: var(--teal-hover);
+        }
+
+        .admin-tab-btn.is-active #admin-logs-tab-badge {
+            background: #EFF6FF;
+            color: #1E40AF;
+            border-color: #BFDBFE;
         }
 
         /* WEB ANALYTICS DASHBOARD (SUPER ADMIN & AKUN UTAMA) */
@@ -2979,6 +2936,26 @@
         @media (max-width: 768px) {
             .tw-hide-mob {
                 display: none !important;
+            }
+            .admin-tab-bar {
+                gap: 0.35rem;
+                padding-bottom: 0.65rem;
+            }
+            .admin-tab-btn {
+                padding: 0.32rem 0.65rem;
+                font-size: 0.75rem;
+                min-height: 32px;
+                gap: 0.3rem;
+            }
+            .admin-tab-btn svg {
+                width: 13px;
+                height: 13px;
+            }
+            .admin-tab-badge {
+                min-width: 18px;
+                height: 18px;
+                padding: 0 0.35rem;
+                font-size: 0.6875rem;
             }
             .tw-admin-nav {
                 padding: 0.65rem 0.85rem;
@@ -3834,32 +3811,32 @@
                     <div style="font-size: 0.84375rem; color: var(--slate); line-height: 1.45;">Jawab pertanyaan pilot yang masuk, kelola topik yang sudah tayang, atur akun pengguna, dan pantau audit log sistem.</div>
                 </div>
 
-                <!-- TAB NAVIGASI ADMIN (MENUNGGU JAWABAN, SUDAH DITERBITKAN, & KELOLA PENGGUNA) -->
+                <!-- TAB NAVIGASI ADMIN (MENUNGGU, DITERBITKAN, PENGGUNA, STATISTIK, & LOG SISTEM) -->
                 <div class="admin-tab-bar" role="tablist">
-                    <button type="button" id="admin-tab-pending" onclick="switchAdminTab('pending')" class="admin-tab-btn is-active" role="tab" aria-selected="true">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <span>Menunggu Jawaban</span>
+                    <button type="button" id="admin-tab-pending" onclick="switchAdminTab('pending')" class="admin-tab-btn is-active" role="tab" aria-selected="true" title="Pertanyaan Menunggu Jawaban">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <span>Menunggu</span>
                         <span class="admin-tab-badge" id="admin-pending-tab-badge">0</span>
                     </button>
-                    <button type="button" id="admin-tab-approved" onclick="switchAdminTab('approved')" class="admin-tab-btn" role="tab" aria-selected="false">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                        <span>Sudah Diterbitkan</span>
+                    <button type="button" id="admin-tab-approved" onclick="switchAdminTab('approved')" class="admin-tab-btn" role="tab" aria-selected="false" title="Pertanyaan Sudah Diterbitkan">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span>Diterbitkan</span>
                         <span class="admin-tab-badge" id="admin-approved-tab-badge">0</span>
                     </button>
-                    <button type="button" id="admin-tab-users" onclick="switchAdminTab('users')" class="admin-tab-btn" role="tab" aria-selected="false">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        <span>Kelola Pengguna</span>
+                    <button type="button" id="admin-tab-users" onclick="switchAdminTab('users')" class="admin-tab-btn" role="tab" aria-selected="false" title="Kelola Akun Pengguna &amp; Admin">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span>Pengguna</span>
                         <span class="admin-tab-badge" id="admin-users-tab-badge">0</span>
                     </button>
-                    <button type="button" id="admin-tab-analytics" onclick="switchAdminTab('analytics')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                        <span>Statistik Web</span>
-                        <span class="admin-tab-badge" id="admin-analytics-tab-badge" style="background: #E6FBF7; color: var(--teal-deep); border-color: var(--teal-hover);">Super Admin</span>
+                    <button type="button" id="admin-tab-analytics" onclick="switchAdminTab('analytics')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;" title="Statistik Pengunjung &amp; Konversi Web">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        <span>Statistik</span>
+                        <span class="admin-tab-badge" id="admin-analytics-tab-badge">0</span>
                     </button>
-                    <button type="button" id="admin-tab-logs" onclick="switchAdminTab('logs')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <button type="button" id="admin-tab-logs" onclick="switchAdminTab('logs')" class="admin-tab-btn" role="tab" aria-selected="false" style="display: none;" title="Log Sistem &amp; Riwayat Audit">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                         <span>Log Sistem</span>
-                        <span class="admin-tab-badge" id="admin-logs-tab-badge" style="background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE;">Super Admin</span>
+                        <span class="admin-tab-badge" id="admin-logs-tab-badge">0</span>
                     </button>
                 </div>
 
@@ -5493,7 +5470,7 @@
             }
             const analyticsBadge = document.getElementById('admin-analytics-tab-badge');
             if (analyticsBadge && !latestAdminAnalytics) {
-                analyticsBadge.textContent = isOwner ? 'Akun Utama' : 'Super Admin';
+                analyticsBadge.textContent = '0';
             }
 
             const tabLogs = document.getElementById('admin-tab-logs');
@@ -5502,7 +5479,7 @@
             }
             const logsBadge = document.getElementById('admin-logs-tab-badge');
             if (logsBadge && (!latestAdminSystemLogs || latestAdminSystemLogs.length === 0)) {
-                logsBadge.textContent = isOwner ? 'Akun Utama' : 'Super Admin';
+                logsBadge.textContent = '0';
             }
 
             fetchAdminQuestions();
@@ -5660,7 +5637,7 @@
 
             const total = latestAdminSystemLogs.length;
             const logBadge = document.getElementById('admin-logs-tab-badge');
-            if (logBadge) logBadge.textContent = `${total} Log`;
+            if (logBadge) logBadge.textContent = total;
 
             function getLogActionBadge(actionType) {
                 switch(actionType) {
@@ -5869,7 +5846,8 @@
                 latestAdminAnalytics = resData;
                 const badge = document.getElementById('admin-analytics-tab-badge');
                 if (badge && resData && resData.summary) {
-                    badge.textContent = `${Number(resData.summary.unique_visitors || 0).toLocaleString('id-ID')} Pengunjung`;
+                    const uv = Number(resData.summary.unique_visitors || 0);
+                    badge.textContent = uv > 999 ? (uv / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : uv;
                 }
                 if (currentAdminTab === 'analytics') {
                     renderAdminWebAnalyticsView();

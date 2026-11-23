@@ -2253,15 +2253,26 @@
            CRISP BUTTON BORDERS, ZERO MOBILE OVERFLOW & ADMIN CONSOLE REFINEMENT
            ========================================================================== */
 
-        /* Strict Anti-Overflow Guards */
+        /* Strict Anti-Overflow Guards (preserving desktop container max-widths!) */
         html, body {
             max-width: 100%;
             overflow-x: clip;
         }
 
-        .container,
-        .tw-feed-shell,
-        .tw-admin-container,
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            box-sizing: border-box;
+        }
+
+        .tw-feed-shell {
+            width: 100%;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+
         .tw-admin-scroll-body,
         .qa-card,
         .tw-post-card,
@@ -2350,9 +2361,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 0.4rem;
+            gap: 0.65rem;
             border-top: 1px solid #E2E8F0;
-            padding-top: 0.6rem;
+            padding-top: 0.65rem;
             margin-top: 0.15rem;
             width: 100%;
             max-width: 100%;
@@ -2362,7 +2373,7 @@
         .tw-post-actions-left {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
             min-width: 0;
             flex-wrap: nowrap;
         }
@@ -2374,7 +2385,7 @@
             color: #1E293B;
             border-radius: 10px;
             height: 36px;
-            padding: 0 0.72rem;
+            padding: 0 0.85rem;
             box-shadow: 0 1px 2px rgba(10, 14, 22, 0.04);
             flex-shrink: 0;
         }
@@ -2621,7 +2632,7 @@
             }
         }
 
-        @media (max-width: 540px) {
+        @media (max-width: 640px) {
             .container {
                 padding-left: 0.85rem;
                 padding-right: 0.85rem;
@@ -2629,22 +2640,30 @@
             .tw-act-label-hide-xs {
                 display: none !important;
             }
+            /* 4-Column Symmetrical Social Action Grid on Mobile (Like | Dislike | Comment | Share) */
             .tw-post-actions {
-                gap: 0.3rem;
-                padding-top: 0.55rem;
+                display: grid !important;
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                gap: 0.55rem !important;
+                padding-top: 0.65rem !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             .tw-post-actions-left {
-                gap: 0.3rem;
+                display: contents !important;
             }
             .tw-act-btn,
             .tw-act-btn.btn-vote {
-                height: 38px;
-                padding: 0 0.52rem;
-                font-size: 0.78rem;
-                gap: 0.3rem;
+                width: 100% !important;
+                min-width: 0 !important;
+                height: 42px !important;
+                padding: 0 0.25rem !important;
+                font-size: 0.8125rem !important;
+                gap: 0.3rem !important;
+                justify-content: center !important;
             }
             .tw-post-hashtag {
-                max-width: 130px;
+                max-width: 135px;
             }
             .tw-quick-reply-footer {
                 flex-wrap: wrap;

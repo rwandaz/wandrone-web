@@ -1384,176 +1384,6 @@
             color: var(--muted-dark);
         }
 
-        /* ==========================================================================
-           STAGESHOW & AERO DESIGN STANDARDS (AGENTS.md)
-           ========================================================================== */
-
-        /* Hero Stageshow Stage & Satellites */
-        .tw-hero-stage-col {
-            margin-top: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .tw-hero-stage {
-            position: relative;
-            width: 100%;
-            max-width: 490px;
-            margin: 0 auto;
-        }
-
-        .tw-hero-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 35px rgba(45, 212, 191, 0.22));
-            border-radius: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Stageshow Satellite Cards */
-        .tw-satellite {
-            position: absolute;
-            background: rgba(10, 14, 22, 0.88);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(232, 238, 244, 0.16);
-            border-radius: 10px;
-            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            z-index: 2;
-            pointer-events: none;
-            transition: transform 0.3s ease;
-        }
-
-        /* Top-Right Telemetry Satellite */
-        .tw-satellite-top {
-            top: -14px;
-            right: -12px;
-            padding: 0.65rem 0.85rem;
-            min-width: 185px;
-        }
-
-        .tw-satellite-header {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            margin-bottom: 0.4rem;
-            padding-bottom: 0.35rem;
-            border-bottom: 1px solid rgba(232, 238, 244, 0.1);
-        }
-
-        .tw-pulse-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--teal);
-            box-shadow: 0 0 8px var(--teal);
-            animation: tw-pulse 2s infinite ease-in-out;
-        }
-
-        @keyframes tw-pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-        }
-
-        .tw-satellite-title {
-            font-family: var(--display);
-            font-size: 0.6875rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            color: var(--ink-dark);
-            text-transform: uppercase;
-        }
-
-        .tw-satellite-grid {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.65rem;
-        }
-
-        .tw-sat-stat {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tw-sat-label {
-            font-family: var(--body);
-            font-size: 0.5625rem;
-            font-weight: 500;
-            color: var(--muted-dark);
-            letter-spacing: 0.04em;
-            line-height: 1.1;
-        }
-
-        .tw-sat-val {
-            font-family: var(--mono);
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: var(--teal);
-            line-height: 1.2;
-        }
-
-        .tw-sat-val small {
-            font-size: 0.625rem;
-            color: var(--muted-dark);
-            font-weight: 400;
-            margin-left: 1px;
-        }
-
-        /* Bottom-Left Mission Satellite */
-        .tw-satellite-bottom {
-            bottom: -12px;
-            left: -14px;
-            padding: 0.65rem 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-        }
-
-        .tw-satellite-icon-pill {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(45, 212, 191, 0.15);
-            border: 1px solid rgba(45, 212, 191, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--teal);
-            flex-shrink: 0;
-        }
-
-        .tw-satellite-headline {
-            font-family: var(--display);
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: var(--ink-dark);
-            line-height: 1.2;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .tw-time-pill {
-            font-family: var(--mono);
-            font-size: 0.625rem;
-            color: var(--teal);
-            background: rgba(45, 212, 191, 0.12);
-            padding: 0.1rem 0.35rem;
-            border-radius: 4px;
-        }
-
-        .tw-satellite-subtext {
-            font-size: 0.6875rem;
-            color: var(--muted-dark);
-            line-height: 1.25;
-            margin-top: 0.1rem;
-        }
-
         /* Hero Sublinks (Restraint CTA Pattern) */
         .tw-hero-sublinks {
             margin-top: 1.15rem;
@@ -1580,95 +1410,6 @@
         .tw-hero-link-sep {
             color: rgba(232, 238, 244, 0.3);
             font-size: 0.75rem;
-        }
-
-        /* Device Compatibility Cards (Anti-Flat Standard) */
-        .tw-compat-card {
-            background: #FFFFFF;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 1rem 0.5rem 0.85rem;
-            text-align: center;
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .tw-compat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--teal);
-            box-shadow: 0 8px 20px -4px rgba(15, 118, 110, 0.12);
-        }
-
-        .tw-compat-img-wrap {
-            height: 75px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .tw-compat-img-wrap img {
-            max-height: 100%;
-            max-width: 100%;
-            object-fit: contain;
-            transition: transform 0.25s ease;
-        }
-
-        .tw-compat-card:hover .tw-compat-img-wrap img {
-            transform: scale(1.05);
-        }
-
-        .tw-compat-name {
-            font-family: var(--display);
-            font-weight: 600;
-            font-size: 0.9375rem;
-            color: var(--ink);
-            line-height: 1.2;
-        }
-
-        .tw-compat-spec {
-            font-family: var(--mono);
-            font-size: 0.6875rem;
-            color: var(--teal-deep);
-            background: rgba(45, 212, 191, 0.1);
-            border-radius: 4px;
-            padding: 0.15rem 0.4rem;
-            margin-top: 0.35rem;
-            display: inline-block;
-            line-height: 1.3;
-        }
-
-        @media (max-width: 991px) {
-            .tw-satellite-top {
-                right: 0;
-                top: -10px;
-            }
-            .tw-satellite-bottom {
-                left: 0;
-                bottom: -10px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .tw-hero-stage {
-                max-width: 360px;
-            }
-            .tw-satellite {
-                position: relative !important;
-                top: auto !important;
-                right: auto !important;
-                bottom: auto !important;
-                left: auto !important;
-                margin-top: 0.75rem;
-                width: 100%;
-                max-width: 340px;
-            }
-            .tw-hero-stage-col {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -1742,7 +1483,7 @@
 
     <main id="wrap">
 
-        <!-- HERO SECTION: Authentic Stageshow Product Shot with Satellites -->
+        <!-- HERO SECTION: Authentic twstreamer Dark Band -->
         <section class="tw-band tw-hero" id="hero">
             <div class="container">
                 <div class="row align-items-center">
@@ -1766,46 +1507,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 tw-hero-stage-col">
-                        <div class="tw-hero-stage">
-                            <!-- Satellite 1: Top-Right Live RTK Telemetry -->
-                            <div class="tw-satellite tw-satellite-top">
-                                <div class="tw-satellite-header">
-                                    <span class="tw-pulse-dot"></span>
-                                    <span class="tw-satellite-title">RTK FIXED • OTONOM</span>
-                                </div>
-                                <div class="tw-satellite-grid">
-                                    <div class="tw-sat-stat">
-                                        <span class="tw-sat-label">ALT (AGL)</span>
-                                        <span class="tw-sat-val">120<small>m</small></span>
-                                    </div>
-                                    <div class="tw-sat-stat">
-                                        <span class="tw-sat-label">GSD</span>
-                                        <span class="tw-sat-val">2.1<small>cm</small></span>
-                                    </div>
-                                    <div class="tw-sat-stat">
-                                        <span class="tw-sat-label">SAT</span>
-                                        <span class="tw-sat-val">28<small>gps</small></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hero Main Object: Controller Screen -->
-                            <img src="images/rc2_twmapper.png" alt="RC 2 dengan Layar Aplikasi TW Mapper" width="1000" height="1000" class="tw-hero-img" loading="eager"/>
-
-                            <!-- Satellite 2: Bottom-Left Mission Injection Status -->
-                            <div class="tw-satellite tw-satellite-bottom">
-                                <div class="tw-satellite-icon-pill">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="tw-satellite-headline">Flash Inject Sukses <span class="tw-time-pill">&lt;0.4s</span></div>
-                                    <div class="tw-satellite-subtext">142 Waypoint terkirim tanpa dummy file</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-lg-6" style="margin-top: 2rem; display: flex; align-items: center; justify-content: center;">
+                        <img src="images/rc2_twmapper.png" alt="RC 2 dengan Layar Aplikasi TW Mapper" width="1000" height="1000" style="width: 100%; max-width: 480px; height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 30px rgba(45, 212, 191, 0.2)); border-radius: 6px;" loading="eager"/>
                     </div>
                 </div>
             </div>
@@ -1960,39 +1663,39 @@
                         <h3 class="tw-h2" style="font-size: 1.25rem; margin-bottom: 0.85rem;">Remote Controller yang Didukung</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.875rem; margin-bottom: 2.25rem;">
                             <!-- RC 2 -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/rc2.png" alt="RC 2" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/rc2.png" alt="RC 2" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">RC 2</div>
-                                <span class="tw-compat-spec">5.5" FHD</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">RC 2</div>
+                                <div style="font-size: 0.75rem; color: var(--slate);">Layar 5.5" FHD</div>
                             </div>
 
                             <!-- RC Pro -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/rcpro.png" alt="RC Pro" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/rcpro.png" alt="RC Pro" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">RC Pro</div>
-                                <span class="tw-compat-spec">1000 nits</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">RC Pro</div>
+                                <div style="font-size: 0.75rem; color: var(--slate);">Layar 1000 nits</div>
                             </div>
 
                             <!-- RC Pro 2 -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/rcpro2.png" alt="RC Pro 2" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/rcpro2.png" alt="RC Pro 2" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">RC Pro 2</div>
-                                <span class="tw-compat-spec">Next-Gen</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">RC Pro 2</div>
+                                <div style="font-size: 0.75rem; color: var(--slate);">Generasi Baru</div>
                             </div>
 
                             <!-- HP / Tablet RC-N -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/rcn.png" alt="HP / Tablet Android Seri RC-N" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/rcn.png" alt="HP / Tablet Android Seri RC-N" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">HP / Tablet</div>
-                                <span class="tw-compat-spec">RC-N1/N2/N3</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">HP / Tablet</div>
+                                <div style="font-size: 0.75rem; color: var(--slate);">Seri RC-N1 / N2 / N3</div>
                             </div>
                         </div>
 
@@ -2000,57 +1703,51 @@
                         <h3 class="tw-h2" style="font-size: 1.25rem; margin-bottom: 0.85rem;">Model Drone yang Didukung</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.875rem;">
                             <!-- Mini 4 Pro -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/mini4pro.png" alt="Mini 4 Pro" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/mini4pro.png" alt="Mini 4 Pro" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">Mini 4 Pro</div>
-                                <span class="tw-compat-spec">Sub-249g</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Mini 4 Pro</div>
                             </div>
 
                             <!-- Mini 5 Pro -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/mini5pro.png" alt="Mini 5 Pro" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/mini5pro.png" alt="Mini 5 Pro" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">Mini 5 Pro</div>
-                                <span class="tw-compat-spec">Next-Gen</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Mini 5 Pro</div>
                             </div>
 
                             <!-- Air 3 -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/air3.png" alt="Air 3" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/air3.png" alt="Air 3" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">Air 3</div>
-                                <span class="tw-compat-spec">Dual Cam</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Air 3</div>
                             </div>
 
                             <!-- Air 3S -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/air3s.png" alt="Air 3S" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/air3s.png" alt="Air 3S" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">Air 3S</div>
-                                <span class="tw-compat-spec">1-inch Cam</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Air 3S</div>
                             </div>
 
                             <!-- Mavic 3 Series -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/mavic3pro.png" alt="Mavic 3 Series" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/mavic3pro.png" alt="Mavic 3 Series" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">Mavic 3 Series</div>
-                                <span class="tw-compat-spec">Pro/Classic</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Mavic 3 Series</div>
                             </div>
 
                             <!-- Mavic 4 Pro -->
-                            <div class="tw-compat-card">
-                                <div class="tw-compat-img-wrap">
-                                    <img src="images/mavic4pro.png" alt="Mavic 4 Pro" loading="lazy"/>
+                            <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 0.5rem; text-align: center;">
+                                <div style="height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <img src="images/mavic4pro.png" alt="Mavic 4 Pro" style="max-height: 100%; max-width: 100%; object-fit: contain;"/>
                                 </div>
-                                <div class="tw-compat-name">Mavic 4 Pro</div>
-                                <span class="tw-compat-spec">Flagship</span>
+                                <div style="font-family: var(--display); font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Mavic 4 Pro</div>
                             </div>
                         </div>
                     </div>

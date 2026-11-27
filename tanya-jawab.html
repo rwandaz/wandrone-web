@@ -3690,7 +3690,7 @@
                             <span id="pilot-nav-avatar-slot" style="display: inline-flex; align-items: center;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             </span>
-                            <span id="pilot-nav-text">Akun Pilot</span>
+                            <span id="pilot-nav-text">Akun WanDrone</span>
                         </button>
                     </span>
                     <button class="tw-hamburger" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav()">
@@ -3713,7 +3713,7 @@
                     <li><a href="lisensi.html" class="tw-mobile-nav-link">Pilihan Lisensi</a></li>
                     <li><a href="#forum-komunitas" onclick="toggleMobileNav(false)" class="tw-mobile-nav-link">Forum Tanya Jawab</a></li>
                     <li id="admin-mobile-item" style="display: none;"><a href="javascript:void(0)" onclick="toggleMobileNav(false); openAdminPanel();" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 700; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Dashboard Admin</a></li>
-                    <li id="pilot-mobile-item"><a href="javascript:void(0)" onclick="toggleMobileNav(false); handleMobilePilotClick();" class="tw-mobile-nav-link" id="pilot-mobile-link" style="color: var(--teal-deep); font-weight: 600;">Akun Pilot (Login / Profil)</a></li>
+                    <li id="pilot-mobile-item"><a href="javascript:void(0)" onclick="toggleMobileNav(false); handleMobilePilotClick();" class="tw-mobile-nav-link" id="pilot-mobile-link" style="color: var(--teal-deep); font-weight: 600;">Akun WanDrone (Masuk / Profil)</a></li>
                     <li><a href="javascript:void(0)" onclick="toggleMobileNav(false); openQuestionModal();" class="tw-mobile-nav-link" style="color: var(--teal-deep); font-weight: 700;">+ Buat Pertanyaan Baru</a></li>
                 </ul>
             </div>
@@ -3932,9 +3932,9 @@
                 </div>
             </div>
             <div class="tw-admin-nav-actions">
-                <button type="button" id="admin-to-pilot-btn" onclick="closeAdminModal(); openUserDashboardModal();" class="tw-btn-2" style="height: 34px; padding: 0 0.75rem; font-size: 0.8rem; border-radius: 999px; display: none; align-items: center; gap: 0.35rem;" title="Buka Dashboard Profil Pilot">
+                <button type="button" id="admin-to-pilot-btn" onclick="closeAdminModal(); openUserDashboardModal();" class="tw-btn-2" style="height: 34px; padding: 0 0.75rem; font-size: 0.8rem; border-radius: 999px; display: none; align-items: center; gap: 0.35rem;" title="Buka Dashboard Akun WanDrone">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span class="tw-hide-mob">Profil Pilot</span>
+                    <span class="tw-hide-mob">Akun WanDrone</span>
                 </button>
                 <button type="button" id="admin-refresh-btn" onclick="refreshCurrentAdminTab()" class="tw-btn-2" style="height: 34px; padding: 0 0.75rem; font-size: 0.8rem; border-radius: 999px; display: none; align-items: center; gap: 0.35rem;" title="Muat ulang data tab aktif">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
@@ -4012,8 +4012,8 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </div>
                     <div>
-                        <h3 class="tw-modal-title" id="auth-modal-title">Akun Pilot Komunitas</h3>
-                        <p style="font-size: 0.8125rem; color: var(--slate); margin: 0;">Berbagi solusi teknis, kumpulkan poin, dan raih bintang reputasi.</p>
+                        <h3 class="tw-modal-title" id="auth-modal-title">Akun WanDrone</h3>
+                        <p style="font-size: 0.8125rem; color: var(--slate); margin: 0;">Satu akun untuk Forum Komunitas dan Konsol WanDrone Lisensi.</p>
                     </div>
                 </div>
                 <button class="tw-modal-close" onclick="closeUserAuthModal()">
@@ -4027,7 +4027,7 @@
                     Masuk Akun
                 </button>
                 <button type="button" id="tab-btn-register" onclick="switchAuthTab('register')" style="flex: 1; padding: 0.65rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.9375rem; color: var(--slate); border-bottom: 2px solid transparent; cursor: pointer;">
-                    Daftar Pilot Baru
+                    Daftar Baru
                 </button>
             </div>
 
@@ -4043,10 +4043,10 @@
                 </div>
                 <div id="login-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
                 <button type="submit" id="btn-login-submit" class="tw-btn" style="padding: 0.65rem; justify-content: center; font-size: 0.9375rem; margin-top: 0.5rem;">
-                    <span>Masuk ke Akun Pilot &rarr;</span>
+                    <span>Masuk Akun WanDrone &rarr;</span>
                 </button>
                 <div style="text-align: center; font-size: 0.8125rem; color: var(--slate); margin-top: 0.5rem;">
-                    Belum punya akun? <a href="javascript:void(0)" onclick="switchAuthTab('register')" style="color: var(--teal-deep); font-weight: 600; text-decoration: underline;">Daftar di sini</a> (Bonus 5 poin saat bergabung!)
+                    Belum punya akun? <a href="javascript:void(0)" onclick="switchAuthTab('register')" style="color: var(--teal-deep); font-weight: 600; text-decoration: underline;">Daftar di sini</a> (Bonus 5 poin &amp; akses Konsol Lisensi!)
                 </div>
             </form>
 
@@ -4067,7 +4067,7 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="reg-fullname">Nama Lengkap / Panggilan <span style="color: var(--teal-deep);">*</span></label>
-                        <input type="text" id="reg-fullname" class="form-control" placeholder="Contoh: Hendra Pratama" required minlength="2"/>
+                        <input type="text" id="reg-fullname" class="form-control" placeholder="Contoh: Hendra Pratama" required minlength="2" autocomplete="name"/>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label" for="reg-contact">
@@ -4094,19 +4094,19 @@
                 <div id="register-alert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem;"></div>
 
                 <button type="submit" id="btn-register-submit" class="tw-btn" style="padding: 0.65rem; justify-content: center; font-size: 0.9375rem; margin-top: 0.5rem;">
-                    <span>Daftar Akun Pilot &rarr;</span>
+                    <span>Daftar Akun WanDrone &rarr;</span>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- FULLSCREEN DASHBOARD AKUN PILOT -->
+    <!-- FULLSCREEN DASHBOARD AKUN WANDRONE -->
     <div id="user-dashboard-modal" class="tw-admin-fullscreen-modal">
         <!-- Top Navigation -->
         <header class="tw-admin-nav">
             <div class="tw-admin-nav-brand">
                 <img src="images/twmapper-logo.png" alt="TW Mapper" width="28" height="28" style="border-radius: 7px;"/>
-                <span style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink);">Dashboard Pilot</span>
+                <span style="font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink);">Akun WanDrone</span>
                 <span class="tw-chip-solid" style="background: var(--ink); color: var(--teal); font-weight: 700; font-size: 0.72rem; border-radius: 999px;">Profil Saya</span>
             </div>
             <div class="tw-admin-nav-actions">
@@ -5139,7 +5139,7 @@
                     alertBox.style.background = '#EFF6FF';
                     alertBox.style.border = '1px solid #BFDBFE';
                     alertBox.style.color = '#1E40AF';
-                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Akun Pilot Diperlukan</div><div>Untuk mengajukan pertanyaan ke forum teknis WanDrone, silakan masuk ke akun pilot Anda atau daftar baru (Dapatkan bonus poin & bintang reputasi).</div>';
+                    alertBox.innerHTML = '<div style="font-weight: 700; margin-bottom: 0.25rem;">Akun WanDrone Diperlukan</div><div>Untuk mengajukan pertanyaan ke forum teknis WanDrone, silakan masuk dengan Akun WanDrone Anda atau daftar baru (Bonus 5 poin &amp; akses Konsol Lisensi).</div>';
                 }
                 return;
             }
@@ -7803,11 +7803,11 @@
                 }
                 if (navBtn) {
                     navBtn.setAttribute('onclick', 'openUserDashboardModal()');
-                    navBtn.title = 'Buka Dashboard Profil Pilot';
+                    navBtn.title = 'Buka Dashboard Akun WanDrone';
                 }
                 if (mobLink) {
                     const roleTag = isOwnerUser ? ' [Akun Utama]' : (isSuperUser ? ' [Super Admin]' : (user.role === 'admin' ? ' [Admin]' : ''));
-                    mobLink.innerHTML = `Profil Pilot${roleTag}: ${escapeHtml(user.full_name || user.username)} (${user.total_points || 0} Poin)`;
+                    mobLink.innerHTML = `Akun WanDrone${roleTag}: ${escapeHtml(user.full_name || user.username)} (${user.total_points || 0} Poin)`;
                     mobLink.setAttribute('onclick', 'toggleMobileNav(false); openUserDashboardModal();');
                 }
 
@@ -7866,13 +7866,13 @@
                 if (navAvatarSlot) {
                     navAvatarSlot.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
                 }
-                if (navText) navText.textContent = 'Akun Pilot';
+                if (navText) navText.textContent = 'Akun WanDrone';
                 if (navBtn) {
                     navBtn.setAttribute('onclick', "openUserAuthModal('login')");
-                    navBtn.title = 'Masuk atau Daftar Akun Pilot';
+                    navBtn.title = 'Masuk atau Daftar Akun WanDrone';
                 }
                 if (mobLink) {
-                    mobLink.textContent = 'Akun Pilot (Login / Daftar)';
+                    mobLink.textContent = 'Akun WanDrone (Masuk / Daftar)';
                     mobLink.setAttribute('onclick', "toggleMobileNav(false); openUserAuthModal('login');");
                 }
                 if (bannerAvatarSlot) {
@@ -7882,11 +7882,11 @@
                     composerAvatarSlot.innerHTML = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
                 }
                 if (bannerTitle) bannerTitle.textContent = 'Komunitas Pilot';
-                if (bannerDesc) bannerDesc.textContent = 'Masuk untuk ikut berdiskusi, mengumpulkan poin reputasi, dan memberi tanda membantu.';
+                if (bannerDesc) bannerDesc.textContent = 'Masuk dengan Akun WanDrone untuk berdiskusi, mengumpulkan poin reputasi, dan akses Konsol Lisensi.';
                 if (bannerAction) {
                     bannerAction.innerHTML = `
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 36px; padding: 0 1rem; font-size: 0.8125rem; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
-                            <span>Masuk / Daftar Akun Pilot</span>
+                            <span>Masuk / Daftar Akun WanDrone</span>
                         </button>
                     `;
                 }
@@ -8109,7 +8109,7 @@
                             Hanya pengguna pilot terdaftar atau admin yang dapat memberi tanggapan atau memberi tanda membantu.
                         </div>
                         <button type="button" onclick="openUserAuthModal('login')" class="tw-btn" style="height: 32px; padding: 0 0.9rem; font-size: 0.8125rem; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
-                            Masuk Akun Pilot
+                            Masuk Akun WanDrone
                         </button>
                     </div>
                 `;
@@ -8195,8 +8195,8 @@
                     alertBox.style.border = '1px solid #BFDBFE';
                     alertBox.style.color = '#1E40AF';
                     alertBox.innerHTML = isAdmin
-                        ? '<div style="font-weight: 700; margin-bottom: 0.25rem;">Masuk Akun Pilot Diperlukan</div><div>Silakan masuk menggunakan akun pilot Anda untuk mengirim tanggapan di kolom komentar.</div>'
-                        : '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna pilot terdaftar atau admin yang dapat memberikan tanggapan. Silakan masuk terlebih dahulu.</div>';
+                        ? '<div style="font-weight: 700; margin-bottom: 0.25rem;">Masuk Akun WanDrone Diperlukan</div><div>Silakan masuk menggunakan Akun WanDrone Anda untuk mengirim tanggapan di kolom komentar.</div>'
+                        : '<div style="font-weight: 700; margin-bottom: 0.25rem;">Login Diperlukan</div><div>Hanya pengguna terdaftar atau admin yang dapat memberikan tanggapan. Silakan masuk terlebih dahulu.</div>';
                 }
                 return;
             }
@@ -8348,7 +8348,7 @@
                         alertBox.style.color = '#991B1B';
                         alertBox.textContent = (error && error.message) || 'Username atau kata sandi tidak cocok.';
                     }
-                    if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Masuk Akun WanDrone \u2192'; }
                     return;
                 }
 
@@ -8375,7 +8375,7 @@
                 const wasPendingAdmin = window.pendingAdminRedirect;
                 window.pendingAdminRedirect = false;
 
-                if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
+                if (btn) { btn.disabled = false; btn.textContent = 'Masuk Akun WanDrone \u2192'; }
                 updatePilotUserUI();
                 closeUserAuthModal();
                 renderCommunityQuestions();
@@ -8394,7 +8394,7 @@
                     alertBox.style.color = '#991B1B';
                     alertBox.textContent = err.message || 'Terjadi gangguan jaringan.';
                 }
-                if (btn) { btn.disabled = false; btn.textContent = 'Masuk ke Akun Pilot \u2192'; }
+                if (btn) { btn.disabled = false; btn.textContent = 'Masuk Akun WanDrone \u2192'; }
             }
         }
 
@@ -8436,7 +8436,7 @@
                         alertBox.style.color = '#991B1B';
                         alertBox.textContent = (error && error.message) || 'Pendaftaran gagal.';
                     }
-                    if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
+                    if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun WanDrone \u2192'; }
                     return;
                 }
 
@@ -8463,7 +8463,7 @@
                 const wasPendingAdmin = window.pendingAdminRedirect;
                 window.pendingAdminRedirect = false;
 
-                if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
+                if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun WanDrone \u2192'; }
                 updatePilotUserUI();
                 closeUserAuthModal();
                 renderCommunityQuestions();
@@ -8482,7 +8482,7 @@
                     alertBox.style.color = '#991B1B';
                     alertBox.textContent = err.message || 'Terjadi kesalahan sistem.';
                 }
-                if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun Pilot \u2192'; }
+                if (btn) { btn.disabled = false; btn.textContent = 'Daftar Akun WanDrone \u2192'; }
             }
         }
 
@@ -9706,7 +9706,7 @@
                 <input type="hidden" id="promote-target-user-id" value=""/>
 
                 <div style="background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem;">
-                    <div style="font-size: 0.75rem; color: var(--slate); margin-bottom: 0.2rem;">Akun Pilot:</div>
+                    <div style="font-size: 0.75rem; color: var(--slate); margin-bottom: 0.2rem;">Akun WanDrone:</div>
                     <div style="font-weight: 700; color: var(--ink); font-size: 0.95rem;" id="promote-pilot-name">-</div>
                     <div style="font-size: 0.75rem; color: var(--slate); margin-top: 0.15rem;" id="promote-pilot-username">-</div>
                 </div>

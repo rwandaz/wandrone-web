@@ -9,6 +9,13 @@
     <meta http-equiv="Expires" content="0"/>
     <script>
         (function () {
+            try {
+                var _rawPilot = localStorage.getItem('wan_pilot_user_session');
+                var _parsedPilot = _rawPilot ? JSON.parse(_rawPilot) : null;
+                if (_parsedPilot && _parsedPilot.username) {
+                    document.documentElement.classList.add('wan-hero-logged-in');
+                }
+            } catch (_) {}
             if (window.location.protocol === 'file:') return;
             try {
                 var cur = new URL(window.location.href);
@@ -1766,6 +1773,9 @@
             color: #FFFFFF;
         }
 
+        html.wan-hero-logged-in #hero-cta-forum {
+            display: none !important;
+        }
         .tw-hero-session-bar {
             display: none;
             margin-top: 0.9rem;
@@ -1913,6 +1923,41 @@
             border: 1px solid #FECACA;
             color: #991B1B;
         }
+        .tw-dlg-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            margin-bottom: 0.95rem;
+        }
+        .tw-dlg-tab {
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--slate);
+            font-family: var(--display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.45rem 0.65rem;
+            min-height: 36px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .tw-dlg-tab.is-active {
+            background: #FFFFFF;
+            color: var(--teal-deep);
+            border-color: #CBD5E1;
+            box-shadow: 0 1px 3px rgba(10, 14, 22, 0.08);
+        }
+        .tw-dlg-hint {
+            font-size: 0.74rem;
+            color: var(--slate);
+            margin-top: 0.25rem;
+            line-height: 1.4;
+        }
         .tw-dlg-choices {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
@@ -1998,7 +2043,7 @@
 
                         <div class="tw-btns" style="margin-top: 1.5rem;">
                             <a href="#trial-hub" class="tw-btn tw-btn-lg">Coba Gratis Sekarang</a>
-                            <a href="tanya-jawab.html" class="tw-btn-2 tw-btn-lg">Forum Tanya Jawab</a>
+                            <a href="tanya-jawab.html" id="hero-cta-forum" class="tw-btn-2 tw-btn-lg">Forum Tanya Jawab</a>
                         </div>
 
                         <div class="tw-hero-sublinks">
@@ -2012,7 +2057,7 @@
 
                         <div id="hero-session-bar" class="tw-hero-session-bar" aria-live="polite">
                             <div class="tw-hero-session-head">
-                                <span id="hero-session-greeting">Masuk sebagai Pilot</span>
+                                <span id="hero-session-greeting">Masuk Akun WanDrone</span>
                                 <button type="button" onclick="handleHeroLogout()" style="background:none; border:none; color:#FCA5A5; font-size:0.78rem; font-weight:600; cursor:pointer; padding:0.15rem 0.25rem;">Keluar</button>
                             </div>
                             <div class="tw-hero-session-actions">
@@ -2858,34 +2903,62 @@
             }
         }
     </script>
-    <!-- MODAL LOGIN PROFIL & PILIHAN TUJUAN -->
+    <!-- MODAL AKUN WANDRONE & PILIHAN TUJUAN -->
     <dialog id="hero-auth-dialog" closedby="any" aria-labelledby="hero-auth-title">
         <div class="tw-dlg-head">
-            <h1 id="hero-auth-title">Masuk Profil</h1>
+            <h1 id="hero-auth-title">Akun WanDrone</h1>
             <button type="button" class="tw-dlg-close" aria-label="Tutup" onclick="document.getElementById('hero-auth-dialog').close()">&times;</button>
         </div>
         <div class="tw-dlg-body">
-            <!-- Form Login -->
+            <!-- Form Masuk / Daftar -->
             <div id="hero-auth-form-pane">
-                <p style="font-size:0.85rem; color:var(--slate); margin-bottom:1rem;">Masuk dengan Akun Pilot Anda untuk mengakses Konsol Lisensi dan Forum Tanya Jawab.</p>
+                <p style="font-size:0.84rem; color:var(--slate); margin-bottom:0.85rem;">1 akun untuk Konsol WanDrone Lisensi dan Forum Tanya Jawab.</p>
+
+                <div class="tw-dlg-tabs" role="tablist" aria-label="Mode Akun WanDrone">
+                    <button type="button" id="hero-tab-login" class="tw-dlg-tab is-active" role="tab" aria-selected="true" onclick="switchHeroAuthMode('login')">Masuk</button>
+                    <button type="button" id="hero-tab-register" class="tw-dlg-tab" role="tab" aria-selected="false" onclick="switchHeroAuthMode('register')">Daftar Baru</button>
+                </div>
+
+                <div id="hero-login-alert" class="tw-dlg-alert" role="status" aria-live="polite"></div>
+
                 <form id="hero-login-form" onsubmit="handleHeroLogin(event)">
                     <div class="tw-dlg-field">
                         <label class="tw-dlg-label" for="hero-login-username">Username</label>
-                        <input type="text" id="hero-login-username" name="username" class="tw-dlg-input" placeholder="Username akun profil" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" autofocus required/>
+                        <input type="text" id="hero-login-username" name="username" class="tw-dlg-input" placeholder="Username Akun WanDrone" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" autofocus required/>
                     </div>
                     <div class="tw-dlg-field">
                         <label class="tw-dlg-label" for="hero-login-password">Kata Sandi</label>
                         <div class="tw-dlg-pw-wrap">
                             <input type="password" id="hero-login-password" name="password" class="tw-dlg-input" placeholder="Kata sandi" autocomplete="current-password" enterkeyhint="done" required style="padding-right:4.6rem;"/>
-                            <button type="button" id="hero-pw-toggle" class="tw-dlg-pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleHeroPassword()">Lihat</button>
+                            <button type="button" id="hero-pw-toggle" class="tw-dlg-pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleHeroPassword('hero-login-password', this)">Lihat</button>
                         </div>
                     </div>
-                    <div id="hero-login-alert" class="tw-dlg-alert" role="status" aria-live="polite"></div>
                     <button type="submit" id="hero-login-submit" class="tw-btn" style="width:100%; min-height:44px; justify-content:center;">Masuk &rarr;</button>
                 </form>
-                <div style="margin-top:0.95rem; text-align:center; font-size:0.82rem; color:var(--slate);">
-                    Belum punya akun? <a href="tanya-jawab.html" style="color:var(--teal-deep); font-weight:700; text-decoration:underline;">Daftar di Forum &rarr;</a>
-                </div>
+
+                <form id="hero-register-form" onsubmit="handleHeroRegister(event)" style="display:none;">
+                    <div class="tw-dlg-field">
+                        <label class="tw-dlg-label" for="hero-reg-fullname">Nama Lengkap</label>
+                        <input type="text" id="hero-reg-fullname" name="name" class="tw-dlg-input" placeholder="Contoh: Hendra Pratama" autocomplete="name" enterkeyhint="next" minlength="2" required/>
+                    </div>
+                    <div class="tw-dlg-field">
+                        <label class="tw-dlg-label" for="hero-reg-contact">WhatsApp atau Email</label>
+                        <input type="text" id="hero-reg-contact" name="contact" class="tw-dlg-input" placeholder="0812xxxxxxx atau email@domain.com" enterkeyhint="next" minlength="5" required/>
+                        <div class="tw-dlg-hint">Privat untuk verifikasi lisensi &amp; notifikasi akun.</div>
+                    </div>
+                    <div class="tw-dlg-field">
+                        <label class="tw-dlg-label" for="hero-reg-username">Username</label>
+                        <input type="text" id="hero-reg-username" name="username" class="tw-dlg-input" placeholder="Minimal 3 karakter, tanpa spasi" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" minlength="3" required/>
+                    </div>
+                    <div class="tw-dlg-field">
+                        <label class="tw-dlg-label" for="hero-reg-password">Kata Sandi</label>
+                        <div class="tw-dlg-pw-wrap">
+                            <input type="password" id="hero-reg-password" name="password" class="tw-dlg-input" placeholder="Minimal 6 karakter" autocomplete="new-password" enterkeyhint="done" minlength="6" required style="padding-right:4.6rem;"/>
+                            <button type="button" id="hero-reg-pw-toggle" class="tw-dlg-pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleHeroPassword('hero-reg-password', this)">Lihat</button>
+                        </div>
+                    </div>
+                    <button type="submit" id="hero-reg-submit" class="tw-btn" style="width:100%; min-height:44px; justify-content:center;">Daftar Akun WanDrone &rarr;</button>
+                </form>
             </div>
 
             <!-- Pilihan Tujuan Setelah Login -->
@@ -2897,7 +2970,7 @@
                     <a href="tanya-jawab.html" class="tw-btn-2" style="width:100%; justify-content:center; min-height:44px;">Forum Tanya Jawab &rarr;</a>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; padding-top:0.65rem; border-top:1px solid #E2E8F0;">
-                    <button type="button" onclick="handleHeroLogout()" style="background:none; border:none; color:#991B1B; font-size:0.82rem; font-weight:600; cursor:pointer; padding:0.35rem 0;">Keluar dari Profil</button>
+                    <button type="button" onclick="handleHeroLogout()" style="background:none; border:none; color:#991B1B; font-size:0.82rem; font-weight:600; cursor:pointer; padding:0.35rem 0;">Keluar dari Akun</button>
                     <button type="button" class="tw-btn-2" style="min-height:36px; padding:0.35rem 0.85rem; font-size:0.8rem;" onclick="document.getElementById('hero-auth-dialog').close()">Tutup</button>
                 </div>
             </div>
@@ -2954,19 +3027,67 @@
             el.style.display = msg ? 'block' : 'none';
         }
 
-        function toggleHeroPassword() {
-            const input = document.getElementById('hero-login-password');
-            const btn = document.getElementById('hero-pw-toggle');
-            if (!input || !btn) return;
+        function toggleHeroPassword(inputId, btn) {
+            const input = document.getElementById(inputId || 'hero-login-password');
+            const targetBtn = btn || document.getElementById('hero-pw-toggle');
+            if (!input || !targetBtn) return;
             const show = input.type === 'password';
             input.type = show ? 'text' : 'password';
-            btn.textContent = show ? 'Tutup' : 'Lihat';
-            btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+            targetBtn.textContent = show ? 'Tutup' : 'Lihat';
+            targetBtn.setAttribute('aria-pressed', show ? 'true' : 'false');
+        }
+
+        function getHeroSupabaseClient() {
+            if (!heroSupabaseClient && window.supabase && HERO_SUPA_URL) {
+                heroSupabaseClient = window.supabase.createClient(HERO_SUPA_URL, HERO_SUPA_KEY);
+            }
+            return heroSupabaseClient;
+        }
+
+        function persistHeroSession(userData, password) {
+            userData.password_plain = password;
+            try {
+                localStorage.setItem(HERO_PILOT_KEY, JSON.stringify(userData));
+            } catch (_) {}
+
+            if (isHeroAdminUser(userData)) {
+                const isMain = String(userData.username || '').toLowerCase() === 'rwandaz' || String(userData.role || '').toLowerCase() === 'superadmin';
+                sessionStorage.setItem('wandrone_admin_user', userData.username);
+                sessionStorage.setItem('wandrone_admin_pass', password);
+                sessionStorage.setItem('wandrone_admin_role', isMain ? 'superadmin' : 'admin');
+            } else {
+                sessionStorage.removeItem('wandrone_admin_user');
+                sessionStorage.removeItem('wandrone_admin_pass');
+                sessionStorage.removeItem('wandrone_admin_role');
+            }
+        }
+
+        function switchHeroAuthMode(mode) {
+            const isReg = mode === 'register';
+            const loginTab = document.getElementById('hero-tab-login');
+            const regTab = document.getElementById('hero-tab-register');
+            const loginForm = document.getElementById('hero-login-form');
+            const regForm = document.getElementById('hero-register-form');
+            if (loginTab) {
+                loginTab.classList.toggle('is-active', !isReg);
+                loginTab.setAttribute('aria-selected', isReg ? 'false' : 'true');
+            }
+            if (regTab) {
+                regTab.classList.toggle('is-active', isReg);
+                regTab.setAttribute('aria-selected', isReg ? 'true' : 'false');
+            }
+            if (loginForm) loginForm.style.display = isReg ? 'none' : 'block';
+            if (regForm) regForm.style.display = isReg ? 'block' : 'none';
+            showHeroLoginAlert('');
+            const focusEl = document.getElementById(isReg ? 'hero-reg-fullname' : 'hero-login-username');
+            if (focusEl) focusEl.focus();
         }
 
         function syncHeroAuthUI() {
             const user = getHeroPilotSession();
+            const isLoggedIn = !!(user && user.username);
             const btn = document.getElementById('hero-login-btn');
+            const heroForumBtn = document.getElementById('hero-cta-forum');
             const bar = document.getElementById('hero-session-bar');
             const greeting = document.getElementById('hero-session-greeting');
             const formPane = document.getElementById('hero-auth-form-pane');
@@ -2974,7 +3095,10 @@
             const titleEl = document.getElementById('hero-auth-title');
             const userBadge = document.getElementById('hero-choice-user-badge');
 
-            if (user && user.username) {
+            document.documentElement.classList.toggle('wan-hero-logged-in', isLoggedIn);
+            if (heroForumBtn) heroForumBtn.hidden = isLoggedIn;
+
+            if (isLoggedIn) {
                 const roleLabel = isHeroAdminUser(user) ? 'Admin' : 'Pengguna';
                 const displayName = user.full_name || user.username;
                 if (btn) btn.textContent = 'Akun: ' + displayName;
@@ -2984,19 +3108,22 @@
                 if (choicesPane) choicesPane.style.display = 'block';
                 if (titleEl) titleEl.textContent = 'Pilih Tujuan';
                 if (userBadge) {
-                    userBadge.textContent = 'Masuk sebagai ' + displayName + ' (@' + user.username + ') • ' + roleLabel;
+                    userBadge.textContent = 'Akun WanDrone: ' + displayName + ' (@' + user.username + ') • ' + roleLabel;
                 }
             } else {
                 if (btn) btn.textContent = 'Login';
                 if (bar) bar.classList.remove('is-visible');
                 if (formPane) formPane.style.display = 'block';
                 if (choicesPane) choicesPane.style.display = 'none';
-                if (titleEl) titleEl.textContent = 'Masuk Profil';
+                if (titleEl) titleEl.textContent = 'Akun WanDrone';
             }
         }
 
-        function openHeroAuthDialog() {
+        function openHeroAuthDialog(mode) {
             syncHeroAuthUI();
+            if (!getHeroPilotSession()) {
+                switchHeroAuthMode(mode === 'register' ? 'register' : 'login');
+            }
             showHeroLoginAlert('');
             const dlg = document.getElementById('hero-auth-dialog');
             if (dlg && !dlg.open) dlg.showModal();
@@ -3014,10 +3141,8 @@
                 showHeroLoginAlert('Masukkan username dan kata sandi.');
                 return;
             }
-            if (!heroSupabaseClient && window.supabase) {
-                heroSupabaseClient = window.supabase.createClient(HERO_SUPA_URL, HERO_SUPA_KEY);
-            }
-            if (!heroSupabaseClient) {
+            const client = getHeroSupabaseClient();
+            if (!client) {
                 showHeroLoginAlert('Koneksi autentikasi belum siap. Coba lagi sebentar.');
                 return;
             }
@@ -3029,7 +3154,7 @@
             }
 
             try {
-                const { data, error } = await heroSupabaseClient.rpc('user_login', {
+                const { data, error } = await client.rpc('user_login', {
                     p_username: username,
                     p_password: password
                 });
@@ -3039,22 +3164,7 @@
                     return;
                 }
 
-                data.password_plain = password;
-                try {
-                    localStorage.setItem(HERO_PILOT_KEY, JSON.stringify(data));
-                } catch (_) {}
-
-                if (isHeroAdminUser(data)) {
-                    const isMain = String(data.username || '').toLowerCase() === 'rwandaz' || String(data.role || '').toLowerCase() === 'superadmin';
-                    sessionStorage.setItem('wandrone_admin_user', data.username);
-                    sessionStorage.setItem('wandrone_admin_pass', password);
-                    sessionStorage.setItem('wandrone_admin_role', isMain ? 'superadmin' : 'admin');
-                } else {
-                    sessionStorage.removeItem('wandrone_admin_user');
-                    sessionStorage.removeItem('wandrone_admin_pass');
-                    sessionStorage.removeItem('wandrone_admin_role');
-                }
-
+                persistHeroSession(data, password);
                 if (pInput) pInput.value = '';
                 syncHeroAuthUI();
             } catch (err) {
@@ -3067,21 +3177,77 @@
             }
         }
 
+        async function handleHeroRegister(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('hero-reg-fullname');
+            const contactInput = document.getElementById('hero-reg-contact');
+            const uInput = document.getElementById('hero-reg-username');
+            const pInput = document.getElementById('hero-reg-password');
+            const submitBtn = document.getElementById('hero-reg-submit');
+
+            const fullName = (nameInput ? nameInput.value : '').trim();
+            const contact = (contactInput ? contactInput.value : '').trim();
+            const username = (uInput ? uInput.value : '').trim();
+            const password = pInput ? pInput.value : '';
+
+            if (fullName.length < 2 || contact.length < 5 || username.length < 3 || password.length < 6) {
+                showHeroLoginAlert('Lengkapi nama (min. 2), kontak (min. 5), username (min. 3), dan sandi (min. 6 karakter).');
+                return;
+            }
+            const client = getHeroSupabaseClient();
+            if (!client) {
+                showHeroLoginAlert('Koneksi pendaftaran belum siap. Coba lagi sebentar.');
+                return;
+            }
+
+            showHeroLoginAlert('');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mendaftarkan...';
+            }
+
+            try {
+                const { data, error } = await client.rpc('user_register', {
+                    p_username: username,
+                    p_password: password,
+                    p_name: fullName,
+                    p_contact: contact,
+                    p_remotes: [],
+                    p_drones: []
+                });
+                if (error || !data) {
+                    showHeroLoginAlert((error && error.message) || 'Pendaftaran Akun WanDrone gagal.');
+                    if (uInput) uInput.focus();
+                    return;
+                }
+
+                persistHeroSession(data, password);
+                if (pInput) pInput.value = '';
+                syncHeroAuthUI();
+            } catch (err) {
+                showHeroLoginAlert((err && err.message) || 'Gagal menghubungi server.');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Daftar Akun WanDrone &rarr;';
+                }
+            }
+        }
+
         function handleHeroLogout() {
             try { localStorage.removeItem(HERO_PILOT_KEY); } catch (_) {}
             sessionStorage.removeItem('wandrone_admin_user');
             sessionStorage.removeItem('wandrone_admin_pass');
             sessionStorage.removeItem('wandrone_admin_role');
             syncHeroAuthUI();
-            const uInput = document.getElementById('hero-login-username');
-            if (uInput) uInput.focus();
+            switchHeroAuthMode('login');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            const uInput = document.getElementById('hero-login-username');
-            const pInput = document.getElementById('hero-login-password');
-            if (uInput) uInput.addEventListener('input', function () { showHeroLoginAlert(''); });
-            if (pInput) pInput.addEventListener('input', function () { showHeroLoginAlert(''); });
+            ['hero-login-username', 'hero-login-password', 'hero-reg-fullname', 'hero-reg-contact', 'hero-reg-username', 'hero-reg-password'].forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', function () { showHeroLoginAlert(''); });
+            });
             syncHeroAuthUI();
         });
     </script>

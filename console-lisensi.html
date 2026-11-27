@@ -534,7 +534,47 @@
         .tw-auth-sub {
             font-size: 0.85rem;
             color: var(--slate);
-            margin-bottom: 1.15rem;
+            margin-bottom: 0.95rem;
+            line-height: 1.45;
+        }
+
+        .tw-auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .tw-auth-tab {
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--slate);
+            font-family: var(--display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.45rem 0.65rem;
+            min-height: 36px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+
+        .tw-auth-tab.is-active {
+            background: var(--white);
+            color: var(--teal-deep);
+            border-color: #CBD5E1;
+            box-shadow: 0 1px 3px rgba(10, 14, 22, 0.08);
+        }
+
+        .form-hint {
+            font-size: 0.74rem;
+            color: var(--slate);
+            margin-top: 0.25rem;
+            line-height: 1.4;
         }
 
         .form-group {
@@ -1190,10 +1230,10 @@
                 <div>
                     <div style="display:flex; gap:0.45rem; flex-wrap:wrap; align-items:center;">
                         <span class="tw-chip-solid" id="hero-kicker">Portal Lisensi</span>
-                        <span class="tw-chip" id="hero-role-chip">Wajib Login Profil</span>
+                        <span class="tw-chip" id="hero-role-chip">Masuk Akun WanDrone</span>
                     </div>
                     <h1 id="hero-title">Portal &amp; Console Lisensi</h1>
-                    <p class="tw-hero-sub" id="hero-subtitle">Masuk dengan akun profil Anda untuk cek status lisensi atau kelola perangkat.</p>
+                    <p class="tw-hero-sub" id="hero-subtitle">Masuk atau daftar Akun WanDrone untuk cek status lisensi dan kelola perangkat.</p>
                 </div>
                 <div class="tw-hero-actions is-hidden" id="hero-admin-actions">
                     <button type="button" class="tw-btn tw-pill" onclick="openSubscriptionDialog()">+ Buat Lisensi</button>
@@ -1207,34 +1247,69 @@
     <main class="tw-main">
         <div class="container">
 
-            <!-- VIEW 1: LOGIN PROFIL -->
+            <!-- VIEW 1: AKUN WANDRONE (MASUK / DAFTAR) -->
             <div id="auth-view" class="tw-auth-wrap">
-                <form id="auth-form" class="tw-auth-card" onsubmit="handleAuthSubmit(event)">
-                    <h2>Masuk Profil</h2>
-                    <p class="tw-auth-sub">Gunakan Akun Pilot Anda. Menu admin hanya terbuka untuk administrator.</p>
+                <div id="auth-card" class="tw-auth-card">
+                    <h2 id="auth-card-title">Akun WanDrone</h2>
+                    <p class="tw-auth-sub">1 akun untuk Konsol WanDrone Lisensi dan Forum Komunitas. Menu admin hanya terbuka untuk administrator.</p>
 
-                    <div class="form-group">
-                        <label class="form-label" for="auth-username">Username</label>
-                        <input type="text" id="auth-username" name="username" class="form-control" placeholder="Username akun profil" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="auth-password">Kata Sandi</label>
-                        <div class="input-wrap">
-                            <input type="password" id="auth-password" name="password" class="form-control" placeholder="Kata sandi" autocomplete="current-password" enterkeyhint="done" required style="padding-right:4.6rem;"/>
-                            <button type="button" id="toggle-password" class="pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleAuthPassword()">Lihat</button>
-                        </div>
+                    <div class="tw-auth-tabs" role="tablist" aria-label="Mode Akun WanDrone">
+                        <button type="button" id="auth-tab-login" class="tw-auth-tab is-active" role="tab" aria-selected="true" onclick="switchAuthMode('login')">Masuk</button>
+                        <button type="button" id="auth-tab-register" class="tw-auth-tab" role="tab" aria-selected="false" onclick="switchAuthMode('register')">Daftar Baru</button>
                     </div>
 
                     <div id="auth-alert" class="tw-alert" role="status" aria-live="polite"></div>
 
-                    <button type="submit" id="auth-submit" class="tw-btn" style="width:100%; min-height:44px; font-size:0.9375rem;">Masuk &rarr;</button>
+                    <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="auth-username">Username</label>
+                            <input type="text" id="auth-username" name="username" class="form-control" placeholder="Username Akun WanDrone" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="auth-password">Kata Sandi</label>
+                            <div class="input-wrap">
+                                <input type="password" id="auth-password" name="password" class="form-control" placeholder="Kata sandi" autocomplete="current-password" enterkeyhint="done" required style="padding-right:4.6rem;"/>
+                                <button type="button" id="toggle-password" class="pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleAuthPassword('auth-password', this)">Lihat</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="auth-submit" class="tw-btn" style="width:100%; min-height:44px; font-size:0.9375rem;">Masuk &rarr;</button>
+                    </form>
+
+                    <form id="auth-register-form" onsubmit="handleRegisterSubmit(event)" style="display:none;">
+                        <div class="form-group">
+                            <label class="form-label" for="reg-fullname">Nama Lengkap</label>
+                            <input type="text" id="reg-fullname" name="name" class="form-control" placeholder="Contoh: Hendra Pratama" autocomplete="name" enterkeyhint="next" minlength="2" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-contact">WhatsApp atau Email</label>
+                            <input type="text" id="reg-contact" name="contact" class="form-control" placeholder="0812xxxxxxx atau email@domain.com" enterkeyhint="next" minlength="5" required/>
+                            <div class="form-hint">Privat untuk verifikasi lisensi &amp; notifikasi akun.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-username">Username</label>
+                            <input type="text" id="reg-username" name="username" class="form-control" placeholder="Minimal 3 karakter, tanpa spasi" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" minlength="3" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-password">Kata Sandi</label>
+                            <div class="input-wrap">
+                                <input type="password" id="reg-password" name="password" class="form-control" placeholder="Minimal 6 karakter" autocomplete="new-password" enterkeyhint="done" minlength="6" required style="padding-right:4.6rem;"/>
+                                <button type="button" id="toggle-reg-password" class="pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleAuthPassword('reg-password', this)">Lihat</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="reg-submit" class="tw-btn" style="width:100%; min-height:44px; font-size:0.9375rem;">Daftar Akun WanDrone &rarr;</button>
+                    </form>
 
                     <div class="tw-auth-foot">
-                        <div>Belum punya akun? <a href="tanya-jawab.html" style="color:var(--teal-deep); font-weight:700; text-decoration:underline;">Daftar di Forum &rarr;</a></div>
+                        <div style="color:var(--slate);">Sudah daftar di Forum Tanya Jawab? Gunakan akun yang sama.</div>
                         <div><a href="lisensi.html" style="color:var(--slate); text-decoration:none;">&larr; Kembali ke Halaman Lisensi</a></div>
                     </div>
-                </form>
+                </div>
             </div>
 
             <!-- VIEW 2: PORTAL TERVERIFIKASI -->
@@ -1427,7 +1502,7 @@
         }
 
         // ====================================================================
-        // STATE & AUTENTIKASI PROFIL (Wajib Login Akun Pilot / Admin)
+        // STATE & AUTENTIKASI AKUN WANDRONE (Admin / Pengguna)
         // ====================================================================
         const PILOT_STORAGE_KEY = 'wan_pilot_user_session';
         const supabaseClient = (window.supabase && WanLicenseEngine && WanLicenseEngine.SUPABASE_URL)
@@ -1489,14 +1564,14 @@
             el.style.display = 'block';
         }
 
-        function toggleAuthPassword() {
-            const input = document.getElementById('auth-password');
-            const btn = document.getElementById('toggle-password');
-            if (!input || !btn) return;
+        function toggleAuthPassword(inputId, btn) {
+            const input = document.getElementById(inputId || 'auth-password');
+            const targetBtn = btn || document.getElementById('toggle-password');
+            if (!input || !targetBtn) return;
             const show = input.type === 'password';
             input.type = show ? 'text' : 'password';
-            btn.textContent = show ? 'Tutup' : 'Lihat';
-            btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+            targetBtn.textContent = show ? 'Tutup' : 'Lihat';
+            targetBtn.setAttribute('aria-pressed', show ? 'true' : 'false');
         }
 
         function syncSessionStorageFromProfile(userData, passwordPlain) {
@@ -1513,6 +1588,15 @@
             }
         }
 
+        function persistProfileSession(userData, password) {
+            userData.password_plain = password;
+            try {
+                localStorage.setItem(PILOT_STORAGE_KEY, JSON.stringify(userData));
+            } catch (_) {}
+            syncSessionStorageFromProfile(userData, password);
+            return userData;
+        }
+
         async function verifyPilotProfileCredentials(username, password) {
             if (!supabaseClient) {
                 throw new Error('Koneksi autentikasi belum siap. Muat ulang halaman.');
@@ -1524,12 +1608,25 @@
             if (error || !data) {
                 throw new Error((error && error.message) || 'Username atau kata sandi salah.');
             }
-            data.password_plain = password;
-            try {
-                localStorage.setItem(PILOT_STORAGE_KEY, JSON.stringify(data));
-            } catch (_) {}
-            syncSessionStorageFromProfile(data, password);
-            return data;
+            return persistProfileSession(data, password);
+        }
+
+        async function registerWanDroneAccount(payload) {
+            if (!supabaseClient) {
+                throw new Error('Koneksi pendaftaran belum siap. Muat ulang halaman.');
+            }
+            const { data, error } = await supabaseClient.rpc('user_register', {
+                p_username: String(payload.username || '').trim(),
+                p_password: String(payload.password || ''),
+                p_name: String(payload.fullName || '').trim(),
+                p_contact: String(payload.contact || '').trim(),
+                p_remotes: [],
+                p_drones: []
+            });
+            if (error || !data) {
+                throw new Error((error && error.message) || 'Pendaftaran Akun WanDrone gagal.');
+            }
+            return persistProfileSession(data, payload.password);
         }
 
         async function syncAdminDatabaseFromSupabase() {
@@ -1599,6 +1696,25 @@
             enterConsole((isAdm && !wantCustomer) ? 'admin-customers' : 'portal-overview');
         }
 
+        function switchAuthMode(mode) {
+            const isReg = mode === 'register';
+            const loginTab = document.getElementById('auth-tab-login');
+            const regTab = document.getElementById('auth-tab-register');
+            const loginForm = document.getElementById('auth-form');
+            const regForm = document.getElementById('auth-register-form');
+            if (loginTab) {
+                loginTab.classList.toggle('is-active', !isReg);
+                loginTab.setAttribute('aria-selected', isReg ? 'false' : 'true');
+            }
+            if (regTab) {
+                regTab.classList.toggle('is-active', isReg);
+                regTab.setAttribute('aria-selected', isReg ? 'true' : 'false');
+            }
+            if (loginForm) loginForm.style.display = isReg ? 'none' : 'block';
+            if (regForm) regForm.style.display = isReg ? 'block' : 'none';
+            showAuthAlert('');
+        }
+
         async function handleAuthSubmit(e) {
             e.preventDefault();
             const uInput = document.getElementById('auth-username');
@@ -1625,12 +1741,57 @@
                 await enterAuthenticatedProfile(userData, password);
                 showToast('Berhasil masuk sebagai ' + (userData.full_name || userData.username));
             } catch (err) {
-                showAuthAlert(err.message || 'Gagal masuk ke profil.');
+                showAuthAlert(err.message || 'Gagal masuk ke Akun WanDrone.');
                 if (pInput) pInput.focus();
             } finally {
                 if (btn) {
                     btn.disabled = false;
                     btn.innerHTML = 'Masuk &rarr;';
+                }
+            }
+        }
+
+        async function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('reg-fullname');
+            const contactInput = document.getElementById('reg-contact');
+            const uInput = document.getElementById('reg-username');
+            const pInput = document.getElementById('reg-password');
+            const btn = document.getElementById('reg-submit');
+
+            const fullName = (nameInput ? nameInput.value : '').trim();
+            const contact = (contactInput ? contactInput.value : '').trim();
+            const username = (uInput ? uInput.value : '').trim();
+            const password = pInput ? pInput.value : '';
+
+            if (fullName.length < 2 || contact.length < 5 || username.length < 3 || password.length < 6) {
+                showAuthAlert('Lengkapi nama (min. 2), kontak (min. 5), username (min. 3), dan sandi (min. 6 karakter).');
+                return;
+            }
+
+            showAuthAlert('');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'Mendaftarkan...';
+            }
+
+            try {
+                const userData = await registerWanDroneAccount({
+                    fullName: fullName,
+                    contact: contact,
+                    username: username,
+                    password: password
+                });
+                if (pInput) pInput.value = '';
+                await enterAuthenticatedProfile(userData, password);
+                showToast('Akun WanDrone dibuat. Selamat datang, ' + (userData.full_name || userData.username));
+            } catch (err) {
+                showAuthAlert(err.message || 'Gagal mendaftar Akun WanDrone.');
+                if (uInput) uInput.focus();
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Daftar Akun WanDrone &rarr;';
                 }
             }
         }
@@ -1653,9 +1814,12 @@
                 checkedLicenseData: null
             };
             const pInput = document.getElementById('auth-password');
+            const rpInput = document.getElementById('reg-password');
             if (pInput) pInput.value = '';
+            if (rpInput) rpInput.value = '';
+            switchAuthMode('login');
             switchToLoginScreen();
-            showAuthAlert('Anda telah keluar dari profil.', true);
+            showAuthAlert('Anda telah keluar dari Akun WanDrone.', true);
         }
 
         function updateHeaderForAuth(isAuth) {
@@ -1677,9 +1841,9 @@
                 if (mobOut) mobOut.classList.add('is-hidden');
                 if (heroAdminActions) heroAdminActions.classList.add('is-hidden');
                 if (heroKicker) heroKicker.textContent = 'Portal Lisensi';
-                if (heroRole) heroRole.textContent = 'Wajib Login Profil';
+                if (heroRole) heroRole.textContent = 'Masuk Akun WanDrone';
                 if (heroTitle) heroTitle.textContent = 'Portal & Console Lisensi';
-                if (heroSub) heroSub.textContent = 'Masuk dengan akun profil Anda untuk cek status lisensi atau kelola perangkat.';
+                if (heroSub) heroSub.textContent = 'Masuk atau daftar Akun WanDrone untuk cek status lisensi dan kelola perangkat.';
                 return;
             }
 
@@ -2684,10 +2848,10 @@
         }
 
         (async function bootConsoleAuth() {
-            const uField = document.getElementById('auth-username');
-            const pField = document.getElementById('auth-password');
-            if (uField) uField.addEventListener('input', function () { showAuthAlert(''); });
-            if (pField) pField.addEventListener('input', function () { showAuthAlert(''); });
+            ['auth-username', 'auth-password', 'reg-fullname', 'reg-contact', 'reg-username', 'reg-password'].forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', function () { showAuthAlert(''); });
+            });
 
             try {
                 const raw = localStorage.getItem(PILOT_STORAGE_KEY);

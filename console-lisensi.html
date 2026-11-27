@@ -1437,8 +1437,8 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="sub-tier">Kelas Paket</label>
-                        <select id="sub-tier" class="form-select" onchange="onSubTierOrPlanChange()">
-                            <option value="trial">Trial (7 Hari • Semua Fitur)</option>
+                        <select id="sub-tier" class="form-select" onchange="onSubTierChange()">
+                            <option value="trial">Trial (Semua Fitur)</option>
                             <option value="hobby">Hobby (Fitur Dasar)</option>
                             <option value="pro" selected>Pro (Fitur Lengkap)</option>
                             <option value="enterprise">Enterprise (VIP Owner)</option>
@@ -1450,12 +1450,21 @@
                             <option value="trial">Trial — 7 Hari</option>
                             <option value="monthly">Bulanan — 30 Hari</option>
                             <option value="yearly" selected>Tahunan — 365 Hari</option>
+                            <option value="custom">Custom (Atur Hari / Tanggal)</option>
                             <option value="lifetime">Selamanya (Permanen)</option>
                         </select>
                     </div>
                     <div class="form-group" id="sub-terms-wrap">
                         <label class="form-label" for="sub-terms">Jumlah Periode</label>
-                        <input type="number" id="sub-terms" class="form-control" min="1" max="36" value="1" onchange="onSubTierOrPlanChange()"/>
+                        <input type="number" id="sub-terms" class="form-control" min="1" max="36" value="1" oninput="onSubTierOrPlanChange()" onchange="onSubTierOrPlanChange()"/>
+                    </div>
+                    <div class="form-group" id="sub-custom-days-wrap" style="display:none;">
+                        <label class="form-label" for="sub-custom-days">Durasi (Hari)</label>
+                        <input type="number" id="sub-custom-days" class="form-control" min="1" max="36500" value="30" oninput="onSubCustomInput('days')" onchange="onSubCustomInput('days')"/>
+                    </div>
+                    <div class="form-group" id="sub-custom-date-wrap" style="display:none;">
+                        <label class="form-label" for="sub-custom-date">Berlaku Hingga Tanggal</label>
+                        <input type="date" id="sub-custom-date" class="form-control" oninput="onSubCustomInput('date')" onchange="onSubCustomInput('date')"/>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="sub-device-limit">Batas Perangkat</label>
@@ -2240,7 +2249,7 @@
                 ? 'Permanen'
                 : (l.expires_at
                     ? (l.is_expired ? 'Habis' : 'Sisa ' + l.remaining_days + ' hari')
-                    : 'Trial 7 Hari');
+                    : ((l.duration_days || 7) + ' Hari'));
 
             const devChips = devs.length === 0
                 ? '<span style="font-size:0.76rem; color:var(--muted);">Belum ada perangkat terikat.</span>'
@@ -2641,7 +2650,7 @@
                         '<div class="tw-card-head"><h3>Ringkasan Lisensi</h3></div>' +
                         '<div class="tw-detail-row"><span>Pemilik</span><strong>' + esc(lic.customer_name) + '</strong></div>' +
                         '<div class="tw-detail-row"><span>Kunci Lisensi</span><strong>' + esc(lic.license_key) + '</strong></div>' +
-                        '<div class="tw-detail-row"><span>Berlaku Hingga</span><strong>' + (lic.duration_plan === 'lifetime' ? 'Permanen' : (lic.expires_at ? new Date(lic.expires_at).toLocaleDateString('id-ID') : '7 Hari')) + '</strong></div>' +
+                        '<div class="tw-detail-row"><span>Berlaku Hingga</span><strong>' + (lic.duration_plan === 'lifetime' ? 'Permanen' : (lic.expires_at ? new Date(lic.expires_at).toLocaleDateString('id-ID') : ((lic.duration_days || 7) + ' Hari'))) + '</strong></div>' +
                         '<div class="tw-detail-row"><span>Sisa Masa Aktif</span><strong>' + esc(sisaText) + '</strong></div>' +
                         '<div class="tw-progress"><div class="tw-progress-bar ' + (lic.is_locked ? 'is-expired' : '') + '" style="width:' + pct + '%;"></div></div>' +
                     '</div>' +
@@ -2679,27 +2688,114 @@
             }).join('');
         }
 
-        function onSubTierOrPlanChange() {
+        function formatIsoDateLocal(ms) {
+            const d = new Date(ms);
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return y + '-' + m + '-' + day;
+        }
+
+        function onSubTierChange() {
             const tier = document.getElementById('sub-tier').value;
             const planSel = document.getElementById('sub-plan');
-            const termsWrap = document.getElementById('sub-terms-wrap');
             const devInput = document.getElementById('sub-device-limit');
+            if (tier === 'trial') {
+                if (planSel.value !== 'custom') planSel.value = 'trial';
+                if (!document.getElementById('sub-id').value) devInput.value = 1;
+            } else if (planSel.value === 'trial') {
+                planSel.value = 'yearly';
+            }
+            onSubTierOrPlanChange();
+        }
+
+        function onSubCustomInput(source) {
+            const daysEl = document.getElementById('sub-custom-days');
+            const dateEl = document.getElementById('sub-custom-date');
+            if (!daysEl || !dateEl) return;
+
+            if (source === 'days') {
+                const days = Math.max(1, Math.min(36500, Number(daysEl.value) || 1));
+                dateEl.value = formatIsoDateLocal(Date.now() + days * 86400000);
+            } else if (source === 'date' && dateEl.value) {
+                const parts = dateEl.value.split('-').map(Number);
+                if (parts.length === 3) {
+                    const targetEnd = new Date(parts[0], parts[1] - 1, parts[2], 23, 59, 59, 999).getTime();
+                    const diffDays = Math.max(1, Math.ceil((targetEnd - Date.now()) / 86400000));
+                    daysEl.value = diffDays;
+                }
+            }
+            onSubTierOrPlanChange();
+        }
+
+        function computeDurationFromForm() {
+            const plan = document.getElementById('sub-plan').value;
+            const terms = Math.max(1, Number(document.getElementById('sub-terms').value) || 1);
+            let durationDays = null;
+            let expiresAt = null;
+
+            if (plan === 'trial') {
+                durationDays = 7;
+                expiresAt = new Date(Date.now() + 7 * 86400000).toISOString();
+            } else if (plan === 'monthly') {
+                durationDays = 30 * terms;
+                expiresAt = new Date(Date.now() + durationDays * 86400000).toISOString();
+            } else if (plan === 'yearly') {
+                durationDays = 365 * terms;
+                expiresAt = new Date(Date.now() + durationDays * 86400000).toISOString();
+            } else if (plan === 'custom') {
+                const daysVal = Math.max(1, Math.min(36500, Number(document.getElementById('sub-custom-days').value) || 30));
+                const dateVal = (document.getElementById('sub-custom-date').value || '').trim();
+                if (dateVal) {
+                    const parts = dateVal.split('-').map(Number);
+                    if (parts.length === 3) {
+                        const targetEnd = new Date(parts[0], parts[1] - 1, parts[2], 23, 59, 59, 999);
+                        if (!isNaN(targetEnd.getTime())) {
+                            expiresAt = targetEnd.toISOString();
+                            durationDays = Math.max(1, Math.ceil((targetEnd.getTime() - Date.now()) / 86400000));
+                        }
+                    }
+                }
+                if (!expiresAt) {
+                    durationDays = daysVal;
+                    expiresAt = new Date(Date.now() + durationDays * 86400000).toISOString();
+                }
+            }
+            return { plan: plan, durationDays: durationDays, expiresAt: expiresAt };
+        }
+
+        function onSubTierOrPlanChange() {
+            const tier = document.getElementById('sub-tier').value;
+            const plan = document.getElementById('sub-plan').value;
+            const termsWrap = document.getElementById('sub-terms-wrap');
+            const customDaysWrap = document.getElementById('sub-custom-days-wrap');
+            const customDateWrap = document.getElementById('sub-custom-date-wrap');
             const ruleBox = document.getElementById('sub-tier-rule-box');
 
+            const isPeriodic = plan === 'monthly' || plan === 'yearly';
+            const isCustom = plan === 'custom';
+            if (termsWrap) termsWrap.style.display = isPeriodic ? 'block' : 'none';
+            if (customDaysWrap) customDaysWrap.style.display = isCustom ? 'block' : 'none';
+            if (customDateWrap) customDateWrap.style.display = isCustom ? 'block' : 'none';
+
+            if (isCustom && !document.getElementById('sub-custom-date').value) {
+                const d = Math.max(1, Number(document.getElementById('sub-custom-days').value) || 30);
+                document.getElementById('sub-custom-date').value = formatIsoDateLocal(Date.now() + d * 86400000);
+            }
+
+            const calc = computeDurationFromForm();
+            const durInfo = plan === 'lifetime'
+                ? 'Berlaku permanen (selamanya).'
+                : ('Aktif ' + calc.durationDays + ' hari (hingga ' + new Date(calc.expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + ').');
+
             if (tier === 'trial') {
-                planSel.value = 'trial';
-                termsWrap.style.display = 'none';
-                if (!document.getElementById('sub-id').value) devInput.value = 1;
-                ruleBox.innerHTML = '<strong>Trial (7 Hari):</strong> Semua fitur terbuka 7 hari, lalu terkunci otomatis.';
+                ruleBox.innerHTML = '<strong>Trial:</strong> Semua fitur terbuka lalu terkunci otomatis saat habis. ' + durInfo;
             } else if (tier === 'hobby') {
-                termsWrap.style.display = planSel.value === 'lifetime' ? 'none' : 'block';
-                ruleBox.innerHTML = '<strong>Hobby:</strong> Fitur dasar terbuka.';
+                ruleBox.innerHTML = '<strong>Hobby:</strong> Fitur dasar terbuka. ' + durInfo;
             } else if (tier === 'pro') {
-                termsWrap.style.display = planSel.value === 'lifetime' ? 'none' : 'block';
-                ruleBox.innerHTML = '<strong>Pro:</strong> Seluruh fitur operasional terbuka untuk konsumen.';
+                ruleBox.innerHTML = '<strong>Pro:</strong> Seluruh fitur operasional terbuka untuk konsumen. ' + durInfo;
             } else if (tier === 'enterprise') {
-                termsWrap.style.display = planSel.value === 'lifetime' ? 'none' : 'block';
-                ruleBox.innerHTML = '<strong>Enterprise:</strong> Akses penuh khusus pilihan Owner.';
+                ruleBox.innerHTML = '<strong>Enterprise:</strong> Akses penuh khusus pilihan Owner. ' + durInfo;
             }
         }
 
@@ -2723,8 +2819,27 @@
                 document.getElementById('sub-customer-contact').value = lic.customer_contact || '';
                 document.getElementById('sub-product').value = lic.app_slug || 'wdtweak';
                 document.getElementById('sub-tier').value = lic.tier_slug || 'pro';
-                document.getElementById('sub-plan').value = lic.duration_plan || 'yearly';
-                document.getElementById('sub-terms').value = 1;
+
+                const remDays = lic.expires_at ? Math.max(1, Math.ceil((Date.parse(lic.expires_at) - Date.now()) / 86400000)) : (lic.duration_days || 30);
+                let planVal = lic.duration_plan || 'yearly';
+                if (!['trial', 'monthly', 'yearly', 'custom', 'lifetime'].includes(planVal)) {
+                    planVal = 'custom';
+                }
+                if (lic.tier_slug === 'trial' && (lic.duration_days && lic.duration_days !== 7)) {
+                    planVal = 'custom';
+                }
+                document.getElementById('sub-plan').value = planVal;
+                if (planVal === 'monthly') {
+                    document.getElementById('sub-terms').value = Math.max(1, Math.round((lic.duration_days || 30) / 30));
+                } else if (planVal === 'yearly') {
+                    document.getElementById('sub-terms').value = Math.max(1, Math.round((lic.duration_days || 365) / 365));
+                } else {
+                    document.getElementById('sub-terms').value = 1;
+                }
+                document.getElementById('sub-custom-days').value = remDays;
+                document.getElementById('sub-custom-date').value = lic.expires_at && !isNaN(Date.parse(lic.expires_at))
+                    ? formatIsoDateLocal(Date.parse(lic.expires_at))
+                    : formatIsoDateLocal(Date.now() + remDays * 86400000);
                 document.getElementById('sub-device-limit').value = lic.max_devices || 2;
                 document.getElementById('sub-init-device').value = '';
                 document.getElementById('sub-notes').value = lic.notes || '';
@@ -2737,6 +2852,8 @@
                 document.getElementById('sub-tier').value = 'pro';
                 document.getElementById('sub-plan').value = 'yearly';
                 document.getElementById('sub-terms').value = 1;
+                document.getElementById('sub-custom-days').value = 30;
+                document.getElementById('sub-custom-date').value = formatIsoDateLocal(Date.now() + 30 * 86400000);
                 document.getElementById('sub-device-limit').value = 2;
                 document.getElementById('sub-init-device').value = '';
                 document.getElementById('sub-notes').value = '';
@@ -2863,24 +2980,13 @@
             const contact = document.getElementById('sub-customer-contact').value.trim();
             const appSlug = document.getElementById('sub-product').value || 'wdtweak';
             const tier = document.getElementById('sub-tier').value;
-            const plan = tier === 'trial' ? 'trial' : document.getElementById('sub-plan').value;
-            const terms = Math.max(1, Number(document.getElementById('sub-terms').value) || 1);
+            const calcDur = computeDurationFromForm();
+            const plan = calcDur.plan;
+            const durationDays = calcDur.durationDays;
+            const expiresAt = calcDur.expiresAt;
             const deviceLimit = Math.max(1, Number(document.getElementById('sub-device-limit').value) || 1);
             const initDev = WanLicenseEngine.sanitizeDeviceId(document.getElementById('sub-init-device').value);
             const notes = document.getElementById('sub-notes').value.trim();
-
-            let durationDays = null;
-            let expiresAt = null;
-            if (plan === 'trial') {
-                durationDays = 7;
-                expiresAt = new Date(Date.now() + 7 * 86400000).toISOString();
-            } else if (plan === 'monthly') {
-                durationDays = 30 * terms;
-                expiresAt = new Date(Date.now() + durationDays * 86400000).toISOString();
-            } else if (plan === 'yearly') {
-                durationDays = 365 * terms;
-                expiresAt = new Date(Date.now() + durationDays * 86400000).toISOString();
-            }
 
             const features = tier === 'hobby'
                 ? ['waypoint_bridge']

@@ -1370,20 +1370,18 @@
 
             <!-- VIEW 2: PORTAL TERVERIFIKASI -->
             <div id="portal-view" class="is-hidden">
-                <!-- Navigasi Tab Efisien -->
+                <!-- Navigasi Tab Efisien (Struktur Sama untuk Pengguna & Admin) -->
                 <div class="tw-tabs-bar" id="portal-tabs-bar" role="tablist">
-                    <!-- Tab Admin (Ringkas: Pengguna & Lisensi + Kelas Paket) -->
+                    <button type="button" class="tw-tab-btn" data-section="licenses" onclick="switchSection('licenses')" role="tab">
+                        <span>Lisensi</span>
+                        <span class="tw-tab-badge" id="nav-count-licenses">0</span>
+                    </button>
                     <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-users" onclick="switchSection('admin-users')" role="tab">
                         <span>Pengguna</span>
                         <span class="tw-tab-badge" id="nav-count-users">0</span>
                     </button>
                     <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-catalog" onclick="switchSection('admin-catalog')" role="tab">
                         <span>Kelas Paket</span>
-                    </button>
-
-                    <!-- Tab Pengguna -->
-                    <button type="button" class="tw-tab-btn" data-section="portal-overview" onclick="switchSection('portal-overview')" role="tab">
-                        <span id="tab-label-overview">Cek &amp; Status</span>
                     </button>
                     <button type="button" class="tw-tab-btn" id="tab-portal-devices" data-section="portal-devices" onclick="switchSection('portal-devices')" role="tab">
                         <span>Perangkat Saya</span>
@@ -1637,7 +1635,10 @@
             }
         }
 
-        let currentSection = 'portal-overview';
+        let currentSection = 'licenses';
+        let selectedLicenseKeyOrId = '';
+        let filterLicensesVal = '';
+        let filterLicensesMode = 'all';
         let currentUser = {
             authenticated: false,
             id: null,
@@ -1648,7 +1649,7 @@
             isAdmin: false,
             password_plain: '',
             activeLicenseId: null,
-            checkedLicenseData: null
+            checkedLicenses: []
         };
 
         let state = WanLicenseEngine.loadLocalDb();
@@ -1892,10 +1893,56 @@
             });
         }
 
-        function saveLastCheckedLicenseForUser(username, query) {
+        function loadSavedLicenseKeysForUser(username) {
             const u = String(username || '').trim().toLowerCase();
-            if (!u || !query) return;
-            try { localStorage.setItem('wan_user_last_license_' + u, String(query).trim().toUpperCase()); } catch (_) {}
+            if (!u) return [];
+            const keys = [];
+            try {
+                const rawList = localStorage.getItem('wan_user_checked_keys_' + u);
+                if (rawList) {
+                    const arr = JSON.parse(rawList);
+                    if (Array.isArray(arr)) {
+                        arr.forEach(function (k) {
+                            const clean = String(k || '').trim().toUpperCase();
+                            if (clean && !keys.includes(clean)) keys.push(clean);
+                        });
+                    }
+                }
+                const legacyOne = localStorage.getItem('wan_user_last_license_' + u);
+                if (legacyOne) {
+                    const clean = String(legacyOne).trim().toUpperCase();
+                    if (clean && !keys.includes(clean)) keys.push(clean);
+                }
+            } catch (_) {}
+            return keys;
+        }
+
+        function saveCheckedLicenseKeyForUser(username, query) {
+            const u = String(username || '').trim().toLowerCase();
+            const q = String(query || '').trim().toUpperCase();
+            if (!u || !q) return;
+            try {
+                localStorage.setItem('wan_user_last_license_' + u, q);
+                const list = loadSavedLicenseKeysForUser(u).filter(function (k) { return k !== q; });
+                list.unshift(q);
+                localStorage.setItem('wan_user_checked_keys_' + u, JSON.stringify(list.slice(0, 20)));
+            } catch (_) {}
+        }
+
+        function upsertCheckedRemoteLicense(data) {
+            if (!data || !data.license_key) return null;
+            const remDays = data.expires_at ? Math.ceil((Date.parse(data.expires_at) - Date.now()) / 86400000) : null;
+            const obj = Object.assign({}, data, {
+                id: 'remote-' + data.license_key,
+                remaining_days: remDays
+            });
+            if (!Array.isArray(currentUser.checkedLicenses)) currentUser.checkedLicenses = [];
+            const idx = currentUser.checkedLicenses.findIndex(function (x) {
+                return String(x.license_key || '').toUpperCase() === String(obj.license_key || '').toUpperCase();
+            });
+            if (idx >= 0) currentUser.checkedLicenses[idx] = obj;
+            else currentUser.checkedLicenses.unshift(obj);
+            return obj;
         }
 
         async function enterAuthenticatedProfile(userData, passwordPlain) {
@@ -1916,41 +1963,32 @@
                 isAdmin: isAdm,
                 password_plain: passwordPlain,
                 activeLicenseId: null,
-                checkedLicenseData: null
+                checkedLicenses: []
             };
+            selectedLicenseKeyOrId = '';
             syncSessionStorageFromProfile(norm, passwordPlain);
 
             state = WanLicenseEngine.loadLocalDb();
             if (isAdm) {
                 await syncAdminDatabaseFromSupabase();
             } else {
-                const matched = findMatchingUserLicense(currentUser);
+                const matched = findMatchingUserLicense(currentUser, false);
                 currentUser.activeLicenseId = matched ? matched.id : null;
-                if (!matched) {
-                    try {
-                        const savedQuery = localStorage.getItem('wan_user_last_license_' + lowerU);
-                        const client = getSupabaseClient();
-                        if (savedQuery && client) {
-                            const { data, error } = await client.rpc('public_check_or_activate_license', {
-                                p_query: savedQuery,
-                                p_action: 'check'
-                            });
-                            if (!error && data && data.found) {
-                                const remDays = data.expires_at ? Math.ceil((Date.parse(data.expires_at) - Date.now()) / 86400000) : null;
-                                currentUser.checkedLicenseData = Object.assign({}, data, {
-                                    id: 'remote-' + data.license_key,
-                                    remaining_days: remDays
-                                });
-                                portalLastQuery = data.license_key;
-                            }
+                const client = getSupabaseClient();
+                const savedKeys = loadSavedLicenseKeysForUser(lowerU);
+                if (client && savedKeys.length) {
+                    const results = await Promise.allSettled(savedKeys.map(function (q) {
+                        return client.rpc('public_check_or_activate_license', { p_query: q, p_action: 'check' });
+                    }));
+                    results.forEach(function (res) {
+                        if (res.status === 'fulfilled' && !res.value.error && res.value.data && res.value.data.found) {
+                            upsertCheckedRemoteLicense(res.value.data);
                         }
-                    } catch (_) {}
+                    });
                 }
             }
 
-            const params = new URLSearchParams(window.location.search);
-            const wantCustomer = params.get('mode') === 'customer';
-            enterConsole((isAdm && !wantCustomer) ? 'admin-users' : 'portal-overview');
+            enterConsole('licenses');
         }
 
         function switchAuthMode(mode) {
@@ -2068,8 +2106,13 @@
                 isAdmin: false,
                 password_plain: '',
                 activeLicenseId: null,
-                checkedLicenseData: null
+                checkedLicenses: []
             };
+            selectedLicenseKeyOrId = '';
+            filterLicensesVal = '';
+            filterLicensesMode = 'all';
+            portalLastQuery = '';
+            portalCheckError = '';
             const pInput = document.getElementById('auth-password');
             const rpInput = document.getElementById('reg-password');
             if (pInput) pInput.value = '';
@@ -2122,10 +2165,10 @@
 
             if (heroKicker) heroKicker.textContent = currentUser.isAdmin ? 'Console Admin' : 'Portal Pengguna';
             if (heroRole) heroRole.textContent = roleTag;
-            if (heroTitle) heroTitle.textContent = currentUser.isAdmin ? 'Console WanDrone Lisensi' : 'Cek & Aktivasi Lisensi';
+            if (heroTitle) heroTitle.textContent = 'Lisensi WanDrone';
             if (heroSub) heroSub.textContent = currentUser.isAdmin
-                ? 'Kelola lisensi pelanggan, kuota perangkat, dan status aktif WanDrone Lisensi.'
-                : 'Periksa masa aktif, fitur terbuka, dan daftarkan perangkat Anda.';
+                ? 'Kelola seluruh lisensi pengguna, kuota perangkat, masa aktif, dan status WanDrone.'
+                : 'Daftar lisensi Anda, masa aktif, fitur terbuka, dan kelola perangkat terikat.';
             if (heroAdminActions) {
                 heroAdminActions.classList.toggle('is-hidden', !currentUser.isAdmin);
             }
@@ -2153,14 +2196,10 @@
             if (portalDevTab) {
                 portalDevTab.classList.toggle('is-hidden', currentUser.isAdmin);
             }
-            const overviewTabLbl = document.getElementById('tab-label-overview');
-            if (overviewTabLbl) {
-                overviewTabLbl.textContent = currentUser.isAdmin ? 'Mode Saya' : 'Cek & Status';
-            }
 
             populateProductSelect();
             updateTabCounts();
-            switchSection(initialSection || (currentUser.isAdmin ? 'admin-users' : 'portal-overview'));
+            switchSection(initialSection || 'licenses');
         }
 
         function getDevicesForLicense(licId) {
@@ -2176,14 +2215,22 @@
         }
 
         function updateTabCounts() {
+            const visibleLics = currentUser.authenticated
+                ? (currentUser.isAdmin ? getEvaluatedLicenses() : getCurrentUserLicenses())
+                : [];
+            const licBadge = document.getElementById('nav-count-licenses');
+            if (licBadge) licBadge.textContent = visibleLics.length;
+
             const combinedUsers = currentUser.isAdmin ? getCombinedAccountsList() : [];
             const usersBadge = document.getElementById('nav-count-users');
             if (usersBadge) usersBadge.textContent = combinedUsers.length;
 
-            const myLicId = currentUser.activeLicenseId;
-            let myDevs = myLicId ? getDevicesForLicense(myLicId).length : 0;
-            if (!myDevs && currentUser.checkedLicenseData && Array.isArray(currentUser.checkedLicenseData.devices)) {
-                myDevs = currentUser.checkedLicenseData.devices.length;
+            let myDevs = 0;
+            if (currentUser.authenticated && !currentUser.isAdmin) {
+                visibleLics.forEach(function (l) {
+                    const ds = Array.isArray(l.devices) ? l.devices : getDevicesForLicense(l.id);
+                    myDevs += ds.length;
+                });
             }
             const portalDevBadge = document.getElementById('nav-portal-device-count');
             if (portalDevBadge) portalDevBadge.textContent = myDevs;
@@ -2195,11 +2242,16 @@
                 return;
             }
             if (!currentUser.isAdmin && String(section || '').startsWith('admin-')) {
-                section = 'portal-overview';
+                section = 'licenses';
                 showToast('Menu admin hanya untuk akun Administrator.');
             }
-            if (section === 'admin-customers' || section === 'admin-devices' || section === 'admin-security') {
-                section = 'admin-users';
+            if (
+                section === 'portal-overview' ||
+                section === 'admin-customers' ||
+                section === 'admin-devices' ||
+                section === 'admin-security'
+            ) {
+                section = 'licenses';
             }
 
             currentSection = section;
@@ -2207,10 +2259,11 @@
                 btn.classList.toggle('is-active', btn.getAttribute('data-section') === section);
             });
 
-            if (section === 'admin-users') renderAdminUsers();
+            if (section === 'licenses') renderLicensesWorkspace();
+            else if (section === 'admin-users') renderAdminUsers();
             else if (section === 'admin-catalog') renderAdminCatalog();
-            else if (section === 'portal-overview') renderPortalOverview();
             else if (section === 'portal-devices') renderPortalDevices();
+            else renderLicensesWorkspace();
         }
 
         // ====================================================================
@@ -2485,21 +2538,55 @@
         }
 
         // ====================================================================
-        // PORTAL PENGGUNA: CEK STATUS & AKTIVASI MANDIRI
+        // TAB LISENSI TERPADU (PENGGUNA & ADMIN) + PERANGKAT SAYA
         // ====================================================================
         let portalLastQuery = '';
         let portalCheckError = '';
 
-        function getActiveCustomerLicense() {
+        function getLicenseDevicesList(lic) {
+            if (!lic) return [];
+            return Array.isArray(lic.devices) ? lic.devices : getDevicesForLicense(lic.id);
+        }
+
+        function getLicenseUiKey(lic) {
+            return String((lic && (lic.id || lic.license_key)) || '');
+        }
+
+        function getCurrentUserLicenses() {
+            if (!currentUser.authenticated) return [];
+            const savedKeys = loadSavedLicenseKeysForUser(currentUser.username);
+            const remoteList = Array.isArray(currentUser.checkedLicenses) ? currentUser.checkedLicenses : [];
             const evs = getEvaluatedLicenses();
-            if (currentUser.activeLicenseId) {
-                const found = evs.find(function (l) { return l.id === currentUser.activeLicenseId; });
-                if (found) return found;
+            const merged = [];
+            const seenKeys = new Set();
+
+            function pushUnique(lic) {
+                if (!lic) return;
+                const k = String(lic.license_key || lic.id || '').trim().toUpperCase();
+                if (!k || seenKeys.has(k)) return;
+                seenKeys.add(k);
+                merged.push(lic);
             }
-            if (currentUser.checkedLicenseData && currentUser.checkedLicenseData.license_key) {
-                return currentUser.checkedLicenseData;
-            }
-            return null;
+
+            remoteList.forEach(pushUnique);
+            findLicensesForUser(currentUser).forEach(pushUnique);
+            evs.forEach(function (l) {
+                const lKey = String(l.license_key || '').trim().toUpperCase();
+                const hasSavedDev = getDevicesForLicense(l.id).some(function (d) {
+                    return savedKeys.includes(String(d.device_id || '').trim().toUpperCase());
+                });
+                if (l.id === currentUser.activeLicenseId || (lKey && savedKeys.includes(lKey)) || hasSavedDev) {
+                    pushUnique(l);
+                }
+            });
+
+            return merged;
+        }
+
+        function toggleSelectedLicense(encodedKey) {
+            const target = decodeURIComponent(String(encodedKey || ''));
+            selectedLicenseKeyOrId = (selectedLicenseKeyOrId === target) ? '' : target;
+            renderLicensesListOnly();
         }
 
         async function handlePortalLicenseCheck(e) {
@@ -2527,15 +2614,13 @@
                         p_action: 'check'
                     });
                     if (!error && data && data.found) {
-                        const remDays = data.expires_at ? Math.ceil((Date.parse(data.expires_at) - Date.now()) / 86400000) : null;
-                        currentUser.activeLicenseId = null;
-                        currentUser.checkedLicenseData = Object.assign({}, data, {
-                            id: 'remote-' + data.license_key,
-                            remaining_days: remDays
-                        });
-                        saveLastCheckedLicenseForUser(currentUser.username, data.license_key || q);
+                        const added = upsertCheckedRemoteLicense(data);
+                        if (added) {
+                            selectedLicenseKeyOrId = getLicenseUiKey(added);
+                        }
+                        saveCheckedLicenseKeyForUser(currentUser.username, data.license_key || q);
                         updateTabCounts();
-                        renderPortalOverview();
+                        renderLicensesWorkspace();
                         return;
                     }
                 } catch (_) {}
@@ -2543,54 +2628,27 @@
 
             if (localMatch) {
                 currentUser.activeLicenseId = localMatch.id;
-                currentUser.checkedLicenseData = null;
-                saveLastCheckedLicenseForUser(currentUser.username, localMatch.license_key || q);
+                selectedLicenseKeyOrId = getLicenseUiKey(localMatch);
+                saveCheckedLicenseKeyForUser(currentUser.username, localMatch.license_key || q);
                 updateTabCounts();
-                renderPortalOverview();
+                renderLicensesWorkspace();
                 return;
             }
 
             portalCheckError = 'Kunci Lisensi atau Device ID tidak ditemukan. Periksa kembali penulisan atau hubungi Jejen.';
-            renderPortalOverview();
+            renderLicensesWorkspace();
         }
 
-        function renderPortalOverview() {
-            const lic = getActiveCustomerLicense();
+        function getLicenseRemainingLabel(lic) {
+            if (!lic) return '-';
+            if (lic.duration_plan === 'lifetime') return 'Permanen';
+            if (lic.is_expired) return 'Habis';
+            if (lic.expires_at) return 'Sisa ' + Math.max(0, Number(lic.remaining_days) || 0) + ' hari';
+            return (lic.duration_days || 7) + ' Hari';
+        }
 
-            const checkCardHtml =
-                '<div class="tw-card">' +
-                    '<div class="tw-card-head">' +
-                        '<h2>Cek &amp; Aktivasi Lisensi</h2>' +
-                        '<span class="tw-badge tw-badge-pro">Akun WanDrone: @' + esc(currentUser.username) + '</span>' +
-                    '</div>' +
-                    '<p style="font-size:0.84rem; color:var(--slate);">Masukkan <strong>Kunci Lisensi</strong> atau <strong>Device ID 16-Hex</strong> untuk melihat masa aktif, fitur terbuka, dan daftar perangkat.</p>' +
-                    '<form id="portal-self-check-form" class="tw-check-row" onsubmit="handlePortalLicenseCheck(event)">' +
-                        '<label for="portal-license-query" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);">Kunci Lisensi atau Device ID 16-Hex</label>' +
-                        '<input type="text" id="portal-license-query" class="form-control" placeholder="Kunci Lisensi atau Device ID 16-Hex..." value="' + esc(portalLastQuery) + '" required autocorrect="off" autocapitalize="none" spellcheck="false"/>' +
-                        '<button type="submit" class="tw-btn">Periksa</button>' +
-                    '</form>' +
-                    (portalCheckError
-                        ? '<div class="tw-alert" style="display:block; margin-top:0.75rem; margin-bottom:0;">' + esc(portalCheckError) + '</div>'
-                        : '') +
-                '</div>';
-
-            if (!lic) {
-                document.getElementById('workspace-content').innerHTML =
-                    checkCardHtml +
-                    '<div class="tw-card" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">' +
-                        '<div>' +
-                            '<h3 style="font-size:1.1rem; margin-bottom:0.2rem;">Belum Ada Lisensi Dipilih</h3>' +
-                            '<p style="font-size:0.84rem; color:var(--slate);">Akun terhubung: <strong>' + esc(currentUser.full_name) + '</strong> (@' + esc(currentUser.username) + (currentUser.contact_info ? ' &bull; ' + esc(currentUser.contact_info) : '') + '). Masukkan Kunci Lisensi atau Device ID di atas.</p>' +
-                        '</div>' +
-                        '<div class="tw-row-actions">' +
-                            '<a href="tanya-jawab.html" class="tw-btn-2">Forum &amp; Profil</a>' +
-                            '<a href="lisensi.html#kontak-resmi" class="tw-btn-2">Hubungi Jejen &rarr;</a>' +
-                        '</div>' +
-                    '</div>';
-                return;
-            }
-
-            const devs = Array.isArray(lic.devices) ? lic.devices : getDevicesForLicense(lic.id);
+        function renderLicenseDetailHtml(lic, includeAdminControls) {
+            const devs = getLicenseDevicesList(lic);
             const allModules = [
                 { code: 'WP', key: 'waypoint_bridge', title: 'Waypoint Bridge & Flash Inject' },
                 { code: 'UI', key: 'badge_utilities', title: 'Floating Badge Utilities' },
@@ -2600,12 +2658,14 @@
                 { code: 'TLM', key: 'telemetry_ws', title: 'Live Telemetry & Mission Control' }
             ];
 
+            const durDays = Math.max(1, Number(lic.duration_days) || 7);
             const pct = lic.duration_plan === 'lifetime'
                 ? 100
-                : (lic.is_expired ? 100 : Math.max(8, Math.min(100, Math.round(((lic.remaining_days || 0) / (lic.duration_days || 7)) * 100))));
+                : (lic.is_expired ? 100 : Math.max(8, Math.min(100, Math.round(((Number(lic.remaining_days) || 0) / durDays) * 100))));
 
+            const unlockedList = Array.isArray(lic.effective_features) ? lic.effective_features : [];
             const featuresHtml = allModules.map(function (m) {
-                const isUnlocked = !lic.is_locked && (lic.effective_features || []).includes(m.key);
+                const isUnlocked = !lic.is_locked && unlockedList.includes(m.key);
                 return '<div class="tw-feature-item ' + (isUnlocked ? '' : 'is-locked') + '">' +
                     '<div style="display:flex; align-items:center; gap:0.55rem;">' +
                         '<span class="tw-feature-tag">' + m.code + '</span>' +
@@ -2615,66 +2675,270 @@
                 '</div>';
             }).join('');
 
-            const sisaText = lic.duration_plan === 'lifetime'
+            const sisaText = getLicenseRemainingLabel(lic);
+            const validUntilText = lic.duration_plan === 'lifetime'
                 ? 'Permanen'
-                : (lic.is_expired ? 'Habis' : (lic.remaining_days || 0) + ' Hari');
+                : (lic.expires_at ? new Date(lic.expires_at).toLocaleDateString('id-ID') : ((lic.duration_days || 7) + ' Hari'));
+            const canEditThis = includeAdminControls && !String(lic.id || '').startsWith('remote-');
 
-            document.getElementById('workspace-content').innerHTML =
-                checkCardHtml +
-                '<div class="tw-card" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">' +
-                    '<div>' +
-                        '<div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.35rem;">' +
-                            renderStatusBadge(lic) +
-                            renderTierBadge(lic.tier_slug) +
-                        '</div>' +
-                        '<h2 style="font-size:1.3rem;">' + esc(lic.customer_name || currentUser.full_name) + '</h2>' +
-                        '<div style="font-family:var(--mono); font-size:0.82rem; color:var(--teal-deep); font-weight:600;">' + esc(lic.license_key) + '</div>' +
+            const devChips = devs.length === 0
+                ? '<span style="font-size:0.78rem; color:var(--muted);">Belum ada perangkat terdaftar.</span>'
+                : devs.map(function (d) {
+                    return '<span style="display:inline-flex; align-items:center; gap:0.35rem; background:var(--white); border:1px solid var(--line); border-radius:6px; padding:0.24rem 0.55rem; font-size:0.76rem;">' +
+                        '<strong style="color:var(--ink);">' + esc(d.device_name || 'Perangkat') + '</strong>' +
+                        '<span style="font-family:var(--mono); color:var(--teal-deep);">' + esc(d.device_id) + '</span>' +
+                    '</span>';
+                }).join('');
+
+            return '<div class="tw-user-detail">' +
+                '<div style="display:flex; justify-content:space-between; align-items:center; gap:0.65rem; flex-wrap:wrap; margin-bottom:0.85rem;">' +
+                    '<div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">' +
+                        '<button type="button" class="copy-chip" onclick="copyText(\'' + esc(lic.license_key) + '\')">' + esc(lic.license_key) + ' &#x29C9;</button>' +
+                        '<span style="font-size:0.78rem; color:var(--slate);">Kuota: <strong>' + devs.length + ' / ' + (lic.max_devices || 1) + '</strong> unit</span>' +
                     '</div>' +
                     '<div class="tw-row-actions">' +
-                        '<button type="button" class="tw-btn" onclick="openCustomerDevicesDialog(\'' + esc(lic.id) + '\')">Kelola Perangkat (' + devs.length + '/' + lic.max_devices + ')</button>' +
-                        (currentUser.isAdmin && !String(lic.id || '').startsWith('remote-')
-                            ? '<button type="button" class="tw-btn-2" onclick="openSubscriptionDialog(\'' + esc(lic.id) + '\')">Edit Lisensi</button>'
+                        '<button type="button" class="tw-btn tw-btn-sm" onclick="openCustomerDevicesDialog(\'' + esc(lic.id) + '\')">Kelola Perangkat (' + devs.length + '/' + (lic.max_devices || 1) + ')</button>' +
+                        (canEditThis
+                            ? '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="openSubscriptionDialog(\'' + esc(lic.id) + '\')">Edit</button>' +
+                              (lic.is_locked
+                                ? '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="quickToggleLock(\'' + esc(lic.id) + '\', \'activate\')">Aktifkan</button>'
+                                : '<button type="button" class="tw-btn-danger tw-btn-sm" onclick="quickToggleLock(\'' + esc(lic.id) + '\', \'expire\')">Kunci</button>') +
+                              (canDeleteLicense()
+                                ? '<button type="button" class="tw-btn-danger tw-btn-sm" onclick="deleteLicenseRecord(\'' + esc(lic.id) + '\')">Hapus</button>'
+                                : '')
                             : '') +
                     '</div>' +
-                '</div>' +
-
-                '<div class="tw-stats-grid">' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Status</div><div class="tw-stat-val" style="font-size:1.1rem; color:' + (lic.is_locked ? '#991B1B' : 'var(--teal-deep)') + ';">' + (lic.is_locked ? 'Terkunci' : 'Aktif') + '</div></div>' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Slot Perangkat</div><div class="tw-stat-val">' + devs.length + ' / ' + lic.max_devices + '</div></div>' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Kelas</div><div class="tw-stat-val" style="font-size:1.1rem;">' + esc((lic.tier_slug || '').toUpperCase()) + '</div></div>' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Sisa Waktu</div><div class="tw-stat-val" style="font-size:1.1rem;">' + esc(sisaText) + '</div></div>' +
                 '</div>' +
 
                 '<div class="tw-grid-2">' +
                     '<div class="tw-card" style="margin-bottom:0;">' +
                         '<div class="tw-card-head"><h3>Ringkasan Lisensi</h3></div>' +
-                        '<div class="tw-detail-row"><span>Pemilik</span><strong>' + esc(lic.customer_name) + '</strong></div>' +
-                        '<div class="tw-detail-row"><span>Kunci Lisensi</span><strong>' + esc(lic.license_key) + '</strong></div>' +
-                        '<div class="tw-detail-row"><span>Berlaku Hingga</span><strong>' + (lic.duration_plan === 'lifetime' ? 'Permanen' : (lic.expires_at ? new Date(lic.expires_at).toLocaleDateString('id-ID') : ((lic.duration_days || 7) + ' Hari'))) + '</strong></div>' +
+                        '<div class="tw-detail-row"><span>Pemilik</span><strong>' + esc(lic.customer_name || currentUser.full_name || '-') + '</strong></div>' +
+                        '<div class="tw-detail-row"><span>Kontak</span><strong>' + esc(lic.customer_contact || currentUser.contact_info || '-') + '</strong></div>' +
+                        '<div class="tw-detail-row"><span>Kunci Lisensi</span><strong style="font-family:var(--mono); font-size:0.8rem;">' + esc(lic.license_key) + '</strong></div>' +
+                        '<div class="tw-detail-row"><span>Berlaku Hingga</span><strong>' + esc(validUntilText) + '</strong></div>' +
                         '<div class="tw-detail-row"><span>Sisa Masa Aktif</span><strong>' + esc(sisaText) + '</strong></div>' +
                         '<div class="tw-progress"><div class="tw-progress-bar ' + (lic.is_locked ? 'is-expired' : '') + '" style="width:' + pct + '%;"></div></div>' +
                     '</div>' +
 
                     '<div class="tw-card" style="margin-bottom:0;">' +
-                        '<div class="tw-card-head"><h3>Fitur Terbuka</h3><span class="tw-badge tw-badge-pro">' + (lic.effective_features || []).length + ' / ' + allModules.length + '</span></div>' +
+                        '<div class="tw-card-head"><h3>Fitur Terbuka</h3><span class="tw-badge tw-badge-pro">' + (lic.is_locked ? 0 : unlockedList.length) + ' / ' + allModules.length + '</span></div>' +
                         featuresHtml +
                     '</div>' +
+                '</div>' +
+
+                '<div style="display:flex; gap:0.4rem; flex-wrap:wrap; align-items:center; margin-top:0.8rem; padding-top:0.75rem; border-top:1px dashed var(--line);">' +
+                    '<span style="font-size:0.76rem; font-weight:700; color:var(--slate); margin-right:0.2rem;">Perangkat:</span>' +
+                    devChips +
+                '</div>' +
+            '</div>';
+        }
+
+        function filterLicensesList(allLics) {
+            const q = String(filterLicensesVal || '').trim().toLowerCase();
+            return allLics.filter(function (lic) {
+                if (filterLicensesMode === 'active' && lic.is_locked) return false;
+                if (filterLicensesMode === 'locked' && !lic.is_locked) return false;
+                if (filterLicensesMode === 'lifetime' && lic.duration_plan !== 'lifetime') return false;
+                if (filterLicensesMode === 'expiring' && (lic.is_locked || lic.duration_plan === 'lifetime')) return false;
+                if (!q) return true;
+                const devMatch = getLicenseDevicesList(lic).some(function (d) {
+                    return [d.device_id, d.device_name].join(' ').toLowerCase().includes(q);
+                });
+                const textMatch = [lic.customer_name, lic.customer_contact, lic.license_key, lic.tier_slug, lic.organization, lic.notes].join(' ').toLowerCase().includes(q);
+                return textMatch || devMatch;
+            });
+        }
+
+        function renderLicensesListHtml(allLics, isAdm) {
+            if (allLics.length === 0) {
+                if (isAdm) {
+                    return '<div class="tw-card" style="text-align:center; padding:2rem 1.25rem;">' +
+                        '<h3 style="font-size:1.1rem; margin-bottom:0.3rem;">Belum Ada Lisensi Terdaftar</h3>' +
+                        '<p style="font-size:0.84rem; color:var(--slate); margin-bottom:0.9rem;">Buat lisensi pertama untuk pengguna atau sinkronkan data server.</p>' +
+                        '<button type="button" class="tw-btn" onclick="openSubscriptionDialog()">+ Buat Lisensi</button>' +
+                    '</div>';
+                }
+                return '<div class="tw-card" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">' +
+                    '<div>' +
+                        '<h3 style="font-size:1.1rem; margin-bottom:0.2rem;">Belum Ada Lisensi di Daftar</h3>' +
+                        '<p style="font-size:0.84rem; color:var(--slate);">Akun terhubung: <strong>' + esc(currentUser.full_name) + '</strong> (@' + esc(currentUser.username) + (currentUser.contact_info ? ' &bull; ' + esc(currentUser.contact_info) : '') + '). Masukkan Kunci Lisensi atau Device ID di atas.</p>' +
+                    '</div>' +
+                    '<div class="tw-row-actions">' +
+                        '<a href="tanya-jawab.html" class="tw-btn-2">Forum &amp; Profil</a>' +
+                        '<a href="lisensi.html#kontak-resmi" class="tw-btn-2">Hubungi Jejen &rarr;</a>' +
+                    '</div>' +
                 '</div>';
+            }
+
+            const filtered = filterLicensesList(allLics);
+            if (filtered.length === 0) {
+                return '<div class="tw-card" style="text-align:center; padding:1.75rem;">' +
+                    '<p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.75rem;">Tidak ada lisensi yang cocok dengan filter pencarian.</p>' +
+                    '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="filterLicensesVal=\'\'; filterLicensesMode=\'all\'; renderLicensesWorkspace();">Reset Filter</button>' +
+                '</div>';
+            }
+
+            return '<div class="tw-user-list">' + filtered.map(function (lic) {
+                const uiKey = getLicenseUiKey(lic);
+                const isExpanded = selectedLicenseKeyOrId === uiKey;
+                const devs = getLicenseDevicesList(lic);
+                const sisaText = getLicenseRemainingLabel(lic);
+                const ownerLabel = lic.customer_name || currentUser.full_name || 'Pengguna';
+                const contactSuffix = lic.customer_contact ? ' &bull; ' + esc(lic.customer_contact) : '';
+
+                return '<div class="tw-user-item ' + (isExpanded ? 'is-expanded' : '') + '">' +
+                    '<button type="button" class="tw-user-head" aria-expanded="' + (isExpanded ? 'true' : 'false') + '" onclick="toggleSelectedLicense(\'' + encodeURIComponent(uiKey) + '\')">' +
+                        '<div style="min-width:0;">' +
+                            '<div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">' +
+                                '<span style="font-weight:700; font-size:0.95rem; color:var(--ink);">' + esc(ownerLabel) + '</span>' +
+                                (contactSuffix ? '<span style="font-size:0.78rem; color:var(--muted);">' + contactSuffix.replace(/^ &bull; /, '') + '</span>' : '') +
+                            '</div>' +
+                            '<div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-top:0.2rem;">' +
+                                '<span style="font-family:var(--mono); font-size:0.78rem; color:var(--teal-deep); font-weight:600;">' + esc(lic.license_key) + '</span>' +
+                                '<span style="font-size:0.75rem; color:var(--muted);">' + devs.length + '/' + (lic.max_devices || 1) + ' unit</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;">' +
+                            renderTierBadge(lic.tier_slug) +
+                            renderStatusBadge(lic) +
+                            '<span style="font-family:var(--mono); font-size:0.74rem; color:var(--slate);">' + esc(sisaText) + '</span>' +
+                            '<span style="font-size:0.75rem; font-weight:700; color:var(--teal-deep); margin-left:0.2rem;">' + (isExpanded ? 'Tutup &#9652;' : 'Detail &#9662;') + '</span>' +
+                        '</div>' +
+                    '</button>' +
+                    (isExpanded ? renderLicenseDetailHtml(lic, isAdm) : '') +
+                '</div>';
+            }).join('') + '</div>';
+        }
+
+        function renderLicensesListOnly() {
+            const box = document.getElementById('licenses-list-container');
+            if (!box) {
+                renderLicensesWorkspace();
+                return;
+            }
+            const isAdm = !!currentUser.isAdmin;
+            const allLics = isAdm ? getEvaluatedLicenses() : getCurrentUserLicenses();
+            box.innerHTML = renderLicensesListHtml(allLics, isAdm);
+        }
+
+        function renderLicensesWorkspace() {
+            const isAdm = !!currentUser.isAdmin;
+            const allLics = isAdm ? getEvaluatedLicenses() : getCurrentUserLicenses();
+            const activeCount = allLics.filter(function (l) { return !l.is_locked; }).length;
+            const lockedCount = allLics.filter(function (l) { return l.is_locked; }).length;
+            let totalDevs = 0;
+            allLics.forEach(function (l) { totalDevs += getLicenseDevicesList(l).length; });
+
+            const statsHtml =
+                '<div class="tw-stats-grid">' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Lisensi</div><div class="tw-stat-val">' + allLics.length + '</div><div class="tw-stat-sub">' + (isAdm ? 'Seluruh pengguna' : 'Di daftar Anda') + '</div></div>' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Aktif</div><div class="tw-stat-val" style="color:var(--teal-deep);">' + activeCount + '</div><div class="tw-stat-sub">Dapat digunakan</div></div>' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Terkunci</div><div class="tw-stat-val" style="color:#991B1B;">' + lockedCount + '</div><div class="tw-stat-sub">Habis / Nonaktif</div></div>' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Perangkat</div><div class="tw-stat-val">' + totalDevs + '</div><div class="tw-stat-sub">Terikat aktif</div></div>' +
+                '</div>';
+
+            const userCheckCardHtml = !isAdm
+                ? '<div class="tw-card" style="margin-bottom:1rem;">' +
+                    '<div class="tw-card-head">' +
+                        '<h2>Cek &amp; Tambah Lisensi</h2>' +
+                        '<span class="tw-badge tw-badge-pro">Akun: @' + esc(currentUser.username) + '</span>' +
+                    '</div>' +
+                    '<p style="font-size:0.84rem; color:var(--slate);">Masukkan <strong>Kunci Lisensi</strong> atau <strong>Device ID 16-Hex</strong> untuk menambahkan atau membuka detail lisensi Anda.</p>' +
+                    '<form id="portal-self-check-form" class="tw-check-row" onsubmit="handlePortalLicenseCheck(event)">' +
+                        '<label for="portal-license-query" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);">Kunci Lisensi atau Device ID 16-Hex</label>' +
+                        '<input type="text" id="portal-license-query" class="form-control" placeholder="Kunci Lisensi atau Device ID 16-Hex..." value="' + esc(portalLastQuery) + '" required autocorrect="off" autocapitalize="none" spellcheck="false"/>' +
+                        '<button type="submit" class="tw-btn">Periksa</button>' +
+                    '</form>' +
+                    (portalCheckError
+                        ? '<div class="tw-alert" style="display:block; margin-top:0.75rem; margin-bottom:0;">' + esc(portalCheckError) + '</div>'
+                        : '') +
+                  '</div>'
+                : '';
+
+            const showToolbar = isAdm || allLics.length > 1;
+            const toolbarHtml = showToolbar
+                ? '<div class="tw-toolbar">' +
+                    '<input type="search" class="form-control" placeholder="' + (isAdm ? 'Cari pemilik, @kontak, kunci lisensi, atau Device ID...' : 'Cari kunci lisensi, tipe, atau Device ID...') + '" value="' + esc(filterLicensesVal) + '" oninput="filterLicensesVal=this.value; renderLicensesListOnly();"/>' +
+                    '<select class="form-select" onchange="filterLicensesMode=this.value; renderLicensesListOnly();" aria-label="Filter status lisensi">' +
+                        '<option value="all" ' + (filterLicensesMode === 'all' ? 'selected' : '') + '>Semua Status</option>' +
+                        '<option value="active" ' + (filterLicensesMode === 'active' ? 'selected' : '') + '>Aktif</option>' +
+                        '<option value="locked" ' + (filterLicensesMode === 'locked' ? 'selected' : '') + '>Terkunci / Habis</option>' +
+                        '<option value="lifetime" ' + (filterLicensesMode === 'lifetime' ? 'selected' : '') + '>Permanen</option>' +
+                        '<option value="expiring" ' + (filterLicensesMode === 'expiring' ? 'selected' : '') + '>Masa Aktif / Trial</option>' +
+                    '</select>' +
+                    (isAdm
+                        ? '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialog()">+ Buat Lisensi</button>' +
+                          '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="refreshAdminAllData()">Segarkan</button>'
+                        : '') +
+                  '</div>'
+                : '';
+
+            const listHeaderHtml = allLics.length > 0
+                ? '<div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.6rem;">' +
+                    '<span style="font-size:0.8rem; color:var(--slate);">' +
+                        (isAdm
+                            ? '<strong>Manajemen Lisensi Pengguna</strong> &bull; Klik baris lisensi untuk membuka detail, kelola perangkat, edit, atau kunci.'
+                            : '<strong>Daftar Lisensi Anda</strong> &bull; Klik baris lisensi untuk membuka detail fitur dan perangkat.') +
+                    '</span>' +
+                  '</div>'
+                : '';
+
+            document.getElementById('workspace-content').innerHTML =
+                statsHtml +
+                userCheckCardHtml +
+                toolbarHtml +
+                listHeaderHtml +
+                '<div id="licenses-list-container">' + renderLicensesListHtml(allLics, isAdm) + '</div>';
         }
 
         function renderPortalDevices() {
-            const lic = getActiveCustomerLicense();
-            if (!lic) {
+            const lics = getCurrentUserLicenses();
+            if (lics.length === 0) {
                 document.getElementById('workspace-content').innerHTML =
                     '<div class="tw-card">' +
                         '<h2 style="font-size:1.2rem; margin-bottom:0.35rem;">Perangkat Saya</h2>' +
-                        '<p style="font-size:0.84rem; color:var(--slate); margin-bottom:0.9rem;">Masukkan Kunci Lisensi atau Device ID terlebih dahulu di tab Cek &amp; Status.</p>' +
-                        '<button type="button" class="tw-btn" onclick="switchSection(\'portal-overview\')">Buka Cek Status Lisensi &rarr;</button>' +
+                        '<p style="font-size:0.84rem; color:var(--slate); margin-bottom:0.9rem;">Masukkan Kunci Lisensi atau Device ID terlebih dahulu di tab Lisensi.</p>' +
+                        '<button type="button" class="tw-btn" onclick="switchSection(\'licenses\')">Buka Tab Lisensi &rarr;</button>' +
                     '</div>';
                 return;
             }
-            openCustomerDevicesDialog(lic.id);
-            renderPortalOverview();
+
+            const blocksHtml = lics.map(function (lic) {
+                const devs = getLicenseDevicesList(lic);
+                const devRows = devs.length === 0
+                    ? '<div style="font-size:0.82rem; color:var(--muted); padding:0.5rem 0;">Belum ada perangkat terikat pada lisensi ini.</div>'
+                    : devs.map(function (d) {
+                        return '<div class="tw-lic-box" style="margin-top:0.5rem; margin-bottom:0;">' +
+                            '<div style="display:flex; justify-content:space-between; align-items:center; gap:0.65rem; flex-wrap:wrap;">' +
+                                '<div>' +
+                                    '<div style="font-weight:700; color:var(--ink); font-size:0.9rem;">' + esc(d.device_name || 'Perangkat') + '</div>' +
+                                    '<div style="font-family:var(--mono); font-size:0.78rem; color:var(--teal-deep);">' + esc(d.device_id) + '</div>' +
+                                '</div>' +
+                                (d.offline_token
+                                    ? '<button type="button" class="copy-chip" onclick="copyText(\'' + esc(d.offline_token) + '\')">Salin Token Offline &#x29C9;</button>'
+                                    : '') +
+                            '</div>' +
+                        '</div>';
+                    }).join('');
+
+                return '<div class="tw-card">' +
+                    '<div class="tw-card-head">' +
+                        '<div>' +
+                            '<h3 style="margin-bottom:0.2rem;">' + esc(lic.customer_name || currentUser.full_name) + '</h3>' +
+                            '<div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;">' +
+                                renderTierBadge(lic.tier_slug) +
+                                renderStatusBadge(lic) +
+                                '<span style="font-family:var(--mono); font-size:0.78rem; color:var(--teal-deep);">' + esc(lic.license_key) + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<button type="button" class="tw-btn tw-btn-sm" onclick="openCustomerDevicesDialog(\'' + esc(lic.id) + '\')">Kelola Perangkat (' + devs.length + '/' + (lic.max_devices || 1) + ')</button>' +
+                    '</div>' +
+                    devRows +
+                '</div>';
+            }).join('');
+
+            document.getElementById('workspace-content').innerHTML = blocksHtml;
         }
 
         // ====================================================================
@@ -3228,6 +3492,9 @@
             if (currentUser.activeLicenseId === id) {
                 currentUser.activeLicenseId = null;
             }
+            if (selectedLicenseKeyOrId === id || selectedLicenseKeyOrId === ('remote-' + String(lic.license_key || ''))) {
+                selectedLicenseKeyOrId = '';
+            }
             WanLicenseEngine.saveLocalDb(state);
 
             if (deletedRemote) {
@@ -3247,20 +3514,27 @@
         // ====================================================================
         function resolveAccessibleLicense(licId) {
             if (!currentUser.authenticated) return null;
-            const isRemoteChecked = currentUser.checkedLicenseData && currentUser.checkedLicenseData.id === licId;
-            if (!currentUser.isAdmin && licId !== currentUser.activeLicenseId && !isRemoteChecked) {
-                return null;
-            }
-            if (isRemoteChecked) {
+            const targetId = String(licId || '').trim();
+            const remoteChecked = (currentUser.checkedLicenses || []).find(function (c) {
+                return c.id === targetId || c.license_key === targetId;
+            });
+            if (remoteChecked && (!currentUser.isAdmin || targetId.startsWith('remote-'))) {
                 return {
-                    lic: currentUser.checkedLicenseData,
+                    lic: remoteChecked,
                     isRemote: true,
-                    devs: Array.isArray(currentUser.checkedLicenseData.devices) ? currentUser.checkedLicenseData.devices : []
+                    devs: Array.isArray(remoteChecked.devices) ? remoteChecked.devices : []
                 };
             }
-            const localLic = (state.licenses || []).find(function (l) { return l.id === licId; });
+            const localLic = (state.licenses || []).find(function (l) { return l.id === targetId; });
             if (!localLic) return null;
-            const devs = getDevicesForLicense(licId);
+            if (!currentUser.isAdmin) {
+                const savedKeys = loadSavedLicenseKeysForUser(currentUser.username);
+                const matchesUser = targetId === currentUser.activeLicenseId ||
+                    doesLicenseMatchUser(localLic, currentUser, false) ||
+                    savedKeys.includes(String(localLic.license_key || '').trim().toUpperCase());
+                if (!matchesUser) return null;
+            }
+            const devs = getDevicesForLicense(targetId);
             return {
                 lic: WanLicenseEngine.evaluateLicenseLockState(localLic, devs.length),
                 isRemote: false,
@@ -3390,12 +3664,11 @@
                         return;
                     }
                     if (data && data.found) {
-                        const remDays = data.expires_at ? Math.ceil((Date.parse(data.expires_at) - Date.now()) / 86400000) : null;
-                        currentUser.checkedLicenseData = Object.assign({}, data, {
-                            id: 'remote-' + data.license_key,
-                            remaining_days: remDays
-                        });
-                        saveLastCheckedLicenseForUser(currentUser.username, data.license_key);
+                        const updated = upsertCheckedRemoteLicense(data);
+                        if (updated) {
+                            selectedLicenseKeyOrId = getLicenseUiKey(updated);
+                        }
+                        saveCheckedLicenseKeyForUser(currentUser.username, data.license_key);
                     }
                 } catch (err) {
                     showToast(err.message || 'Gagal menghubungi server.');

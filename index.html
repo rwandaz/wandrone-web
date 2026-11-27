@@ -15,6 +15,16 @@
                 if (cur.searchParams.has('_t')) {
                     cur.searchParams.delete('_t');
                     window.history.replaceState(null, '', cur.pathname + (cur.search || '') + (cur.hash || ''));
+                } else {
+                    var nav = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+                    var isReload = nav ? nav.type === 'reload' : (window.performance && performance.navigation && performance.navigation.type === 1);
+                    var lastTs = Number(sessionStorage.getItem('_wan_reload_ts') || '0');
+                    if (isReload && (!lastTs || Date.now() - lastTs > 1500)) {
+                        sessionStorage.setItem('_wan_reload_ts', String(Date.now()));
+                        cur.searchParams.set('_t', Date.now());
+                        window.location.replace(cur.toString());
+                        return;
+                    }
                 }
             } catch (_) {}
             window.addEventListener('pageshow', function (e) {
@@ -1732,6 +1742,189 @@
                 line-height: 1.15;
             }
         }
+
+        /* Hero Login Button, Logged-In Quick Choices & Dialog */
+        .tw-hero-login-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(45, 212, 191, 0.14);
+            border: 1px solid rgba(45, 212, 191, 0.45);
+            color: var(--teal);
+            font-family: var(--body);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            line-height: 1.2;
+            padding: 0.3rem 0.72rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+        .tw-hero-login-btn:hover {
+            background: rgba(45, 212, 191, 0.24);
+            border-color: var(--teal);
+            color: #FFFFFF;
+        }
+
+        .tw-hero-session-bar {
+            display: none;
+            margin-top: 0.9rem;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(45, 212, 191, 0.32);
+            border-radius: 12px;
+        }
+        .tw-hero-session-bar.is-visible {
+            display: block;
+        }
+        .tw-hero-session-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.65rem;
+            font-size: 0.8125rem;
+            color: var(--ink-dark);
+        }
+        .tw-hero-session-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+        }
+        .tw-hero-session-actions .tw-btn,
+        .tw-hero-session-actions .tw-btn-2 {
+            min-height: 38px;
+            padding: 0.45rem 0.95rem;
+            font-size: 0.8125rem;
+            border-radius: 8px;
+        }
+
+        dialog#hero-auth-dialog {
+            margin: auto;
+            padding: 0;
+            background: #FFFFFF;
+            color: var(--ink);
+            border: 1px solid #CBD5E1;
+            border-radius: 14px;
+            max-width: 440px;
+            width: calc(100% - 1.5rem);
+            box-shadow: 0 20px 45px rgba(10, 14, 22, 0.35);
+        }
+        dialog#hero-auth-dialog[open] {
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100dvh - 2rem);
+        }
+        dialog#hero-auth-dialog:modal {
+            overscroll-behavior: contain;
+        }
+        dialog#hero-auth-dialog::backdrop {
+            background: rgba(10, 14, 22, 0.72);
+            backdrop-filter: blur(6px);
+            overflow: hidden;
+            overscroll-behavior: contain;
+        }
+        .tw-dlg-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .tw-dlg-head h1 {
+            font-family: var(--display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0;
+            line-height: 1.2;
+        }
+        .tw-dlg-close {
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            color: var(--ink);
+            border-radius: 8px;
+            min-width: 34px;
+            min-height: 34px;
+            padding: 0 0.55rem;
+            font-size: 1.05rem;
+            cursor: pointer;
+        }
+        .tw-dlg-body {
+            padding: 1.15rem 1.25rem 1.25rem;
+            overflow-y: auto;
+        }
+        .tw-dlg-field {
+            margin-bottom: 0.9rem;
+        }
+        .tw-dlg-label {
+            display: block;
+            font-family: var(--display);
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.3rem;
+        }
+        .tw-dlg-input {
+            width: 100%;
+            font: inherit;
+            font-size: max(1rem, 0.9rem);
+            color: var(--ink);
+            background: #FFFFFF;
+            border: 1.5px solid #94A3B8;
+            border-radius: 8px;
+            padding: 0.55rem 0.8rem;
+            min-height: 42px;
+        }
+        .tw-dlg-input:focus {
+            outline: none;
+            border-color: var(--teal-deep);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.18);
+        }
+        .tw-dlg-pw-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .tw-dlg-pw-toggle {
+            position: absolute;
+            right: 0.45rem;
+            background: #F3F5F8;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            color: var(--ink);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.28rem 0.55rem;
+            min-height: 30px;
+            cursor: pointer;
+        }
+        .tw-dlg-alert {
+            display: none;
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin-bottom: 0.9rem;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #991B1B;
+        }
+        .tw-dlg-choices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+            gap: 0.65rem;
+            margin: 1rem 0 0.85rem;
+        }
+        @media (max-width: 520px) {
+            .tw-hero-session-actions .tw-btn,
+            .tw-hero-session-actions .tw-btn-2 {
+                flex: 1 1 auto;
+            }
+        }
     </style>
 </head>
 <body id="wrapwrap">
@@ -1813,6 +2006,19 @@
                             <a href="#tutorial-video" class="tw-hero-link">Tonton Tutorial</a>
                             <span class="tw-hero-link-sep">•</span>
                             <a href="#kontak" class="tw-hero-link">Kontak</a>
+                            <span class="tw-hero-link-sep">•</span>
+                            <button type="button" id="hero-login-btn" class="tw-hero-login-btn" onclick="openHeroAuthDialog()">Login</button>
+                        </div>
+
+                        <div id="hero-session-bar" class="tw-hero-session-bar" aria-live="polite">
+                            <div class="tw-hero-session-head">
+                                <span id="hero-session-greeting">Masuk sebagai Pilot</span>
+                                <button type="button" onclick="handleHeroLogout()" style="background:none; border:none; color:#FCA5A5; font-size:0.78rem; font-weight:600; cursor:pointer; padding:0.15rem 0.25rem;">Keluar</button>
+                            </div>
+                            <div class="tw-hero-session-actions">
+                                <a href="console-lisensi.html" class="tw-btn">Konsol Lisensi &rarr;</a>
+                                <a href="tanya-jawab.html" class="tw-btn-2">Forum Tanya Jawab &rarr;</a>
+                            </div>
                         </div>
                     </div>
 
@@ -2652,6 +2858,233 @@
             }
         }
     </script>
-    <script src="wandrone-analytics.js" defer></script>
+    <!-- MODAL LOGIN PROFIL & PILIHAN TUJUAN -->
+    <dialog id="hero-auth-dialog" closedby="any" aria-labelledby="hero-auth-title">
+        <div class="tw-dlg-head">
+            <h1 id="hero-auth-title">Masuk Profil</h1>
+            <button type="button" class="tw-dlg-close" aria-label="Tutup" onclick="document.getElementById('hero-auth-dialog').close()">&times;</button>
+        </div>
+        <div class="tw-dlg-body">
+            <!-- Form Login -->
+            <div id="hero-auth-form-pane">
+                <p style="font-size:0.85rem; color:var(--slate); margin-bottom:1rem;">Masuk dengan Akun Pilot Anda untuk mengakses Konsol Lisensi dan Forum Tanya Jawab.</p>
+                <form id="hero-login-form" onsubmit="handleHeroLogin(event)">
+                    <div class="tw-dlg-field">
+                        <label class="tw-dlg-label" for="hero-login-username">Username</label>
+                        <input type="text" id="hero-login-username" name="username" class="tw-dlg-input" placeholder="Username akun profil" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" autofocus required/>
+                    </div>
+                    <div class="tw-dlg-field">
+                        <label class="tw-dlg-label" for="hero-login-password">Kata Sandi</label>
+                        <div class="tw-dlg-pw-wrap">
+                            <input type="password" id="hero-login-password" name="password" class="tw-dlg-input" placeholder="Kata sandi" autocomplete="current-password" enterkeyhint="done" required style="padding-right:4.6rem;"/>
+                            <button type="button" id="hero-pw-toggle" class="tw-dlg-pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleHeroPassword()">Lihat</button>
+                        </div>
+                    </div>
+                    <div id="hero-login-alert" class="tw-dlg-alert" role="status" aria-live="polite"></div>
+                    <button type="submit" id="hero-login-submit" class="tw-btn" style="width:100%; min-height:44px; justify-content:center;">Masuk &rarr;</button>
+                </form>
+                <div style="margin-top:0.95rem; text-align:center; font-size:0.82rem; color:var(--slate);">
+                    Belum punya akun? <a href="tanya-jawab.html" style="color:var(--teal-deep); font-weight:700; text-decoration:underline;">Daftar di Forum &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Pilihan Tujuan Setelah Login -->
+            <div id="hero-auth-choices-pane" style="display:none;">
+                <div id="hero-choice-user-badge" style="font-size:0.85rem; color:var(--slate); background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:0.65rem 0.85rem;"></div>
+                <p style="font-size:0.875rem; color:var(--ink); font-weight:600; margin-top:0.9rem; margin-bottom:0;">Pilih halaman tujuan Anda:</p>
+                <div class="tw-dlg-choices">
+                    <a href="console-lisensi.html" class="tw-btn" style="width:100%; justify-content:center; min-height:44px;">Konsol Lisensi &rarr;</a>
+                    <a href="tanya-jawab.html" class="tw-btn-2" style="width:100%; justify-content:center; min-height:44px;">Forum Tanya Jawab &rarr;</a>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; padding-top:0.65rem; border-top:1px solid #E2E8F0;">
+                    <button type="button" onclick="handleHeroLogout()" style="background:none; border:none; color:#991B1B; font-size:0.82rem; font-weight:600; cursor:pointer; padding:0.35rem 0;">Keluar dari Profil</button>
+                    <button type="button" class="tw-btn-2" style="min-height:36px; padding:0.35rem 0.85rem; font-size:0.8rem;" onclick="document.getElementById('hero-auth-dialog').close()">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const HERO_PILOT_KEY = 'wan_pilot_user_session';
+        const HERO_SUPA_URL = window.WAN_SUPABASE_URL || 'https://vzrlpyzbqiunkmpmjmqn.supabase.co';
+        const HERO_SUPA_KEY = window.WAN_SUPABASE_ANON_KEY || 'sb_publishable_AxPOTAiZZYuMyiq3_8vieA_FgKUcH1P';
+        let heroSupabaseClient = null;
+        if (window.supabase && HERO_SUPA_URL) {
+            heroSupabaseClient = window.supabase.createClient(HERO_SUPA_URL, HERO_SUPA_KEY);
+        }
+
+        (function initHeroDialogDismiss() {
+            const dlg = document.getElementById('hero-auth-dialog');
+            if (!dlg) return;
+            dlg.addEventListener('close', function () {
+                dlg.returnValue = '';
+            });
+            if (!('closedBy' in HTMLDialogElement.prototype)) {
+                const isOutside = function (e) {
+                    const r = dlg.getBoundingClientRect();
+                    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+                };
+                let pressedOutside = false;
+                dlg.addEventListener('pointerdown', function (e) { pressedOutside = isOutside(e); });
+                dlg.addEventListener('pointerup', function (e) { if (pressedOutside && isOutside(e)) dlg.close(); });
+            }
+        })();
+
+        function getHeroPilotSession() {
+            try {
+                const raw = localStorage.getItem(HERO_PILOT_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        function isHeroAdminUser(user) {
+            if (!user) return false;
+            const u = String(user.username || '').trim().toLowerCase();
+            const r = String(user.role || '').trim().toLowerCase();
+            return u === 'rwandaz' || r === 'owner' || r === 'superadmin' || r === 'admin';
+        }
+
+        function showHeroLoginAlert(msg) {
+            const el = document.getElementById('hero-login-alert');
+            if (!el) return;
+            el.textContent = msg || '';
+            el.style.display = msg ? 'block' : 'none';
+        }
+
+        function toggleHeroPassword() {
+            const input = document.getElementById('hero-login-password');
+            const btn = document.getElementById('hero-pw-toggle');
+            if (!input || !btn) return;
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.textContent = show ? 'Tutup' : 'Lihat';
+            btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+        }
+
+        function syncHeroAuthUI() {
+            const user = getHeroPilotSession();
+            const btn = document.getElementById('hero-login-btn');
+            const bar = document.getElementById('hero-session-bar');
+            const greeting = document.getElementById('hero-session-greeting');
+            const formPane = document.getElementById('hero-auth-form-pane');
+            const choicesPane = document.getElementById('hero-auth-choices-pane');
+            const titleEl = document.getElementById('hero-auth-title');
+            const userBadge = document.getElementById('hero-choice-user-badge');
+
+            if (user && user.username) {
+                const roleLabel = isHeroAdminUser(user) ? 'Admin' : 'Pengguna';
+                const displayName = user.full_name || user.username;
+                if (btn) btn.textContent = 'Akun: ' + displayName;
+                if (bar) bar.classList.add('is-visible');
+                if (greeting) greeting.textContent = 'Masuk sebagai ' + displayName + ' (' + roleLabel + ')';
+                if (formPane) formPane.style.display = 'none';
+                if (choicesPane) choicesPane.style.display = 'block';
+                if (titleEl) titleEl.textContent = 'Pilih Tujuan';
+                if (userBadge) {
+                    userBadge.textContent = 'Masuk sebagai ' + displayName + ' (@' + user.username + ') • ' + roleLabel;
+                }
+            } else {
+                if (btn) btn.textContent = 'Login';
+                if (bar) bar.classList.remove('is-visible');
+                if (formPane) formPane.style.display = 'block';
+                if (choicesPane) choicesPane.style.display = 'none';
+                if (titleEl) titleEl.textContent = 'Masuk Profil';
+            }
+        }
+
+        function openHeroAuthDialog() {
+            syncHeroAuthUI();
+            showHeroLoginAlert('');
+            const dlg = document.getElementById('hero-auth-dialog');
+            if (dlg && !dlg.open) dlg.showModal();
+        }
+
+        async function handleHeroLogin(e) {
+            e.preventDefault();
+            const uInput = document.getElementById('hero-login-username');
+            const pInput = document.getElementById('hero-login-password');
+            const submitBtn = document.getElementById('hero-login-submit');
+            const username = (uInput ? uInput.value : '').trim();
+            const password = pInput ? pInput.value : '';
+
+            if (!username || !password) {
+                showHeroLoginAlert('Masukkan username dan kata sandi.');
+                return;
+            }
+            if (!heroSupabaseClient && window.supabase) {
+                heroSupabaseClient = window.supabase.createClient(HERO_SUPA_URL, HERO_SUPA_KEY);
+            }
+            if (!heroSupabaseClient) {
+                showHeroLoginAlert('Koneksi autentikasi belum siap. Coba lagi sebentar.');
+                return;
+            }
+
+            showHeroLoginAlert('');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Memeriksa...';
+            }
+
+            try {
+                const { data, error } = await heroSupabaseClient.rpc('user_login', {
+                    p_username: username,
+                    p_password: password
+                });
+                if (error || !data) {
+                    showHeroLoginAlert((error && error.message) || 'Username atau kata sandi salah.');
+                    if (pInput) pInput.focus();
+                    return;
+                }
+
+                data.password_plain = password;
+                try {
+                    localStorage.setItem(HERO_PILOT_KEY, JSON.stringify(data));
+                } catch (_) {}
+
+                if (isHeroAdminUser(data)) {
+                    const isMain = String(data.username || '').toLowerCase() === 'rwandaz' || String(data.role || '').toLowerCase() === 'superadmin';
+                    sessionStorage.setItem('wandrone_admin_user', data.username);
+                    sessionStorage.setItem('wandrone_admin_pass', password);
+                    sessionStorage.setItem('wandrone_admin_role', isMain ? 'superadmin' : 'admin');
+                } else {
+                    sessionStorage.removeItem('wandrone_admin_user');
+                    sessionStorage.removeItem('wandrone_admin_pass');
+                    sessionStorage.removeItem('wandrone_admin_role');
+                }
+
+                if (pInput) pInput.value = '';
+                syncHeroAuthUI();
+            } catch (err) {
+                showHeroLoginAlert((err && err.message) || 'Gagal menghubungi server.');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Masuk &rarr;';
+                }
+            }
+        }
+
+        function handleHeroLogout() {
+            try { localStorage.removeItem(HERO_PILOT_KEY); } catch (_) {}
+            sessionStorage.removeItem('wandrone_admin_user');
+            sessionStorage.removeItem('wandrone_admin_pass');
+            sessionStorage.removeItem('wandrone_admin_role');
+            syncHeroAuthUI();
+            const uInput = document.getElementById('hero-login-username');
+            if (uInput) uInput.focus();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const uInput = document.getElementById('hero-login-username');
+            const pInput = document.getElementById('hero-login-password');
+            if (uInput) uInput.addEventListener('input', function () { showHeroLoginAlert(''); });
+            if (pInput) pInput.addEventListener('input', function () { showHeroLoginAlert(''); });
+            syncHeroAuthUI();
+        });
+    </script>
+    <script src="wandrone-analytics.js?v=20261127" defer></script>
 </body>
 </html>

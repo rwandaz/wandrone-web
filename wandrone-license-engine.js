@@ -27,12 +27,12 @@
   const DEFAULT_APPLICATIONS = [
     {
       app_slug: 'wdtweak',
-      app_name: 'WD Tweak',
+      app_name: 'WanDrone Lisensi',
       key_prefix: 'WDT',
       platforms: ['android_rc', 'android_phone'],
       crypto_mode: 'ed25519_wandrone1',
       magic_header: 'WANDRONE1',
-      description: 'Modul DJI Fly WanDrone Edition untuk DJI RC 2, RC Pro, dan Android (Waypoint Bridge 8989, Flash Inject, Tuning FCC/Alt/ATTI, Badge Utilities).',
+      description: 'Lisensi resmi aplikasi ekosistem WanDrone untuk remote controller dan perangkat Android.',
       is_active: true,
       available_features: [
         { key: 'waypoint_bridge', label: 'Waypoint Bridge (Port 8989 & Flash Inject)', desc: 'Injeksi misi KMZ instan tanpa dummy & SQLite Auto-Heal' },
@@ -79,7 +79,7 @@
         features: hobbyFeatures,
         auto_lock_on_expire: true,
         sort_order: 2,
-        description: 'Hanya mendapat fitur Waypoint Bridge. Fitur lanjutan lainnya terkunci.'
+        description: 'Fitur dasar terbuka. Fitur lanjutan lainnya terkunci.'
       },
       {
         id: app.app_slug + '__pro',
@@ -165,7 +165,7 @@
         max_devices: 2,
         features: ['waypoint_bridge', 'badge_utilities', 'tuning_fcc', 'unlock_alt_500m', 'atti_mode', 'telemetry_ws', 'mission_control'],
         status: 'active',
-        notes: 'Pembelian Paket Pro Konsumen WD Tweak (2 Remote DJI RC 2)',
+        notes: 'Pembelian Paket Pro Konsumen WanDrone Lisensi (2 Perangkat)',
         created_by: 'rwandaz',
         created_at: now.toISOString(),
         updated_at: now.toISOString()
@@ -187,7 +187,7 @@
         max_devices: 2,
         features: ['waypoint_bridge'],
         status: 'active',
-        notes: 'Paket Hobby WD Tweak — Hanya fitur Waypoint Bridge aktif',
+        notes: 'Paket Hobby WanDrone Lisensi — Fitur dasar aktif',
         created_by: 'rwandaz',
         created_at: now.toISOString(),
         updated_at: now.toISOString()
@@ -293,7 +293,7 @@
         action_type: 'INIT_SYSTEM',
         license_key: 'WDT-ENT-26-RWND-0001',
         app_slug: 'wdtweak',
-        summary: 'Menginisialisasi Console Sistem Lisensi khusus WD Tweak dengan 4 kelas: Trial (7 Hari), Hobby (Waypoint Bridge), Pro (Konsumen), Enterprise (Pilihan Owner).',
+        summary: 'Menginisialisasi WanDrone Lisensi dengan 4 kelas: Trial (7 Hari), Hobby, Pro, Enterprise.',
         created_at: now.toISOString()
       }
     ];
@@ -324,6 +324,12 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(init));
         return init;
       }
+      parsed.applications.forEach(function (app) {
+        if (app && app.app_slug === 'wdtweak' && app.app_name === 'WD Tweak') {
+          app.app_name = 'WanDrone Lisensi';
+          app.description = 'Lisensi resmi aplikasi ekosistem WanDrone untuk remote controller dan perangkat Android.';
+        }
+      });
       return syncLocalExpirations(parsed);
     } catch (e) {
       return getInitialLocalDb();
@@ -535,7 +541,7 @@
         magic: 'WDT',
         device_id: expectedDeviceId ? sanitizeDeviceId(expectedDeviceId) : '-',
         license_key: clean.toUpperCase(),
-        customer_name: 'Pemegang Kunci Lisensi WD Tweak',
+        customer_name: 'Pemegang Kunci WanDrone Lisensi',
         tier_slug: parts[1] === 'ENT' ? 'enterprise' : (parts[1] === 'TRI' ? 'trial' : (parts[1] === 'HOB' ? 'hobby' : parts[1].toLowerCase())),
         issued_at: Math.floor(Date.now() / 1000),
         expires_at: 'never'

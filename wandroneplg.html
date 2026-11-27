@@ -4,6 +4,56 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <script>
+        (function () {
+            if (window.location.protocol === 'file:') return;
+            try {
+                var cur = new URL(window.location.href);
+                if (cur.searchParams.has('_t')) {
+                    cur.searchParams.delete('_t');
+                    window.history.replaceState(null, '', cur.pathname + (cur.search || '') + (cur.hash || ''));
+                } else {
+                    var nav = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+                    var isReload = nav ? nav.type === 'reload' : (window.performance && performance.navigation && performance.navigation.type === 1);
+                    var lastTs = Number(sessionStorage.getItem('_wan_reload_ts') || '0');
+                    if (isReload && (!lastTs || Date.now() - lastTs > 1500)) {
+                        sessionStorage.setItem('_wan_reload_ts', String(Date.now()));
+                        cur.searchParams.set('_t', Date.now());
+                        window.location.replace(cur.toString());
+                        return;
+                    }
+                }
+            } catch (_) {}
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    var u = new URL(window.location.href);
+                    u.searchParams.set('_t', Date.now());
+                    window.location.replace(u.toString());
+                }
+            });
+            document.addEventListener('click', function (e) {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+                if (!a) return;
+                var rawHref = a.getAttribute('href') || '';
+                if (!rawHref || rawHref.charAt(0) === '#' || /^javascript:|^mailto:|^tel:/i.test(rawHref)) return;
+                if ((a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+                try {
+                    var dest = new URL(a.href, window.location.href);
+                    var now = new URL(window.location.href);
+                    if (dest.origin !== now.origin) return;
+                    var norm = function (p) { return p.replace(/\/index\.html$/i, '/'); };
+                    if (norm(dest.pathname) === norm(now.pathname) && dest.hash) return;
+                    e.preventDefault();
+                    dest.searchParams.set('_t', Date.now());
+                    window.location.href = dest.toString();
+                } catch (_) {}
+            });
+        })();
+    </script>
     <title>WanDrone Palembang | Jasa Sewa Drone &amp; Pilot Profesional</title>
     <meta name="description" content="Jasa sewa drone dan pilot operator profesional di Kota Palembang. Menggunakan DJI Mini 5 Pro untuk dokumentasi acara, wedding, properti, proyek, live streaming HDMI out, dan konten promosi."/>
     <meta name="keywords" content="wandrone palembang, drone palembang, jasa drone palembang, pilot drone palembang, sewa drone dji mini palembang, drone live hdmi palembang"/>

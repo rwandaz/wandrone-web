@@ -15,6 +15,16 @@
                 if (cur.searchParams.has('_t')) {
                     cur.searchParams.delete('_t');
                     window.history.replaceState(null, '', cur.pathname + (cur.search || '') + (cur.hash || ''));
+                } else {
+                    var nav = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+                    var isReload = nav ? nav.type === 'reload' : (window.performance && performance.navigation && performance.navigation.type === 1);
+                    var lastTs = Number(sessionStorage.getItem('_wan_reload_ts') || '0');
+                    if (isReload && (!lastTs || Date.now() - lastTs > 1500)) {
+                        sessionStorage.setItem('_wan_reload_ts', String(Date.now()));
+                        cur.searchParams.set('_t', Date.now());
+                        window.location.replace(cur.toString());
+                        return;
+                    }
                 }
             } catch (_) {}
             window.addEventListener('pageshow', function (e) {
@@ -3950,9 +3960,9 @@
                         <div style="font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem;">Moderasi Forum Komunitas</div>
                         <div style="font-size: 0.84375rem; color: var(--slate); line-height: 1.45;">Jawab pertanyaan pilot yang masuk, kelola topik yang sudah tayang, atur akun pengguna, dan pantau audit log sistem.</div>
                     </div>
-                    <a href="console-lisensi.html" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #0A0E16; color: #2DD4BF; border: 1px solid rgba(45, 212, 191, 0.45); padding: 0.55rem 0.95rem; border-radius: 8px; font-family: var(--display); font-size: 0.88rem; font-weight: 700; text-decoration: none; letter-spacing: 0.02em; white-space: nowrap; box-shadow: 0 4px 12px rgba(10, 14, 22, 0.15);">
+                    <a id="admin-console-lisensi-link" href="console-lisensi.html" style="display: none; align-items: center; gap: 0.5rem; background: #0A0E16; color: #2DD4BF; border: 1px solid rgba(45, 212, 191, 0.45); padding: 0.55rem 0.95rem; border-radius: 8px; font-family: var(--display); font-size: 0.88rem; font-weight: 700; text-decoration: none; letter-spacing: 0.02em; white-space: nowrap; box-shadow: 0 4px 12px rgba(10, 14, 22, 0.15);">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        <span>Console Sistem Lisensi &nearr;</span>
+                        <span>Console Admin Lisensi &nearr;</span>
                     </a>
                 </div>
 
@@ -4171,6 +4181,21 @@
                             <div style="display: flex; gap: 0.4rem; margin-top: 0.7rem; flex-wrap: wrap;" id="dash-devices-summary"></div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Akses Portal Lisensi Pengguna / Console Admin (Hanya di Profil Login) -->
+                <div id="dash-license-access-card" style="background: #0A0E16; color: #F1F5F9; border: 1px solid #1E293B; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.9rem; flex-wrap: wrap;">
+                    <div style="min-width: 0; flex: 1 1 240px;">
+                        <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.2rem;">
+                            <span style="display: inline-flex; width: 8px; height: 8px; border-radius: 50%; background: #2DD4BF; flex-shrink: 0;"></span>
+                            <span id="dash-license-card-title" style="font-family: var(--display); font-size: 1rem; font-weight: 700; color: #FFFFFF;">Lisensi Saya</span>
+                        </div>
+                        <div id="dash-license-card-desc" style="font-size: 0.8rem; color: #94A3B8; line-height: 1.4;">Cek masa aktif, fitur terbuka, dan daftarkan perangkat.</div>
+                    </div>
+                    <a id="dash-license-card-link" href="console-lisensi.html" style="display: inline-flex; align-items: center; gap: 0.45rem; background: #2DD4BF; color: #041311; border: 1px solid #2DD4BF; padding: 0.5rem 1rem; border-radius: 999px; font-family: var(--sans); font-size: 0.8rem; font-weight: 700; text-decoration: none; white-space: nowrap;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <span id="dash-license-card-btn-text">Buka Portal Lisensi &rarr;</span>
+                    </a>
                 </div>
 
                 <!-- Tabs: [Edit Profil & Sandi] vs [Riwayat Kontribusi] -->
@@ -5542,7 +5567,7 @@
 
         function openAdminPanel() {
             const user = getActivePilotUser();
-            const isMainAcc = user && ((user.username || '').toLowerCase() === 'rwandaz' || user.role === 'superadmin');
+            const isMainAcc = user && (isOwnerUsername(user.username) || user.role === 'superadmin');
             if (user && (isMainAcc || user.role === 'admin')) {
                 activeAdminUser = user.username;
                 activeAdminPass = user.password_plain;
@@ -5602,6 +5627,8 @@
             if (outBtn) outBtn.style.display = 'inline-flex';
             const pilotBtn = document.getElementById('admin-to-pilot-btn');
             if (pilotBtn) pilotBtn.style.display = 'inline-flex';
+            const consoleLicLink = document.getElementById('admin-console-lisensi-link');
+            if (consoleLicLink) consoleLicLink.style.display = isAdminActive() ? 'inline-flex' : 'none';
 
             // Tab Kelola Pengguna selalu aktif & tampil untuk seluruh admin
             const tabUsers = document.getElementById('admin-tab-users');
@@ -7755,7 +7782,7 @@
 
             if (user) {
                 const lvl = getLevelInfo(user.total_points);
-                const isAdminRole = user.role === 'admin' || user.role === 'superadmin';
+                const isAdminRole = user.role === 'admin' || user.role === 'superadmin' || isOwnerUsername(user.username);
 
                 if (adminNav) adminNav.style.display = isAdminRole ? 'inline-flex' : 'none';
                 if (adminMob) adminMob.style.display = isAdminRole ? 'block' : 'none';
@@ -7878,10 +7905,10 @@
                 if (!error && data) {
                     data.password_plain = user.password_plain;
                     saveActivePilotUser(data);
-                    if (data.role === 'admin' || data.role === 'superadmin') {
+                    if (data.role === 'admin' || data.role === 'superadmin' || isOwnerUsername(data.username)) {
                         activeAdminUser = data.username;
                         activeAdminPass = user.password_plain;
-                        activeAdminRole = data.role;
+                        activeAdminRole = isOwnerUsername(data.username) ? 'superadmin' : data.role;
                         sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
                         sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
                         sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
@@ -8490,10 +8517,28 @@
 
             // Toggle open admin panel button in dashboard header
             const dashAdminBtn = document.getElementById('dash-btn-open-admin');
+            const isAdminProfile = user.role === 'admin' || user.role === 'superadmin' || isOwnerUsername(user.username);
             if (dashAdminBtn) {
-                dashAdminBtn.style.display = (user.role === 'admin' || user.role === 'superadmin') ? 'inline-flex' : 'none';
+                dashAdminBtn.style.display = isAdminProfile ? 'inline-flex' : 'none';
             }
-            const isMainAccount = user.role === 'superadmin' || (user.username || '').toLowerCase() === 'rwandaz';
+            const licTitle = document.getElementById('dash-license-card-title');
+            const licDesc = document.getElementById('dash-license-card-desc');
+            const licLink = document.getElementById('dash-license-card-link');
+            const licBtnText = document.getElementById('dash-license-card-btn-text');
+            if (licTitle && licDesc && licLink && licBtnText) {
+                if (isAdminProfile) {
+                    licTitle.textContent = 'Console Lisensi';
+                    licDesc.textContent = 'Kelola lisensi pengguna, paket, dan perangkat aktif.';
+                    licLink.href = 'console-lisensi.html';
+                    licBtnText.innerHTML = 'Buka Console Admin &rarr;';
+                } else {
+                    licTitle.textContent = 'Lisensi Saya';
+                    licDesc.textContent = 'Cek masa aktif, fitur terbuka, dan daftarkan perangkat.';
+                    licLink.href = 'console-lisensi.html';
+                    licBtnText.innerHTML = 'Buka Portal Lisensi &rarr;';
+                }
+            }
+            const isMainAccount = user.role === 'superadmin' || isOwnerUsername(user.username);
             const editPointsBtn = document.getElementById('dash-btn-edit-points');
             if (editPointsBtn) {
                 editPointsBtn.style.display = isMainAccount ? 'inline-flex' : 'none';
@@ -9881,6 +9926,6 @@
         </div>
     </div>
 
-    <script src="wandrone-analytics.js" defer></script>
+    <script src="wandrone-analytics.js?v=20261127" defer></script>
 </body>
 </html>

@@ -756,6 +756,62 @@
             margin-top: 0.15rem;
         }
 
+        .tw-user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .tw-user-item {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .tw-user-item:hover {
+            border-color: #94A3B8;
+        }
+        .tw-user-item.is-expanded {
+            border-color: var(--teal-deep);
+            box-shadow: 0 6px 18px rgba(15, 118, 110, 0.08);
+        }
+        .tw-user-head {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: left;
+            padding: 0.9rem 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            cursor: pointer;
+            font: inherit;
+            color: inherit;
+        }
+        .tw-user-head:hover {
+            background: #FAFCFD;
+        }
+        .tw-user-item.is-expanded .tw-user-head {
+            background: #F0FDFA;
+            border-bottom: 1px solid #CCFBF1;
+        }
+        .tw-user-detail {
+            background: var(--surface);
+            padding: 1rem 1.05rem;
+        }
+        .tw-lic-box {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            margin-top: 0.7rem;
+        }
+        .tw-lic-box:first-child {
+            margin-top: 0;
+        }
+
         .tw-card {
             background: var(--white);
             border: 1px solid var(--line);
@@ -1316,22 +1372,10 @@
             <div id="portal-view" class="is-hidden">
                 <!-- Navigasi Tab Efisien -->
                 <div class="tw-tabs-bar" id="portal-tabs-bar" role="tablist">
-                    <!-- Tab Admin (Hanya untuk Admin / Owner) -->
-                    <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-customers" onclick="switchSection('admin-customers')" role="tab">
-                        <span>Lisensi</span>
-                        <span class="tw-tab-badge" id="nav-count-customers">0</span>
-                    </button>
+                    <!-- Tab Admin (Ringkas: Pengguna & Lisensi + Kelas Paket) -->
                     <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-users" onclick="switchSection('admin-users')" role="tab">
                         <span>Pengguna</span>
                         <span class="tw-tab-badge" id="nav-count-users">0</span>
-                    </button>
-                    <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-devices" onclick="switchSection('admin-devices')" role="tab">
-                        <span>Perangkat</span>
-                        <span class="tw-tab-badge" id="nav-count-devices">0</span>
-                    </button>
-                    <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-security" onclick="switchSection('admin-security')" role="tab">
-                        <span>Terkunci</span>
-                        <span class="tw-tab-badge" id="nav-count-locked">0</span>
                     </button>
                     <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-catalog" onclick="switchSection('admin-catalog')" role="tab">
                         <span>Kelas Paket</span>
@@ -1341,7 +1385,7 @@
                     <button type="button" class="tw-tab-btn" data-section="portal-overview" onclick="switchSection('portal-overview')" role="tab">
                         <span id="tab-label-overview">Cek &amp; Status</span>
                     </button>
-                    <button type="button" class="tw-tab-btn" data-section="portal-devices" onclick="switchSection('portal-devices')" role="tab">
+                    <button type="button" class="tw-tab-btn" id="tab-portal-devices" data-section="portal-devices" onclick="switchSection('portal-devices')" role="tab">
                         <span>Perangkat Saya</span>
                         <span class="tw-tab-badge" id="nav-portal-device-count">0</span>
                     </button>
@@ -1432,6 +1476,7 @@
             </div>
 
             <div class="modal-foot">
+                <button type="button" id="sub-delete-btn" class="tw-btn-danger is-hidden" style="margin-right:auto;" onclick="deleteLicenseRecord(document.getElementById('sub-id').value)">Hapus Lisensi</button>
                 <button type="button" class="tw-btn-2" onclick="document.getElementById('subscription-dialog').close()">Batal</button>
                 <button type="submit" class="tw-btn">Simpan Lisensi</button>
             </div>
@@ -1802,20 +1847,40 @@
             populateForumAccountsDatalist();
         }
 
-        function findMatchingUserLicense(user, includeCreatedBy) {
-            if (!user) return null;
+        function doesLicenseMatchUser(lic, user, includeCreatedBy) {
+            if (!lic || !user) return false;
             const uLower = String(user.username || '').trim().toLowerCase();
             const cLower = String(user.contact_info || '').trim().toLowerCase();
             const nLower = String(user.full_name || '').trim().toLowerCase();
+            const lc = String(lic.customer_contact || '').trim().toLowerCase();
+            const ln = String(lic.customer_name || '').trim().toLowerCase();
+            const lo = String(lic.organization || '').trim().toLowerCase();
+            const cb = String(lic.created_by || '').trim().toLowerCase();
+            if (cLower && lc && lc === cLower) return true;
+            if (uLower && (lc === uLower || lc === ('@' + uLower) || ln === uLower || lo === ('@' + uLower) || lo === uLower || (includeCreatedBy !== false && cb === uLower))) return true;
+            if (nLower && ln && ln === nLower) return true;
+            return false;
+        }
+
+        function findMatchingUserLicense(user, includeCreatedBy) {
+            if (!user) return null;
             return (state.licenses || []).find(function (l) {
-                const lc = String(l.customer_contact || '').trim().toLowerCase();
-                const ln = String(l.customer_name || '').trim().toLowerCase();
-                const cb = String(l.created_by || '').trim().toLowerCase();
-                if (cLower && lc && lc === cLower) return true;
-                if (uLower && (lc === uLower || lc === ('@' + uLower) || ln === uLower || (includeCreatedBy !== false && cb === uLower))) return true;
-                if (nLower && ln && ln === nLower) return true;
-                return false;
+                return doesLicenseMatchUser(l, user, includeCreatedBy);
             }) || null;
+        }
+
+        function findLicensesForUser(user) {
+            if (!user) return [];
+            return getEvaluatedLicenses().filter(function (l) {
+                return doesLicenseMatchUser(l, user, false);
+            });
+        }
+
+        function getUnmatchedLicenses(usersList) {
+            const users = Array.isArray(usersList) ? usersList : getCombinedAccountsList();
+            return getEvaluatedLicenses().filter(function (lic) {
+                return !users.some(function (u) { return doesLicenseMatchUser(lic, u, false); });
+            });
         }
 
         function saveLastCheckedLicenseForUser(username, query) {
@@ -1876,7 +1941,7 @@
 
             const params = new URLSearchParams(window.location.search);
             const wantCustomer = params.get('mode') === 'customer';
-            enterConsole((isAdm && !wantCustomer) ? 'admin-customers' : 'portal-overview');
+            enterConsole((isAdm && !wantCustomer) ? 'admin-users' : 'portal-overview');
         }
 
         function switchAuthMode(mode) {
@@ -2075,14 +2140,18 @@
             document.querySelectorAll('.admin-only-tab').forEach(function (btn) {
                 btn.classList.toggle('is-hidden', !currentUser.isAdmin);
             });
+            const portalDevTab = document.getElementById('tab-portal-devices');
+            if (portalDevTab) {
+                portalDevTab.classList.toggle('is-hidden', currentUser.isAdmin);
+            }
             const overviewTabLbl = document.getElementById('tab-label-overview');
             if (overviewTabLbl) {
-                overviewTabLbl.textContent = currentUser.isAdmin ? 'Mode Pengguna' : 'Cek & Status';
+                overviewTabLbl.textContent = currentUser.isAdmin ? 'Mode Saya' : 'Cek & Status';
             }
 
             populateProductSelect();
             updateTabCounts();
-            switchSection(initialSection || (currentUser.isAdmin ? 'admin-customers' : 'portal-overview'));
+            switchSection(initialSection || (currentUser.isAdmin ? 'admin-users' : 'portal-overview'));
         }
 
         function getDevicesForLicense(licId) {
@@ -2098,23 +2167,17 @@
         }
 
         function updateTabCounts() {
-            const evs = getEvaluatedLicenses();
-            const activeDevs = (state.devices || []).filter(function (d) { return d.status === 'active'; });
-            const lockedList = evs.filter(function (l) { return l.is_locked; });
             const combinedUsers = currentUser.isAdmin ? getCombinedAccountsList() : [];
-
-            document.getElementById('nav-count-customers').textContent = currentUser.isAdmin ? evs.length : 0;
             const usersBadge = document.getElementById('nav-count-users');
             if (usersBadge) usersBadge.textContent = combinedUsers.length;
-            document.getElementById('nav-count-devices').textContent = currentUser.isAdmin ? activeDevs.length : 0;
-            document.getElementById('nav-count-locked').textContent = currentUser.isAdmin ? lockedList.length : 0;
 
             const myLicId = currentUser.activeLicenseId;
             let myDevs = myLicId ? getDevicesForLicense(myLicId).length : 0;
             if (!myDevs && currentUser.checkedLicenseData && Array.isArray(currentUser.checkedLicenseData.devices)) {
                 myDevs = currentUser.checkedLicenseData.devices.length;
             }
-            document.getElementById('nav-portal-device-count').textContent = myDevs;
+            const portalDevBadge = document.getElementById('nav-portal-device-count');
+            if (portalDevBadge) portalDevBadge.textContent = myDevs;
         }
 
         function switchSection(section) {
@@ -2126,16 +2189,16 @@
                 section = 'portal-overview';
                 showToast('Menu admin hanya untuk akun Administrator.');
             }
+            if (section === 'admin-customers' || section === 'admin-devices' || section === 'admin-security') {
+                section = 'admin-users';
+            }
 
             currentSection = section;
             document.querySelectorAll('.tw-tab-btn').forEach(function (btn) {
                 btn.classList.toggle('is-active', btn.getAttribute('data-section') === section);
             });
 
-            if (section === 'admin-customers') renderAdminCustomers();
-            else if (section === 'admin-users') renderAdminUsers();
-            else if (section === 'admin-devices') renderAdminDevices();
-            else if (section === 'admin-security') renderAdminSecurity();
+            if (section === 'admin-users') renderAdminUsers();
             else if (section === 'admin-catalog') renderAdminCatalog();
             else if (section === 'portal-overview') renderPortalOverview();
             else if (section === 'portal-devices') renderPortalDevices();
@@ -2166,197 +2229,57 @@
         }
 
         // ====================================================================
-        // ADMIN: DAFTAR LISENSI & PELANGGAN
+        // HELPER KARTU LISENSI TERPADU (Digunakan di Tab Pengguna)
         // ====================================================================
-        let filterSearchVal = '';
-        let filterTierVal = 'all';
-        let filterStatusVal = 'all';
+        function renderAdminLicenseCardHtml(l, showOwnerHeader) {
+            const devs = getDevicesForLicense(l.id);
+            const featText = l.is_locked
+                ? 'Terkunci'
+                : (l.tier_slug === 'hobby' ? 'Fitur Dasar' : 'Semua Fitur');
+            const expText = l.duration_plan === 'lifetime'
+                ? 'Permanen'
+                : (l.expires_at
+                    ? (l.is_expired ? 'Habis' : 'Sisa ' + l.remaining_days + ' hari')
+                    : 'Trial 7 Hari');
 
-        function renderAdminCustomers() {
-            const evs = getEvaluatedLicenses();
-            const activeSubs = evs.filter(function (l) { return !l.is_locked; });
-            const activeDevs = (state.devices || []).filter(function (d) { return d.status === 'active'; });
-            const lockedCount = evs.filter(function (l) { return l.is_locked; }).length;
-
-            const filtered = evs.filter(function (l) {
-                if (filterTierVal !== 'all' && l.tier_slug !== filterTierVal) return false;
-                if (filterStatusVal !== 'all') {
-                    if (filterStatusVal === 'active' && l.is_locked) return false;
-                    if (filterStatusVal === 'locked' && !l.is_locked) return false;
-                }
-                if (filterSearchVal) {
-                    const q = filterSearchVal.toLowerCase();
-                    const devMatch = getDevicesForLicense(l.id).some(function (d) { return (d.device_id || '').toLowerCase().includes(q); });
-                    const hay = [l.customer_name, l.customer_contact, l.license_key, l.tier_slug].join(' ').toLowerCase();
-                    if (!hay.includes(q) && !devMatch) return false;
-                }
-                return true;
-            });
-
-            const rowsHtml = filtered.length === 0
-                ? '<tr><th scope="row" colspan="6" style="text-align:center; padding:1.75rem; color:var(--muted);">Data lisensi tidak ditemukan.</th></tr>'
-                : filtered.map(function (l) {
-                    const featText = l.is_locked
-                        ? '<span style="color:#991B1B; font-weight:600; font-size:0.78rem;">Terkunci</span>'
-                        : (l.tier_slug === 'hobby'
-                            ? '<span style="color:var(--slate); font-size:0.78rem;">Fitur Dasar</span>'
-                            : '<span style="color:var(--teal-deep); font-weight:600; font-size:0.78rem;">Semua Fitur</span>');
-
-                    const expText = l.duration_plan === 'lifetime'
-                        ? '<span style="font-family:var(--mono); font-size:0.76rem; color:var(--ink);">Selamanya</span>'
-                        : (l.expires_at
-                            ? '<div style="font-family:var(--mono); font-size:0.75rem; color:var(--slate);">' + (l.is_expired ? 'Habis' : 'Sisa ' + l.remaining_days + ' hr') + '</div>'
-                            : '<span style="font-size:0.75rem; color:var(--slate);">7 Hari</span>');
-
-                    return '<tr>' +
-                        '<th scope="row">' +
-                            '<div style="font-weight:700; color:var(--ink);">' + esc(l.customer_name) + '</div>' +
-                            '<div style="font-size:0.76rem; color:var(--muted);">' + esc(l.customer_contact) + '</div>' +
-                            '<button type="button" class="copy-chip" onclick="copyText(\'' + esc(l.license_key) + '\')">' + esc(l.license_key) + ' &#x29C9;</button>' +
-                        '</th>' +
-                        '<td>' + renderTierBadge(l.tier_slug) + '</td>' +
-                        '<td>' + featText + '</td>' +
-                        '<td><span style="font-family:var(--mono); font-weight:700;">' + l.active_device_count + ' / ' + l.max_devices + '</span></td>' +
-                        '<td><div style="margin-bottom:0.2rem;">' + renderStatusBadge(l) + '</div>' + expText + '</td>' +
-                        '<td>' +
-                            '<div class="tw-row-actions">' +
-                                '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialog(\'' + esc(l.id) + '\')">Edit</button>' +
-                                '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="openCustomerDevicesDialog(\'' + esc(l.id) + '\')">Perangkat (' + l.active_device_count + ')</button>' +
-                                (l.is_locked
-                                    ? '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="quickToggleLock(\'' + esc(l.id) + '\', \'activate\')">Aktifkan</button>'
-                                    : '<button type="button" class="tw-btn-danger tw-btn-sm" onclick="quickToggleLock(\'' + esc(l.id) + '\', \'expire\')">Kunci</button>') +
-                            '</div>' +
-                        '</td>' +
-                    '</tr>';
-                }).join('');
-
-            document.getElementById('workspace-content').innerHTML =
-                '<div class="tw-stats-grid">' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Total Lisensi</div><div class="tw-stat-val">' + evs.length + '</div><div class="tw-stat-sub">Semua akun</div></div>' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Aktif</div><div class="tw-stat-val" style="color:var(--teal-deep);">' + activeSubs.length + '</div><div class="tw-stat-sub">Fitur terbuka</div></div>' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Perangkat</div><div class="tw-stat-val">' + activeDevs.length + '</div><div class="tw-stat-sub">Terikat aktif</div></div>' +
-                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Terkunci</div><div class="tw-stat-val" style="color:#991B1B;">' + lockedCount + '</div><div class="tw-stat-sub">Habis / Nonaktif</div></div>' +
-                '</div>' +
-
-                '<div class="tw-toolbar">' +
-                    '<input type="search" class="form-control" placeholder="Cari nama, kontak, kunci, atau Device ID..." value="' + esc(filterSearchVal) + '" oninput="filterSearchVal=this.value; renderAdminCustomers();"/>' +
-                    '<select class="form-select" onchange="filterTierVal=this.value; renderAdminCustomers();" aria-label="Filter kelas">' +
-                        '<option value="all" ' + (filterTierVal === 'all' ? 'selected' : '') + '>Semua Kelas</option>' +
-                        '<option value="trial" ' + (filterTierVal === 'trial' ? 'selected' : '') + '>Trial</option>' +
-                        '<option value="hobby" ' + (filterTierVal === 'hobby' ? 'selected' : '') + '>Hobby</option>' +
-                        '<option value="pro" ' + (filterTierVal === 'pro' ? 'selected' : '') + '>Pro</option>' +
-                        '<option value="enterprise" ' + (filterTierVal === 'enterprise' ? 'selected' : '') + '>Enterprise</option>' +
-                    '</select>' +
-                    '<select class="form-select" onchange="filterStatusVal=this.value; renderAdminCustomers();" aria-label="Filter status">' +
-                        '<option value="all" ' + (filterStatusVal === 'all' ? 'selected' : '') + '>Semua Status</option>' +
-                        '<option value="active" ' + (filterStatusVal === 'active' ? 'selected' : '') + '>Aktif</option>' +
-                        '<option value="locked" ' + (filterStatusVal === 'locked' ? 'selected' : '') + '>Terkunci</option>' +
-                    '</select>' +
-                '</div>' +
-
-                '<div tabindex="0" role="region" aria-labelledby="cust-table-cap" class="tw-table-wrap">' +
-                    '<table class="tw-table">' +
-                        '<caption id="cust-table-cap">Daftar WanDrone Lisensi</caption>' +
-                        '<thead>' +
-                            '<tr>' +
-                                '<th scope="col">Pelanggan &amp; Kunci</th>' +
-                                '<th scope="col">Kelas</th>' +
-                                '<th scope="col">Fitur</th>' +
-                                '<th scope="col">Kuota</th>' +
-                                '<th scope="col">Status</th>' +
-                                '<th scope="col">Aksi</th>' +
-                            '</tr>' +
-                        '</thead>' +
-                        '<tbody>' + rowsHtml + '</tbody>' +
-                    '</table>' +
-                '</div>';
-        }
-
-        // ====================================================================
-        // ADMIN: PERANGKAT TERDAFTAR
-        // ====================================================================
-        function renderAdminDevices() {
-            const devs = (state.devices || []).filter(function (d) { return d.status === 'active'; });
-            const rowsHtml = devs.length === 0
-                ? '<tr><th scope="row" colspan="5" style="text-align:center; padding:1.75rem; color:var(--muted);">Belum ada perangkat terikat.</th></tr>'
+            const devChips = devs.length === 0
+                ? '<span style="font-size:0.76rem; color:var(--muted);">Belum ada perangkat terikat.</span>'
                 : devs.map(function (d) {
-                    const lic = (state.licenses || []).find(function (l) { return l.id === d.license_id; }) || {};
-                    const ev = WanLicenseEngine.evaluateLicenseLockState(lic, 1);
-                    return '<tr>' +
-                        '<th scope="row">' +
-                            '<div style="font-weight:700; color:var(--ink);">' + esc(d.device_name) + '</div>' +
-                            '<button type="button" class="copy-chip" onclick="copyText(\'' + esc(d.device_id) + '\')">' + esc(d.device_id) + ' &#x29C9;</button>' +
-                        '</th>' +
-                        '<td><div>' + esc(lic.customer_name || '-') + '</div><div style="font-size:0.75rem; color:var(--muted);">' + esc(lic.license_key || '-') + '</div></td>' +
-                        '<td>' + renderTierBadge(lic.tier_slug) + '</td>' +
-                        '<td>' + renderStatusBadge(ev) + '</td>' +
-                        '<td>' +
-                            '<div class="tw-row-actions">' +
-                                '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="openCustomerDevicesDialog(\'' + esc(d.license_id) + '\')">Token</button>' +
-                                '<button type="button" class="tw-btn-danger tw-btn-sm" onclick="removeDeviceSlot(\'' + esc(d.license_id) + '\', \'' + esc(d.device_id) + '\')">Hapus</button>' +
-                            '</div>' +
-                        '</td>' +
-                    '</tr>';
+                    return '<span style="display:inline-flex; align-items:center; gap:0.35rem; background:var(--mist); border:1px solid var(--line); border-radius:6px; padding:0.2rem 0.5rem; font-size:0.74rem;">' +
+                        '<strong style="color:var(--ink);">' + esc(d.device_name || 'Perangkat') + '</strong>' +
+                        '<span style="font-family:var(--mono); color:var(--teal-deep);">' + esc(d.device_id) + '</span>' +
+                    '</span>';
                 }).join('');
 
-            document.getElementById('workspace-content').innerHTML =
-                '<div tabindex="0" role="region" aria-labelledby="dev-table-cap" class="tw-table-wrap">' +
-                    '<table class="tw-table" style="--label-2:\'Pemilik\'; --label-3:\'Kelas\'; --label-4:\'Status\'; --label-5:\'Aksi\';">' +
-                        '<caption id="dev-table-cap">Perangkat terdaftar WanDrone Lisensi</caption>' +
-                        '<thead>' +
-                            '<tr>' +
-                                '<th scope="col">Perangkat &amp; Device ID</th>' +
-                                '<th scope="col">Pemilik</th>' +
-                                '<th scope="col">Kelas</th>' +
-                                '<th scope="col">Status</th>' +
-                                '<th scope="col">Aksi</th>' +
-                            '</tr>' +
-                        '</thead>' +
-                        '<tbody>' + rowsHtml + '</tbody>' +
-                    '</table>' +
-                '</div>';
-        }
-
-        // ====================================================================
-        // ADMIN: LISENSI TERKUNCI
-        // ====================================================================
-        function renderAdminSecurity() {
-            const lockedList = getEvaluatedLicenses().filter(function (l) { return l.is_locked; });
-            const rowsHtml = lockedList.length === 0
-                ? '<tr><th scope="row" colspan="5" style="text-align:center; padding:1.75rem; color:var(--muted);">Tidak ada lisensi yang terkunci saat ini.</th></tr>'
-                : lockedList.map(function (l) {
-                    return '<tr>' +
-                        '<th scope="row">' +
-                            '<div style="font-weight:700;">' + esc(l.customer_name) + '</div>' +
-                            '<div style="font-family:var(--mono); font-size:0.75rem; color:var(--teal-deep);">' + esc(l.license_key) + '</div>' +
-                        '</th>' +
-                        '<td>' + renderTierBadge(l.tier_slug) + '</td>' +
-                        '<td>' + renderStatusBadge(l) + '</td>' +
-                        '<td style="font-size:0.8rem; color:var(--slate);">' + esc(l.lock_reason || 'Masa berlaku habis.') + '</td>' +
-                        '<td><div class="tw-row-actions"><button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialog(\'' + esc(l.id) + '\')">Perpanjang</button></div></td>' +
-                    '</tr>';
-                }).join('');
-
-            document.getElementById('workspace-content').innerHTML =
-                '<div class="tw-card">' +
-                    '<div class="tw-card-head"><h2>Proteksi Masa Aktif</h2></div>' +
-                    '<p style="font-size:0.84rem; color:var(--slate);">Lisensi Trial 7 Hari atau langganan yang habis masa aktifnya otomatis terkunci hingga diperpanjang atau di-upgrade.</p>' +
+            return '<div class="tw-lic-box">' +
+                '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.65rem; flex-wrap:wrap;">' +
+                    '<div>' +
+                        (showOwnerHeader
+                            ? '<div style="font-weight:700; color:var(--ink); font-size:0.9rem; margin-bottom:0.2rem;">' + esc(l.customer_name) + ' <span style="font-weight:400; color:var(--muted); font-size:0.78rem;">(' + esc(l.customer_contact) + ')</span></div>'
+                            : '') +
+                        '<div style="display:flex; gap:0.35rem; align-items:center; flex-wrap:wrap; margin-bottom:0.35rem;">' +
+                            renderTierBadge(l.tier_slug) +
+                            renderStatusBadge(l) +
+                            '<span style="font-family:var(--mono); font-size:0.75rem; color:var(--slate);">' + esc(expText) + '</span>' +
+                            '<span style="font-size:0.75rem; color:var(--slate);">&bull; ' + esc(featText) + '</span>' +
+                        '</div>' +
+                        '<button type="button" class="copy-chip" onclick="copyText(\'' + esc(l.license_key) + '\')">' + esc(l.license_key) + ' &#x29C9;</button>' +
+                    '</div>' +
+                    '<div class="tw-row-actions">' +
+                        '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialog(\'' + esc(l.id) + '\')">Edit</button>' +
+                        '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="openCustomerDevicesDialog(\'' + esc(l.id) + '\')">Perangkat (' + devs.length + '/' + l.max_devices + ')</button>' +
+                        (l.is_locked
+                            ? '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="quickToggleLock(\'' + esc(l.id) + '\', \'activate\')">Aktifkan</button>'
+                            : '<button type="button" class="tw-btn-danger tw-btn-sm" onclick="quickToggleLock(\'' + esc(l.id) + '\', \'expire\')">Kunci</button>') +
+                        (canDeleteLicense()
+                            ? '<button type="button" class="tw-btn-danger tw-btn-sm" onclick="deleteLicenseRecord(\'' + esc(l.id) + '\')">Hapus</button>'
+                            : '') +
+                    '</div>' +
                 '</div>' +
-                '<div tabindex="0" role="region" aria-labelledby="sec-table-cap" class="tw-table-wrap">' +
-                    '<table class="tw-table" style="--label-2:\'Kelas\'; --label-3:\'Status\'; --label-4:\'Alasan\'; --label-5:\'Aksi\';">' +
-                        '<caption id="sec-table-cap">Daftar lisensi terkunci</caption>' +
-                        '<thead>' +
-                            '<tr>' +
-                                '<th scope="col">Pelanggan &amp; Kunci</th>' +
-                                '<th scope="col">Kelas</th>' +
-                                '<th scope="col">Status</th>' +
-                                '<th scope="col">Alasan</th>' +
-                                '<th scope="col">Aksi</th>' +
-                            '</tr>' +
-                        '</thead>' +
-                        '<tbody>' + rowsHtml + '</tbody>' +
-                    '</table>' +
-                '</div>';
+                '<div style="display:flex; gap:0.35rem; flex-wrap:wrap; align-items:center; margin-top:0.55rem; padding-top:0.55rem; border-top:1px dashed var(--line-soft);">' +
+                    devChips +
+                '</div>' +
+            '</div>';
         }
 
         // ====================================================================
@@ -2386,9 +2309,17 @@
         }
 
         // ====================================================================
-        // ADMIN: PENGGUNA AKUN WANDRONE (1:1 SINKRON DENGAN FORUM)
+        // ADMIN: PENGGUNA & LISENSI MELEKAT (1 Tab Terpusat, Klik Pengguna)
         // ====================================================================
         let filterUsersVal = '';
+        let filterUsersMode = 'all';
+        let selectedAdminUsername = '';
+
+        function toggleSelectedAdminUser(encodedUsername) {
+            const target = decodeURIComponent(String(encodedUsername || '')).trim().toLowerCase();
+            selectedAdminUsername = (selectedAdminUsername === target) ? '' : target;
+            renderAdminUsers();
+        }
 
         async function refreshAdminAllData() {
             if (!currentUser.authenticated || !currentUser.isAdmin) return;
@@ -2408,70 +2339,140 @@
 
         function renderAdminUsers() {
             const users = getCombinedAccountsList();
+            const evs = getEvaluatedLicenses();
+            const activeSubs = evs.filter(function (l) { return !l.is_locked; });
+            const activeDevs = (state.devices || []).filter(function (d) { return d.status === 'active'; });
+            const lockedCount = evs.filter(function (l) { return l.is_locked; }).length;
             const q = String(filterUsersVal || '').trim().toLowerCase();
+
             const filtered = users.filter(function (u) {
-                if (!q) return true;
-                return [u.full_name, u.username, u.contact_info, u.role].join(' ').toLowerCase().includes(q);
+                const userLics = findLicensesForUser(u);
+                const hasAny = userLics.length > 0;
+                const hasActive = userLics.some(function (l) { return !l.is_locked; });
+                const hasLocked = userLics.some(function (l) { return l.is_locked; });
+
+                if (filterUsersMode === 'licensed' && !hasAny) return false;
+                if (filterUsersMode === 'active' && !hasActive) return false;
+                if (filterUsersMode === 'locked' && !hasLocked) return false;
+                if (filterUsersMode === 'unlicensed' && hasAny) return false;
+                if (filterUsersMode === 'unmatched') return false;
+
+                if (q) {
+                    const userMatch = [u.full_name, u.username, u.contact_info, u.role].join(' ').toLowerCase().includes(q);
+                    const licMatch = userLics.some(function (l) {
+                        const devMatch = getDevicesForLicense(l.id).some(function (d) { return (d.device_id || '').toLowerCase().includes(q); });
+                        return [l.license_key, l.tier_slug, l.customer_name, l.customer_contact].join(' ').toLowerCase().includes(q) || devMatch;
+                    });
+                    if (!userMatch && !licMatch) return false;
+                }
+                return true;
             });
 
-            const rowsHtml = filtered.length === 0
-                ? '<tr><th scope="row" colspan="5" style="text-align:center; padding:1.75rem; color:var(--muted);">Belum ada akun pengguna yang cocok.</th></tr>'
+            const unmatchedAll = getUnmatchedLicenses(users);
+            const unmatchedFiltered = unmatchedAll.filter(function (l) {
+                if (filterUsersMode === 'active' && l.is_locked) return false;
+                if (filterUsersMode === 'locked' && !l.is_locked) return false;
+                if (filterUsersMode === 'unlicensed') return false;
+                if (!q) return true;
+                const devMatch = getDevicesForLicense(l.id).some(function (d) { return (d.device_id || '').toLowerCase().includes(q); });
+                return [l.license_key, l.tier_slug, l.customer_name, l.customer_contact].join(' ').toLowerCase().includes(q) || devMatch;
+            });
+
+            const listHtml = filtered.length === 0 && filterUsersMode !== 'unmatched'
+                ? '<div class="tw-card" style="text-align:center; color:var(--muted); padding:1.75rem;">Tidak ada pengguna yang cocok dengan filter.</div>'
                 : filtered.map(function (u) {
-                    const matchedRaw = findMatchingUserLicense(u, false);
-                    const matchedEv = matchedRaw ? WanLicenseEngine.evaluateLicenseLockState(matchedRaw, getDevicesForLicense(matchedRaw.id).length) : null;
-                    const licCell = matchedEv
-                        ? '<div style="display:flex; gap:0.35rem; align-items:center; flex-wrap:wrap;">' + renderTierBadge(matchedEv.tier_slug) + renderStatusBadge(matchedEv) + '</div>' +
-                          '<div style="font-family:var(--mono); font-size:0.72rem; color:var(--muted); margin-top:0.2rem;">' + esc(matchedEv.license_key) + '</div>'
-                        : '<span style="font-size:0.78rem; color:var(--muted);">Belum berlisensi</span>';
-
+                    const unameLower = String(u.username || '').trim().toLowerCase();
+                    const isExpanded = selectedAdminUsername === unameLower;
+                    const userLics = findLicensesForUser(u);
                     const safeName = u.full_name || u.username;
-                    const actBtn = matchedEv
-                        ? '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="openSubscriptionDialog(\'' + esc(matchedEv.id) + '\')">Edit Lisensi</button>'
-                        : '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialogForUser(\'' + encodeURIComponent(String(u.username || '')) + '\')">+ Beri Lisensi</button>';
 
-                    return '<tr>' +
-                        '<th scope="row">' +
-                            '<div style="font-weight:700; color:var(--ink);">' + esc(safeName) + '</div>' +
-                            '<div style="font-family:var(--mono); font-size:0.75rem; color:var(--teal-deep);">@' + esc(u.username) + '</div>' +
-                            '<div style="font-size:0.76rem; color:var(--muted);">' + esc(u.contact_info || '-') + '</div>' +
-                        '</th>' +
-                        '<td>' + renderRoleBadgeForUser(u.role) + '</td>' +
-                        '<td>' + licCell + '</td>' +
-                        '<td><span style="font-family:var(--mono); font-weight:700; color:var(--ink);">' + (Number(u.total_points) || 0) + '</span></td>' +
-                        '<td><div class="tw-row-actions">' + actBtn + '</div></td>' +
-                    '</tr>';
+                    let summaryHtml = '<span style="font-size:0.78rem; color:var(--muted);">Belum berlisensi</span>';
+                    if (userLics.length > 0) {
+                        const first = userLics[0];
+                        const extra = userLics.length > 1 ? '<span class="tw-tab-badge">+' + (userLics.length - 1) + '</span>' : '';
+                        summaryHtml = renderTierBadge(first.tier_slug) + ' ' + renderStatusBadge(first) + ' ' + extra;
+                    }
+
+                    let detailHtml = '';
+                    if (isExpanded) {
+                        const cardsHtml = userLics.length === 0
+                            ? '<div style="background:var(--white); border:1px dashed var(--line); border-radius:10px; padding:1rem; display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">' +
+                                '<span style="font-size:0.84rem; color:var(--slate);">Belum ada lisensi yang melekat pada <strong>@' + esc(u.username) + '</strong>.</span>' +
+                                '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialogForUser(\'' + encodeURIComponent(String(u.username || '')) + '\')">+ Beri Lisensi</button>' +
+                              '</div>'
+                            : userLics.map(function (lic) {
+                                return renderAdminLicenseCardHtml(lic, false);
+                              }).join('');
+
+                        detailHtml =
+                            '<div class="tw-user-detail">' +
+                                '<div style="display:flex; justify-content:space-between; align-items:center; gap:0.65rem; flex-wrap:wrap; margin-bottom:0.75rem;">' +
+                                    '<div style="font-size:0.8rem; color:var(--slate);">' +
+                                        '<strong>Lisensi Melekat (' + userLics.length + ')</strong> &bull; Kontak: ' + esc(u.contact_info || '-') + ' &bull; Poin Forum: <strong>' + (Number(u.total_points) || 0) + '</strong>' +
+                                    '</div>' +
+                                    '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialogForUser(\'' + encodeURIComponent(String(u.username || '')) + '\')">+ Tambah Lisensi</button>' +
+                                '</div>' +
+                                cardsHtml +
+                            '</div>';
+                    }
+
+                    return '<div class="tw-user-item ' + (isExpanded ? 'is-expanded' : '') + '">' +
+                        '<button type="button" class="tw-user-head" aria-expanded="' + (isExpanded ? 'true' : 'false') + '" onclick="toggleSelectedAdminUser(\'' + encodeURIComponent(String(u.username || '')) + '\')">' +
+                            '<div style="min-width:0;">' +
+                                '<div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">' +
+                                    '<span style="font-weight:700; font-size:0.95rem; color:var(--ink);">' + esc(safeName) + '</span>' +
+                                    '<span style="font-family:var(--mono); font-size:0.76rem; color:var(--teal-deep);">@' + esc(u.username) + '</span>' +
+                                    renderRoleBadgeForUser(u.role) +
+                                '</div>' +
+                                '<div style="font-size:0.78rem; color:var(--muted); margin-top:0.15rem;">' + esc(u.contact_info || '-') + '</div>' +
+                            '</div>' +
+                            '<div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">' +
+                                summaryHtml +
+                                '<span style="font-size:0.75rem; font-weight:700; color:var(--teal-deep); margin-left:0.25rem;">' + (isExpanded ? 'Tutup &#9652;' : 'Lihat &#9662;') + '</span>' +
+                            '</div>' +
+                        '</button>' +
+                        detailHtml +
+                    '</div>';
                 }).join('');
 
+            const unmatchedHtml = unmatchedFiltered.length > 0
+                ? '<div style="margin-top:1.35rem;">' +
+                    '<div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; margin-bottom:0.65rem; flex-wrap:wrap;">' +
+                        '<h3 style="font-size:1rem; color:var(--ink);">Lisensi Tanpa Akun Terhubung (' + unmatchedFiltered.length + ')</h3>' +
+                        '<span style="font-size:0.78rem; color:var(--muted);">Belum cocok dengan username/kontak Akun WanDrone.</span>' +
+                    '</div>' +
+                    unmatchedFiltered.map(function (lic) {
+                        return renderAdminLicenseCardHtml(lic, true);
+                    }).join('') +
+                  '</div>'
+                : (filterUsersMode === 'unmatched'
+                    ? '<div class="tw-card" style="text-align:center; color:var(--muted); padding:1.5rem;">Semua lisensi sudah terhubung ke Akun WanDrone.</div>'
+                    : '');
+
             document.getElementById('workspace-content').innerHTML =
-                '<div class="tw-card" style="display:flex; align-items:center; justify-content:space-between; gap:0.85rem; flex-wrap:wrap;">' +
-                    '<div>' +
-                        '<h2 style="font-size:1.15rem; margin-bottom:0.2rem;">Daftar Akun WanDrone (' + users.length + ')</h2>' +
-                        '<p style="font-size:0.82rem; color:var(--slate);">1 akun terpadu — setiap akun yang mendaftar di Konsol Lisensi maupun Forum tampil di sini.</p>' +
-                    '</div>' +
-                    '<div class="tw-row-actions">' +
-                        '<button type="button" class="tw-btn tw-btn-sm" onclick="openCreateUserDialog()">+ Tambah Akun</button>' +
-                        '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="refreshAdminAllData()">Segarkan</button>' +
-                        '<a href="tanya-jawab.html?admin=1" class="tw-btn-2 tw-btn-sm">Kelola di Forum &rarr;</a>' +
-                    '</div>' +
+                '<div class="tw-stats-grid">' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Pengguna</div><div class="tw-stat-val">' + users.length + '</div><div class="tw-stat-sub">Akun WanDrone</div></div>' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Aktif</div><div class="tw-stat-val" style="color:var(--teal-deep);">' + activeSubs.length + '</div><div class="tw-stat-sub">Lisensi aktif</div></div>' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Perangkat</div><div class="tw-stat-val">' + activeDevs.length + '</div><div class="tw-stat-sub">Terikat aktif</div></div>' +
+                    '<div class="tw-stat-card"><div class="tw-stat-lbl">Terkunci</div><div class="tw-stat-val" style="color:#991B1B;">' + lockedCount + '</div><div class="tw-stat-sub">Habis / Nonaktif</div></div>' +
                 '</div>' +
+
                 '<div class="tw-toolbar">' +
-                    '<input type="search" class="form-control" placeholder="Cari nama, username, kontak, atau peran..." value="' + esc(filterUsersVal) + '" oninput="filterUsersVal=this.value; renderAdminUsers();"/>' +
+                    '<input type="search" class="form-control" placeholder="Cari pengguna, @username, kontak, atau kunci lisensi..." value="' + esc(filterUsersVal) + '" oninput="filterUsersVal=this.value; renderAdminUsers();"/>' +
+                    '<select class="form-select" onchange="filterUsersMode=this.value; renderAdminUsers();" aria-label="Filter pengguna dan lisensi">' +
+                        '<option value="all" ' + (filterUsersMode === 'all' ? 'selected' : '') + '>Semua Pengguna</option>' +
+                        '<option value="licensed" ' + (filterUsersMode === 'licensed' ? 'selected' : '') + '>Sudah Berlisensi</option>' +
+                        '<option value="active" ' + (filterUsersMode === 'active' ? 'selected' : '') + '>Lisensi Aktif</option>' +
+                        '<option value="locked" ' + (filterUsersMode === 'locked' ? 'selected' : '') + '>Terkunci / Habis</option>' +
+                        '<option value="unlicensed" ' + (filterUsersMode === 'unlicensed' ? 'selected' : '') + '>Belum Berlisensi</option>' +
+                        '<option value="unmatched" ' + (filterUsersMode === 'unmatched' ? 'selected' : '') + '>Lisensi Non-Akun (' + unmatchedAll.length + ')</option>' +
+                    '</select>' +
+                    '<button type="button" class="tw-btn tw-btn-sm" onclick="openCreateUserDialog()">+ Tambah Akun</button>' +
+                    '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="refreshAdminAllData()">Segarkan</button>' +
                 '</div>' +
-                '<div tabindex="0" role="region" aria-labelledby="users-table-cap" class="tw-table-wrap">' +
-                    '<table class="tw-table" style="--label-2:\'Peran\'; --label-3:\'Lisensi\'; --label-4:\'Poin\'; --label-5:\'Aksi\';">' +
-                        '<caption id="users-table-cap">Daftar Akun WanDrone Terpadu</caption>' +
-                        '<thead>' +
-                            '<tr>' +
-                                '<th scope="col">Pengguna &amp; Kontak</th>' +
-                                '<th scope="col">Peran</th>' +
-                                '<th scope="col">Status Lisensi</th>' +
-                                '<th scope="col">Poin</th>' +
-                                '<th scope="col">Aksi</th>' +
-                            '</tr>' +
-                        '</thead>' +
-                        '<tbody>' + rowsHtml + '</tbody>' +
-                    '</table>' +
-                '</div>';
+
+                '<div class="tw-user-list">' + listHtml + '</div>' +
+                unmatchedHtml;
         }
 
         // ====================================================================
@@ -2702,11 +2703,14 @@
             }
         }
 
+        let subTargetUsername = '';
+
         function openSubscriptionDialog(licId) {
             if (!currentUser.authenticated || !currentUser.isAdmin) {
                 showToast('Akses ditolak.');
                 return;
             }
+            subTargetUsername = '';
             const dlg = document.getElementById('subscription-dialog');
             populateProductSelect();
 
@@ -2738,6 +2742,9 @@
                 document.getElementById('sub-notes').value = '';
             }
 
+            const delBtn = document.getElementById('sub-delete-btn');
+            if (delBtn) delBtn.classList.toggle('is-hidden', !(licId && canDeleteLicense()));
+
             onSubTierOrPlanChange();
             dlg.showModal();
         }
@@ -2749,6 +2756,7 @@
             });
             openSubscriptionDialog();
             if (user) {
+                subTargetUsername = user.username || '';
                 document.getElementById('sub-customer-name').value = user.full_name || user.username || '';
                 const cInput = document.getElementById('sub-customer-contact');
                 cInput.value = user.contact_info || ('@' + user.username);
@@ -2900,6 +2908,21 @@
                 } catch (_) {}
             }
 
+            const matchedAcc = getCombinedAccountsList().find(function (u) {
+                const nl = name.toLowerCase();
+                const cl = contact.toLowerCase();
+                return (subTargetUsername && String(u.username || '').toLowerCase() === subTargetUsername.toLowerCase()) ||
+                    String(u.username || '').toLowerCase() === nl ||
+                    String(u.full_name || '').toLowerCase() === nl ||
+                    (u.contact_info && String(u.contact_info).toLowerCase() === cl);
+            });
+            const resolvedOrg = subTargetUsername
+                ? ('@' + subTargetUsername)
+                : (matchedAcc ? ('@' + matchedAcc.username) : ((existingLic && existingLic.organization) || '-'));
+            if (matchedAcc && !selectedAdminUsername) {
+                selectedAdminUsername = String(matchedAcc.username || '').toLowerCase();
+            }
+
             const client = getSupabaseClient();
             let syncedRemote = false;
             if (client && currentUser.password_plain && (!id || isUuid(id))) {
@@ -2909,7 +2932,7 @@
                         tier_slug: tier,
                         customer_name: name,
                         customer_contact: contact,
-                        organization: '-',
+                        organization: resolvedOrg,
                         duration_plan: plan,
                         duration_days: durationDays,
                         activation_trigger: 'on_issue',
@@ -2948,6 +2971,7 @@
                         state.licenses[idx] = Object.assign({}, state.licenses[idx], {
                             customer_name: name,
                             customer_contact: contact,
+                            organization: resolvedOrg,
                             app_slug: appSlug,
                             tier_slug: tier,
                             duration_plan: plan,
@@ -2969,7 +2993,7 @@
                         tier_slug: tier,
                         customer_name: name,
                         customer_contact: contact,
-                        organization: '-',
+                        organization: resolvedOrg,
                         duration_plan: plan,
                         duration_days: durationDays,
                         activation_trigger: 'on_issue',
@@ -3052,6 +3076,64 @@
 
             updateTabCounts();
             switchSection(currentSection);
+        }
+
+        function canDeleteLicense() {
+            return !!(currentUser.authenticated && (currentUser.role === 'owner' || currentUser.role === 'superadmin'));
+        }
+
+        async function deleteLicenseRecord(licId) {
+            if (!canDeleteLicense()) {
+                showToast('Hanya Akun Utama / Super Admin yang dapat menghapus lisensi.');
+                return;
+            }
+            const id = String(licId || '').trim();
+            const lic = (state.licenses || []).find(function (l) { return l.id === id; });
+            if (!lic) return;
+
+            if (!confirm('Hapus permanen lisensi ' + lic.license_key + ' (' + lic.customer_name + ')? Data perangkat terkait juga akan ikut dihapus.')) {
+                return;
+            }
+
+            let deletedRemote = false;
+            const client = getSupabaseClient();
+            if (isUuid(id) && client && currentUser.password_plain) {
+                try {
+                    const { data, error } = await client.rpc('admin_manage_license_action', {
+                        admin_user: currentUser.username,
+                        admin_pass: currentUser.password_plain,
+                        p_action: 'delete_license',
+                        p_license_id: id,
+                        p_meta: {}
+                    });
+                    if (error || (data && data.success === false)) {
+                        showToast((error && error.message) || (data && data.message) || 'Gagal menghapus lisensi dari server.');
+                        return;
+                    }
+                    deletedRemote = true;
+                } catch (err) {
+                    showToast((err && err.message) || 'Gagal menghubungi server.');
+                    return;
+                }
+            }
+
+            state.licenses = (state.licenses || []).filter(function (l) { return l.id !== id; });
+            state.devices = (state.devices || []).filter(function (d) { return d.license_id !== id; });
+            if (currentUser.activeLicenseId === id) {
+                currentUser.activeLicenseId = null;
+            }
+            WanLicenseEngine.saveLocalDb(state);
+
+            if (deletedRemote) {
+                await syncAdminDatabaseFromSupabase();
+            }
+
+            const subDlg = document.getElementById('subscription-dialog');
+            if (subDlg && subDlg.open) subDlg.close();
+
+            updateTabCounts();
+            switchSection(currentSection);
+            showToast('Lisensi ' + lic.license_key + ' berhasil dihapus.');
         }
 
         // ====================================================================

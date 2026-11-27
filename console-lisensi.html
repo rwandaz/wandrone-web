@@ -1375,8 +1375,9 @@
                 <input type="hidden" id="sub-id"/>
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label class="form-label" for="sub-customer-name">Nama Pemilik</label>
-                        <input type="text" id="sub-customer-name" class="form-control" placeholder="Nama pilot / instansi" required/>
+                        <label class="form-label" for="sub-customer-name">Nama Pemilik (Akun WanDrone)</label>
+                        <input type="text" id="sub-customer-name" class="form-control" list="sub-account-list" placeholder="Nama pilot / pilih Akun WanDrone" onchange="onSubAccountPick(this.value)" required/>
+                        <datalist id="sub-account-list"></datalist>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="sub-customer-contact">Kontak (WA / Email)</label>
@@ -1505,9 +1506,39 @@
         // STATE & AUTENTIKASI AKUN WANDRONE (Admin / Pengguna)
         // ====================================================================
         const PILOT_STORAGE_KEY = 'wan_pilot_user_session';
-        const supabaseClient = (window.supabase && WanLicenseEngine && WanLicenseEngine.SUPABASE_URL)
+        let supabaseClient = (window.supabase && WanLicenseEngine && WanLicenseEngine.SUPABASE_URL)
             ? window.supabase.createClient(WanLicenseEngine.SUPABASE_URL, WanLicenseEngine.SUPABASE_ANON_KEY)
             : null;
+
+        function getSupabaseClient() {
+            if (!supabaseClient && window.supabase && WanLicenseEngine && WanLicenseEngine.SUPABASE_URL) {
+                supabaseClient = window.supabase.createClient(WanLicenseEngine.SUPABASE_URL, WanLicenseEngine.SUPABASE_ANON_KEY);
+            }
+            return supabaseClient;
+        }
+
+        function isUuid(val) {
+            return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(val || '').trim());
+        }
+
+        function normalizeProfilePayload(userData) {
+            if (userData && userData.user_login && typeof userData.user_login === 'object') {
+                return userData.user_login;
+            }
+            return userData || null;
+        }
+
+        function isAppointedSuperAdminLocal(username) {
+            const u = String(username || '').trim().toLowerCase();
+            if (!u || u === 'rwandaz') return false;
+            try {
+                const raw = localStorage.getItem('wan_appointed_superadmins_v1');
+                const arr = raw ? JSON.parse(raw) : [];
+                return Array.isArray(arr) && arr.some(function (x) { return String(x || '').trim().toLowerCase() === u; });
+            } catch (_) {
+                return false;
+            }
+        }
 
         let currentSection = 'portal-overview';
         let currentUser = {
@@ -1547,7 +1578,7 @@
         function isAdminRoleName(username, role) {
             const u = String(username || '').trim().toLowerCase();
             const r = String(role || '').trim().toLowerCase();
-            return u === 'rwandaz' || r === 'owner' || r === 'superadmin' || r === 'admin';
+            return u === 'rwandaz' || r === 'owner' || r === 'superadmin' || r === 'admin' || isAppointedSuperAdminLocal(u);
         }
 
         function showAuthAlert(msg, isInfo) {
@@ -1577,7 +1608,7 @@
         function syncSessionStorageFromProfile(userData, passwordPlain) {
             const isAdm = isAdminRoleName(userData && userData.username, userData && userData.role);
             if (isAdm && userData && passwordPlain) {
-                const isMain = String(userData.username || '').trim().toLowerCase() === 'rwandaz' || String(userData.role || '').toLowerCase() === 'superadmin';
+                const isMain = String(userData.username || '').trim().toLowerCase() === 'rwandaz' || String(userData.role || '').toLowerCase() === 'superadmin' || isAppointedSuperAdminLocal(userData.username);
                 sessionStorage.setItem('wandrone_admin_user', userData.username);
                 sessionStorage.setItem('wandrone_admin_pass', passwordPlain);
                 sessionStorage.setItem('wandrone_admin_role', isMain ? 'superadmin' : 'admin');
@@ -1589,33 +1620,44 @@
         }
 
         function persistProfileSession(userData, password) {
-            userData.password_plain = password;
+            const normalized = normalizeProfilePayload(userData);
+            if (!normalized) return null;
+            normalized.password_plain = password;
             try {
-                localStorage.setItem(PILOT_STORAGE_KEY, JSON.stringify(userData));
+                localStorage.setItem(PILOT_STORAGE_KEY, JSON.stringify(normalized));
             } catch (_) {}
-            syncSessionStorageFromProfile(userData, password);
-            return userData;
+            syncSessionStorageFromProfile(normalized, password);
+            return normalized;
         }
 
         async function verifyPilotProfileCredentials(username, password) {
-            if (!supabaseClient) {
+            const client = getSupabaseClient();
+            if (!client) {
                 throw new Error('Koneksi autentikasi belum siap. Muat ulang halaman.');
             }
-            const { data, error } = await supabaseClient.rpc('user_login', {
+            const { data, error } = await client.rpc('user_login', {
                 p_username: String(username || '').trim(),
                 p_password: String(password || '')
             });
-            if (error || !data) {
-                throw new Error((error && error.message) || 'Username atau kata sandi salah.');
+            const normalized = normalizeProfilePayload(data);
+            if (error || !normalized || !normalized.username) {
+                const err = new Error((error && error.message) || 'Username atau kata sandi salah.');
+                if (error && /salah|tidak cocok|tidak ditemukan|invalid|wrong|not found/i.test(error.message || '')) {
+                    err.isAuthRejected = true;
+                } else if (!error && !normalized) {
+                    err.isAuthRejected = true;
+                }
+                throw err;
             }
-            return persistProfileSession(data, password);
+            return persistProfileSession(normalized, password);
         }
 
         async function registerWanDroneAccount(payload) {
-            if (!supabaseClient) {
+            const client = getSupabaseClient();
+            if (!client) {
                 throw new Error('Koneksi pendaftaran belum siap. Muat ulang halaman.');
             }
-            const { data, error } = await supabaseClient.rpc('user_register', {
+            const { data, error } = await client.rpc('user_register', {
                 p_username: String(payload.username || '').trim(),
                 p_password: String(payload.password || ''),
                 p_name: String(payload.fullName || '').trim(),
@@ -1623,26 +1665,50 @@
                 p_remotes: [],
                 p_drones: []
             });
-            if (error || !data) {
+            const normalized = normalizeProfilePayload(data);
+            if (error || !normalized || !normalized.username) {
                 throw new Error((error && error.message) || 'Pendaftaran Akun WanDrone gagal.');
             }
-            return persistProfileSession(data, payload.password);
+            return persistProfileSession(normalized, payload.password);
+        }
+
+        let forumAccountsList = [];
+
+        function populateForumAccountsDatalist() {
+            const dl = document.getElementById('sub-account-list');
+            if (!dl) return;
+            dl.innerHTML = (forumAccountsList || []).map(function (u) {
+                const label = (u.full_name || u.username) + ' (@' + u.username + ') • ' + (u.contact_info || '-');
+                return '<option value="' + esc(u.full_name || u.username) + '" label="' + esc(label) + '"></option>';
+            }).join('');
         }
 
         async function syncAdminDatabaseFromSupabase() {
-            if (!currentUser.authenticated || !currentUser.isAdmin || !supabaseClient || !currentUser.password_plain) return;
+            const client = getSupabaseClient();
+            if (!currentUser.authenticated || !currentUser.isAdmin || !client || !currentUser.password_plain) return;
             try {
-                const { data, error } = await supabaseClient.rpc('admin_get_license_console_data', {
+                const res = await client.rpc('admin_get_license_console_data', {
                     admin_user: currentUser.username,
                     admin_pass: currentUser.password_plain
                 });
-                if (!error && data && data.success) {
-                    if (Array.isArray(data.applications) && data.applications.length) state.applications = data.applications;
-                    if (Array.isArray(data.tiers) && data.tiers.length) state.tiers = data.tiers;
-                    if (Array.isArray(data.licenses)) state.licenses = data.licenses;
-                    if (Array.isArray(data.devices)) state.devices = data.devices;
-                    if (Array.isArray(data.audit_logs)) state.audit_logs = data.audit_logs;
+                if (!res.error && res.data && res.data.success) {
+                    if (Array.isArray(res.data.applications) && res.data.applications.length) state.applications = res.data.applications;
+                    if (Array.isArray(res.data.tiers) && res.data.tiers.length) state.tiers = res.data.tiers;
+                    if (Array.isArray(res.data.licenses)) state.licenses = res.data.licenses;
+                    if (Array.isArray(res.data.devices)) state.devices = res.data.devices;
+                    if (Array.isArray(res.data.audit_logs)) state.audit_logs = res.data.audit_logs;
                     WanLicenseEngine.saveLocalDb(state);
+                }
+            } catch (_) {}
+
+            try {
+                const uRes = await client.rpc('admin_list_forum_users', {
+                    admin_user: currentUser.username,
+                    admin_pass: currentUser.password_plain
+                });
+                if (!uRes.error && Array.isArray(uRes.data)) {
+                    forumAccountsList = uRes.data;
+                    populateForumAccountsDatalist();
                 }
             } catch (_) {}
         }
@@ -1663,25 +1729,33 @@
             }) || null;
         }
 
+        function saveLastCheckedLicenseForUser(username, query) {
+            const u = String(username || '').trim().toLowerCase();
+            if (!u || !query) return;
+            try { localStorage.setItem('wan_user_last_license_' + u, String(query).trim().toUpperCase()); } catch (_) {}
+        }
+
         async function enterAuthenticatedProfile(userData, passwordPlain) {
-            const uname = String(userData.username || '').trim();
+            const norm = normalizeProfilePayload(userData) || {};
+            const uname = String(norm.username || '').trim();
             const lowerU = uname.toLowerCase();
-            const rawRole = String(userData.role || 'user').trim().toLowerCase();
+            const rawRole = String(norm.role || 'user').trim().toLowerCase();
             const isAdm = isAdminRoleName(uname, rawRole);
-            const effectiveRole = lowerU === 'rwandaz' ? 'owner' : (isAdm ? rawRole : 'user');
+            const effectiveRole = lowerU === 'rwandaz' ? 'owner' : ((isAdm && rawRole !== 'admin' && rawRole !== 'superadmin') ? 'superadmin' : (isAdm ? rawRole : 'user'));
 
             currentUser = {
                 authenticated: true,
-                id: userData.id || null,
+                id: norm.id || null,
                 username: uname,
-                full_name: userData.full_name || uname,
-                contact_info: userData.contact_info || '',
+                full_name: norm.full_name || uname,
+                contact_info: norm.contact_info || '',
                 role: effectiveRole,
                 isAdmin: isAdm,
                 password_plain: passwordPlain,
                 activeLicenseId: null,
                 checkedLicenseData: null
             };
+            syncSessionStorageFromProfile(norm, passwordPlain);
 
             state = WanLicenseEngine.loadLocalDb();
             if (isAdm) {
@@ -1689,6 +1763,26 @@
             } else {
                 const matched = findMatchingUserLicense(currentUser);
                 currentUser.activeLicenseId = matched ? matched.id : null;
+                if (!matched) {
+                    try {
+                        const savedQuery = localStorage.getItem('wan_user_last_license_' + lowerU);
+                        const client = getSupabaseClient();
+                        if (savedQuery && client) {
+                            const { data, error } = await client.rpc('public_check_or_activate_license', {
+                                p_query: savedQuery,
+                                p_action: 'check'
+                            });
+                            if (!error && data && data.found) {
+                                const remDays = data.expires_at ? Math.ceil((Date.parse(data.expires_at) - Date.now()) / 86400000) : null;
+                                currentUser.checkedLicenseData = Object.assign({}, data, {
+                                    id: 'remote-' + data.license_key,
+                                    remaining_days: remDays
+                                });
+                                portalLastQuery = data.license_key;
+                            }
+                        }
+                    } catch (_) {}
+                }
             }
 
             const params = new URLSearchParams(window.location.search);
@@ -2233,17 +2327,10 @@
                 });
             });
 
-            if (localMatch) {
-                currentUser.activeLicenseId = localMatch.id;
-                currentUser.checkedLicenseData = null;
-                updateTabCounts();
-                renderPortalOverview();
-                return;
-            }
-
-            if (supabaseClient) {
+            const client = getSupabaseClient();
+            if (client) {
                 try {
-                    const { data, error } = await supabaseClient.rpc('public_check_or_activate_license', {
+                    const { data, error } = await client.rpc('public_check_or_activate_license', {
                         p_query: q,
                         p_action: 'check'
                     });
@@ -2254,11 +2341,21 @@
                             id: 'remote-' + data.license_key,
                             remaining_days: remDays
                         });
+                        saveLastCheckedLicenseForUser(currentUser.username, data.license_key || q);
                         updateTabCounts();
                         renderPortalOverview();
                         return;
                     }
                 } catch (_) {}
+            }
+
+            if (localMatch) {
+                currentUser.activeLicenseId = localMatch.id;
+                currentUser.checkedLicenseData = null;
+                saveLastCheckedLicenseForUser(currentUser.username, localMatch.license_key || q);
+                updateTabCounts();
+                renderPortalOverview();
+                return;
             }
 
             portalCheckError = 'Kunci Lisensi atau Device ID tidak ditemukan. Periksa kembali penulisan atau hubungi Jejen.';
@@ -2272,7 +2369,7 @@
                 '<div class="tw-card">' +
                     '<div class="tw-card-head">' +
                         '<h2>Cek &amp; Aktivasi Lisensi</h2>' +
-                        '<span class="tw-badge tw-badge-pro">WanDrone Lisensi</span>' +
+                        '<span class="tw-badge tw-badge-pro">Akun WanDrone: @' + esc(currentUser.username) + '</span>' +
                     '</div>' +
                     '<p style="font-size:0.84rem; color:var(--slate);">Masukkan <strong>Kunci Lisensi</strong> atau <strong>Device ID 16-Hex</strong> untuk melihat masa aktif, fitur terbuka, dan daftar perangkat.</p>' +
                     '<form id="portal-self-check-form" class="tw-check-row" onsubmit="handlePortalLicenseCheck(event)">' +
@@ -2291,9 +2388,12 @@
                     '<div class="tw-card" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">' +
                         '<div>' +
                             '<h3 style="font-size:1.1rem; margin-bottom:0.2rem;">Belum Ada Lisensi Dipilih</h3>' +
-                            '<p style="font-size:0.84rem; color:var(--slate);">Masukkan Kunci Lisensi atau Device ID Anda pada kolom di atas.</p>' +
+                            '<p style="font-size:0.84rem; color:var(--slate);">Akun terhubung: <strong>' + esc(currentUser.full_name) + '</strong> (@' + esc(currentUser.username) + (currentUser.contact_info ? ' &bull; ' + esc(currentUser.contact_info) : '') + '). Masukkan Kunci Lisensi atau Device ID di atas.</p>' +
                         '</div>' +
-                        '<a href="lisensi.html#kontak-resmi" class="tw-btn-2">Hubungi Jejen &rarr;</a>' +
+                        '<div class="tw-row-actions">' +
+                            '<a href="tanya-jawab.html" class="tw-btn-2">Forum &amp; Profil</a>' +
+                            '<a href="lisensi.html#kontak-resmi" class="tw-btn-2">Hubungi Jejen &rarr;</a>' +
+                        '</div>' +
                     '</div>';
                 return;
             }
@@ -2460,6 +2560,21 @@
             dlg.showModal();
         }
 
+        function onSubAccountPick(selectedName) {
+            const q = String(selectedName || '').trim().toLowerCase();
+            if (!q || !(forumAccountsList || []).length) return;
+            const hit = forumAccountsList.find(function (u) {
+                return String(u.full_name || '').trim().toLowerCase() === q || String(u.username || '').trim().toLowerCase() === q;
+            });
+            if (hit && hit.contact_info) {
+                const contactEl = document.getElementById('sub-customer-contact');
+                if (contactEl && (!contactEl.value.trim() || contactEl.dataset.autofilled === '1')) {
+                    contactEl.value = hit.contact_info;
+                    contactEl.dataset.autofilled = '1';
+                }
+            }
+        }
+
         async function handleSaveSubscription(e) {
             e.preventDefault();
             if (!currentUser.authenticated || !currentUser.isAdmin) {
@@ -2494,58 +2609,14 @@
                 ? ['waypoint_bridge']
                 : ['waypoint_bridge', 'badge_utilities', 'tuning_fcc', 'unlock_alt_500m', 'atti_mode', 'telemetry_ws', 'mission_control'];
 
+            let initTokenStr = '';
             const nowIso = new Date().toISOString();
             const tierCode = tier === 'enterprise' ? 'ENT' : (tier === 'trial' ? 'TRI' : (tier === 'hobby' ? 'HOB' : 'PRO'));
             const randHex = function () { return Math.floor(0x1000 + Math.random() * 0xEFFF).toString(16).toUpperCase(); };
+            const existingLic = id ? (state.licenses || []).find(function (l) { return l.id === id; }) : null;
+            const provisionalKey = existingLic ? existingLic.license_key : ('WDT-' + tierCode + '-26-' + randHex() + '-' + randHex());
 
-            let targetLic;
-            if (id) {
-                const idx = (state.licenses || []).findIndex(function (l) { return l.id === id; });
-                if (idx >= 0) {
-                    state.licenses[idx] = Object.assign({}, state.licenses[idx], {
-                        customer_name: name,
-                        customer_contact: contact,
-                        app_slug: appSlug,
-                        tier_slug: tier,
-                        duration_plan: plan,
-                        duration_days: durationDays,
-                        expires_at: expiresAt,
-                        max_devices: deviceLimit,
-                        features: features,
-                        status: 'active',
-                        notes: notes,
-                        updated_at: nowIso
-                    });
-                    targetLic = state.licenses[idx];
-                }
-            } else {
-                targetLic = {
-                    id: 'lic-' + Date.now(),
-                    license_key: 'WDT-' + tierCode + '-26-' + randHex() + '-' + randHex(),
-                    app_slug: appSlug,
-                    tier_slug: tier,
-                    customer_name: name,
-                    customer_contact: contact,
-                    organization: '-',
-                    duration_plan: plan,
-                    duration_days: durationDays,
-                    activation_trigger: 'on_issue',
-                    issued_at: nowIso,
-                    activated_at: nowIso,
-                    expires_at: expiresAt,
-                    max_devices: deviceLimit,
-                    features: features,
-                    status: 'active',
-                    notes: notes,
-                    created_by: currentUser.username,
-                    created_at: nowIso,
-                    updated_at: nowIso
-                };
-                state.licenses.unshift(targetLic);
-            }
-
-            if (initDev.length >= 6 && targetLic) {
-                let tokStr = '';
+            if (initDev.length >= 6) {
                 try {
                     const tok = await WanLicenseEngine.generateOfflineToken({
                         app_slug: appSlug,
@@ -2553,50 +2624,163 @@
                         device_id: initDev,
                         customer_name: name,
                         customer_contact: contact,
-                        license_key: targetLic.license_key,
+                        license_key: provisionalKey,
                         expires_at: expiresAt
                     });
-                    tokStr = tok.token;
+                    initTokenStr = tok.token;
                 } catch (_) {}
-
-                state.devices.push({
-                    id: 'dev-' + Date.now(),
-                    license_id: targetLic.id,
-                    device_id: initDev,
-                    device_name: 'Remote / Perangkat',
-                    platform: 'android_rc',
-                    offline_token: tokStr,
-                    first_activated_at: nowIso,
-                    last_seen_at: nowIso,
-                    status: 'active'
-                });
             }
 
-            WanLicenseEngine.saveLocalDb(state);
+            const client = getSupabaseClient();
+            let syncedRemote = false;
+            if (client && currentUser.password_plain && (!id || isUuid(id))) {
+                try {
+                    const payload = {
+                        app_slug: appSlug,
+                        tier_slug: tier,
+                        customer_name: name,
+                        customer_contact: contact,
+                        organization: '-',
+                        duration_plan: plan,
+                        duration_days: durationDays,
+                        activation_trigger: 'on_issue',
+                        max_devices: deviceLimit,
+                        features: features,
+                        status: 'active',
+                        notes: notes
+                    };
+                    if (isUuid(id)) payload.id = id;
+                    else payload.license_key = provisionalKey;
+                    if (expiresAt) payload.custom_expires_at = expiresAt;
+                    if (initDev.length >= 6) {
+                        payload.initial_device_id = initDev;
+                        payload.initial_device_name = 'Remote / Perangkat';
+                        payload.initial_offline_token = initTokenStr;
+                    }
+                    const { data, error } = await client.rpc('admin_upsert_license', {
+                        admin_user: currentUser.username,
+                        admin_pass: currentUser.password_plain,
+                        p_payload: payload
+                    });
+                    if (!error && data && data.success) {
+                        syncedRemote = true;
+                        await syncAdminDatabaseFromSupabase();
+                    } else if (error) {
+                        showToast('Server: ' + (error.message || 'tersimpan lokal.'));
+                    }
+                } catch (_) {}
+            }
+
+            if (!syncedRemote) {
+                let targetLic;
+                if (id) {
+                    const idx = (state.licenses || []).findIndex(function (l) { return l.id === id; });
+                    if (idx >= 0) {
+                        state.licenses[idx] = Object.assign({}, state.licenses[idx], {
+                            customer_name: name,
+                            customer_contact: contact,
+                            app_slug: appSlug,
+                            tier_slug: tier,
+                            duration_plan: plan,
+                            duration_days: durationDays,
+                            expires_at: expiresAt,
+                            max_devices: deviceLimit,
+                            features: features,
+                            status: 'active',
+                            notes: notes,
+                            updated_at: nowIso
+                        });
+                        targetLic = state.licenses[idx];
+                    }
+                } else {
+                    targetLic = {
+                        id: 'lic-' + Date.now(),
+                        license_key: provisionalKey,
+                        app_slug: appSlug,
+                        tier_slug: tier,
+                        customer_name: name,
+                        customer_contact: contact,
+                        organization: '-',
+                        duration_plan: plan,
+                        duration_days: durationDays,
+                        activation_trigger: 'on_issue',
+                        issued_at: nowIso,
+                        activated_at: nowIso,
+                        expires_at: expiresAt,
+                        max_devices: deviceLimit,
+                        features: features,
+                        status: 'active',
+                        notes: notes,
+                        created_by: currentUser.username,
+                        created_at: nowIso,
+                        updated_at: nowIso
+                    };
+                    state.licenses.unshift(targetLic);
+                }
+
+                if (initDev.length >= 6 && targetLic) {
+                    state.devices.push({
+                        id: 'dev-' + Date.now(),
+                        license_id: targetLic.id,
+                        device_id: initDev,
+                        device_name: 'Remote / Perangkat',
+                        platform: 'android_rc',
+                        offline_token: initTokenStr,
+                        first_activated_at: nowIso,
+                        last_seen_at: nowIso,
+                        status: 'active'
+                    });
+                }
+                WanLicenseEngine.saveLocalDb(state);
+            }
+
             document.getElementById('subscription-dialog').close();
             updateTabCounts();
             switchSection(currentSection);
-            showToast('Lisensi ' + tier.toUpperCase() + ' disimpan.');
+            showToast('Lisensi ' + tier.toUpperCase() + (syncedRemote ? ' tersimpan & tersinkron.' : ' disimpan.'));
         }
 
-        function quickToggleLock(licId, mode) {
+        async function quickToggleLock(licId, mode) {
             if (!currentUser.authenticated || !currentUser.isAdmin) {
                 showToast('Akses ditolak.');
                 return;
             }
             const lic = (state.licenses || []).find(function (l) { return l.id === licId; });
             if (!lic) return;
+            const days = lic.tier_slug === 'trial' ? 7 : (lic.duration_days || 365);
             if (mode === 'expire') {
                 lic.expires_at = new Date(Date.now() - 60000).toISOString();
                 lic.status = 'expired';
                 showToast('Lisensi ' + lic.license_key + ' dikunci.');
             } else {
-                const days = lic.tier_slug === 'trial' ? 7 : (lic.duration_days || 365);
                 lic.expires_at = lic.duration_plan === 'lifetime' ? null : new Date(Date.now() + days * 86400000).toISOString();
                 lic.status = 'active';
                 showToast('Lisensi ' + lic.license_key + ' diaktifkan.');
             }
             WanLicenseEngine.saveLocalDb(state);
+
+            const client = getSupabaseClient();
+            if (isUuid(licId) && client && currentUser.password_plain) {
+                try {
+                    const actionName = mode === 'expire'
+                        ? 'set_status'
+                        : (lic.duration_plan === 'lifetime' ? 'set_lifetime' : 'extend_days');
+                    const meta = mode === 'expire'
+                        ? { status: 'expired' }
+                        : (lic.duration_plan === 'lifetime' ? {} : { days: days });
+                    const { data, error } = await client.rpc('admin_manage_license_action', {
+                        admin_user: currentUser.username,
+                        admin_pass: currentUser.password_plain,
+                        p_action: actionName,
+                        p_license_id: licId,
+                        p_meta: meta
+                    });
+                    if (!error && data && data.success) {
+                        await syncAdminDatabaseFromSupabase();
+                    }
+                } catch (_) {}
+            }
+
             updateTabCounts();
             switchSection(currentSection);
         }
@@ -2735,9 +2919,10 @@
                 tokStr = res.token;
             } catch (_) {}
 
-            if (resolved.isRemote && supabaseClient) {
+            const client = getSupabaseClient();
+            if (resolved.isRemote && client) {
                 try {
-                    const { data, error } = await supabaseClient.rpc('public_check_or_activate_license', {
+                    const { data, error } = await client.rpc('public_check_or_activate_license', {
                         p_query: lic.license_key,
                         p_device_id: devId,
                         p_device_name: devName,
@@ -2753,6 +2938,7 @@
                             id: 'remote-' + data.license_key,
                             remaining_days: remDays
                         });
+                        saveLastCheckedLicenseForUser(currentUser.username, data.license_key);
                     }
                 } catch (err) {
                     showToast(err.message || 'Gagal menghubungi server.');
@@ -2774,6 +2960,21 @@
                     status: 'active'
                 });
                 WanLicenseEngine.saveLocalDb(state);
+
+                if (currentUser.isAdmin && isUuid(licId) && client && currentUser.password_plain) {
+                    try {
+                        const { data, error } = await client.rpc('admin_manage_license_action', {
+                            admin_user: currentUser.username,
+                            admin_pass: currentUser.password_plain,
+                            p_action: 'bind_device',
+                            p_license_id: licId,
+                            p_meta: { device_id: devId, device_name: devName, offline_token: tokStr }
+                        });
+                        if (!error && data && data.success) {
+                            await syncAdminDatabaseFromSupabase();
+                        }
+                    } catch (_) {}
+                }
             }
 
             updateTabCounts();
@@ -2782,7 +2983,7 @@
             showToast('Perangkat ' + devId + ' diaktifkan.');
         }
 
-        function removeDeviceSlot(licId, deviceId) {
+        async function removeDeviceSlot(licId, deviceId) {
             if (!currentUser.authenticated || !currentUser.isAdmin) {
                 showToast('Akses ditolak.');
                 return;
@@ -2791,6 +2992,23 @@
                 return !(d.license_id === licId && d.device_id === deviceId);
             });
             WanLicenseEngine.saveLocalDb(state);
+
+            const client = getSupabaseClient();
+            if (isUuid(licId) && client && currentUser.password_plain) {
+                try {
+                    const { data, error } = await client.rpc('admin_manage_license_action', {
+                        admin_user: currentUser.username,
+                        admin_pass: currentUser.password_plain,
+                        p_action: 'unbind_device',
+                        p_license_id: licId,
+                        p_meta: { device_id: deviceId }
+                    });
+                    if (!error && data && data.success) {
+                        await syncAdminDatabaseFromSupabase();
+                    }
+                } catch (_) {}
+            }
+
             updateTabCounts();
             switchSection(currentSection);
             const dlg = document.getElementById('customer-devices-dialog');
@@ -2847,41 +3065,107 @@
             }
         }
 
+        function readStoredCredentialsForBoot() {
+            let pUser = null;
+            try {
+                const raw = localStorage.getItem(PILOT_STORAGE_KEY);
+                if (raw) pUser = normalizeProfilePayload(JSON.parse(raw));
+            } catch (_) {}
+
+            const admU = sessionStorage.getItem('wandrone_admin_user') || '';
+            const admP = sessionStorage.getItem('wandrone_admin_pass') || '';
+            const admR = sessionStorage.getItem('wandrone_admin_role') || 'admin';
+
+            if (pUser && pUser.username) {
+                if (!pUser.password_plain && admU && admP && admU.toLowerCase() === String(pUser.username).toLowerCase()) {
+                    pUser.password_plain = admP;
+                }
+                return pUser;
+            }
+            if (admU && admP) {
+                return { username: admU, full_name: admU, role: admR, password_plain: admP };
+            }
+            return null;
+        }
+
+        async function syncConsoleSessionFromStorage() {
+            const stored = readStoredCredentialsForBoot();
+            if (!stored || !stored.username) {
+                if (currentUser.authenticated) {
+                    currentUser.authenticated = false;
+                    currentUser.username = '';
+                    currentUser.password_plain = '';
+                    switchToLoginScreen();
+                    showAuthAlert('Anda telah keluar di tab lain.', true);
+                }
+                return;
+            }
+            if (!stored.password_plain) return;
+            const sameUser = currentUser.authenticated &&
+                currentUser.username.toLowerCase() === String(stored.username).toLowerCase() &&
+                currentUser.password_plain === stored.password_plain;
+            if (sameUser) return;
+
+            try {
+                const verified = await verifyPilotProfileCredentials(stored.username, stored.password_plain);
+                await enterAuthenticatedProfile(verified, stored.password_plain);
+            } catch (err) {
+                if (err && err.isAuthRejected) {
+                    handleProfileLogout();
+                    showAuthAlert('Sesi akun berakhir atau kata sandi berubah. Silakan masuk ulang.');
+                }
+            }
+        }
+
+        window.addEventListener('storage', function (e) {
+            if (e.key === PILOT_STORAGE_KEY || e.key === 'wan_appointed_superadmins_v1' || e.key === null) {
+                syncConsoleSessionFromStorage();
+            }
+        });
+        window.addEventListener('focus', syncConsoleSessionFromStorage);
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') syncConsoleSessionFromStorage();
+        });
+
         (async function bootConsoleAuth() {
             ['auth-username', 'auth-password', 'reg-fullname', 'reg-contact', 'reg-username', 'reg-password'].forEach(function (id) {
                 const el = document.getElementById(id);
                 if (el) el.addEventListener('input', function () { showAuthAlert(''); });
             });
 
-            try {
-                const raw = localStorage.getItem(PILOT_STORAGE_KEY);
-                if (raw) {
-                    const pUser = JSON.parse(raw);
-                    if (pUser && pUser.username && pUser.password_plain) {
-                        const btn = document.getElementById('auth-submit');
-                        if (btn) {
-                            btn.disabled = true;
-                            btn.textContent = 'Memverifikasi profil...';
-                        }
-                        try {
-                            const verified = await verifyPilotProfileCredentials(pUser.username, pUser.password_plain);
-                            await enterAuthenticatedProfile(verified, pUser.password_plain);
-                            return;
-                        } catch (_) {
-                            try { localStorage.removeItem(PILOT_STORAGE_KEY); } catch (_) {}
-                            sessionStorage.removeItem('wandrone_admin_user');
-                            sessionStorage.removeItem('wandrone_admin_pass');
-                            sessionStorage.removeItem('wandrone_admin_role');
-                            showAuthAlert('Sesi profil berakhir. Silakan masuk ulang.');
-                        } finally {
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.innerHTML = 'Masuk &rarr;';
-                            }
-                        }
+            const stored = readStoredCredentialsForBoot();
+            if (stored && stored.username && stored.password_plain) {
+                const btn = document.getElementById('auth-submit');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.textContent = 'Memverifikasi akun...';
+                }
+                try {
+                    const verified = await verifyPilotProfileCredentials(stored.username, stored.password_plain);
+                    await enterAuthenticatedProfile(verified, stored.password_plain);
+                    return;
+                } catch (err) {
+                    if (err && err.isAuthRejected) {
+                        try { localStorage.removeItem(PILOT_STORAGE_KEY); } catch (_) {}
+                        sessionStorage.removeItem('wandrone_admin_user');
+                        sessionStorage.removeItem('wandrone_admin_pass');
+                        sessionStorage.removeItem('wandrone_admin_role');
+                        showAuthAlert('Sesi Akun WanDrone berakhir. Silakan masuk ulang.');
+                    } else {
+                        // Gangguan jaringan / CDN: tetap buka dari profil tersimpan tanpa menghapus sesi Forum
+                        await enterAuthenticatedProfile(stored, stored.password_plain);
+                        showToast('Mode offline: gagal menyinkronkan ke server.');
+                        return;
+                    }
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = 'Masuk &rarr;';
                     }
                 }
-            } catch (_) {}
+            } else if (stored && stored.username && !stored.password_plain) {
+                showAuthAlert('Masuk ulang sekali agar Akun WanDrone tersinkron dengan Konsol Lisensi.', true);
+            }
 
             switchToLoginScreen();
         })();

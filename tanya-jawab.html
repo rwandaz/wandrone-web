@@ -7221,9 +7221,38 @@
                     alertBox.style.border = '1px solid #BBF7D0';
                     alertBox.style.color = '#166534';
                     alertBox.textContent = data.message || 'User admin berhasil ditambahkan';
+
+                    // Sinkronkan juga ke akun Akun WanDrone (forum_users) agar dapat login di Konsol Lisensi & Forum
+                    try {
+                        const existingForum = (latestAdminForumUsers || []).find(u => String(u.username || '').toLowerCase() === newU.toLowerCase());
+                        let forumUserId = existingForum ? existingForum.id : null;
+                        if (!forumUserId) {
+                            const regRes = await supabaseClient.rpc('user_register', {
+                                p_username: newU,
+                                p_password: newP,
+                                p_name: newU.toUpperCase(),
+                                p_contact: newU + '@wandrone.id',
+                                p_remotes: [],
+                                p_drones: []
+                            });
+                            if (regRes && !regRes.error && regRes.data && regRes.data.id) {
+                                forumUserId = regRes.data.id;
+                            }
+                        }
+                        if (forumUserId) {
+                            await supabaseClient.rpc('admin_promote_user_to_admin', {
+                                admin_user: activeAdminUser,
+                                admin_pass: activeAdminPass,
+                                target_user_id: forumUserId,
+                                custom_password: null
+                            });
+                        }
+                    } catch (_) {}
+
                     userInput.value = '';
                     passInput.value = '';
                     await fetchAdminUsers();
+                    await fetchAdminForumUsers();
                 }
             } catch (err) {
                 alertBox.style.display = 'block';
@@ -7590,27 +7619,69 @@
 
         const PILOT_STORAGE_KEY = 'wan_pilot_user_session';
         let currentPilotUser = null;
+        let lastPilotRawJson = undefined;
         let allForumCommentsMap = {};
         let commentsExpanded = {};
 
+        function normalizePilotUserPayload(userObj) {
+            if (userObj && userObj.user_login && typeof userObj.user_login === 'object') {
+                return userObj.user_login;
+            }
+            return userObj || null;
+        }
+
+        function syncAdminSessionStorageFromUser(userObj, passwordPlain) {
+            const norm = normalizePilotUserPayload(userObj);
+            if (!norm || !norm.username) return;
+            const uname = String(norm.username || '').trim();
+            const isMain = isOwnerUsername(uname) || norm.role === 'superadmin' || isAppointedSuperAdminLocal(uname);
+            const isAdm = isMain || norm.role === 'admin';
+            const passToUse = passwordPlain || norm.password_plain || '';
+            if (isAdm && passToUse) {
+                activeAdminUser = uname;
+                activeAdminPass = passToUse;
+                activeAdminRole = isMain ? 'superadmin' : 'admin';
+                sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
+                sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
+                sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
+            } else {
+                activeAdminUser = '';
+                activeAdminPass = '';
+                activeAdminRole = '';
+                sessionStorage.removeItem('wandrone_admin_user');
+                sessionStorage.removeItem('wandrone_admin_pass');
+                sessionStorage.removeItem('wandrone_admin_role');
+            }
+        }
+
         function getActivePilotUser() {
-            if (currentPilotUser) return currentPilotUser;
             try {
                 const raw = localStorage.getItem(PILOT_STORAGE_KEY);
-                if (raw) {
-                    currentPilotUser = JSON.parse(raw);
-                    return currentPilotUser;
+                if (raw !== lastPilotRawJson) {
+                    lastPilotRawJson = raw;
+                    currentPilotUser = raw ? normalizePilotUserPayload(JSON.parse(raw)) : null;
                 }
+                if (currentPilotUser && !currentPilotUser.password_plain) {
+                    const admU = sessionStorage.getItem('wandrone_admin_user') || '';
+                    const admP = sessionStorage.getItem('wandrone_admin_pass') || '';
+                    if (admU && admP && admU.toLowerCase() === String(currentPilotUser.username || '').toLowerCase()) {
+                        currentPilotUser.password_plain = admP;
+                    }
+                }
+                return currentPilotUser;
             } catch (e) {
                 console.warn('Error reading pilot storage:', e);
+                return null;
             }
-            return null;
         }
 
         function saveActivePilotUser(userObj) {
-            currentPilotUser = userObj;
+            const norm = normalizePilotUserPayload(userObj);
+            currentPilotUser = norm;
             try {
-                localStorage.setItem(PILOT_STORAGE_KEY, JSON.stringify(userObj));
+                const raw = JSON.stringify(norm);
+                localStorage.setItem(PILOT_STORAGE_KEY, raw);
+                lastPilotRawJson = raw;
             } catch (e) {
                 console.warn('Error saving pilot storage:', e);
             }
@@ -7618,6 +7689,7 @@
 
         function clearActivePilotUser() {
             currentPilotUser = null;
+            lastPilotRawJson = null;
             try {
                 localStorage.removeItem(PILOT_STORAGE_KEY);
             } catch (e) {}
@@ -7843,6 +7915,9 @@
                                     <span>Admin</span>
                                 </button>
                             ` : ''}
+                            <a href="console-lisensi.html" class="tw-btn-2" style="height: 34px; padding: 0 0.9rem; font-size: 0.8rem; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;" title="Buka Portal &amp; Console Lisensi WanDrone">
+                                <span>Konsol Lisensi &rarr;</span>
+                            </a>
                             <button type="button" onclick="openUserDashboardModal()" class="${isAdminRole ? 'tw-btn-2' : 'tw-btn'}" style="height: 34px; padding: 0 0.9rem; font-size: 0.8rem; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;">
                                 <span>Profil</span>
                             </button>
@@ -7894,25 +7969,31 @@
         }
 
         async function syncPilotUserStats() {
-            const user = getActivePilotUser();
-            if (!user || !user.id || !user.password_plain || !supabaseClient) return;
+            let user = getActivePilotUser();
+            let username = user ? user.username : '';
+            let passwordPlain = user ? (user.password_plain || '') : '';
+
+            if ((!user || !passwordPlain) && sessionStorage.getItem('wandrone_admin_user') && sessionStorage.getItem('wandrone_admin_pass')) {
+                username = sessionStorage.getItem('wandrone_admin_user');
+                passwordPlain = sessionStorage.getItem('wandrone_admin_pass');
+            }
+            if (!username || !passwordPlain || !supabaseClient) return;
 
             try {
                 const { data, error } = await supabaseClient.rpc('user_login', {
-                    p_username: user.username,
-                    p_password: user.password_plain
+                    p_username: username,
+                    p_password: passwordPlain
                 });
-                if (!error && data) {
-                    data.password_plain = user.password_plain;
-                    saveActivePilotUser(data);
-                    if (data.role === 'admin' || data.role === 'superadmin' || isOwnerUsername(data.username)) {
-                        activeAdminUser = data.username;
-                        activeAdminPass = user.password_plain;
-                        activeAdminRole = isOwnerUsername(data.username) ? 'superadmin' : data.role;
-                        sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
-                        sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
-                        sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
-                    }
+                const norm = normalizePilotUserPayload(data);
+                if (!error && norm && norm.username) {
+                    norm.password_plain = passwordPlain;
+                    saveActivePilotUser(norm);
+                    syncAdminSessionStorageFromUser(norm, passwordPlain);
+                    updatePilotUserUI();
+                    renderCommunityQuestions(null, true);
+                } else if (error && /salah|tidak cocok|tidak ditemukan|invalid|wrong|not found/i.test(error.message || '')) {
+                    clearActivePilotUser();
+                    syncAdminSessionStorageFromUser({ username: username, role: 'user' }, '');
                     updatePilotUserUI();
                     renderCommunityQuestions(null, true);
                 }
@@ -8723,8 +8804,10 @@
                     return;
                 }
 
-                data.password_plain = newP || curP;
-                saveActivePilotUser(data);
+                const updatedUser = normalizePilotUserPayload(data);
+                updatedUser.password_plain = newP || curP;
+                saveActivePilotUser(updatedUser);
+                syncAdminSessionStorageFromUser(updatedUser, updatedUser.password_plain);
                 updatePilotUserUI();
                 renderCommunityQuestions();
 
@@ -8886,17 +8969,40 @@
             }
         });
 
+        function handleCrossTabSessionSync() {
+            const prevUser = currentPilotUser ? String(currentPilotUser.username || '') : '';
+            const prevPass = currentPilotUser ? String(currentPilotUser.password_plain || '') : '';
+            const nextUser = getActivePilotUser();
+            const nextName = nextUser ? String(nextUser.username || '') : '';
+            const nextPass = nextUser ? String(nextUser.password_plain || '') : '';
+            if (prevUser !== nextName || prevPass !== nextPass) {
+                initPilotUserUI();
+                renderCommunityQuestions(null, true);
+                if (nextUser && nextPass) syncPilotUserStats();
+            }
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === PILOT_STORAGE_KEY || e.key === APPOINTED_SUPERADMINS_KEY || e.key === null) {
+                handleCrossTabSessionSync();
+            }
+        });
+        window.addEventListener('focus', handleCrossTabSessionSync);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') handleCrossTabSessionSync();
+        });
+
         function initPilotUserUI() {
             const pUser = getActivePilotUser();
-            if (pUser && (pUser.role === 'admin' || pUser.role === 'superadmin') && pUser.password_plain) {
-                if (!activeAdminUser || !activeAdminPass) {
-                    activeAdminUser = pUser.username;
-                    activeAdminPass = pUser.password_plain;
-                    activeAdminRole = pUser.role;
-                    sessionStorage.setItem('wandrone_admin_user', activeAdminUser);
-                    sessionStorage.setItem('wandrone_admin_pass', activeAdminPass);
-                    sessionStorage.setItem('wandrone_admin_role', activeAdminRole);
-                }
+            if (pUser && pUser.password_plain) {
+                syncAdminSessionStorageFromUser(pUser, pUser.password_plain);
+            } else if (!pUser) {
+                activeAdminUser = '';
+                activeAdminPass = '';
+                activeAdminRole = '';
+                sessionStorage.removeItem('wandrone_admin_user');
+                sessionStorage.removeItem('wandrone_admin_pass');
+                sessionStorage.removeItem('wandrone_admin_role');
             }
             updatePilotUserUI();
         }
@@ -9081,20 +9187,52 @@
 
             try {
                 let res;
+                let resetUsername = '';
                 if (type === 'admin') {
+                    const targetAdmin = (latestAdminUsers || []).find(a => Number(a.id) === Number(targetId));
+                    resetUsername = targetAdmin ? targetAdmin.username : '';
                     res = await supabaseClient.rpc('admin_reset_admin_password', {
                         admin_user: activeAdminUser,
                         admin_pass: activeAdminPass,
                         target_admin_id: targetId,
                         new_password: newPass
                     });
+                    // Sinkronkan juga password di forum_users (user_login) untuk Konsol Lisensi & Forum
+                    if (!res.error && resetUsername) {
+                        const matchedForum = (latestAdminForumUsers || []).find(u => String(u.username || '').toLowerCase() === String(resetUsername).toLowerCase());
+                        if (matchedForum && matchedForum.id) {
+                            try {
+                                await supabaseClient.rpc('admin_reset_user_password', {
+                                    admin_user: activeAdminUser,
+                                    admin_pass: activeAdminPass,
+                                    target_user_id: matchedForum.id,
+                                    new_password: newPass
+                                });
+                            } catch (_) {}
+                        }
+                    }
                 } else {
+                    const targetPilot = (latestAdminForumUsers || []).find(u => Number(u.id) === Number(targetId));
+                    resetUsername = targetPilot ? targetPilot.username : '';
                     res = await supabaseClient.rpc('admin_reset_user_password', {
                         admin_user: activeAdminUser,
                         admin_pass: activeAdminPass,
                         target_user_id: targetId,
                         new_password: newPass
                     });
+                    if (!res.error && resetUsername) {
+                        const matchedAdmin = (latestAdminUsers || []).find(a => String(a.username || '').toLowerCase() === String(resetUsername).toLowerCase());
+                        if (matchedAdmin && matchedAdmin.id) {
+                            try {
+                                await supabaseClient.rpc('admin_reset_admin_password', {
+                                    admin_user: activeAdminUser,
+                                    admin_pass: activeAdminPass,
+                                    target_admin_id: matchedAdmin.id,
+                                    new_password: newPass
+                                });
+                            } catch (_) {}
+                        }
+                    }
                 }
 
                 if (res.error) {
@@ -9119,8 +9257,13 @@
 
                 if (btn) { btn.disabled = false; btn.textContent = 'Selesai'; }
 
-                // If any admin reset their own password, update session
-                if (type === 'admin') {
+                // Perbarui sesi aktif di localStorage & sessionStorage jika mengganti kata sandi sendiri
+                const curPilot = getActivePilotUser();
+                if (curPilot && resetUsername && String(curPilot.username || '').toLowerCase() === String(resetUsername).toLowerCase()) {
+                    curPilot.password_plain = newPass;
+                    saveActivePilotUser(curPilot);
+                    syncAdminSessionStorageFromUser(curPilot, newPass);
+                } else if (type === 'admin') {
                     const targetAdmin = (latestAdminUsers || []).find(a => Number(a.id) === Number(targetId));
                     if ((targetAdmin && targetAdmin.username === activeAdminUser) || activeAdminUser === 'rwandaz') {
                         activeAdminPass = newPass;

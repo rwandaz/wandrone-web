@@ -3004,12 +3004,39 @@
             }
         })();
 
+        function normalizeHeroUser(user) {
+            if (user && user.user_login && typeof user.user_login === 'object') {
+                return user.user_login;
+            }
+            return user || null;
+        }
+
         function getHeroPilotSession() {
             try {
                 const raw = localStorage.getItem(HERO_PILOT_KEY);
-                return raw ? JSON.parse(raw) : null;
+                const parsed = raw ? normalizeHeroUser(JSON.parse(raw)) : null;
+                if (parsed && parsed.username) return parsed;
+            } catch (_) {}
+            try {
+                const admU = sessionStorage.getItem('wandrone_admin_user');
+                const admP = sessionStorage.getItem('wandrone_admin_pass');
+                const admR = sessionStorage.getItem('wandrone_admin_role');
+                if (admU && admP) {
+                    return { username: admU, full_name: admU, role: admR || 'admin', password_plain: admP };
+                }
+            } catch (_) {}
+            return null;
+        }
+
+        function isHeroAppointedSuperAdmin(username) {
+            const u = String(username || '').trim().toLowerCase();
+            if (!u || u === 'rwandaz') return false;
+            try {
+                const raw = localStorage.getItem('wan_appointed_superadmins_v1');
+                const arr = raw ? JSON.parse(raw) : [];
+                return Array.isArray(arr) && arr.some(function (x) { return String(x || '').trim().toLowerCase() === u; });
             } catch (_) {
-                return null;
+                return false;
             }
         }
 
@@ -3017,7 +3044,7 @@
             if (!user) return false;
             const u = String(user.username || '').trim().toLowerCase();
             const r = String(user.role || '').trim().toLowerCase();
-            return u === 'rwandaz' || r === 'owner' || r === 'superadmin' || r === 'admin';
+            return u === 'rwandaz' || r === 'owner' || r === 'superadmin' || r === 'admin' || isHeroAppointedSuperAdmin(u);
         }
 
         function showHeroLoginAlert(msg) {
@@ -3045,14 +3072,16 @@
         }
 
         function persistHeroSession(userData, password) {
-            userData.password_plain = password;
+            const normalized = normalizeHeroUser(userData);
+            if (!normalized) return;
+            normalized.password_plain = password;
             try {
-                localStorage.setItem(HERO_PILOT_KEY, JSON.stringify(userData));
+                localStorage.setItem(HERO_PILOT_KEY, JSON.stringify(normalized));
             } catch (_) {}
 
-            if (isHeroAdminUser(userData)) {
-                const isMain = String(userData.username || '').toLowerCase() === 'rwandaz' || String(userData.role || '').toLowerCase() === 'superadmin';
-                sessionStorage.setItem('wandrone_admin_user', userData.username);
+            if (isHeroAdminUser(normalized)) {
+                const isMain = String(normalized.username || '').toLowerCase() === 'rwandaz' || String(normalized.role || '').toLowerCase() === 'superadmin' || isHeroAppointedSuperAdmin(normalized.username);
+                sessionStorage.setItem('wandrone_admin_user', normalized.username);
                 sessionStorage.setItem('wandrone_admin_pass', password);
                 sessionStorage.setItem('wandrone_admin_role', isMain ? 'superadmin' : 'admin');
             } else {
@@ -3249,6 +3278,19 @@
                 if (el) el.addEventListener('input', function () { showHeroLoginAlert(''); });
             });
             syncHeroAuthUI();
+        });
+
+        window.addEventListener('storage', function (e) {
+            if (e.key === HERO_PILOT_KEY || e.key === 'wan_appointed_superadmins_v1' || e.key === null) {
+                syncHeroAuthUI();
+            }
+        });
+        window.addEventListener('focus', syncHeroAuthUI);
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') syncHeroAuthUI();
+        });
+        window.addEventListener('pageshow', function (e) {
+            if (!e.persisted) syncHeroAuthUI();
         });
     </script>
     <script src="wandrone-analytics.js?v=20261127" defer></script>

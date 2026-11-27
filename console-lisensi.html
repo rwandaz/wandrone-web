@@ -1321,6 +1321,10 @@
                         <span>Lisensi</span>
                         <span class="tw-tab-badge" id="nav-count-customers">0</span>
                     </button>
+                    <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-users" onclick="switchSection('admin-users')" role="tab">
+                        <span>Pengguna</span>
+                        <span class="tw-tab-badge" id="nav-count-users">0</span>
+                    </button>
                     <button type="button" class="tw-tab-btn admin-only-tab is-hidden" data-section="admin-devices" onclick="switchSection('admin-devices')" role="tab">
                         <span>Perangkat</span>
                         <span class="tw-tab-badge" id="nav-count-devices">0</span>
@@ -1459,6 +1463,45 @@
             <div class="modal-foot">
                 <button type="button" class="tw-btn-2" onclick="exportDatabaseJson()">Unduh Backup</button>
                 <button type="submit" class="tw-btn">Impor JSON</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- MODAL 4: TAMBAH PENGGUNA AKUN WANDRONE -->
+    <dialog id="create-user-dialog" closedby="any" aria-labelledby="create-user-title">
+        <div class="modal-head">
+            <h2 id="create-user-title">Tambah Akun WanDrone</h2>
+            <button type="button" class="tw-btn-2 tw-btn-sm" onclick="document.getElementById('create-user-dialog').close()">Tutup &times;</button>
+        </div>
+        <form id="create-user-form" onsubmit="handleCreateAccountFromConsole(event)" style="display:flex; flex-direction:column; min-height:0; overflow:hidden;">
+            <div class="modal-body">
+                <p style="font-size:0.83rem; color:var(--slate); margin-bottom:0.9rem;">Akun yang dibuat di sini otomatis aktif untuk login di Konsol Lisensi maupun Forum Tanya Jawab.</p>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="cu-fullname">Nama Lengkap</label>
+                        <input type="text" id="cu-fullname" name="name" class="form-control" placeholder="Nama lengkap / instansi" autocomplete="name" enterkeyhint="next" minlength="2" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cu-contact">WhatsApp atau Email</label>
+                        <input type="text" id="cu-contact" name="contact" class="form-control" placeholder="0812... / email@domain.com" enterkeyhint="next" minlength="5" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cu-username">Username</label>
+                        <input type="text" id="cu-username" name="username" class="form-control" placeholder="Minimal 3 karakter, tanpa spasi" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="next" minlength="3" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cu-password">Kata Sandi</label>
+                        <div class="input-wrap">
+                            <input type="password" id="cu-password" name="password" class="form-control" placeholder="Minimal 6 karakter" autocomplete="new-password" enterkeyhint="done" minlength="6" required style="padding-right:4.6rem;"/>
+                            <button type="button" id="cu-pw-toggle" class="pw-toggle" aria-pressed="false" aria-label="Tampilkan kata sandi" onclick="toggleAuthPassword('cu-password', this)">Lihat</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="cu-alert" class="tw-alert" role="status" aria-live="polite" style="margin-bottom:0;"></div>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="tw-btn-2" onclick="document.getElementById('create-user-dialog').close()">Batal</button>
+                <button type="submit" id="cu-submit" class="tw-btn">Simpan Akun &rarr;</button>
             </div>
         </form>
     </dialog>
@@ -1673,11 +1716,58 @@
         }
 
         let forumAccountsList = [];
+        let legacyAdminAccountsList = [];
+
+        function getCombinedAccountsList() {
+            const adminMap = new Map();
+            (legacyAdminAccountsList || []).forEach(function (a) {
+                adminMap.set(String(a.username || '').trim().toLowerCase(), a);
+            });
+
+            const userMap = new Map();
+            (forumAccountsList || []).forEach(function (u) {
+                const lowerU = String(u.username || '').trim().toLowerCase();
+                if (!lowerU) return;
+                const adminData = adminMap.get(lowerU);
+                const isSuper = u.role === 'superadmin' || (adminData && adminData.role === 'superadmin') || lowerU === 'rwandaz' || isAppointedSuperAdminLocal(lowerU);
+                const isAdmin = isSuper || u.role === 'admin' || (adminData && adminData.role === 'admin');
+                const role = lowerU === 'rwandaz' ? 'owner' : (isSuper ? 'superadmin' : (isAdmin ? 'admin' : (u.role || 'user')));
+                userMap.set(lowerU, Object.assign({}, u, { role: role, adminId: adminData ? adminData.id : null }));
+            });
+
+            (legacyAdminAccountsList || []).forEach(function (a) {
+                const lowerU = String(a.username || '').trim().toLowerCase();
+                if (!lowerU || userMap.has(lowerU)) return;
+                const isSuper = a.role === 'superadmin' || lowerU === 'rwandaz' || isAppointedSuperAdminLocal(lowerU);
+                userMap.set(lowerU, {
+                    id: a.id,
+                    username: a.username,
+                    full_name: lowerU === 'rwandaz' ? 'Akun Utama' : (a.full_name || String(a.username || '').toUpperCase()),
+                    contact_info: lowerU === 'rwandaz' ? 'admin@wandrone.id' : (a.username + '@wandrone.id'),
+                    role: lowerU === 'rwandaz' ? 'owner' : (isSuper ? 'superadmin' : 'admin'),
+                    total_points: isSuper ? 505 : 100,
+                    created_at: a.created_at,
+                    adminId: a.id
+                });
+            });
+
+            const rank = function (u) {
+                const lu = String(u.username || '').trim().toLowerCase();
+                if (lu === 'rwandaz' || u.role === 'owner') return 3;
+                if (u.role === 'superadmin') return 2;
+                if (u.role === 'admin') return 1;
+                return 0;
+            };
+            return Array.from(userMap.values()).sort(function (a, b) {
+                if (rank(b) !== rank(a)) return rank(b) - rank(a);
+                return Date.parse(b.created_at || 0) - Date.parse(a.created_at || 0);
+            });
+        }
 
         function populateForumAccountsDatalist() {
             const dl = document.getElementById('sub-account-list');
             if (!dl) return;
-            dl.innerHTML = (forumAccountsList || []).map(function (u) {
+            dl.innerHTML = getCombinedAccountsList().map(function (u) {
                 const label = (u.full_name || u.username) + ' (@' + u.username + ') • ' + (u.contact_info || '-');
                 return '<option value="' + esc(u.full_name || u.username) + '" label="' + esc(label) + '"></option>';
             }).join('');
@@ -1686,34 +1776,33 @@
         async function syncAdminDatabaseFromSupabase() {
             const client = getSupabaseClient();
             if (!currentUser.authenticated || !currentUser.isAdmin || !client || !currentUser.password_plain) return;
-            try {
-                const res = await client.rpc('admin_get_license_console_data', {
-                    admin_user: currentUser.username,
-                    admin_pass: currentUser.password_plain
-                });
-                if (!res.error && res.data && res.data.success) {
-                    if (Array.isArray(res.data.applications) && res.data.applications.length) state.applications = res.data.applications;
-                    if (Array.isArray(res.data.tiers) && res.data.tiers.length) state.tiers = res.data.tiers;
-                    if (Array.isArray(res.data.licenses)) state.licenses = res.data.licenses;
-                    if (Array.isArray(res.data.devices)) state.devices = res.data.devices;
-                    if (Array.isArray(res.data.audit_logs)) state.audit_logs = res.data.audit_logs;
-                    WanLicenseEngine.saveLocalDb(state);
-                }
-            } catch (_) {}
+            const creds = { admin_user: currentUser.username, admin_pass: currentUser.password_plain };
 
-            try {
-                const uRes = await client.rpc('admin_list_forum_users', {
-                    admin_user: currentUser.username,
-                    admin_pass: currentUser.password_plain
-                });
-                if (!uRes.error && Array.isArray(uRes.data)) {
-                    forumAccountsList = uRes.data;
-                    populateForumAccountsDatalist();
-                }
-            } catch (_) {}
+            const [licRes, forumRes, admRes] = await Promise.allSettled([
+                client.rpc('admin_get_license_console_data', creds),
+                client.rpc('admin_list_forum_users', creds),
+                client.rpc('admin_list_users', creds)
+            ]);
+
+            if (licRes.status === 'fulfilled' && !licRes.value.error && licRes.value.data && licRes.value.data.success) {
+                const d = licRes.value.data;
+                if (Array.isArray(d.applications) && d.applications.length) state.applications = d.applications;
+                if (Array.isArray(d.tiers) && d.tiers.length) state.tiers = d.tiers;
+                if (Array.isArray(d.licenses)) state.licenses = d.licenses;
+                if (Array.isArray(d.devices)) state.devices = d.devices;
+                if (Array.isArray(d.audit_logs)) state.audit_logs = d.audit_logs;
+                WanLicenseEngine.saveLocalDb(state);
+            }
+            if (forumRes.status === 'fulfilled' && !forumRes.value.error && Array.isArray(forumRes.value.data)) {
+                forumAccountsList = forumRes.value.data;
+            }
+            if (admRes.status === 'fulfilled' && !admRes.value.error && Array.isArray(admRes.value.data)) {
+                legacyAdminAccountsList = admRes.value.data;
+            }
+            populateForumAccountsDatalist();
         }
 
-        function findMatchingUserLicense(user) {
+        function findMatchingUserLicense(user, includeCreatedBy) {
             if (!user) return null;
             const uLower = String(user.username || '').trim().toLowerCase();
             const cLower = String(user.contact_info || '').trim().toLowerCase();
@@ -1723,7 +1812,7 @@
                 const ln = String(l.customer_name || '').trim().toLowerCase();
                 const cb = String(l.created_by || '').trim().toLowerCase();
                 if (cLower && lc && lc === cLower) return true;
-                if (uLower && (lc === uLower || ln === uLower || cb === uLower)) return true;
+                if (uLower && (lc === uLower || lc === ('@' + uLower) || ln === uLower || (includeCreatedBy !== false && cb === uLower))) return true;
                 if (nLower && ln && ln === nLower) return true;
                 return false;
             }) || null;
@@ -2012,8 +2101,11 @@
             const evs = getEvaluatedLicenses();
             const activeDevs = (state.devices || []).filter(function (d) { return d.status === 'active'; });
             const lockedList = evs.filter(function (l) { return l.is_locked; });
+            const combinedUsers = currentUser.isAdmin ? getCombinedAccountsList() : [];
 
             document.getElementById('nav-count-customers').textContent = currentUser.isAdmin ? evs.length : 0;
+            const usersBadge = document.getElementById('nav-count-users');
+            if (usersBadge) usersBadge.textContent = combinedUsers.length;
             document.getElementById('nav-count-devices').textContent = currentUser.isAdmin ? activeDevs.length : 0;
             document.getElementById('nav-count-locked').textContent = currentUser.isAdmin ? lockedList.length : 0;
 
@@ -2041,6 +2133,7 @@
             });
 
             if (section === 'admin-customers') renderAdminCustomers();
+            else if (section === 'admin-users') renderAdminUsers();
             else if (section === 'admin-devices') renderAdminDevices();
             else if (section === 'admin-security') renderAdminSecurity();
             else if (section === 'admin-catalog') renderAdminCatalog();
@@ -2290,6 +2383,95 @@
 
             document.getElementById('workspace-content').innerHTML =
                 '<div class="tw-grid-2">' + cardsHtml + '</div>';
+        }
+
+        // ====================================================================
+        // ADMIN: PENGGUNA AKUN WANDRONE (1:1 SINKRON DENGAN FORUM)
+        // ====================================================================
+        let filterUsersVal = '';
+
+        async function refreshAdminAllData() {
+            if (!currentUser.authenticated || !currentUser.isAdmin) return;
+            await syncAdminDatabaseFromSupabase();
+            updateTabCounts();
+            switchSection(currentSection);
+            showToast('Data pengguna & lisensi disegarkan.');
+        }
+
+        function renderRoleBadgeForUser(role) {
+            const r = String(role || 'user').toLowerCase();
+            if (r === 'owner') return '<span class="tw-badge tw-badge-vip">Akun Utama</span>';
+            if (r === 'superadmin') return '<span class="tw-badge tw-badge-trial">Super Admin</span>';
+            if (r === 'admin') return '<span class="tw-badge tw-badge-active">Admin</span>';
+            return '<span class="tw-badge tw-badge-hobby">Pengguna</span>';
+        }
+
+        function renderAdminUsers() {
+            const users = getCombinedAccountsList();
+            const q = String(filterUsersVal || '').trim().toLowerCase();
+            const filtered = users.filter(function (u) {
+                if (!q) return true;
+                return [u.full_name, u.username, u.contact_info, u.role].join(' ').toLowerCase().includes(q);
+            });
+
+            const rowsHtml = filtered.length === 0
+                ? '<tr><th scope="row" colspan="5" style="text-align:center; padding:1.75rem; color:var(--muted);">Belum ada akun pengguna yang cocok.</th></tr>'
+                : filtered.map(function (u) {
+                    const matchedRaw = findMatchingUserLicense(u, false);
+                    const matchedEv = matchedRaw ? WanLicenseEngine.evaluateLicenseLockState(matchedRaw, getDevicesForLicense(matchedRaw.id).length) : null;
+                    const licCell = matchedEv
+                        ? '<div style="display:flex; gap:0.35rem; align-items:center; flex-wrap:wrap;">' + renderTierBadge(matchedEv.tier_slug) + renderStatusBadge(matchedEv) + '</div>' +
+                          '<div style="font-family:var(--mono); font-size:0.72rem; color:var(--muted); margin-top:0.2rem;">' + esc(matchedEv.license_key) + '</div>'
+                        : '<span style="font-size:0.78rem; color:var(--muted);">Belum berlisensi</span>';
+
+                    const safeName = u.full_name || u.username;
+                    const actBtn = matchedEv
+                        ? '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="openSubscriptionDialog(\'' + esc(matchedEv.id) + '\')">Edit Lisensi</button>'
+                        : '<button type="button" class="tw-btn tw-btn-sm" onclick="openSubscriptionDialogForUser(\'' + encodeURIComponent(String(u.username || '')) + '\')">+ Beri Lisensi</button>';
+
+                    return '<tr>' +
+                        '<th scope="row">' +
+                            '<div style="font-weight:700; color:var(--ink);">' + esc(safeName) + '</div>' +
+                            '<div style="font-family:var(--mono); font-size:0.75rem; color:var(--teal-deep);">@' + esc(u.username) + '</div>' +
+                            '<div style="font-size:0.76rem; color:var(--muted);">' + esc(u.contact_info || '-') + '</div>' +
+                        '</th>' +
+                        '<td>' + renderRoleBadgeForUser(u.role) + '</td>' +
+                        '<td>' + licCell + '</td>' +
+                        '<td><span style="font-family:var(--mono); font-weight:700; color:var(--ink);">' + (Number(u.total_points) || 0) + '</span></td>' +
+                        '<td><div class="tw-row-actions">' + actBtn + '</div></td>' +
+                    '</tr>';
+                }).join('');
+
+            document.getElementById('workspace-content').innerHTML =
+                '<div class="tw-card" style="display:flex; align-items:center; justify-content:space-between; gap:0.85rem; flex-wrap:wrap;">' +
+                    '<div>' +
+                        '<h2 style="font-size:1.15rem; margin-bottom:0.2rem;">Daftar Akun WanDrone (' + users.length + ')</h2>' +
+                        '<p style="font-size:0.82rem; color:var(--slate);">1 akun terpadu — setiap akun yang mendaftar di Konsol Lisensi maupun Forum tampil di sini.</p>' +
+                    '</div>' +
+                    '<div class="tw-row-actions">' +
+                        '<button type="button" class="tw-btn tw-btn-sm" onclick="openCreateUserDialog()">+ Tambah Akun</button>' +
+                        '<button type="button" class="tw-btn-2 tw-btn-sm" onclick="refreshAdminAllData()">Segarkan</button>' +
+                        '<a href="tanya-jawab.html?admin=1" class="tw-btn-2 tw-btn-sm">Kelola di Forum &rarr;</a>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="tw-toolbar">' +
+                    '<input type="search" class="form-control" placeholder="Cari nama, username, kontak, atau peran..." value="' + esc(filterUsersVal) + '" oninput="filterUsersVal=this.value; renderAdminUsers();"/>' +
+                '</div>' +
+                '<div tabindex="0" role="region" aria-labelledby="users-table-cap" class="tw-table-wrap">' +
+                    '<table class="tw-table" style="--label-2:\'Peran\'; --label-3:\'Lisensi\'; --label-4:\'Poin\'; --label-5:\'Aksi\';">' +
+                        '<caption id="users-table-cap">Daftar Akun WanDrone Terpadu</caption>' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th scope="col">Pengguna &amp; Kontak</th>' +
+                                '<th scope="col">Peran</th>' +
+                                '<th scope="col">Status Lisensi</th>' +
+                                '<th scope="col">Poin</th>' +
+                                '<th scope="col">Aksi</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>' + rowsHtml + '</tbody>' +
+                    '</table>' +
+                '</div>';
         }
 
         // ====================================================================
@@ -2560,10 +2742,97 @@
             dlg.showModal();
         }
 
+        function openSubscriptionDialogForUser(encodedUsername) {
+            const targetU = decodeURIComponent(String(encodedUsername || '')).trim().toLowerCase();
+            const user = getCombinedAccountsList().find(function (u) {
+                return String(u.username || '').trim().toLowerCase() === targetU;
+            });
+            openSubscriptionDialog();
+            if (user) {
+                document.getElementById('sub-customer-name').value = user.full_name || user.username || '';
+                const cInput = document.getElementById('sub-customer-contact');
+                cInput.value = user.contact_info || ('@' + user.username);
+                cInput.dataset.autofilled = '1';
+            }
+        }
+
+        function openCreateUserDialog() {
+            if (!currentUser.authenticated || !currentUser.isAdmin) {
+                showToast('Akses ditolak.');
+                return;
+            }
+            const form = document.getElementById('create-user-form');
+            const alertBox = document.getElementById('cu-alert');
+            if (form) form.reset();
+            if (alertBox) { alertBox.style.display = 'none'; alertBox.textContent = ''; }
+            const dlg = document.getElementById('create-user-dialog');
+            if (dlg && !dlg.open) dlg.showModal();
+        }
+
+        async function handleCreateAccountFromConsole(e) {
+            e.preventDefault();
+            if (!currentUser.authenticated || !currentUser.isAdmin) return;
+            const nameInput = document.getElementById('cu-fullname');
+            const contactInput = document.getElementById('cu-contact');
+            const userInput = document.getElementById('cu-username');
+            const passInput = document.getElementById('cu-password');
+            const alertBox = document.getElementById('cu-alert');
+            const btn = document.getElementById('cu-submit');
+
+            const fullName = (nameInput ? nameInput.value : '').trim();
+            const contact = (contactInput ? contactInput.value : '').trim();
+            const username = (userInput ? userInput.value : '').trim();
+            const password = passInput ? passInput.value : '';
+
+            const showCuErr = function (msg) {
+                if (!alertBox) return;
+                alertBox.textContent = msg || '';
+                alertBox.style.display = msg ? 'block' : 'none';
+            };
+            if (fullName.length < 2 || contact.length < 5 || username.length < 3 || password.length < 6) {
+                showCuErr('Lengkapi nama (min. 2), kontak (min. 5), username (min. 3), dan sandi (min. 6).');
+                return;
+            }
+            const client = getSupabaseClient();
+            if (!client) {
+                showCuErr('Koneksi server belum siap.');
+                return;
+            }
+
+            showCuErr('');
+            if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
+            try {
+                const { data, error } = await client.rpc('user_register', {
+                    p_username: username,
+                    p_password: password,
+                    p_name: fullName,
+                    p_contact: contact,
+                    p_remotes: [],
+                    p_drones: []
+                });
+                const norm = normalizeProfilePayload(data);
+                if (error || !norm || !norm.username) {
+                    showCuErr((error && error.message) || 'Gagal membuat Akun WanDrone.');
+                    return;
+                }
+                if (passInput) passInput.value = '';
+                document.getElementById('create-user-dialog').close();
+                await syncAdminDatabaseFromSupabase();
+                updateTabCounts();
+                if (currentSection === 'admin-users') renderAdminUsers();
+                showToast('Akun @' + norm.username + ' dibuat & tersinkron ke Forum.');
+            } catch (err) {
+                showCuErr((err && err.message) || 'Gagal menghubungi server.');
+            } finally {
+                if (btn) { btn.disabled = false; btn.innerHTML = 'Simpan Akun &rarr;'; }
+            }
+        }
+
         function onSubAccountPick(selectedName) {
             const q = String(selectedName || '').trim().toLowerCase();
-            if (!q || !(forumAccountsList || []).length) return;
-            const hit = forumAccountsList.find(function (u) {
+            const list = getCombinedAccountsList();
+            if (!q || !list.length) return;
+            const hit = list.find(function (u) {
                 return String(u.full_name || '').trim().toLowerCase() === q || String(u.username || '').trim().toLowerCase() === q;
             });
             if (hit && hit.contact_info) {

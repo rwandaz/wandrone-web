@@ -6481,13 +6481,14 @@
                             </div>
                             <div style="font-size: 0.8rem; color: var(--slate);">
                                 ${isOwner
-                                    ? 'Kelola peran Pilot, Admin Moderasi, dan tunjuk Super Admin. Akun Utama Anda terlindungi penuh dan tidak dapat dikendalikan Super Admin.'
-                                    : 'Seluruh akun terdaftar dilengkapi tag peran, kontak privat, dan kontrol keamanan.'}
+                                    ? 'Kelola peran pengguna, Admin Moderasi, dan Super Admin. 1 Akun WanDrone terpadu dan sinkron dengan Konsol Lisensi.'
+                                    : 'Seluruh akun WanDrone terpadu dengan Konsol Lisensi, dilengkapi tag peran dan kontrol keamanan.'}
                             </div>
                         </div>
                         <div class="tw-admin-user-search-wrap">
                             <input type="text" id="filter-user-input" oninput="renderAdminUnifiedUsersView(this.value)" placeholder="Cari nama, user, kontak, role..." value="${escapeHtml(filterText)}" class="form-control" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; height: 36px; border-radius: 999px;"/>
                             <button type="button" onclick="refreshAllUsersData()" class="tw-btn-2" style="padding: 0 0.85rem; font-size: 0.78rem; height: 36px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;">Segarkan</button>
+                            <a href="console-lisensi.html" class="tw-btn" style="padding: 0 0.9rem; font-size: 0.78rem; height: 36px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; white-space: nowrap;">Konsol Lisensi &rarr;</a>
                         </div>
                     </div>
 
